@@ -24,8 +24,11 @@ Partial Class frmMain
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
         Me.btnInstall = New System.Windows.Forms.Button()
-        Me.btnCancel = New System.Windows.Forms.Button()
+        Me.btnExit = New System.Windows.Forms.Button()
         Me.btnAbout = New System.Windows.Forms.Button()
+        Me.btnChangeModule = New System.Windows.Forms.Button()
+        Me.btnUninstall = New System.Windows.Forms.Button()
+        Me.bgwComputeMD5 = New System.ComponentModel.BackgroundWorker()
         Me.SuspendLayout()
         '
         'btnInstall
@@ -38,16 +41,16 @@ Partial Class frmMain
         Me.btnInstall.Text = "安装"
         Me.btnInstall.UseVisualStyleBackColor = True
         '
-        'btnCancel
+        'btnExit
         '
-        Me.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnCancel.Font = New System.Drawing.Font("微软雅黑", 10.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.btnCancel.Location = New System.Drawing.Point(270, 285)
-        Me.btnCancel.Name = "btnCancel"
-        Me.btnCancel.Size = New System.Drawing.Size(100, 30)
-        Me.btnCancel.TabIndex = 2
-        Me.btnCancel.Text = "退出"
-        Me.btnCancel.UseVisualStyleBackColor = True
+        Me.btnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel
+        Me.btnExit.Font = New System.Drawing.Font("微软雅黑", 10.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.btnExit.Location = New System.Drawing.Point(270, 285)
+        Me.btnExit.Name = "btnExit"
+        Me.btnExit.Size = New System.Drawing.Size(100, 30)
+        Me.btnExit.TabIndex = 2
+        Me.btnExit.Text = "退出"
+        Me.btnExit.UseVisualStyleBackColor = True
         '
         'btnAbout
         '
@@ -60,16 +63,46 @@ Partial Class frmMain
         Me.btnAbout.Text = "关于"
         Me.btnAbout.UseVisualStyleBackColor = True
         '
+        'btnChangeModule
+        '
+        Me.btnChangeModule.Enabled = False
+        Me.btnChangeModule.Font = New System.Drawing.Font("微软雅黑", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.btnChangeModule.Location = New System.Drawing.Point(260, 171)
+        Me.btnChangeModule.Name = "btnChangeModule"
+        Me.btnChangeModule.Size = New System.Drawing.Size(120, 40)
+        Me.btnChangeModule.TabIndex = 3
+        Me.btnChangeModule.Text = "更改"
+        Me.btnChangeModule.UseVisualStyleBackColor = True
+        Me.btnChangeModule.Visible = False
+        '
+        'btnUninstall
+        '
+        Me.btnUninstall.Enabled = False
+        Me.btnUninstall.Font = New System.Drawing.Font("微软雅黑", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.btnUninstall.Location = New System.Drawing.Point(260, 226)
+        Me.btnUninstall.Name = "btnUninstall"
+        Me.btnUninstall.Size = New System.Drawing.Size(120, 40)
+        Me.btnUninstall.TabIndex = 4
+        Me.btnUninstall.Text = "卸载"
+        Me.btnUninstall.UseVisualStyleBackColor = True
+        Me.btnUninstall.Visible = False
+        '
+        'bgwComputeMD5
+        '
+        Me.bgwComputeMD5.WorkerReportsProgress = True
+        '
         'frmMain
         '
         Me.AcceptButton = Me.btnInstall
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackgroundImage = Global.SC4AutoInstaller.My.Resources.Resources.background
-        Me.CancelButton = Me.btnCancel
+        Me.CancelButton = Me.btnExit
         Me.ClientSize = New System.Drawing.Size(635, 453)
+        Me.Controls.Add(Me.btnUninstall)
+        Me.Controls.Add(Me.btnChangeModule)
         Me.Controls.Add(Me.btnAbout)
-        Me.Controls.Add(Me.btnCancel)
+        Me.Controls.Add(Me.btnExit)
         Me.Controls.Add(Me.btnInstall)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -81,7 +114,10 @@ Partial Class frmMain
 
     End Sub
     Friend WithEvents btnInstall As System.Windows.Forms.Button
-    Friend WithEvents btnCancel As System.Windows.Forms.Button
+    Friend WithEvents btnExit As System.Windows.Forms.Button
     Friend WithEvents btnAbout As System.Windows.Forms.Button
+    Friend WithEvents btnChangeModule As System.Windows.Forms.Button
+    Friend WithEvents btnUninstall As System.Windows.Forms.Button
+    Friend WithEvents bgwComputeMD5 As System.ComponentModel.BackgroundWorker
 
 End Class

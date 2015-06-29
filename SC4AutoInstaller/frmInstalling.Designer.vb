@@ -26,7 +26,7 @@ Partial Class frmInstalling
         Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("游戏", System.Windows.Forms.HorizontalAlignment.Center)
         Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("组件", System.Windows.Forms.HorizontalAlignment.Center)
         Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("附加任务", System.Windows.Forms.HorizontalAlignment.Center)
-        Dim ListViewItem1 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("模拟城市4 豪华版", "(无)")
+        Dim ListViewItem1 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("模拟城市4 豪华版")
         Dim ListViewItem2 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("DAEMON Tools Lite", "(无)")
         Dim ListViewItem3 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("638补丁", "(无)")
         Dim ListViewItem4 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("640补丁", "(无)")
@@ -60,7 +60,6 @@ Partial Class frmInstalling
         ListViewGroup3.Name = "lvwGroupAdditionTask"
         Me.lvwTask.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2, ListViewGroup3})
         ListViewItem1.Group = ListViewGroup1
-        ListViewItem1.StateImageIndex = 0
         ListViewItem2.Group = ListViewGroup2
         ListViewItem2.StateImageIndex = 0
         ListViewItem3.Group = ListViewGroup2

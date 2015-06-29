@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class frmVerifyFiles
+Partial Class frmVerifyFilesMD5
     Inherits System.Windows.Forms.Form
 
     'Form 重写 Dispose，以清理组件列表。
@@ -22,13 +22,13 @@ Partial Class frmVerifyFiles
     '不要使用代码编辑器修改它。
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmVerifyFiles))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmVerifyFilesMD5))
         Me.prgProgress = New System.Windows.Forms.ProgressBar()
         Me.tlpMain = New System.Windows.Forms.TableLayoutPanel()
         Me.btnCancel = New System.Windows.Forms.Button()
         Me.lblProgress = New System.Windows.Forms.Label()
         Me.lblMain = New System.Windows.Forms.Label()
-        Me.bgwVerifyFiles = New System.ComponentModel.BackgroundWorker()
+        Me.bgwComputeMD5 = New System.ComponentModel.BackgroundWorker()
         Me.tlpBorder = New System.Windows.Forms.TableLayoutPanel()
         Me.tlpMain.SuspendLayout()
         Me.tlpBorder.SuspendLayout()
@@ -94,10 +94,10 @@ Partial Class frmVerifyFiles
         Me.lblMain.TabIndex = 0
         Me.lblMain.Text = "正在验证文件完整性"
         '
-        'bgwVerifyFiles
+        'bgwComputeMD5
         '
-        Me.bgwVerifyFiles.WorkerReportsProgress = True
-        Me.bgwVerifyFiles.WorkerSupportsCancellation = True
+        Me.bgwComputeMD5.WorkerReportsProgress = True
+        Me.bgwComputeMD5.WorkerSupportsCancellation = True
         '
         'tlpBorder
         '
@@ -112,7 +112,7 @@ Partial Class frmVerifyFiles
         Me.tlpBorder.Size = New System.Drawing.Size(280, 105)
         Me.tlpBorder.TabIndex = 0
         '
-        'frmVerifyFiles
+        'frmVerifyFilesMD5
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -121,7 +121,7 @@ Partial Class frmVerifyFiles
         Me.Controls.Add(Me.tlpBorder)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.Name = "frmVerifyFiles"
+        Me.Name = "frmVerifyFilesMD5"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "正在验证文件完整性"
         Me.tlpMain.ResumeLayout(False)
@@ -133,7 +133,7 @@ Partial Class frmVerifyFiles
     Friend WithEvents prgProgress As System.Windows.Forms.ProgressBar
     Friend WithEvents tlpMain As System.Windows.Forms.TableLayoutPanel
     Friend WithEvents lblProgress As System.Windows.Forms.Label
-    Friend WithEvents bgwVerifyFiles As System.ComponentModel.BackgroundWorker
+    Friend WithEvents bgwComputeMD5 As System.ComponentModel.BackgroundWorker
     Friend WithEvents lblMain As System.Windows.Forms.Label
     Friend WithEvents tlpBorder As System.Windows.Forms.TableLayoutPanel
     Friend WithEvents btnCancel As System.Windows.Forms.Button

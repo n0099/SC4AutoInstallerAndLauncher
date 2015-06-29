@@ -7,8 +7,8 @@
 
     Private Sub frmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim RegSC4InstallDir As String = Nothing
-        If Environment.Is64BitOperatingSystem = True Then RegSC4InstallDir = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Maxis\SimCity 4 Deluxe", "Install Dir", Nothing)
-        If Environment.Is64BitOperatingSystem = False Then RegSC4InstallDir = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Maxis\SimCity 4 Deluxe", "Install Dir", Nothing)
+        If Environment.Is64BitOperatingSystem = True Then RegSC4InstallDir = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Maxis\SimCity 4", "Install Dir", Nothing)
+        If Environment.Is64BitOperatingSystem = False Then RegSC4InstallDir = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Maxis\SimCity 4", "Install Dir", Nothing)
         If My.Settings.IsFirstRun = True And RegSC4InstallDir <> Nothing Then
             If RegSC4InstallDir.EndsWith("\") = True Then My.Settings.SC4InstallDir = RegSC4InstallDir.Substring(0, RegSC4InstallDir.Length - 1) Else My.Settings.SC4InstallDir = RegSC4InstallDir
         ElseIf RegSC4InstallDir = Nothing Then

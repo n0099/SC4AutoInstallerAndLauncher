@@ -1,5 +1,6 @@
 ﻿Module ModuleMain
 
+    Public InstalledModule As New InstalledModule
     Public InstallOptions As New InstallOptions
     Public InstallResult As New InstallResult
     Public Declare Function GetSystemMenu Lib "user32" (ByVal hWnd As IntPtr, ByVal bRevert As Boolean) As Integer

@@ -24,16 +24,16 @@ Partial Class frmFinish
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmFinish))
-        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("以下组件安装成功", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("以下组件安装失败", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewItem1 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("模拟城市4 豪华版", "success")
-        Dim ListViewItem2 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("DAEMON Tools Lite", "success")
-        Dim ListViewItem3 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("638补丁", "success")
-        Dim ListViewItem4 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("640补丁", "success")
-        Dim ListViewItem5 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("4GB补丁", "success")
-        Dim ListViewItem6 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("免CD补丁", "success")
-        Dim ListViewItem7 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("模拟城市4 启动器", "success")
-        Dim ListViewItem8 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("语言补丁", "success")
+        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("以下组件安装成功", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("以下组件安装失败", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewItem9 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("模拟城市4 豪华版", "success")
+        Dim ListViewItem10 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("DAEMON Tools Lite", "success")
+        Dim ListViewItem11 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("638补丁", "success")
+        Dim ListViewItem12 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("640补丁", "success")
+        Dim ListViewItem13 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("4GB补丁", "success")
+        Dim ListViewItem14 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("免CD补丁", "success")
+        Dim ListViewItem15 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("模拟城市4 启动器", "success")
+        Dim ListViewItem16 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("语言补丁", "success")
         Me.btnClose = New System.Windows.Forms.Button()
         Me.lblTitle = New System.Windows.Forms.Label()
         Me.imgTask = New System.Windows.Forms.ImageList(Me.components)
@@ -46,6 +46,7 @@ Partial Class frmFinish
         '
         'btnClose
         '
+        Me.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.btnClose.Location = New System.Drawing.Point(537, 407)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(75, 23)
@@ -74,20 +75,20 @@ Partial Class frmFinish
         '
         Me.lvwSubassembly.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.lvwSubassembly.Enabled = False
-        ListViewGroup1.Header = "以下组件安装成功"
-        ListViewGroup1.Name = "lvwGroupSuccess"
-        ListViewGroup2.Header = "以下组件安装失败"
-        ListViewGroup2.Name = "lvwGroupFail"
-        Me.lvwSubassembly.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
-        ListViewItem1.Group = ListViewGroup1
-        ListViewItem2.Group = ListViewGroup1
-        ListViewItem3.Group = ListViewGroup1
-        ListViewItem4.Group = ListViewGroup1
-        ListViewItem5.Group = ListViewGroup1
-        ListViewItem6.Group = ListViewGroup1
-        ListViewItem7.Group = ListViewGroup1
-        ListViewItem8.Group = ListViewGroup1
-        Me.lvwSubassembly.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem1, ListViewItem2, ListViewItem3, ListViewItem4, ListViewItem5, ListViewItem6, ListViewItem7, ListViewItem8})
+        ListViewGroup3.Header = "以下组件安装成功"
+        ListViewGroup3.Name = "lvwGroupSuccess"
+        ListViewGroup4.Header = "以下组件安装失败"
+        ListViewGroup4.Name = "lvwGroupFail"
+        Me.lvwSubassembly.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
+        ListViewItem9.Group = ListViewGroup3
+        ListViewItem10.Group = ListViewGroup3
+        ListViewItem11.Group = ListViewGroup3
+        ListViewItem12.Group = ListViewGroup3
+        ListViewItem13.Group = ListViewGroup3
+        ListViewItem14.Group = ListViewGroup3
+        ListViewItem15.Group = ListViewGroup3
+        ListViewItem16.Group = ListViewGroup3
+        Me.lvwSubassembly.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem9, ListViewItem10, ListViewItem11, ListViewItem12, ListViewItem13, ListViewItem14, ListViewItem15, ListViewItem16})
         Me.lvwSubassembly.LargeImageList = Me.imgTask
         Me.lvwSubassembly.Location = New System.Drawing.Point(12, 80)
         Me.lvwSubassembly.Name = "lvwSubassembly"
@@ -109,7 +110,7 @@ Partial Class frmFinish
         'llbSCB
         '
         Me.llbSCB.AutoSize = True
-        Me.llbSCB.Location = New System.Drawing.Point(380, 65)
+        Me.llbSCB.Location = New System.Drawing.Point(380, 56)
         Me.llbSCB.Name = "llbSCB"
         Me.llbSCB.Size = New System.Drawing.Size(89, 12)
         Me.llbSCB.TabIndex = 3
@@ -119,7 +120,7 @@ Partial Class frmFinish
         'llbSCCN
         '
         Me.llbSCCN.AutoSize = True
-        Me.llbSCCN.Location = New System.Drawing.Point(475, 65)
+        Me.llbSCCN.Location = New System.Drawing.Point(475, 56)
         Me.llbSCCN.Name = "llbSCCN"
         Me.llbSCCN.Size = New System.Drawing.Size(137, 12)
         Me.llbSCCN.TabIndex = 4
@@ -137,8 +138,10 @@ Partial Class frmFinish
         '
         'frmFinish
         '
+        Me.AcceptButton = Me.btnRunSC4
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.CancelButton = Me.btnClose
         Me.ClientSize = New System.Drawing.Size(624, 442)
         Me.Controls.Add(Me.llbSCCN)
         Me.Controls.Add(Me.llbSCB)

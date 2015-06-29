@@ -104,6 +104,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationEvents.vb" />
+    <Compile Include="ClassInstalledModule.vb" />
     <Compile Include="ClassInstallOptions.vb" />
     <Compile Include="ClassInstallResult.vb" />
     <Compile Include="frmAbout.Designer.vb">
@@ -124,10 +125,16 @@
     <Compile Include="frmInstalling.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmOptions.Designer.vb">
-      <DependentUpon>frmOptions.vb</DependentUpon>
+    <Compile Include="frmModuleChangeOption.Designer.vb">
+      <DependentUpon>frmModuleChangeOption.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmOptions.vb">
+    <Compile Include="frmModuleChangeOption.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmInstallOptions.Designer.vb">
+      <DependentUpon>frmInstallOptions.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmInstallOptions.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmMain.vb">
@@ -137,12 +144,20 @@
       <DependentUpon>frmMain.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmVerifyFiles.Designer.vb">
-      <DependentUpon>frmVerifyFiles.vb</DependentUpon>
+    <Compile Include="frmUninstalling.Designer.vb">
+      <DependentUpon>frmUninstalling.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmVerifyFiles.vb">
+    <Compile Include="frmUninstalling.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="frmVerifyFilesMD5.Designer.vb">
+      <DependentUpon>frmVerifyFilesMD5.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmVerifyFilesMD5.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModuleChangeModule.vb" />
+    <Compile Include="ModuleInstallModule.vb" />
     <Compile Include="ModuleMain.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -171,16 +186,26 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmInstalling.resx">
       <DependentUpon>frmInstalling.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmOptions.resx">
-      <DependentUpon>frmOptions.vb</DependentUpon>
+    <EmbeddedResource Include="frmInstallOptions.resx">
+      <DependentUpon>frmInstallOptions.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmVerifyFiles.resx">
-      <DependentUpon>frmVerifyFiles.vb</DependentUpon>
+    <EmbeddedResource Include="frmModuleChangeOption.resx">
+      <DependentUpon>frmModuleChangeOption.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmUninstalling.resx">
+      <DependentUpon>frmUninstalling.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmVerifyFilesMD5.resx">
+      <DependentUpon>frmVerifyFilesMD5.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">

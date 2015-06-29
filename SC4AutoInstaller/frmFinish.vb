@@ -24,11 +24,15 @@
         Dim SC4LauncherItem As ListViewItem = lvwSubassembly.FindItemWithText("模拟城市4 启动器")
         Dim LanguagePatchItem As ListViewItem = lvwSubassembly.FindItemWithText("语言补丁")
         With ModuleMain.InstallOptions
-            If .IsInstallDAEMONTools = False Then DAEMONItem.Remove()
-            If .IsInstallDAEMONTools = True Then If ModuleMain.InstallResult.DAEMONToolsInstallResult = InstallResult.Result.Fail Then SubassemblyInstallFail(DAEMONItem)
-            If ModuleMain.InstallResult.SC4InstallResult = InstallResult.Result.Fail Then SubassemblyInstallFail(SC4Item) : btnRunSC4.Enabled = False
-            If .SC4Type = InstallOptions.SC4InstallType.ISO Then SC4Item.Text = "模拟城市4 豪华版 镜像版"
-            If .SC4Type = InstallOptions.SC4InstallType.NoInstall Then SC4Item.Text = "模拟城市4 豪华版 硬盘版"
+            If IsNothing(ModuleMain.InstalledModule) = True Then
+                If .IsInstallDAEMONTools = False Then DAEMONItem.Remove()
+                If .IsInstallDAEMONTools = True Then If ModuleMain.InstallResult.DAEMONToolsInstallResult = InstallResult.Result.Fail Then SubassemblyInstallFail(DAEMONItem)
+                If ModuleMain.InstallResult.SC4InstallResult = InstallResult.Result.Fail Then SubassemblyInstallFail(SC4Item) : btnRunSC4.Enabled = False
+                If .SC4Type = InstallOptions.SC4InstallType.ISO Then SC4Item.Text = "模拟城市4 豪华版 镜像版"
+                If .SC4Type = InstallOptions.SC4InstallType.NoInstall Then SC4Item.Text = "模拟城市4 豪华版 硬盘版"
+            Else
+                DAEMONItem.Remove() : SC4Item.Remove()
+            End If
             With ModuleMain.InstallResult
                 If ModuleMain.InstallOptions.IsInstall638Patch = False Then _638PatchItem.Remove() Else If ._638PatchInstallResult = InstallResult.Result.Fail Then SubassemblyInstallFail(_638PatchItem)
                 If ModuleMain.InstallOptions.IsInstall640Patch = False Then _640PatchItem.Remove() Else If ._640PatchInstallResult = InstallResult.Result.Fail Then SubassemblyInstallFail(_640PatchItem)

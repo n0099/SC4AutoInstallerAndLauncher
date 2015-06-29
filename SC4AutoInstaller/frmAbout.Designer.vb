@@ -90,7 +90,7 @@ Partial Class frmAbout
         Me.txtDescription.Size = New System.Drawing.Size(257, 113)
         Me.txtDescription.TabIndex = 3
         Me.txtDescription.TabStop = False
-        Me.txtDescription.Text = "鸣谢：绿色食品台风、坐在鸭子、周瑜K了Zero、cjak007"
+        Me.txtDescription.Text = "鸣谢：铁木真的使臣、绿色食品台风、坐在鸭子、周瑜K了Zero、cjak007"
         '
         'btnClose
         '

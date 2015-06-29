@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class frmOptions
+Partial Class frmInstallOptions
     Inherits System.Windows.Forms.Form
 
     'Form 重写 Dispose，以清理组件列表。
@@ -34,13 +34,13 @@ Partial Class frmOptions
         Dim TreeNode9 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("模拟城市4 启动器")
         Dim TreeNode10 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("繁体中文")
         Dim TreeNode11 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("简体中文")
-        Dim TreeNode12 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("英文")
+        Dim TreeNode12 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("英语")
         Dim TreeNode13 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("语言补丁", New System.Windows.Forms.TreeNode() {TreeNode10, TreeNode11, TreeNode12})
         Dim TreeNode14 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("可选组件", New System.Windows.Forms.TreeNode() {TreeNode5, TreeNode6, TreeNode7, TreeNode8, TreeNode9, TreeNode13})
         Dim TreeNode15 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("添加桌面图标")
         Dim TreeNode16 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("添加开始菜单项")
         Dim TreeNode17 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("附加任务", New System.Windows.Forms.TreeNode() {TreeNode15, TreeNode16})
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmOptions))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmInstallOptions))
         Me.txtSC4InstallDir = New System.Windows.Forms.TextBox()
         Me.btnSC4InstallDir = New System.Windows.Forms.Button()
         Me.lblSC4lInstallDir = New System.Windows.Forms.Label()
@@ -181,9 +181,9 @@ Partial Class frmOptions
         TreeNode11.SelectedImageKey = "radiounchecked"
         TreeNode11.Text = "简体中文"
         TreeNode12.ImageKey = "radiounchecked"
-        TreeNode12.Name = "英文"
+        TreeNode12.Name = "英语"
         TreeNode12.SelectedImageKey = "radiounchecked"
-        TreeNode12.Text = "英文"
+        TreeNode12.Text = "英语"
         TreeNode13.ImageKey = "nodebackground"
         TreeNode13.Name = "语言补丁"
         TreeNode13.SelectedImageKey = "nodebackground"
@@ -338,7 +338,7 @@ Partial Class frmOptions
         Me.cmbOptions.Size = New System.Drawing.Size(300, 20)
         Me.cmbOptions.TabIndex = 2
         '
-        'frmOptions
+        'frmInstallOptions
         '
         Me.AcceptButton = Me.btnInstall
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
@@ -362,7 +362,7 @@ Partial Class frmOptions
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
-        Me.Name = "frmOptions"
+        Me.Name = "frmInstallOptions"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "模拟城市4 豪华版 自动安装程序"
         Me.grpOptionsDetail.ResumeLayout(False)

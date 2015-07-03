@@ -24,10 +24,8 @@ Partial Class frmUninstalling
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmUninstalling))
         Me.lblTitle = New System.Windows.Forms.Label()
-        Me.lblProgress = New System.Windows.Forms.Label()
         Me.prgUninstall = New System.Windows.Forms.ProgressBar()
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.bgwUninstall = New System.ComponentModel.BackgroundWorker()
         Me.SuspendLayout()
         '
         'lblTitle
@@ -37,55 +35,39 @@ Partial Class frmUninstalling
         Me.lblTitle.Location = New System.Drawing.Point(12, 9)
         Me.lblTitle.Name = "lblTitle"
         Me.lblTitle.Size = New System.Drawing.Size(92, 27)
-        Me.lblTitle.TabIndex = 15
+        Me.lblTitle.TabIndex = 0
         Me.lblTitle.Text = "正在卸载"
-        '
-        'lblProgress
-        '
-        Me.lblProgress.AutoSize = True
-        Me.lblProgress.Location = New System.Drawing.Point(12, 45)
-        Me.lblProgress.Name = "lblProgress"
-        Me.lblProgress.Size = New System.Drawing.Size(641, 12)
-        Me.lblProgress.TabIndex = 16
-        Me.lblProgress.Text = "卸载进度：                                                                            " & _
-    "                100%"
         '
         'prgUninstall
         '
-        Me.prgUninstall.Location = New System.Drawing.Point(12, 60)
+        Me.prgUninstall.Location = New System.Drawing.Point(12, 39)
+        Me.prgUninstall.Maximum = 6
         Me.prgUninstall.Name = "prgUninstall"
-        Me.prgUninstall.Size = New System.Drawing.Size(640, 23)
-        Me.prgUninstall.TabIndex = 17
+        Me.prgUninstall.Size = New System.Drawing.Size(460, 23)
+        Me.prgUninstall.Style = System.Windows.Forms.ProgressBarStyle.Continuous
+        Me.prgUninstall.TabIndex = 1
         '
-        'PictureBox1
+        'bgwUninstall
         '
-        Me.PictureBox1.Location = New System.Drawing.Point(12, 89)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(640, 480)
-        Me.PictureBox1.TabIndex = 19
-        Me.PictureBox1.TabStop = False
         '
         'frmUninstalling
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(664, 581)
-        Me.Controls.Add(Me.PictureBox1)
+        Me.ClientSize = New System.Drawing.Size(484, 74)
         Me.Controls.Add(Me.prgUninstall)
-        Me.Controls.Add(Me.lblProgress)
         Me.Controls.Add(Me.lblTitle)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
         Me.Name = "frmUninstalling"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "模拟城市4 豪华版 自动安装程序"
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
     Friend WithEvents lblTitle As System.Windows.Forms.Label
-    Friend WithEvents lblProgress As System.Windows.Forms.Label
     Friend WithEvents prgUninstall As System.Windows.Forms.ProgressBar
-    Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
+    Friend WithEvents bgwUninstall As System.ComponentModel.BackgroundWorker
 End Class

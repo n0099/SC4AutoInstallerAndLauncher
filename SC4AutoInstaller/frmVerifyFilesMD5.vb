@@ -1,8 +1,8 @@
 ﻿Public Class frmVerifyFilesMD5
 
-    Dim MD5CSP As Security.Cryptography.MD5 = New Security.Cryptography.MD5CryptoServiceProvider
+    Dim MD5CSP As New Security.Cryptography.MD5CryptoServiceProvider
     Dim DataFilesMD5() As String = {"Data\DAEMON Tools Lite 5.0.exe", "E4D2A05D4A5C22C6D4BC20D6B502CE6B", "Data\EA EULA.txt", "4A263CEC16B302BE4E080A85614A90F9" _
-                                , "Data\rar.exe", "863B5C17C3A02095DFAE098CBCC09A6E", "Data\SC4Launcher.exe", "9A3C607B33E6E5CC98C5299B58F1E9FB" _
+                                , "Data\rar.exe", "863B5C17C3A02095DFAE098CBCC09A6E", "Data\SC4Launcher.exe", "4E40154B59FA04764617ED1B052D2180" _
                                 , "Data\SC4.rar", "2ACDA5FEEE321943722FA49C70D47DF1" _
                                 , "Data\CD\SC4DELUXE CD1.mdf", "82A112B441DC90305331ABEFF0E66237", "Data\CD\SC4DELUXE CD1.mds", "CFB13663F10FCAB916C0A4EDD29FC975" _
                                 , "Data\CD\SC4DELUXE CD2.mdf", "15AD42821D2CCFAC4ED62CF2E5E153D1", "Data\CD\SC4DELUXE CD2.mds", "F623584CCC7E3206045D97CD12D454C8" _

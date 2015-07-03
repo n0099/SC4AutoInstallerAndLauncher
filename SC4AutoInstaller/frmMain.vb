@@ -30,22 +30,21 @@
     End Sub
 
     Private Sub bgwComputeMD5_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles bgwComputeMD5.RunWorkerCompleted
-        btnChangeModule.Enabled = True
-        Cursor = Cursors.Default
+        btnChangeModule.Enabled = True : btnUninstall.Enabled = True : Cursor = Cursors.Default
     End Sub
 
     Private Sub frmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         With ModuleMain.InstalledModule
-            Dim RegSC4InstallDir As String = Nothing
-            If Environment.Is64BitOperatingSystem = True Then RegSC4InstallDir = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Maxis\SimCity 4", "Install Dir", Nothing)
-            If Environment.Is64BitOperatingSystem = False Then RegSC4InstallDir = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Maxis\SimCity 4", "Install Dir", Nothing)
-            If RegSC4InstallDir <> Nothing AndAlso My.Computer.FileSystem.FileExists(RegSC4InstallDir & "\Apps\SimCity 4.exe") = True Then
-                If RegSC4InstallDir.EndsWith("\") = True Or My.Computer.FileSystem.FileExists(RegSC4InstallDir & "Apps\SimCity 4.exe") = True Then
-                    .SC4InstallDir = RegSC4InstallDir.Substring(0, RegSC4InstallDir.Length - 1)
-                ElseIf RegSC4InstallDir.EndsWith("\") = False Or My.Computer.FileSystem.FileExists(RegSC4InstallDir & "\Apps\SimCity 4.exe") = True Then
-                    .SC4InstallDir = RegSC4InstallDir
+            Dim SC4InstallDir As String = Nothing
+            If Environment.Is64BitOperatingSystem = True Then SC4InstallDir = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Maxis\SimCity 4", "Install Dir", Nothing)
+            If Environment.Is64BitOperatingSystem = False Then SC4InstallDir = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Maxis\SimCity 4", "Install Dir", Nothing)
+            If SC4InstallDir <> Nothing AndAlso My.Computer.FileSystem.FileExists(SC4InstallDir & "\Apps\SimCity 4.exe") = True Then
+                If SC4InstallDir.EndsWith("\") = True Or My.Computer.FileSystem.FileExists(SC4InstallDir & "Apps\SimCity 4.exe") = True Then
+                    .SC4InstallDir = SC4InstallDir.Substring(0, SC4InstallDir.Length - 1)
+                ElseIf SC4InstallDir.EndsWith("\") = False Or My.Computer.FileSystem.FileExists(SC4InstallDir & "\Apps\SimCity 4.exe") = True Then
+                    .SC4InstallDir = SC4InstallDir
                 End If
-                bgwComputeMD5.RunWorkerAsync() : Cursor = Cursors.AppStarting
+                bgwComputeMD5.RunWorkerAsync() : Cursor = Cursors.WaitCursor
                 Dim LanguageRegKeyName As String = Nothing
                 If Environment.Is64BitOperatingSystem = True Then LanguageRegKeyName = "HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Maxis\SimCity 4\1.0"
                 If Environment.Is64BitOperatingSystem = False Then LanguageRegKeyName = "HKEY_LOCAL_MACHINE\SOFTWARE\Maxis\SimCity 4\1.0"
@@ -55,7 +54,7 @@
                     Case 1, Nothing : .LanguagePatch = InstalledModule.Language.English
                 End Select
                 btnInstall.Visible = False : btnChangeModule.Visible = True : btnUninstall.Visible = True
-                AcceptButton = btnUninstall : btnAbout.Location = New Point(270, 285) : btnExit.Location = New Point(270, 330)
+                Me.AcceptButton = btnChangeModule : btnAbout.Location = New Point(270, 285) : btnExit.Location = New Point(270, 330)
             Else : ModuleMain.InstalledModule = Nothing
             End If
         End With

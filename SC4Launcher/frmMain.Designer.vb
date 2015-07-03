@@ -32,7 +32,7 @@ Partial Class frmMain
         'btnLaunch
         '
         Me.btnLaunch.Font = New System.Drawing.Font("微软雅黑", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.btnLaunch.Location = New System.Drawing.Point(522, 300)
+        Me.btnLaunch.Location = New System.Drawing.Point(432, 350)
         Me.btnLaunch.Name = "btnLaunch"
         Me.btnLaunch.Size = New System.Drawing.Size(90, 80)
         Me.btnLaunch.TabIndex = 0
@@ -42,7 +42,7 @@ Partial Class frmMain
         'btnExit
         '
         Me.btnExit.Font = New System.Drawing.Font("微软雅黑", 10.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.btnExit.Location = New System.Drawing.Point(627, 345)
+        Me.btnExit.Location = New System.Drawing.Point(537, 395)
         Me.btnExit.Name = "btnExit"
         Me.btnExit.Size = New System.Drawing.Size(75, 35)
         Me.btnExit.TabIndex = 2
@@ -52,7 +52,7 @@ Partial Class frmMain
         'btnSetting
         '
         Me.btnSetting.Font = New System.Drawing.Font("微软雅黑", 10.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.btnSetting.Location = New System.Drawing.Point(627, 300)
+        Me.btnSetting.Location = New System.Drawing.Point(537, 350)
         Me.btnSetting.Name = "btnSetting"
         Me.btnSetting.Size = New System.Drawing.Size(75, 35)
         Me.btnSetting.TabIndex = 1
@@ -68,7 +68,8 @@ Partial Class frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(714, 392)
+        Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
+        Me.ClientSize = New System.Drawing.Size(624, 442)
         Me.Controls.Add(Me.btnSetting)
         Me.Controls.Add(Me.btnExit)
         Me.Controls.Add(Me.btnLaunch)

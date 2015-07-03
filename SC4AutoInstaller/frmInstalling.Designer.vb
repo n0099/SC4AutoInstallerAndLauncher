@@ -42,6 +42,7 @@ Partial Class frmInstalling
         Me.lblTitle = New System.Windows.Forms.Label()
         Me.bgwInstall = New System.ComponentModel.BackgroundWorker()
         Me.picSC4 = New System.Windows.Forms.PictureBox()
+        Me.tmrPic = New System.Windows.Forms.Timer(Me.components)
         CType(Me.picSC4, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -78,9 +79,9 @@ Partial Class frmInstalling
         ListViewItem10.StateImageIndex = 0
         Me.lvwTask.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem1, ListViewItem2, ListViewItem3, ListViewItem4, ListViewItem5, ListViewItem6, ListViewItem7, ListViewItem8, ListViewItem9, ListViewItem10})
         Me.lvwTask.LargeImageList = Me.imgTask
-        Me.lvwTask.Location = New System.Drawing.Point(12, 45)
+        Me.lvwTask.Location = New System.Drawing.Point(12, 54)
         Me.lvwTask.Name = "lvwTask"
-        Me.lvwTask.Size = New System.Drawing.Size(176, 447)
+        Me.lvwTask.Size = New System.Drawing.Size(176, 331)
         Me.lvwTask.TabIndex = 1
         Me.lvwTask.TileSize = New System.Drawing.Size(170, 25)
         Me.lvwTask.UseCompatibleStateImageBehavior = False
@@ -110,17 +111,23 @@ Partial Class frmInstalling
         '
         'picSC4
         '
-        Me.picSC4.Location = New System.Drawing.Point(194, 12)
+        Me.picSC4.Location = New System.Drawing.Point(194, 0)
         Me.picSC4.Name = "picSC4"
         Me.picSC4.Size = New System.Drawing.Size(640, 480)
+        Me.picSC4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
         Me.picSC4.TabIndex = 12
         Me.picSC4.TabStop = False
+        '
+        'tmrPic
+        '
+        Me.tmrPic.Enabled = True
+        Me.tmrPic.Interval = 5000
         '
         'frmInstalling
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(844, 502)
+        Me.ClientSize = New System.Drawing.Size(834, 480)
         Me.Controls.Add(Me.lblTitle)
         Me.Controls.Add(Me.picSC4)
         Me.Controls.Add(Me.lvwTask)
@@ -140,4 +147,5 @@ Partial Class frmInstalling
     Friend WithEvents bgwInstall As System.ComponentModel.BackgroundWorker
     Friend WithEvents imgTask As System.Windows.Forms.ImageList
     Friend WithEvents picSC4 As System.Windows.Forms.PictureBox
+    Friend WithEvents tmrPic As System.Windows.Forms.Timer
 End Class

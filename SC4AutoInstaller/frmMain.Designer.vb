@@ -48,7 +48,7 @@ Partial Class frmMain
         Me.btnExit.Location = New System.Drawing.Point(270, 285)
         Me.btnExit.Name = "btnExit"
         Me.btnExit.Size = New System.Drawing.Size(100, 30)
-        Me.btnExit.TabIndex = 2
+        Me.btnExit.TabIndex = 4
         Me.btnExit.Text = "退出"
         Me.btnExit.UseVisualStyleBackColor = True
         '
@@ -59,7 +59,7 @@ Partial Class frmMain
         Me.btnAbout.Location = New System.Drawing.Point(270, 233)
         Me.btnAbout.Name = "btnAbout"
         Me.btnAbout.Size = New System.Drawing.Size(100, 30)
-        Me.btnAbout.TabIndex = 1
+        Me.btnAbout.TabIndex = 3
         Me.btnAbout.Text = "关于"
         Me.btnAbout.UseVisualStyleBackColor = True
         '
@@ -70,7 +70,7 @@ Partial Class frmMain
         Me.btnChangeModule.Location = New System.Drawing.Point(260, 171)
         Me.btnChangeModule.Name = "btnChangeModule"
         Me.btnChangeModule.Size = New System.Drawing.Size(120, 40)
-        Me.btnChangeModule.TabIndex = 3
+        Me.btnChangeModule.TabIndex = 1
         Me.btnChangeModule.Text = "更改"
         Me.btnChangeModule.UseVisualStyleBackColor = True
         Me.btnChangeModule.Visible = False
@@ -82,14 +82,13 @@ Partial Class frmMain
         Me.btnUninstall.Location = New System.Drawing.Point(260, 226)
         Me.btnUninstall.Name = "btnUninstall"
         Me.btnUninstall.Size = New System.Drawing.Size(120, 40)
-        Me.btnUninstall.TabIndex = 4
+        Me.btnUninstall.TabIndex = 2
         Me.btnUninstall.Text = "卸载"
         Me.btnUninstall.UseVisualStyleBackColor = True
         Me.btnUninstall.Visible = False
         '
         'bgwComputeMD5
         '
-        Me.bgwComputeMD5.WorkerReportsProgress = True
         '
         'frmMain
         '

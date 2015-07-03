@@ -8,11 +8,11 @@ Imports System.Runtime.InteropServices
 
 ' 查看程序集特性的值
 
-<Assembly: AssemblyTitle("AutoInstallerUpdataer")> 
-<Assembly: AssemblyDescription("")> 
-<Assembly: AssemblyCompany("")> 
-<Assembly: AssemblyProduct("AutoInstallerUpdataer")> 
-<Assembly: AssemblyCopyright("Copyright ©  2015")> 
+<Assembly: AssemblyTitle("模拟城市4 自动安装程序 更新程序")> 
+<Assembly: AssemblyDescription("模拟城市4 自动安装程序 更新程序")> 
+<Assembly: AssemblyCompany("n0099")> 
+<Assembly: AssemblyProduct("模拟城市4 自动安装程序 更新程序")> 
+<Assembly: AssemblyCopyright("Copyright © n0099 2015")> 
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)>

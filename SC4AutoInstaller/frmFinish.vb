@@ -27,7 +27,9 @@
             If IsNothing(ModuleMain.InstalledModule) = True Then
                 If .IsInstallDAEMONTools = False Then DAEMONItem.Remove()
                 If .IsInstallDAEMONTools = True Then If ModuleMain.InstallResult.DAEMONToolsInstallResult = InstallResult.Result.Fail Then SubassemblyInstallFail(DAEMONItem)
-                If ModuleMain.InstallResult.SC4InstallResult = InstallResult.Result.Fail Then SubassemblyInstallFail(SC4Item) : btnRunSC4.Enabled = False
+                If ModuleMain.InstallResult.SC4InstallResult = InstallResult.Result.Success AndAlso _
+                    My.Computer.FileSystem.FileExists(.SC4InstallDir & "\Apps\SimCity 4.exe") = True Then btnRunSC4.Enabled = True Else btnRunSC4.Enabled = False
+                If ModuleMain.InstallResult.SC4InstallResult = InstallResult.Result.Fail Then SubassemblyInstallFail(SC4Item)
                 If .SC4Type = InstallOptions.SC4InstallType.ISO Then SC4Item.Text = "模拟城市4 豪华版 镜像版"
                 If .SC4Type = InstallOptions.SC4InstallType.NoInstall Then SC4Item.Text = "模拟城市4 豪华版 硬盘版"
             Else

@@ -89,7 +89,7 @@ Partial Class frmModuleChangeOption
         Me.tvwOptions.ShowPlusMinus = False
         Me.tvwOptions.ShowRootLines = False
         Me.tvwOptions.Size = New System.Drawing.Size(440, 221)
-        Me.tvwOptions.TabIndex = 17
+        Me.tvwOptions.TabIndex = 1
         '
         'imgOptions
         '
@@ -108,7 +108,7 @@ Partial Class frmModuleChangeOption
         Me.lblTitle.Location = New System.Drawing.Point(12, 9)
         Me.lblTitle.Name = "lblTitle"
         Me.lblTitle.Size = New System.Drawing.Size(152, 27)
-        Me.lblTitle.TabIndex = 14
+        Me.lblTitle.TabIndex = 0
         Me.lblTitle.Text = "添加或删除组件"
         '
         'btnBack
@@ -117,7 +117,7 @@ Partial Class frmModuleChangeOption
         Me.btnBack.Location = New System.Drawing.Point(205, 287)
         Me.btnBack.Name = "btnBack"
         Me.btnBack.Size = New System.Drawing.Size(80, 23)
-        Me.btnBack.TabIndex = 25
+        Me.btnBack.TabIndex = 2
         Me.btnBack.Text = "< 返回(&B)"
         Me.btnBack.UseVisualStyleBackColor = True
         '
@@ -126,7 +126,7 @@ Partial Class frmModuleChangeOption
         Me.btnNext.Location = New System.Drawing.Point(291, 287)
         Me.btnNext.Name = "btnNext"
         Me.btnNext.Size = New System.Drawing.Size(80, 23)
-        Me.btnNext.TabIndex = 26
+        Me.btnNext.TabIndex = 3
         Me.btnNext.Text = "确定(&N) >"
         Me.btnNext.UseVisualStyleBackColor = True
         '
@@ -136,7 +136,7 @@ Partial Class frmModuleChangeOption
         Me.btnCancel.Location = New System.Drawing.Point(377, 287)
         Me.btnCancel.Name = "btnCancel"
         Me.btnCancel.Size = New System.Drawing.Size(75, 23)
-        Me.btnCancel.TabIndex = 27
+        Me.btnCancel.TabIndex = 4
         Me.btnCancel.Text = "取消(&C)"
         Me.btnCancel.UseVisualStyleBackColor = True
         '
@@ -152,6 +152,7 @@ Partial Class frmModuleChangeOption
         Me.Controls.Add(Me.btnBack)
         Me.Controls.Add(Me.btnNext)
         Me.Controls.Add(Me.btnCancel)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
         Me.Name = "frmModuleChangeOption"

@@ -6,12 +6,12 @@
     End Sub
 
     Private Sub frmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim RegSC4InstallDir As String = Nothing
-        If Environment.Is64BitOperatingSystem = True Then RegSC4InstallDir = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Maxis\SimCity 4", "Install Dir", Nothing)
-        If Environment.Is64BitOperatingSystem = False Then RegSC4InstallDir = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Maxis\SimCity 4", "Install Dir", Nothing)
-        If My.Settings.IsFirstRun = True And RegSC4InstallDir <> Nothing Then
-            If RegSC4InstallDir.EndsWith("\") = True Then My.Settings.SC4InstallDir = RegSC4InstallDir.Substring(0, RegSC4InstallDir.Length - 1) Else My.Settings.SC4InstallDir = RegSC4InstallDir
-        ElseIf RegSC4InstallDir = Nothing Then
+        Dim SC4InstallDir As String = Nothing
+        If Environment.Is64BitOperatingSystem = True Then SC4InstallDir = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Maxis\SimCity 4", "Install Dir", Nothing)
+        If Environment.Is64BitOperatingSystem = False Then SC4InstallDir = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Maxis\SimCity 4", "Install Dir", Nothing)
+        If My.Settings.IsFirstRun = True And SC4InstallDir <> Nothing Then
+            If SC4InstallDir.EndsWith("\") = True Then My.Settings.SC4InstallDir = SC4InstallDir.Substring(0, SC4InstallDir.Length - 1) Else My.Settings.SC4InstallDir = SC4InstallDir
+        ElseIf SC4InstallDir = Nothing Then
             If MessageBox.Show("未检测到模拟城市4安装目录，是否手动选择安装目录？", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = Windows.Forms.DialogResult.Yes Then
                 fbdSC4InstallDir.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86) : fbdSC4InstallDir.ShowDialog()
                 Do Until fbdSC4InstallDir.SelectedPath <> Nothing
@@ -31,6 +31,8 @@
             My.Settings.SC4InstallDir = fbdSC4InstallDir.SelectedPath
         Loop
         My.Settings.IsFirstRun = False : My.Settings.Save()
+        Dim random As New Random
+        BackgroundImage = CType(My.Resources.ResourceManager.GetObject("SC4_" & random.Next(1, 7)), Image)
         Text &= " " & My.Application.Info.Version.Major & "." & My.Application.Info.Version.Minor & "." & My.Application.Info.Version.Revision & " By n0099"
     End Sub
 

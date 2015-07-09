@@ -1,52 +1,41 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <UpdataInfo>
   <AutoInstaller>
-    <LatestVersion>2.1.16</LatestVersion>
+    <LatestVersion>2.1.25</LatestVersion>
     <UpdataDetail>
-模拟城市4 豪华版 自动安装程序(SC4AutoInstaller) 2.1.16 正式版 (2015-07-03)<br />
+模拟城市4 豪华版 自动安装程序(SC4AutoInstaller) 2.1.25 正式版 (2015-07-09)<br />
 ====================================================================================<br />
 <br />
 新增<br />
 ====<br />
-1.现在安装时会在控制面板的卸载或更改程序和开始菜单里添加模拟城市4 自动安装程序项和卸载或更改模拟城市4 豪华版项。<br />
-2.如果安装的是镜像版模拟城市4，则会删除镜像版模拟城市4安装程序创建的控制面板的卸载或更改程序的项。<br />
-3.添加了卸载模拟城市4 豪华版的功能。<br />
-4.现在在安装中窗口右侧会循环显示20张游戏截图。<br />
+1.在安装完成窗口和关于窗口添加了BUG反馈、n0099的博客和百度模拟城市吧的链接。<br />
+2.在关于窗口的鸣谢文本框里添加了虚无中在飘渺的名字。<br />
 <br />
 修改<br />
 ====<br />
-1.将添加或删除组件和卸载窗口的FormBorderStyle属性改为FixedDialog。<br />
-2.将主窗口确认已安装组件时的鼠标指针由AppStarting改为WaitCursor。<br />
-3.修改了主窗口、添加或删除组件和卸载窗口的Tab键顺序。<br />
+1.修改了一些安装中时右侧循环显示的游戏截图。<br />
+2.将关于窗口标题的字号由14pt改为14.25pt。<br />
+3.将关于窗口的是否显示图标由显示改为不显示。<br />
 <br />
 修复<br />
 ====<br />
-1.修复了无法更改语言补丁的bug。<br />
-2.修复了安装硬盘版模拟城市4时不会导入镜像版安装程序所修改的注册表数据的bug。<br />
-3.修复了无法在桌面或开始菜单里添加快捷方式的bug。<br />
-4.修复了即便游戏安装目录下没有游戏程序，在安装完成窗口的运行模拟城市4 豪华版按钮仍然可以点击的bug。<br />
-5.修复了如果没有网络连接就无法运行安装程序的bug。<br />
-6.修复了如果在安装中某个组件安装失败后会自动退出安装程序的bug。<br />
-7.修复了即便删除模拟城市4 启动器组件成功，在安装完成窗口仍然显示为安装失败的bug。<br />
-8.修复了在删除4GB补丁时如果638补丁安装失败，在安装完成窗口仍然会显示为安装成功的bug。<br />
-9.修复了在安装模拟城市4 豪华版时不会把自动安装程序复制到游戏安装目录下的bug。<br />
+1.修复了如果在安装选项窗口选择添加桌面图标，安装后桌面上的快捷方式无法打开的bug。<br />
+2.修复了如果在验证文件完整性时点击某个文件不完整对话框的重试按钮后直接跳过后续验证的bug。<br />
+3.修复了如果安装程序的路径里有空格，就无法安装硬盘版模拟城市4、638补丁、640补丁和GOG版模拟城市4的Graphics Rules.sgr文件的bug（感谢虚无中在飘渺发现此bug）。<br />
+4.修复了如果安装程序的路径里有空格，就无法删除638补丁、640补丁、4GB补丁和免CD补丁的bug（感谢虚无中在飘渺发现此bug）。<br />
     </UpdataDetail>
-    <DonwloadLink>http://n0099.sinaapp.com/AutoInstallerUpdata.exe</DonwloadLink>
+    <DonwloadLink>http://7xk5r3.com1.z0.glb.clouddn.com/AutoInstallerUpdata.png</DonwloadLink>
   </AutoInstaller>
   <Launcher>
-    <LatestVersion>1.0.18</LatestVersion>
+    <LatestVersion>1.0.19</LatestVersion>
     <UpdataDetail>
-模拟城市4 启动器(SC4Launcher) 1.0.18 正式版 (2015-07-03)<br />
+模拟城市4 启动器(SC4Launcher) 1.0.19 正式版 (2015-07-09)<br />
 ====================================================================================<br />
 <br />
-新增<br />
+修改<br />
 ====<br />
-1.现在每次启动时会在7张游戏截图里随机选择一张作为主窗口背景。<br />
-<br />
-修复<br />
-====<br />
-1.修复了如果没有网络连接就无法运行安启动器的bug。<br />
+1.修改了一些每次启动时随机显示的游戏截图。<br />
     </UpdataDetail>
-    <DonwloadLink>http://n0099.sinaapp.com/LauncherUpdata.exe</DonwloadLink>
+    <DonwloadLink>http://7xk5r3.com1.z0.glb.clouddn.com/LauncherUpdata.png</DonwloadLink>
   </Launcher>
 </UpdataInfo>

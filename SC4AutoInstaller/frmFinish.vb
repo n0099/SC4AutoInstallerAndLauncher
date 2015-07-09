@@ -6,6 +6,14 @@
         lblTitle2.Text = "部分组件安装失败"
     End Sub
 
+    Private Sub llbBlog_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles llbBlog.LinkClicked
+        Process.Start("http://n0099.sinaapp.com")
+    End Sub
+
+    Private Sub llbReportBug_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles llbReportBug.LinkClicked
+        Process.Start("http://tieba.baidu.com/p/3802761033")
+    End Sub
+
     Private Sub llbSCB_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles llbSCB.LinkClicked
         Process.Start("http://tieba.baidu.com/f?kw=%C4%A3%C4%E2%B3%C7%CA%D0")
     End Sub

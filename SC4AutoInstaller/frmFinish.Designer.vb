@@ -42,6 +42,8 @@ Partial Class frmFinish
         Me.llbSCB = New System.Windows.Forms.LinkLabel()
         Me.llbSCCN = New System.Windows.Forms.LinkLabel()
         Me.lblTitle2 = New System.Windows.Forms.Label()
+        Me.llbReportBug = New System.Windows.Forms.LinkLabel()
+        Me.llbBlog = New System.Windows.Forms.LinkLabel()
         Me.SuspendLayout()
         '
         'btnClose
@@ -111,7 +113,7 @@ Partial Class frmFinish
         'llbSCB
         '
         Me.llbSCB.AutoSize = True
-        Me.llbSCB.Location = New System.Drawing.Point(380, 56)
+        Me.llbSCB.Location = New System.Drawing.Point(250, 56)
         Me.llbSCB.Name = "llbSCB"
         Me.llbSCB.Size = New System.Drawing.Size(89, 12)
         Me.llbSCB.TabIndex = 3
@@ -121,7 +123,7 @@ Partial Class frmFinish
         'llbSCCN
         '
         Me.llbSCCN.AutoSize = True
-        Me.llbSCCN.Location = New System.Drawing.Point(475, 56)
+        Me.llbSCCN.Location = New System.Drawing.Point(345, 56)
         Me.llbSCCN.Name = "llbSCCN"
         Me.llbSCCN.Size = New System.Drawing.Size(137, 12)
         Me.llbSCCN.TabIndex = 4
@@ -137,6 +139,26 @@ Partial Class frmFinish
         Me.lblTitle2.TabIndex = 1
         Me.lblTitle2.Text = "所有组件均已成功安装"
         '
+        'llbReportBug
+        '
+        Me.llbReportBug.AutoSize = True
+        Me.llbReportBug.Location = New System.Drawing.Point(488, 56)
+        Me.llbReportBug.Name = "llbReportBug"
+        Me.llbReportBug.Size = New System.Drawing.Size(47, 12)
+        Me.llbReportBug.TabIndex = 7
+        Me.llbReportBug.TabStop = True
+        Me.llbReportBug.Text = "BUG反馈"
+        '
+        'llbBlog
+        '
+        Me.llbBlog.AutoSize = True
+        Me.llbBlog.Location = New System.Drawing.Point(541, 56)
+        Me.llbBlog.Name = "llbBlog"
+        Me.llbBlog.Size = New System.Drawing.Size(71, 12)
+        Me.llbBlog.TabIndex = 8
+        Me.llbBlog.TabStop = True
+        Me.llbBlog.Text = "n0099的博客"
+        '
         'frmFinish
         '
         Me.AcceptButton = Me.btnRunSC4
@@ -144,6 +166,8 @@ Partial Class frmFinish
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.btnClose
         Me.ClientSize = New System.Drawing.Size(624, 442)
+        Me.Controls.Add(Me.llbBlog)
+        Me.Controls.Add(Me.llbReportBug)
         Me.Controls.Add(Me.llbSCCN)
         Me.Controls.Add(Me.llbSCB)
         Me.Controls.Add(Me.btnRunSC4)
@@ -169,4 +193,6 @@ Partial Class frmFinish
     Friend WithEvents llbSCB As System.Windows.Forms.LinkLabel
     Friend WithEvents llbSCCN As System.Windows.Forms.LinkLabel
     Friend WithEvents lblTitle2 As System.Windows.Forms.Label
+    Friend WithEvents llbReportBug As System.Windows.Forms.LinkLabel
+    Friend WithEvents llbBlog As System.Windows.Forms.LinkLabel
 End Class

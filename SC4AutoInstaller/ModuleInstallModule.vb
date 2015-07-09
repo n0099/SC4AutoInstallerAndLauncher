@@ -62,14 +62,14 @@
                         Do Until Process.GetProcessesByName("SimCity 4.exe").Length <> 0 : Loop
                         Process.GetProcessesByName("SimCity 4.exe")(0).Kill()
 
-                        Dim RARProcess As Process = Process.Start("Data\rar.exe", "x " & Application.StartupPath & "\Data\SC4.rar -o+ ""Graphics Rules.sgr"" """ & .SC4InstallDir & "\""") : RARProcess.WaitForExit()
+                        Dim RARProcess As Process = Process.Start("Data\rar.exe", "x """ & Application.StartupPath & "\Data\SC4.rar"" -o+ ""Graphics Rules.sgr"" """ & .SC4InstallDir & "\""") : RARProcess.WaitForExit()
                         My.Computer.FileSystem.CopyFile(Process.GetCurrentProcess.StartInfo.FileName, .SC4InstallDir & "\SC4AutoInstaller.exe")
                         Return IIf(RARProcess.ExitCode = 0 Or My.Computer.FileSystem.FileExists(.SC4InstallDir & "\Apps\SimCity 4.exe") = True, InstallResult.Result.Success, InstallResult.Result.Fail)
                     Else
                         Return InstallResult.Result.Fail
                     End If
                 ElseIf InstallType = InstallOptions.SC4InstallType.NoInstall Then
-                    Dim RARProcess As Process = Process.Start("Data\rar.exe", "x " & Application.StartupPath & "\Data\SC4.rar *.* -o+ """ & .SC4InstallDir & "\""") : RARProcess.WaitForExit()
+                    Dim RARProcess As Process = Process.Start("Data\rar.exe", "x """ & Application.StartupPath & "\Data\SC4.rar"" *.* -o+ """ & .SC4InstallDir & "\""") : RARProcess.WaitForExit()
                     My.Computer.FileSystem.CopyFile(Process.GetCurrentProcess.StartInfo.FileName, .SC4InstallDir & "\SC4AutoInstaller.exe")
                     Return IIf(RARProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
                 End If
@@ -84,9 +84,9 @@
             Try
                 Dim RARProcess As Process
                 If .IsInstall638Patch = True Then
-                    RARProcess = Process.Start("Data\rar.exe", "x " & Application.StartupPath & "\Data\Patch\638\638.rar *.* -o+ """ & .SC4InstallDir & "\""") : RARProcess.WaitForExit()
+                    RARProcess = Process.Start("Data\rar.exe", "x """ & Application.StartupPath & "\Data\Patch\638\638.rar"" *.* -o+ """ & .SC4InstallDir & "\""") : RARProcess.WaitForExit()
                 Else
-                    RARProcess = Process.Start("Data\rar.exe", "x " & Application.StartupPath & "\Data\Patch\SC4.rar ""Apps\SimCity 4.exe"" SimCity_*.dat -o+ """ & .SC4InstallDir & "\""") : RARProcess.WaitForExit()
+                    RARProcess = Process.Start("Data\rar.exe", "x """ & Application.StartupPath & "\Data\Patch\SC4.rar"" ""Apps\SimCity 4.exe"" SimCity_*.dat -o+ """ & .SC4InstallDir & "\""") : RARProcess.WaitForExit()
                 End If
                 Return IIf(RARProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
             Catch ex As Exception
@@ -100,9 +100,9 @@
             Try
                 Dim RARProcess As Process
                 If .IsInstall640Patch = True Then
-                    RARProcess = Process.Start("Data\rar.exe", "x " & Application.StartupPath & "\Data\Patch\640\640.rar *.* -o+ """ & .SC4InstallDir & "\""") : RARProcess.WaitForExit()
+                    RARProcess = Process.Start("Data\rar.exe", "x """ & Application.StartupPath & "\Data\Patch\640\640.rar"" *.* -o+ """ & .SC4InstallDir & "\""") : RARProcess.WaitForExit()
                 Else
-                    RARProcess = Process.Start("Data\rar.exe", "x " & Application.StartupPath & "\Data\Patch\638\638.rar *.* -o+ """ & .SC4InstallDir & "\""") : RARProcess.WaitForExit()
+                    RARProcess = Process.Start("Data\rar.exe", "x """ & Application.StartupPath & "\Data\Patch\638\638.rar"" *.* -o+ """ & .SC4InstallDir & "\""") : RARProcess.WaitForExit()
                 End If
                 Return IIf(RARProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
             Catch ex As Exception
@@ -122,11 +122,11 @@
                 Else
                     Dim RARProcess As Process = Nothing, RARProcess2 As Process = Nothing
                     If .IsInstall638Patch = True Or .IsInstall640Patch = True Then
-                        If .IsInstall638Patch = True Then RARProcess = Process.Start("Data\rar.exe", "x " & Application.StartupPath & "\Data\Patch\638\638.rar ""Apps\SimCity 4.exe"" -o+ """ & .SC4InstallDir & "\""") : RARProcess.WaitForExit()
+                        If .IsInstall638Patch = True Then RARProcess = Process.Start("Data\rar.exe", "x """ & Application.StartupPath & "\Data\Patch\638\638.rar"" ""Apps\SimCity 4.exe"" -o+ """ & .SC4InstallDir & "\""") : RARProcess.WaitForExit()
                         Return IIf(RARProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
                     ElseIf .IsInstall640Patch = True Then
-                        If .IsInstall638Patch = True Then RARProcess = Process.Start("Data\rar.exe", "x " & Application.StartupPath & "\Data\Patch\638\638.rar ""Apps\SimCity 4.exe"" -o+ """ & .SC4InstallDir & "\""") : RARProcess.WaitForExit()
-                        If .IsInstall640Patch = True Then RARProcess2 = Process.Start("Data\rar.exe", "x " & Application.StartupPath & "\Data\Patch\640\640.rar ""Apps\SimCity 4.exe"" -o+ """ & .SC4InstallDir & "\""") : RARProcess2.WaitForExit()
+                        If .IsInstall638Patch = True Then RARProcess = Process.Start("Data\rar.exe", "x """ & Application.StartupPath & "\Data\Patch\638\638.rar"" ""Apps\SimCity 4.exe"" -o+ """ & .SC4InstallDir & "\""") : RARProcess.WaitForExit()
+                        If .IsInstall640Patch = True Then RARProcess2 = Process.Start("Data\rar.exe", "x """ & Application.StartupPath & "\Data\Patch\640\640.rar"" ""Apps\SimCity 4.exe"" -o+ """ & .SC4InstallDir & "\""") : RARProcess2.WaitForExit()
                         Return IIf(RARProcess.ExitCode = 0 And RARProcess2.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
                     ElseIf .IsInstallNoCDPatch = True Then
                         My.Computer.FileSystem.CopyFile("Data\Patch\NoCD\SimCity 4.exe", ModuleMain.InstallOptions.SC4InstallDir & "\Apps\SimCity 4.exe", True)
@@ -147,7 +147,7 @@
                     My.Computer.FileSystem.CopyFile("Data\Patch\NoCD\SimCity 4.exe", .SC4InstallDir & "\Apps\SimCity 4.exe", True)
                     Return IIf(My.Computer.FileSystem.GetFileInfo(ModuleMain.InstallOptions.SC4InstallDir & "\Apps\SimCity 4.exe").Length = 7524352, InstallResult.Result.Success, InstallResult.Result.Fail)
                 Else
-                    Dim RARProcess As Process = Process.Start("Data\rar.exe", "x " & Application.StartupPath & "\Data\Patch\SC4.rar ""Apps\SimCity 4.exe"" SimCity_*.dat -o+ """ & .SC4InstallDir & "\""")
+                    Dim RARProcess As Process = Process.Start("Data\rar.exe", "x """ & Application.StartupPath & "\Data\Patch\SC4.rar"" ""Apps\SimCity 4.exe"" SimCity_*.dat -o+ """ & .SC4InstallDir & "\""")
                     RARProcess.WaitForExit()
                     Return IIf(RARProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
                 End If
@@ -217,7 +217,7 @@
                 shortcut.TargetPath = .SC4InstallDir & "\SC4Launcher.exe" : shortcut.Description = "使用模拟城市4 启动器来运行模拟城市4 豪华版"
             Else
                 shortcut = wshshell.CreateShortcut(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) & "\模拟城市4 豪华版.lnk")
-                shortcut.TargetPath = .SC4InstallDir & "\Apps\SimCity4.exe" : shortcut.Description = "运行模拟城市4 豪华版"
+                shortcut.TargetPath = .SC4InstallDir & "\Apps\SimCity 4.exe" : shortcut.Description = "运行模拟城市4 豪华版"
             End If
             shortcut.WindowStyle = 1 : shortcut.IconLocation = .SC4InstallDir & "\SC4.ico" : shortcut.Save()
         End With

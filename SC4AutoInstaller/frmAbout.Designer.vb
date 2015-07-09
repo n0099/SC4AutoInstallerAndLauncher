@@ -14,8 +14,6 @@ Partial Class frmAbout
         End Try
     End Sub
 
-    Friend WithEvents tlpMain As System.Windows.Forms.TableLayoutPanel
-    Friend WithEvents picLogo As System.Windows.Forms.PictureBox
     Friend WithEvents txtDescription As System.Windows.Forms.TextBox
     Friend WithEvents btnClose As System.Windows.Forms.Button
 
@@ -28,137 +26,146 @@ Partial Class frmAbout
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmAbout))
-        Me.tlpMain = New System.Windows.Forms.TableLayoutPanel()
-        Me.picLogo = New System.Windows.Forms.PictureBox()
         Me.txtDescription = New System.Windows.Forms.TextBox()
         Me.btnClose = New System.Windows.Forms.Button()
-        Me.lblName = New System.Windows.Forms.Label()
         Me.lblVersion = New System.Windows.Forms.Label()
         Me.lblAuthor = New System.Windows.Forms.Label()
-        Me.tlpMain.SuspendLayout()
-        CType(Me.picLogo, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.llbBlog = New System.Windows.Forms.LinkLabel()
+        Me.llbReportBug = New System.Windows.Forms.LinkLabel()
+        Me.llbSCB = New System.Windows.Forms.LinkLabel()
+        Me.lblName = New System.Windows.Forms.Label()
+        Me.LogoPictureBox = New System.Windows.Forms.PictureBox()
+        CType(Me.LogoPictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
-        '
-        'tlpMain
-        '
-        Me.tlpMain.ColumnCount = 2
-        Me.tlpMain.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.0!))
-        Me.tlpMain.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 67.0!))
-        Me.tlpMain.Controls.Add(Me.picLogo, 0, 0)
-        Me.tlpMain.Controls.Add(Me.txtDescription, 1, 4)
-        Me.tlpMain.Controls.Add(Me.btnClose, 1, 5)
-        Me.tlpMain.Controls.Add(Me.lblName, 1, 0)
-        Me.tlpMain.Controls.Add(Me.lblVersion, 1, 2)
-        Me.tlpMain.Controls.Add(Me.lblAuthor, 1, 3)
-        Me.tlpMain.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.tlpMain.Location = New System.Drawing.Point(9, 8)
-        Me.tlpMain.Name = "tlpMain"
-        Me.tlpMain.RowCount = 6
-        Me.tlpMain.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
-        Me.tlpMain.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
-        Me.tlpMain.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
-        Me.tlpMain.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
-        Me.tlpMain.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.tlpMain.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.0!))
-        Me.tlpMain.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
-        Me.tlpMain.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
-        Me.tlpMain.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
-        Me.tlpMain.Size = New System.Drawing.Size(396, 239)
-        Me.tlpMain.TabIndex = 0
-        '
-        'picLogo
-        '
-        Me.picLogo.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.picLogo.Image = CType(resources.GetObject("picLogo.Image"), System.Drawing.Image)
-        Me.picLogo.Location = New System.Drawing.Point(3, 3)
-        Me.picLogo.Name = "picLogo"
-        Me.tlpMain.SetRowSpan(Me.picLogo, 6)
-        Me.picLogo.Size = New System.Drawing.Size(124, 233)
-        Me.picLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.picLogo.TabIndex = 0
-        Me.picLogo.TabStop = False
         '
         'txtDescription
         '
         Me.txtDescription.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.txtDescription.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.txtDescription.Location = New System.Drawing.Point(136, 95)
+        Me.txtDescription.Location = New System.Drawing.Point(145, 103)
         Me.txtDescription.Margin = New System.Windows.Forms.Padding(6, 3, 3, 3)
         Me.txtDescription.Multiline = True
         Me.txtDescription.Name = "txtDescription"
         Me.txtDescription.ReadOnly = True
-        Me.txtDescription.Size = New System.Drawing.Size(257, 113)
+        Me.txtDescription.Size = New System.Drawing.Size(255, 76)
         Me.txtDescription.TabIndex = 3
         Me.txtDescription.TabStop = False
-        Me.txtDescription.Text = "鸣谢：铁木真的使臣、绿色食品台风、坐在鸭子、周瑜K了Zero、cjak007"
+        Me.txtDescription.Text = "鸣谢：虚无中在飘渺、铁木真的使臣、绿色食品台风、坐在鸭子、周瑜K了Zero、cjak007"
         '
         'btnClose
         '
-        Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnClose.Location = New System.Drawing.Point(318, 215)
+        Me.btnClose.Location = New System.Drawing.Point(327, 221)
         Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(75, 21)
+        Me.btnClose.Size = New System.Drawing.Size(75, 23)
         Me.btnClose.TabIndex = 4
         Me.btnClose.Text = "关闭(&C)"
-        '
-        'lblName
-        '
-        Me.lblName.AutoSize = True
-        Me.lblName.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lblName.Font = New System.Drawing.Font("微软雅黑", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.lblName.Location = New System.Drawing.Point(133, 0)
-        Me.lblName.Name = "lblName"
-        Me.tlpMain.SetRowSpan(Me.lblName, 2)
-        Me.lblName.Size = New System.Drawing.Size(260, 46)
-        Me.lblName.TabIndex = 0
-        Me.lblName.Text = "模拟城市4 豪华版 自动安装程序"
-        Me.lblName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblVersion
         '
         Me.lblVersion.AutoSize = True
-        Me.lblVersion.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lblVersion.Location = New System.Drawing.Point(133, 46)
+        Me.lblVersion.Location = New System.Drawing.Point(142, 54)
         Me.lblVersion.Name = "lblVersion"
-        Me.lblVersion.Size = New System.Drawing.Size(260, 23)
+        Me.lblVersion.Size = New System.Drawing.Size(29, 12)
         Me.lblVersion.TabIndex = 1
         Me.lblVersion.Text = "版本"
-        Me.lblVersion.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'lblAuthor
         '
         Me.lblAuthor.AutoSize = True
-        Me.lblAuthor.Location = New System.Drawing.Point(133, 69)
+        Me.lblAuthor.Location = New System.Drawing.Point(142, 75)
         Me.lblAuthor.Name = "lblAuthor"
         Me.lblAuthor.Size = New System.Drawing.Size(71, 12)
         Me.lblAuthor.TabIndex = 2
         Me.lblAuthor.Text = "作者：n0099"
         '
+        'llbBlog
+        '
+        Me.llbBlog.AutoSize = True
+        Me.llbBlog.Location = New System.Drawing.Point(237, 193)
+        Me.llbBlog.Name = "llbBlog"
+        Me.llbBlog.Size = New System.Drawing.Size(71, 12)
+        Me.llbBlog.TabIndex = 11
+        Me.llbBlog.TabStop = True
+        Me.llbBlog.Text = "n0099的博客"
+        '
+        'llbReportBug
+        '
+        Me.llbReportBug.AutoSize = True
+        Me.llbReportBug.Location = New System.Drawing.Point(314, 193)
+        Me.llbReportBug.Name = "llbReportBug"
+        Me.llbReportBug.Size = New System.Drawing.Size(47, 12)
+        Me.llbReportBug.TabIndex = 10
+        Me.llbReportBug.TabStop = True
+        Me.llbReportBug.Text = "BUG反馈"
+        '
+        'llbSCB
+        '
+        Me.llbSCB.AutoSize = True
+        Me.llbSCB.Location = New System.Drawing.Point(142, 193)
+        Me.llbSCB.Name = "llbSCB"
+        Me.llbSCB.Size = New System.Drawing.Size(89, 12)
+        Me.llbSCB.TabIndex = 9
+        Me.llbSCB.TabStop = True
+        Me.llbSCB.Text = "百度模拟城市吧"
+        '
+        'lblName
+        '
+        Me.lblName.AutoSize = True
+        Me.lblName.Font = New System.Drawing.Font("微软雅黑", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.lblName.Location = New System.Drawing.Point(139, 20)
+        Me.lblName.Name = "lblName"
+        Me.lblName.Size = New System.Drawing.Size(219, 25)
+        Me.lblName.TabIndex = 0
+        Me.lblName.Text = "模拟城市4 自动安装程序"
+        Me.lblName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'LogoPictureBox
+        '
+        Me.LogoPictureBox.Image = CType(resources.GetObject("LogoPictureBox.Image"), System.Drawing.Image)
+        Me.LogoPictureBox.Location = New System.Drawing.Point(12, 11)
+        Me.LogoPictureBox.Name = "LogoPictureBox"
+        Me.LogoPictureBox.Size = New System.Drawing.Size(124, 233)
+        Me.LogoPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.LogoPictureBox.TabIndex = 12
+        Me.LogoPictureBox.TabStop = False
+        '
         'frmAbout
         '
+        Me.AcceptButton = Me.btnClose
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.btnClose
         Me.ClientSize = New System.Drawing.Size(414, 255)
-        Me.Controls.Add(Me.tlpMain)
+        Me.Controls.Add(Me.LogoPictureBox)
+        Me.Controls.Add(Me.txtDescription)
+        Me.Controls.Add(Me.btnClose)
+        Me.Controls.Add(Me.lblName)
+        Me.Controls.Add(Me.llbSCB)
+        Me.Controls.Add(Me.lblVersion)
+        Me.Controls.Add(Me.llbReportBug)
+        Me.Controls.Add(Me.lblAuthor)
+        Me.Controls.Add(Me.llbBlog)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "frmAbout"
         Me.Padding = New System.Windows.Forms.Padding(9, 8, 9, 8)
+        Me.ShowIcon = False
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "关于"
-        Me.tlpMain.ResumeLayout(False)
-        Me.tlpMain.PerformLayout()
-        CType(Me.picLogo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.LogoPictureBox, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
-    Friend WithEvents lblName As System.Windows.Forms.Label
     Friend WithEvents lblVersion As System.Windows.Forms.Label
     Friend WithEvents lblAuthor As System.Windows.Forms.Label
+    Friend WithEvents llbBlog As System.Windows.Forms.LinkLabel
+    Friend WithEvents llbReportBug As System.Windows.Forms.LinkLabel
+    Friend WithEvents llbSCB As System.Windows.Forms.LinkLabel
+    Friend WithEvents lblName As System.Windows.Forms.Label
+    Friend WithEvents LogoPictureBox As System.Windows.Forms.PictureBox
 
 End Class

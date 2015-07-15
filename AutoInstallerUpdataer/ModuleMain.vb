@@ -11,6 +11,8 @@
             If .FileExists("Data\638.rar") = True Then .MoveFile("Data\638.EXE", "Data\638.rar")
             If .FileExists("Data\640.exe") = True Then .MoveFile("Data\638.EXE", "Data\640.exe")
             If .FileExists("Data\640.rar") = True Then .MoveFile("Data\638.EXE", "Data\640.rar")
+            '2.2.19
+            If .FileExists("Data\EA EULA.txt") = True Then .DeleteFile("Data\EA EULA.txt")
             Console.Write(vbCrLf) : Console.Write("更新安装完成")
             Dim bat As String = ":del" & vbCrLf & "del %1" & vbCrLf & "if exist %1 goto del" & vbCrLf & "del %0"
             My.Computer.FileSystem.WriteAllText("DeleteUpdater.bat", bat, False, Text.Encoding.ASCII)

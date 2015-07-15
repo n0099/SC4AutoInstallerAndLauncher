@@ -1,17 +1,18 @@
 ﻿Public Class frmVerifyFilesMD5
 
     Dim MD5CSP As New Security.Cryptography.MD5CryptoServiceProvider
-    Dim DataFilesMD5() As String = {"Data\DAEMON Tools Lite 5.0.exe", "E4D2A05D4A5C22C6D4BC20D6B502CE6B", "Data\EA EULA.txt", "4A263CEC16B302BE4E080A85614A90F9" _
-                                , "Data\rar.exe", "863B5C17C3A02095DFAE098CBCC09A6E", "Data\SC4Launcher.exe", "50971295F408D6889471527A66E7322D" _
-                                , "Data\SC4.rar", "2ACDA5FEEE321943722FA49C70D47DF1" _
-                                , "Data\CD\SC4DELUXE CD1.mdf", "82A112B441DC90305331ABEFF0E66237", "Data\CD\SC4DELUXE CD1.mds", "CFB13663F10FCAB916C0A4EDD29FC975" _
-                                , "Data\CD\SC4DELUXE CD2.mdf", "15AD42821D2CCFAC4ED62CF2E5E153D1", "Data\CD\SC4DELUXE CD2.mds", "F623584CCC7E3206045D97CD12D454C8" _
-                                , "Data\Patch\638\638.EXE", "CF95BA3341D0832B532CE176492321D1", "Data\Patch\640\640.exe", "E612D3BF65DFA7BED951CC8D40366BBF" _
-                                , "Data\Patch\638\638.rar", "198FC87663DFA08CFACED3600F97C9C6", "Data\Patch\640\640.rar", "70912679404A52B4F0A3FA41C98B2335" _
-                                , "Data\Patch\NoCD\SimCity 4.exe", "B57B5B03C4854C194CE8BEBD173F3483", "Data\Patch\4GB.exe", "96490CFDF3C7DD5AE7EF378C689A8734" _
-                                , "Data\Patch\Language\TChinese\SimCityLocale.DAT", "3D7163C89D35E7388CF7EBC503BAF47B" _
-                                , "Data\Patch\Language\SChinese\SimCityLocale.DAT", "42E66866C5E7C95A29CD153423F4F6FD" _
-                                , "Data\Patch\Language\English\SimCityLocale.DAT", "196A1F3CD9CF58E84E0B0F31E9F81171"}
+    Dim DataFilesMD5() As String = {"Data\DAEMON Tools Lite 5.0.exe", "E4D2A05D4A5C22C6D4BC20D6B502CE6B", "Data\rar.exe", "863B5C17C3A02095DFAE098CBCC09A6E" _
+                                   , "Data\SC4Launcher.exe", "50971295F408D6889471527A66E7322D", "Data\SC4.rar", "2ACDA5FEEE321943722FA49C70D47DF1" _
+                                   , "Data\Licenses\CC BY-NC-SA.rtf", "A209CA5F16DE11B2286DEB6A007309F6", "Data\Licenses\CC BY-NC-SA 3.0 法律文本.rtf", "89A7D660905F71254D36BE1DFC0010D4" _
+                                   , "Data\Licenses\CC BY-NC-SA 4.0 法律文本.rtf", "E27D76D2E75DE182B6C10F6EBA0482A4", "Data\Licenses\EA EULA.txt", "4A263CEC16B302BE4E080A85614A90F9", "Data\Licenses\DAEMON Tools 隐私政策.rtf", "B772FA3468C7C3879A5A16614DC3613C" _
+                                   , "Data\CD\SC4DELUXE CD1.mdf", "82A112B441DC90305331ABEFF0E66237", "Data\CD\SC4DELUXE CD1.mds", "CFB13663F10FCAB916C0A4EDD29FC975" _
+                                   , "Data\CD\SC4DELUXE CD2.mdf", "15AD42821D2CCFAC4ED62CF2E5E153D1", "Data\CD\SC4DELUXE CD2.mds", "F623584CCC7E3206045D97CD12D454C8" _
+                                   , "Data\Patch\638\638.EXE", "CF95BA3341D0832B532CE176492321D1", "Data\Patch\640\640.exe", "E612D3BF65DFA7BED951CC8D40366BBF" _
+                                   , "Data\Patch\638\638.rar", "198FC87663DFA08CFACED3600F97C9C6", "Data\Patch\640\640.rar", "70912679404A52B4F0A3FA41C98B2335" _
+                                   , "Data\Patch\NoCD\SimCity 4.exe", "B57B5B03C4854C194CE8BEBD173F3483", "Data\Patch\4GB.exe", "96490CFDF3C7DD5AE7EF378C689A8734" _
+                                   , "Data\Patch\Language\TChinese\SimCityLocale.DAT", "3D7163C89D35E7388CF7EBC503BAF47B" _
+                                   , "Data\Patch\Language\SChinese\SimCityLocale.DAT", "42E66866C5E7C95A29CD153423F4F6FD" _
+                                   , "Data\Patch\Language\English\SimCityLocale.DAT", "196A1F3CD9CF58E84E0B0F31E9F81171"}
 
     Private Sub bgwComputeMD5_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles bgwComputeMD5.DoWork
         For i As Integer = 0 To DataFilesMD5.Length - 1 Step 2
@@ -39,7 +40,18 @@ Ignore:     File.Close()
     End Sub
 
     Private Sub bgwComputeMD5_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles bgwComputeMD5.RunWorkerCompleted
-        If e.Cancelled = False Then frmMain.Show() : Close()
+        If e.Cancelled = False Then frmMain.Show() : RemoveHandler Me.FormClosing, AddressOf frmVerifyFilesMD5_FormClosing : Close()
+    End Sub
+
+    Private Sub frmVerifyFilesMD5_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+        If e.CloseReason = CloseReason.UserClosing Then
+            If MessageBox.Show("确定要取消文件验证吗？" & vbCrLf & "如果文件不完整可能会导致安装失败。", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.Yes Then
+                frmMain.Show() : bgwComputeMD5.CancelAsync()
+                e.Cancel = False
+            Else
+                e.Cancel = True
+            End If
+        End If
     End Sub
 
     Private Sub frmVerifyFiles_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -50,7 +62,7 @@ Ignore:     File.Close()
     End Sub
 
     Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
-        If MessageBox.Show("确定要取消文件验证吗？" & vbCrLf & "如果文件不完整可能会导致安装失败。", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.Yes Then frmMain.Show() : bgwComputeMD5.CancelAsync() : Close()
+        Close()
     End Sub
 
 End Class

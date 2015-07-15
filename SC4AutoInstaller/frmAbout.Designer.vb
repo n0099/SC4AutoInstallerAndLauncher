@@ -14,7 +14,6 @@ Partial Class frmAbout
         End Try
     End Sub
 
-    Friend WithEvents txtDescription As System.Windows.Forms.TextBox
     Friend WithEvents btnClose As System.Windows.Forms.Button
 
     'Windows 窗体设计器所必需的
@@ -26,7 +25,6 @@ Partial Class frmAbout
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmAbout))
-        Me.txtDescription = New System.Windows.Forms.TextBox()
         Me.btnClose = New System.Windows.Forms.Button()
         Me.lblVersion = New System.Windows.Forms.Label()
         Me.lblAuthor = New System.Windows.Forms.Label()
@@ -35,21 +33,9 @@ Partial Class frmAbout
         Me.llbSCB = New System.Windows.Forms.LinkLabel()
         Me.lblName = New System.Windows.Forms.Label()
         Me.LogoPictureBox = New System.Windows.Forms.PictureBox()
+        Me.lblThanksList = New System.Windows.Forms.Label()
         CType(Me.LogoPictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
-        '
-        'txtDescription
-        '
-        Me.txtDescription.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.txtDescription.Location = New System.Drawing.Point(145, 103)
-        Me.txtDescription.Margin = New System.Windows.Forms.Padding(6, 3, 3, 3)
-        Me.txtDescription.Multiline = True
-        Me.txtDescription.Name = "txtDescription"
-        Me.txtDescription.ReadOnly = True
-        Me.txtDescription.Size = New System.Drawing.Size(255, 76)
-        Me.txtDescription.TabIndex = 3
-        Me.txtDescription.TabStop = False
-        Me.txtDescription.Text = "鸣谢：虚无中在飘渺、铁木真的使臣、绿色食品台风、坐在鸭子、周瑜K了Zero、cjak007"
         '
         'btnClose
         '
@@ -129,6 +115,14 @@ Partial Class frmAbout
         Me.LogoPictureBox.TabIndex = 12
         Me.LogoPictureBox.TabStop = False
         '
+        'lblThanksList
+        '
+        Me.lblThanksList.Location = New System.Drawing.Point(142, 96)
+        Me.lblThanksList.Name = "lblThanksList"
+        Me.lblThanksList.Size = New System.Drawing.Size(260, 86)
+        Me.lblThanksList.TabIndex = 13
+        Me.lblThanksList.Text = "鸣谢：百你二渡、虚无中在飘渺、铁木真的使臣、绿色食品台风、坐在鸭子、周瑜K了Zero、cjak007"
+        '
         'frmAbout
         '
         Me.AcceptButton = Me.btnClose
@@ -136,8 +130,8 @@ Partial Class frmAbout
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.btnClose
         Me.ClientSize = New System.Drawing.Size(414, 255)
+        Me.Controls.Add(Me.lblThanksList)
         Me.Controls.Add(Me.LogoPictureBox)
-        Me.Controls.Add(Me.txtDescription)
         Me.Controls.Add(Me.btnClose)
         Me.Controls.Add(Me.lblName)
         Me.Controls.Add(Me.llbSCB)
@@ -167,5 +161,6 @@ Partial Class frmAbout
     Friend WithEvents llbSCB As System.Windows.Forms.LinkLabel
     Friend WithEvents lblName As System.Windows.Forms.Label
     Friend WithEvents LogoPictureBox As System.Windows.Forms.PictureBox
+    Friend WithEvents lblThanksList As System.Windows.Forms.Label
 
 End Class

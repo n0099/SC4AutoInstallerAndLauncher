@@ -27,51 +27,49 @@
                         bgwInstall.CancelAsync()
                     End If
             End Select
-            If item.Text.Contains("模拟城市4 豪华版") = False And item.Index < lvwTask.Items.Count - 1 Then 'notice
-                lvwTask.Items(item.Index + 1).ImageKey = "installing"
-            End If
+            If item.Index < lvwTask.Items.Count - 1 Then lvwTask.Items(item.Index + 1).ImageKey = "installing"
         End With
     End Sub
 
     Private Sub bgwInstall_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles bgwInstall.DoWork
-        For i As Integer = 0 To lvwTask.Items.Count - 1
-            Threading.Thread.Sleep(1000)
-            Console.WriteLine("1")
-            ReportProgress(InstallResult.Result.Success, lvwTask.Items(i))
-        Next
-        Threading.Thread.Sleep(1000)
-        ReportProgress(InstallResult.Result.Fail, lvwTask.FindItemWithText("模拟城市4 豪华版"))
-        'My.Computer.FileSystem.CopyFile(Application.ExecutablePath, ModuleMain.InstallOptions.SC4InstallDir & "\SC4AutoInstaller.exe", True)
-        'With ModuleMain.InstallOptions
-        '    If IsNothing(ModuleMain.InstalledModule) = True Then
-        '        If .IsInstallDAEMONTools = True Then ReportProgress(ModuleInstallModule.InstallDAEMONTools(), lvwTask.FindItemWithText("DAEMON Tools Lite"))
-        '        If .SC4Type = InstallOptions.SC4InstallType.ISO Then
-        '            ReportProgress(ModuleInstallModule.InstallSC4(InstallOptions.SC4InstallType.ISO), lvwTask.FindItemWithText("模拟城市4 豪华版 镜像版"))
-        '        ElseIf .SC4Type = InstallOptions.SC4InstallType.NoInstall Then
-        '            ReportProgress(ModuleInstallModule.InstallSC4(InstallOptions.SC4InstallType.NoInstall), lvwTask.FindItemWithText("模拟城市4 豪华版 硬盘版")) : ModuleInstallModule.SetNoInstallSC4RegValue()
-        '        End If
-        '        ModuleInstallModule.SetControlPanelProgramItemRegValue()
-        '    End If
-        '    If bgwInstall.CancellationPending = True Then Exit Sub
-        '    If .IsInstall638Patch = True Then ReportProgress(ModuleInstallModule.Install638Patch(), lvwTask.FindItemWithText("638补丁"))
-        '    If .IsInstall640Patch = True Then ReportProgress(ModuleInstallModule.Install640Patch(), lvwTask.FindItemWithText("640补丁"))
-        '    If .IsInstallNoCDPatch = True Then ReportProgress(ModuleInstallModule.InstallNoCDPatch(), lvwTask.FindItemWithText("免CD补丁"))
-        '    If .IsInstall4GBPatch = True Then ReportProgress(ModuleInstallModule.Install4GBPatch(), lvwTask.FindItemWithText("4GB补丁"))
-        '    If .IsInstallSC4Launcher = True Then ReportProgress(ModuleInstallModule.InstallSC4Launcher(), lvwTask.FindItemWithText("模拟城市4 启动器"))
-        '    Select Case .LanguagePatch
-        '        Case InstallOptions.Language.TraditionalChinese
-        '            ReportProgress(ModuleInstallModule.InstallLanguagePatch(InstallOptions.Language.TraditionalChinese), lvwTask.FindItemWithText("繁体中文语言补丁"))
-        '        Case InstallOptions.Language.SimplifiedChinese
-        '            ReportProgress(ModuleInstallModule.InstallLanguagePatch(InstallOptions.Language.SimplifiedChinese), lvwTask.FindItemWithText("简体中文语言补丁"))
-        '        Case InstallOptions.Language.English
-        '            ModuleInstallModule.InstallLanguagePatch(InstallOptions.Language.English)
-        '    End Select
-        '    If IsNothing(ModuleMain.InstalledModule) = True Then
-        '        If .IsAddDesktopIcon = True Then If .IsInstallSC4Launcher = True Then ModuleInstallModule.AddDestopIcon() Else ModuleInstallModule.AddDestopIcon()
-        '        If .IsAddStartMenuItem = True Then If .IsInstallSC4Launcher = True Then ModuleInstallModule.AddStartMenuItems() Else ModuleInstallModule.AddStartMenuItems()
-        '    End If
+        'For i As Integer = 0 To lvwTask.Items.Count - 1
         '    Threading.Thread.Sleep(1000)
-        'End With
+        '    Console.WriteLine("1")
+        '    ReportProgress(InstallResult.Result.Success, lvwTask.Items(i))
+        'Next
+        'Threading.Thread.Sleep(1000)
+        'ReportProgress(InstallResult.Result.Fail, lvwTask.FindItemWithText("模拟城市4 豪华版"))
+        With ModuleMain.InstallOptions
+            lvwTask.Items(0).ImageKey = "installing"
+            If IsNothing(ModuleMain.InstalledModule) = True Then
+                If .IsInstallDAEMONTools = True Then ReportProgress(ModuleInstallModule.InstallDAEMONTools(), lvwTask.FindItemWithText("DAEMON Tools Lite"))
+                If .SC4Type = InstallOptions.SC4InstallType.ISO Then
+                    ReportProgress(ModuleInstallModule.InstallSC4(InstallOptions.SC4InstallType.ISO), lvwTask.FindItemWithText("模拟城市4 豪华版 镜像版"))
+                ElseIf .SC4Type = InstallOptions.SC4InstallType.NoInstall Then
+                    ReportProgress(ModuleInstallModule.InstallSC4(InstallOptions.SC4InstallType.NoInstall), lvwTask.FindItemWithText("模拟城市4 豪华版 硬盘版")) : ModuleInstallModule.SetNoInstallSC4RegValue()
+                End If
+                ModuleInstallModule.SetControlPanelProgramItemRegValue()
+            End If
+            If bgwInstall.CancellationPending = True Then Exit Sub
+            If .IsInstall638Patch = True Then ReportProgress(ModuleInstallModule.Install638Patch(), lvwTask.FindItemWithText("638补丁"))
+            If .IsInstall640Patch = True Then ReportProgress(ModuleInstallModule.Install640Patch(), lvwTask.FindItemWithText("640补丁"))
+            If .IsInstallNoCDPatch = True Then ReportProgress(ModuleInstallModule.InstallNoCDPatch(), lvwTask.FindItemWithText("免CD补丁"))
+            If .IsInstall4GBPatch = True Then ReportProgress(ModuleInstallModule.Install4GBPatch(), lvwTask.FindItemWithText("4GB补丁"))
+            If .IsInstallSC4Launcher = True Then ReportProgress(ModuleInstallModule.InstallSC4Launcher(), lvwTask.FindItemWithText("模拟城市4 启动器"))
+            Select Case .LanguagePatch
+                Case InstallOptions.Language.TraditionalChinese
+                    ReportProgress(ModuleInstallModule.InstallLanguagePatch(InstallOptions.Language.TraditionalChinese), lvwTask.FindItemWithText("繁体中文语言补丁"))
+                Case InstallOptions.Language.SimplifiedChinese
+                    ReportProgress(ModuleInstallModule.InstallLanguagePatch(InstallOptions.Language.SimplifiedChinese), lvwTask.FindItemWithText("简体中文语言补丁"))
+                Case InstallOptions.Language.English
+                    ModuleInstallModule.InstallLanguagePatch(InstallOptions.Language.English)
+            End Select
+            If IsNothing(ModuleMain.InstalledModule) = True Then
+                If .IsAddDesktopIcon = True Then If .IsInstallSC4Launcher = True Then ModuleInstallModule.AddDestopIcon() Else ModuleInstallModule.AddDestopIcon()
+                If .IsAddStartMenuItem = True Then If .IsInstallSC4Launcher = True Then ModuleInstallModule.AddStartMenuItems() Else ModuleInstallModule.AddStartMenuItems()
+            End If
+            Threading.Thread.Sleep(1000)
+        End With
     End Sub
 
     Private Sub bgwInstall_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles bgwInstall.RunWorkerCompleted

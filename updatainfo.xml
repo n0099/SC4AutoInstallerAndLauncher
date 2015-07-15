@@ -1,30 +1,40 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <UpdataInfo>
   <AutoInstaller>
-    <LatestVersion>2.1.25</LatestVersion>
+    <LatestVersion>2.2.19</LatestVersion>
     <UpdataDetail>
-模拟城市4 豪华版 自动安装程序(SC4AutoInstaller) 2.1.25 正式版 (2015-07-09)<br />
+模拟城市4 豪华版 自动安装程序(SC4AutoInstaller) 2.2.19 正式版 (2015-07-15)<br />
 ====================================================================================<br />
 <br />
 新增<br />
 ====<br />
-1.在安装完成窗口和关于窗口添加了BUG反馈、n0099的博客和百度模拟城市吧的链接。<br />
-2.在关于窗口的鸣谢文本框里添加了虚无中在飘渺的名字。<br />
+1.添加了阅读用户协议的窗口。<br />
+2.现在如果将鼠标移出安装选项窗口的安装组件列表框，组件说明文本会恢复为默认文本。<br />
 <br />
 修改<br />
 ====<br />
-1.修改了一些安装中时右侧循环显示的游戏截图。<br />
-2.将关于窗口标题的字号由14pt改为14.25pt。<br />
-3.将关于窗口的是否显示图标由显示改为不显示。<br />
+1.将安装选项窗口的取消按钮、添加或删除组件的取消按钮和安装完成窗口的关闭按钮的大小由75,23改为80,23。<br />
+2.将主窗口和安装选项窗口的弹出确定退出安装程序询问框的条件由点击取消按钮改为关闭窗口时弹出。<br />
+3.将确定退出安装程序询问框的文字和默认按钮改为“确定要退出安装程序吗？”和第二个按钮。<br />
+4.现在在安装硬盘版模拟城市4时导入镜像版安装程序修改的注册表数据时Registration和Game Registry注册表项的值会根据实际变化。<br />
+5.将在安装硬盘版模拟城市4时导入镜像版安装程序修改的注册表数据时IsDeluxe注册表项的值修改为1。<br />
+6.删除了安装选项窗口的同意EA EULA复选框。<br />
+7.在关于窗口的鸣谢文本框里添加了百你二渡的名字。<br />
 <br />
 修复<br />
 ====<br />
-1.修复了如果在安装选项窗口选择添加桌面图标，安装后桌面上的快捷方式无法打开的bug。<br />
-2.修复了如果在验证文件完整性时点击某个文件不完整对话框的重试按钮后直接跳过后续验证的bug。<br />
-3.修复了如果安装程序的路径里有空格，就无法安装硬盘版模拟城市4、638补丁、640补丁和GOG版模拟城市4的Graphics Rules.sgr文件的bug（感谢虚无中在飘渺发现此bug）。<br />
-4.修复了如果安装程序的路径里有空格，就无法删除638补丁、640补丁、4GB补丁和免CD补丁的bug（感谢虚无中在飘渺发现此bug）。<br />
+1.修复了即便Data文件夹不存在也可以点击主窗口的更改按钮的bug。<br />
+2.修复了在安装选项窗口，即便选择安装硬盘版模拟城市4，也无法取消选择DAEMON Tools项的bug（感谢百你二渡发现此bug）。<br />
+3.修复了安装选项窗口安装组件列表框的DAEMON Tools Lite项的组件信息的安装路径文本框无法消失的bug（感谢百你二渡发现此bug）。<br />
+4.修复了必须等确认已安装组件完成才能点击主窗口的卸载按钮的bug。<br />
+5.修复了如果使用GOG版模拟城市4安装程序安装后无法显示主窗口的bug。<br />
+6.修复了即便已经安装模拟城市4，在主窗口仍然只有安装按钮，没有修改和卸载按钮的bug。<br />
+7.修复了在安装硬盘版模拟城市4时导入镜像版安装程序修改的注册表数据时会触发ArgumentException异常的bug。<br />
+8.修复了如果已经安装模拟城市4，则会在主窗口触发IndexOutOfRangeException异常的bug。<br />
+9.修复了即便在安装选项窗口选择不安装免CD补丁，在安装时仍然会安装免CD补丁的bug。<br />
+10.修复了如果在安装选项窗口选择安装640补丁，在安装时不会安装638补丁的bug。
     </UpdataDetail>
-    <DonwloadLink>http://7xk5r3.com1.z0.glb.clouddn.com/AutoInstallerUpdata.png</DonwloadLink>
+    <DonwloadLink>http://cdn.sinacloud.net/updata/AutoInstallerUpdata.exe</DonwloadLink>
   </AutoInstaller>
   <Launcher>
     <LatestVersion>1.0.19</LatestVersion>
@@ -36,6 +46,6 @@
 ====<br />
 1.修改了一些每次启动时随机显示的游戏截图。<br />
     </UpdataDetail>
-    <DonwloadLink>http://7xk5r3.com1.z0.glb.clouddn.com/LauncherUpdata.png</DonwloadLink>
+    <DonwloadLink>http://cdn.sinacloud.net/updata/LauncherUpdata.exe</DonwloadLink>
   </Launcher>
 </UpdataInfo>

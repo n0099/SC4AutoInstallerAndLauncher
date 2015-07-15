@@ -90,6 +90,12 @@
         End With
     End Sub
 
+    Private Sub frmModuleChangeOption_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+        If e.CloseReason = CloseReason.ApplicationExitCall Then
+            If MessageBox.Show("确定要退出安装程序吗？", "确认退出", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.No Then e.Cancel = True
+        End If
+    End Sub
+
     Private Sub frmModuleChangeOption_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         tvwOptions.ExpandAll()
         With ModuleMain.InstalledModule
@@ -112,16 +118,18 @@
 
     Private Sub btnBack_Click(sender As Object, e As EventArgs) Handles btnBack.Click
         frmMain.Show()
+        RemoveHandler Me.FormClosing, AddressOf frmModuleChangeOption_FormClosing
         Close()
     End Sub
 
     Private Sub btnNext_Click(sender As Object, e As EventArgs) Handles btnNext.Click
         frmInstalling.Show()
+        RemoveHandler Me.FormClosing, AddressOf frmModuleChangeOption_FormClosing
         Close()
     End Sub
 
     Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
-        If MessageBox.Show("确定退出安装程序吗？", "确认退出", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) = Windows.Forms.DialogResult.Yes Then Application.Exit()
+        Application.Exit()
     End Sub
 
 End Class

@@ -77,16 +77,16 @@
         End With
     End Function
 
-    Private Sub chkEAEULA_CheckedChanged(sender As Object, e As EventArgs) Handles chkEAEULA.CheckedChanged
-        If chkEAEULA.Checked = True Then btnInstall.Enabled = True Else btnInstall.Enabled = False
-    End Sub
-
-    Private Sub llbEAEULA_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles llbEAEULA.LinkClicked
+    Private Sub llbEAEULA_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs)
         Process.Start("Data\EA EULA.txt")
     End Sub
 
     Private Sub tvwOptions_BeforeCollapse(sender As Object, e As TreeViewCancelEventArgs) Handles tvwOptions.BeforeCollapse
         e.Cancel = True
+    End Sub
+
+    Private Sub tvwOptions_MouseLeave(sender As Object, e As EventArgs) Handles tvwOptions.MouseLeave
+        lblOptionsDetail.Text = "请将鼠标放在组件名上以查看组件详情。" : lblOptionsDiskSpace.Text = ""
     End Sub
 
     Private Sub tvwOptions_NodeMouseClick(sender As Object, e As TreeNodeMouseClickEventArgs) Handles tvwOptions.NodeMouseClick
@@ -105,27 +105,35 @@
                 Case "模拟城市4 豪华版 硬盘版"
                     If GetNodeChecked(e.Node.Name) = NodeCheckedState.radiounchecked Then
                         SetNodeChecked(e.Node.Name, NodeCheckedState.radiochecked) : SetNodeChecked("模拟城市4 豪华版 镜像版", NodeCheckedState.radiounchecked)
-                        If GetNodeChecked("免CD补丁") = NodeCheckedState.unchecked And tvwOptions.Nodes.Find("DAEMON Tools Lite", True).Length <> 0 Then
-                            SetNodeChecked("DAEMON Tools Lite", NodeCheckedState.checked) : .IsInstallDAEMONTools = True
-                        End If
                         .SC4Type = InstallOptions.SC4InstallType.NoInstall
                         lblNeedsDiskSpace.Text = "安装目录至少需要 " & .GetNeedsDiskSpace("GB") & "GB 的硬盘空间"
                     End If
-                Case "638补丁", "640补丁", "4GB补丁", "免CD补丁", "模拟城市4 启动器"
+                Case "DAEMON Tools Lite"
+                    If GetNodeChecked("模拟城市4 豪华版 镜像版") = NodeCheckedState.radiounchecked Then
+                        If GetNodeChecked(e.Node.Name) = NodeCheckedState.checked Then
+                            SetNodeChecked(e.Node.Name, NodeCheckedState.unchecked) : .IsInstallDAEMONTools = False
+                        ElseIf GetNodeChecked(e.Node.Name) = NodeCheckedState.unchecked Then
+                            SetNodeChecked(e.Node.Name, NodeCheckedState.checked) : .IsInstallDAEMONTools = True
+                        End If
+                    End If
+                Case "DAEMON Tools Lite", "638补丁", "640补丁", "4GB补丁", "免CD补丁", "模拟城市4 启动器"
                     If GetNodeChecked(e.Node.Name) = NodeCheckedState.checked Then
                         SetNodeChecked(e.Node.Name, NodeCheckedState.unchecked)
                         Select Case e.Node.Name
-                            Case "638补丁" : .IsInstall638Patch = False : SetNodeChecked("640补丁", NodeCheckedState.unchecked)
+                            Case "DAEMON Tools Lite"
+                            Case "638补丁" : .IsInstall638Patch = False
+                                SetNodeChecked("640补丁", NodeCheckedState.unchecked) : .IsInstall640Patch = False
                             Case "640补丁" : .IsInstall640Patch = False
                             Case "4GB补丁" : .IsInstall4GBPatch = False
-                            Case "免CD补丁" : .IsInstallNoCDPatch = True
+                            Case "免CD补丁" : .IsInstallNoCDPatch = False
                             Case "模拟城市4 启动器" : .IsInstallSC4Launcher = False
                         End Select
                     ElseIf GetNodeChecked(e.Node.Name) = NodeCheckedState.unchecked Then
                         SetNodeChecked(e.Node.Name, NodeCheckedState.checked)
                         Select Case e.Node.Name
                             Case "638补丁" : .IsInstall638Patch = True
-                            Case "640补丁" : .IsInstall640Patch = True : SetNodeChecked("638补丁", NodeCheckedState.checked)
+                            Case "640补丁" : .IsInstall640Patch = True
+                                SetNodeChecked("638补丁", NodeCheckedState.checked) : .IsInstall638Patch = True
                             Case "4GB补丁" : .IsInstall4GBPatch = True
                             Case "免CD补丁" : .IsInstallNoCDPatch = True
                             Case "模拟城市4 启动器" : .IsInstallSC4Launcher = True
@@ -183,6 +191,9 @@
     End Sub
 
     Private Sub tvwOptions_NodeMouseHover(sender As Object, e As TreeNodeMouseHoverEventArgs) Handles tvwOptions.NodeMouseHover
+        lblDAEMONlInstallDir.Visible = e.Node.Name = "DAEMON Tools Lite"
+        txtDAEMONlInstallDir.Visible = e.Node.Name = "DAEMON Tools Lite"
+        btnDAEMONlInstallDir.Visible = e.Node.Name = "DAEMON Tools Lite"
         Select Case e.Node.Name
             Case "必选组件"
                 lblOptionsDetail.Text = "请将鼠标放在组件名上以查看组件详情。" : lblOptionsDiskSpace.Text = ""
@@ -193,11 +204,8 @@
                 lblOptionsDetail.Text = "安装模拟城市4 豪华版 硬盘版" & vbCrLf & vbCrLf & "安装硬盘版时不必同时安装DAEMON Tools。"
                 lblOptionsDiskSpace.Text = "此组件需要 " & Math.Round(InstallOptions.SC4NeedsDiskSpace / 1024 / 1024 / 1024, 2) & "GB 硬盘空间"
             Case "DAEMON Tools Lite"
-                If tvwOptions.Nodes.Find("DAEMON Tools Lite", True).Length <> 0 Then
-                    lblOptionsDetail.Text = "安装DAEMON Tools Lite 5.0" & vbCrLf & vbCrLf & "DAEMON Tools用于加载虚拟光驱" & vbCrLf & vbCrLf & "如果不安装免CD补丁，则必须安装此项。"
-                    lblOptionsDiskSpace.Text = "此组件需要 " & Int(InstallOptions.DAEMONNeedsDiskSpace / 1024 / 1024) & "MB 硬盘空间"
-                    lblDAEMONlInstallDir.Visible = True : txtDAEMONlInstallDir.Visible = True : btnDAEMONlInstallDir.Visible = True
-                End If
+                lblOptionsDetail.Text = "安装DAEMON Tools Lite 5.0" & vbCrLf & vbCrLf & "DAEMON Tools用于加载虚拟光驱" & vbCrLf & vbCrLf & "如果不安装免CD补丁，则必须安装此项。"
+                lblOptionsDiskSpace.Text = "此组件需要 " & Int(InstallOptions.DAEMONNeedsDiskSpace / 1024 / 1024) & "MB 硬盘空间"
             Case "可选组件"
                 lblOptionsDetail.Text = "请将鼠标放在组件名上以查看组件详情。" : lblOptionsDiskSpace.Text = ""
             Case "638补丁"
@@ -233,8 +241,6 @@
                 lblOptionsDetail.Text = "添加一个快捷方式到桌面上。" : lblOptionsDiskSpace.Text = ""
             Case "添加开始菜单项"
                 lblOptionsDetail.Text = "在开始菜单里添加程序快捷方式。" : lblOptionsDiskSpace.Text = ""
-            Case Not "DAEMON Tools Lite"
-                lblDAEMONlInstallDir.Visible = False : txtDAEMONlInstallDir.Visible = False : btnDAEMONlInstallDir.Visible = False
         End Select
     End Sub
 
@@ -292,7 +298,13 @@
         End If
     End Sub
 
-    Private Sub frmOptions_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub frmInstallOptions_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+        If e.CloseReason = CloseReason.ApplicationExitCall Then
+            If MessageBox.Show("确定要退出安装程序吗？", "确认退出", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.No Then e.Cancel = True
+        End If
+    End Sub
+
+    Private Sub frmInstallOptions_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         tvwOptions.ExpandAll()
         With ModuleMain.InstallOptions
             .SC4Type = InstallOptions.SC4InstallType.ISO : .IsInstallDAEMONTools = True
@@ -311,6 +323,7 @@
 
     Private Sub btnBack_Click(sender As Object, e As EventArgs) Handles btnBack.Click
         frmMain.Show()
+        RemoveHandler Me.FormClosing, AddressOf frmInstallOptions_FormClosing
         Close()
     End Sub
 
@@ -324,11 +337,12 @@
             End If
         End With
         frmInstalling.Show()
+        RemoveHandler Me.FormClosing, AddressOf frmInstallOptions_FormClosing
         Close()
     End Sub
 
     Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
-        If MessageBox.Show("确定退出安装程序吗？", "确认退出", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) = Windows.Forms.DialogResult.Yes Then Application.Exit()
+        Application.Exit()
     End Sub
 
 End Class

@@ -59,8 +59,6 @@ Partial Class frmInstallOptions
         Me.lblNeedsDiskSpace = New System.Windows.Forms.Label()
         Me.fbdSC4InstallDir = New System.Windows.Forms.FolderBrowserDialog()
         Me.fbdDAEMONlInstallDir = New System.Windows.Forms.FolderBrowserDialog()
-        Me.chkEAEULA = New System.Windows.Forms.CheckBox()
-        Me.llbEAEULA = New System.Windows.Forms.LinkLabel()
         Me.lblTitle2 = New System.Windows.Forms.Label()
         Me.cmbOptions = New System.Windows.Forms.ComboBox()
         Me.grpOptionsDetail.SuspendLayout()
@@ -94,17 +92,16 @@ Partial Class frmInstallOptions
         'btnCancel
         '
         Me.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnCancel.Location = New System.Drawing.Point(537, 407)
+        Me.btnCancel.Location = New System.Drawing.Point(532, 407)
         Me.btnCancel.Name = "btnCancel"
-        Me.btnCancel.Size = New System.Drawing.Size(75, 23)
+        Me.btnCancel.Size = New System.Drawing.Size(80, 23)
         Me.btnCancel.TabIndex = 13
         Me.btnCancel.Text = "取消(&C)"
         Me.btnCancel.UseVisualStyleBackColor = True
         '
         'btnInstall
         '
-        Me.btnInstall.Enabled = False
-        Me.btnInstall.Location = New System.Drawing.Point(451, 407)
+        Me.btnInstall.Location = New System.Drawing.Point(446, 407)
         Me.btnInstall.Name = "btnInstall"
         Me.btnInstall.Size = New System.Drawing.Size(80, 23)
         Me.btnInstall.TabIndex = 12
@@ -113,7 +110,7 @@ Partial Class frmInstallOptions
         '
         'btnBack
         '
-        Me.btnBack.Location = New System.Drawing.Point(365, 407)
+        Me.btnBack.Location = New System.Drawing.Point(360, 407)
         Me.btnBack.Name = "btnBack"
         Me.btnBack.Size = New System.Drawing.Size(80, 23)
         Me.btnBack.TabIndex = 11
@@ -299,26 +296,6 @@ Partial Class frmInstallOptions
         Me.fbdDAEMONlInstallDir.Description = "选择 DAEMON Tools 的安装目录"
         Me.fbdDAEMONlInstallDir.RootFolder = System.Environment.SpecialFolder.CommonProgramFilesX86
         '
-        'chkEAEULA
-        '
-        Me.chkEAEULA.AutoSize = True
-        Me.chkEAEULA.Location = New System.Drawing.Point(12, 411)
-        Me.chkEAEULA.Name = "chkEAEULA"
-        Me.chkEAEULA.Size = New System.Drawing.Size(48, 16)
-        Me.chkEAEULA.TabIndex = 9
-        Me.chkEAEULA.Text = "同意"
-        Me.chkEAEULA.UseVisualStyleBackColor = True
-        '
-        'llbEAEULA
-        '
-        Me.llbEAEULA.AutoSize = True
-        Me.llbEAEULA.Location = New System.Drawing.Point(57, 412)
-        Me.llbEAEULA.Name = "llbEAEULA"
-        Me.llbEAEULA.Size = New System.Drawing.Size(197, 12)
-        Me.llbEAEULA.TabIndex = 10
-        Me.llbEAEULA.TabStop = True
-        Me.llbEAEULA.Text = "Electronic Arts 最终用户许可协议"
-        '
         'lblTitle2
         '
         Me.lblTitle2.AutoSize = True
@@ -347,8 +324,6 @@ Partial Class frmInstallOptions
         Me.ClientSize = New System.Drawing.Size(624, 442)
         Me.Controls.Add(Me.cmbOptions)
         Me.Controls.Add(Me.lblTitle2)
-        Me.Controls.Add(Me.llbEAEULA)
-        Me.Controls.Add(Me.chkEAEULA)
         Me.Controls.Add(Me.lblNeedsDiskSpace)
         Me.Controls.Add(Me.grpOptionsDetail)
         Me.Controls.Add(Me.tvwOptions)
@@ -389,8 +364,6 @@ Partial Class frmInstallOptions
     Friend WithEvents fbdSC4InstallDir As System.Windows.Forms.FolderBrowserDialog
     Friend WithEvents fbdDAEMONlInstallDir As System.Windows.Forms.FolderBrowserDialog
     Friend WithEvents imgOptions As System.Windows.Forms.ImageList
-    Friend WithEvents chkEAEULA As System.Windows.Forms.CheckBox
-    Friend WithEvents llbEAEULA As System.Windows.Forms.LinkLabel
     Friend WithEvents lblTitle2 As System.Windows.Forms.Label
     Friend WithEvents cmbOptions As System.Windows.Forms.ComboBox
 End Class

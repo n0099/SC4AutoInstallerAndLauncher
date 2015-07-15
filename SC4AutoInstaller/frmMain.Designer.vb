@@ -77,7 +77,6 @@ Partial Class frmMain
         '
         'btnUninstall
         '
-        Me.btnUninstall.Enabled = False
         Me.btnUninstall.Font = New System.Drawing.Font("微软雅黑", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.btnUninstall.Location = New System.Drawing.Point(260, 226)
         Me.btnUninstall.Name = "btnUninstall"
@@ -89,6 +88,7 @@ Partial Class frmMain
         '
         'bgwComputeMD5
         '
+        Me.bgwComputeMD5.WorkerSupportsCancellation = True
         '
         'frmMain
         '

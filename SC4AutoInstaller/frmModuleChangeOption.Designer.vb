@@ -23,15 +23,15 @@ Partial Class frmModuleChangeOption
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim TreeNode1 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("638补丁")
-        Dim TreeNode2 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("640补丁")
-        Dim TreeNode3 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("4GB补丁")
-        Dim TreeNode4 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("免CD补丁")
-        Dim TreeNode5 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("模拟城市4 启动器")
-        Dim TreeNode6 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("繁体中文")
-        Dim TreeNode7 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("简体中文")
-        Dim TreeNode8 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("英语")
-        Dim TreeNode9 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("语言补丁", New System.Windows.Forms.TreeNode() {TreeNode6, TreeNode7, TreeNode8})
+        Dim TreeNode10 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("638补丁")
+        Dim TreeNode11 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("640补丁")
+        Dim TreeNode12 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("4GB补丁")
+        Dim TreeNode13 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("免CD补丁")
+        Dim TreeNode14 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("模拟城市4 启动器")
+        Dim TreeNode15 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("繁体中文")
+        Dim TreeNode16 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("简体中文")
+        Dim TreeNode17 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("英语")
+        Dim TreeNode18 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("语言补丁", New System.Windows.Forms.TreeNode() {TreeNode15, TreeNode16, TreeNode17})
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmModuleChangeOption))
         Me.tvwOptions = New System.Windows.Forms.TreeView()
         Me.imgOptions = New System.Windows.Forms.ImageList(Me.components)
@@ -48,43 +48,43 @@ Partial Class frmModuleChangeOption
         Me.tvwOptions.ItemHeight = 15
         Me.tvwOptions.Location = New System.Drawing.Point(12, 51)
         Me.tvwOptions.Name = "tvwOptions"
-        TreeNode1.ImageKey = "unchecked"
-        TreeNode1.Name = "638补丁"
-        TreeNode1.SelectedImageKey = "unchecked"
-        TreeNode1.Text = "638补丁"
-        TreeNode2.ImageKey = "unchecked"
-        TreeNode2.Name = "640补丁"
-        TreeNode2.SelectedImageKey = "unchecked"
-        TreeNode2.Text = "640补丁"
-        TreeNode3.ImageKey = "unchecked"
-        TreeNode3.Name = "4GB补丁"
-        TreeNode3.SelectedImageKey = "unchecked"
-        TreeNode3.Text = "4GB补丁"
-        TreeNode4.ImageKey = "unchecked"
-        TreeNode4.Name = "免CD补丁"
-        TreeNode4.SelectedImageKey = "unchecked"
-        TreeNode4.Text = "免CD补丁"
-        TreeNode5.ImageKey = "unchecked"
-        TreeNode5.Name = "模拟城市4 启动器"
-        TreeNode5.SelectedImageKey = "unchecked"
-        TreeNode5.Text = "模拟城市4 启动器"
-        TreeNode6.ImageKey = "radiounchecked"
-        TreeNode6.Name = "繁体中文"
-        TreeNode6.SelectedImageKey = "radiounchecked"
-        TreeNode6.Text = "繁体中文"
-        TreeNode7.ImageKey = "radiounchecked"
-        TreeNode7.Name = "简体中文"
-        TreeNode7.SelectedImageKey = "radiounchecked"
-        TreeNode7.Text = "简体中文"
-        TreeNode8.ImageKey = "radiounchecked"
-        TreeNode8.Name = "英语"
-        TreeNode8.SelectedImageKey = "radiounchecked"
-        TreeNode8.Text = "英语"
-        TreeNode9.ImageKey = "rootnodebackground"
-        TreeNode9.Name = "语言补丁"
-        TreeNode9.SelectedImageKey = "rootnodebackground"
-        TreeNode9.Text = "语言补丁"
-        Me.tvwOptions.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode1, TreeNode2, TreeNode3, TreeNode4, TreeNode5, TreeNode9})
+        TreeNode10.ImageKey = "unchecked"
+        TreeNode10.Name = "638补丁"
+        TreeNode10.SelectedImageKey = "unchecked"
+        TreeNode10.Text = "638补丁"
+        TreeNode11.ImageKey = "unchecked"
+        TreeNode11.Name = "640补丁"
+        TreeNode11.SelectedImageKey = "unchecked"
+        TreeNode11.Text = "640补丁"
+        TreeNode12.ImageKey = "unchecked"
+        TreeNode12.Name = "4GB补丁"
+        TreeNode12.SelectedImageKey = "unchecked"
+        TreeNode12.Text = "4GB补丁"
+        TreeNode13.ImageKey = "unchecked"
+        TreeNode13.Name = "免CD补丁"
+        TreeNode13.SelectedImageKey = "unchecked"
+        TreeNode13.Text = "免CD补丁"
+        TreeNode14.ImageKey = "unchecked"
+        TreeNode14.Name = "模拟城市4 启动器"
+        TreeNode14.SelectedImageKey = "unchecked"
+        TreeNode14.Text = "模拟城市4 启动器"
+        TreeNode15.ImageKey = "radiounchecked"
+        TreeNode15.Name = "繁体中文"
+        TreeNode15.SelectedImageKey = "radiounchecked"
+        TreeNode15.Text = "繁体中文"
+        TreeNode16.ImageKey = "radiounchecked"
+        TreeNode16.Name = "简体中文"
+        TreeNode16.SelectedImageKey = "radiounchecked"
+        TreeNode16.Text = "简体中文"
+        TreeNode17.ImageKey = "radiounchecked"
+        TreeNode17.Name = "英语"
+        TreeNode17.SelectedImageKey = "radiounchecked"
+        TreeNode17.Text = "英语"
+        TreeNode18.ImageKey = "rootnodebackground"
+        TreeNode18.Name = "语言补丁"
+        TreeNode18.SelectedImageKey = "rootnodebackground"
+        TreeNode18.Text = "语言补丁"
+        Me.tvwOptions.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode10, TreeNode11, TreeNode12, TreeNode13, TreeNode14, TreeNode18})
         Me.tvwOptions.SelectedImageIndex = 0
         Me.tvwOptions.ShowPlusMinus = False
         Me.tvwOptions.ShowRootLines = False
@@ -114,7 +114,7 @@ Partial Class frmModuleChangeOption
         'btnBack
         '
         Me.btnBack.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnBack.Location = New System.Drawing.Point(205, 287)
+        Me.btnBack.Location = New System.Drawing.Point(200, 287)
         Me.btnBack.Name = "btnBack"
         Me.btnBack.Size = New System.Drawing.Size(80, 23)
         Me.btnBack.TabIndex = 2
@@ -123,7 +123,7 @@ Partial Class frmModuleChangeOption
         '
         'btnNext
         '
-        Me.btnNext.Location = New System.Drawing.Point(291, 287)
+        Me.btnNext.Location = New System.Drawing.Point(286, 287)
         Me.btnNext.Name = "btnNext"
         Me.btnNext.Size = New System.Drawing.Size(80, 23)
         Me.btnNext.TabIndex = 3
@@ -133,9 +133,9 @@ Partial Class frmModuleChangeOption
         'btnCancel
         '
         Me.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnCancel.Location = New System.Drawing.Point(377, 287)
+        Me.btnCancel.Location = New System.Drawing.Point(372, 287)
         Me.btnCancel.Name = "btnCancel"
-        Me.btnCancel.Size = New System.Drawing.Size(75, 23)
+        Me.btnCancel.Size = New System.Drawing.Size(80, 23)
         Me.btnCancel.TabIndex = 4
         Me.btnCancel.Text = "取消(&C)"
         Me.btnCancel.UseVisualStyleBackColor = True

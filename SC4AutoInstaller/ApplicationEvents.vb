@@ -10,6 +10,10 @@
     Partial Friend Class MyApplication
 
         Private Sub MyApplication_Startup(ByVal sender As Object, ByVal e As ApplicationServices.StartupEventArgs) Handles Me.Startup
+            Dim SC4InstallDir As String = Nothing
+            If Environment.Is64BitOperatingSystem = True Then SC4InstallDir = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Maxis\SimCity 4", "Install Dir", Nothing)
+            If Environment.Is64BitOperatingSystem = False Then SC4InstallDir = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Maxis\SimCity 4", "Install Dir", Nothing)
+            If SC4InstallDir <> Nothing And My.Computer.FileSystem.DirectoryExists("Data") = False Then My.Application.MainForm = frmMain
             Try
                 If My.Computer.Network.IsAvailable = True And My.Computer.Network.Ping("n0099.sinaapp.com") = True Then
                     Dim tempfolder As String = Environment.GetEnvironmentVariable("TEMP")
@@ -37,6 +41,7 @@ WebError:           MessageBox.Show("无法连接更新服务器！请检查网�
             Catch ex As TimeoutException : GoTo WebError
             Catch ex As Security.SecurityException : GoTo WebError
             Catch ex As Net.NetworkInformation.PingException : GoTo WebError
+            Catch ex As Exception
             End Try
         End Sub
 

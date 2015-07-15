@@ -38,6 +38,7 @@ WebError:           MessageBox.Show("无法连接更新服务器！请检查网�
             Catch ex As Security.SecurityException : GoTo WebError
             Catch ex As Net.NetworkInformation.PingException : GoTo WebError
             Catch ex As InvalidOperationException : GoTo WebError
+            Catch ex As Exception
             End Try
         End Sub
 

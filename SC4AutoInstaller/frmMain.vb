@@ -4,7 +4,6 @@
         Dim MD5CSP As New Security.Cryptography.MD5CryptoServiceProvider, MD5(4) As String
         Dim SC4FilesMD5() As String = {"C05406B02449540328DBB4B741E0A81D", "E2976161D7EC772893D273FF753D08F6", "3E660755D70543D2222BD46B5A6F22C4", "6DB4F1F9F1A1EC45B22E35827073FBA2"}
         Dim _638FilesMD5() As String = {"A9E238946A8C8C479DD368EC4581B77A", "2CFD520899786AEF47C728B123EBCF05", "7FE6E6678FBBA581092473C5F4C35331", "CB2C26A9C4BC9B8E53709380B64B805C"}
-        Dim _640FilesMD5() As String = {"6159A4036F451BEA1740DDB05C32494A"}
         With ModuleMain.InstalledModule
             Dim FilesStream() As IO.FileStream = {New IO.FileStream(.SC4InstallDir & "\Apps\SimCity 4.exe", IO.FileMode.Open) _
                                                  , New IO.FileStream(.SC4InstallDir & "\SimCity_1.dat", IO.FileMode.Open) _
@@ -23,9 +22,11 @@
             For i As Integer = 1 To 4
                 If MD5(i) = _638FilesMD5(i - 1) Then .Is638PatchInstalled = True Else .Is638PatchInstalled = False
             Next
-            If MD5(0) = _640FilesMD5(0) Then .Is640PatchInstalled = True Else .Is640PatchInstalled = False
             Select Case MD5(0)
+                Case "6159A4036F451BEA1740DDB05C32494A" : .Is640PatchInstalled = True
+                Case "53D2AE4FA9114B88AD91ECF32A7F16A4" : .Is641PatchInstalled = True
                 Case "2F2BD7D9A76E85320A26D7BD7530DCAE", "1C18B7DC760EDADD2C2EFAF33F60F150" : .Is4GBPatchInstalled = True
+                Case "1414E70EB5CE22DB37D22CB99439D012" : .Is4GBPatchInstalled = True : .Is641PatchInstalled = True
                 Case "AADC5464919FBDC0F8E315FA51582126" : .Is4GBPatchInstalled = True : .IsNoCDPatchInstalled = True
                 Case "B57B5B03C4854C194CE8BEBD173F3483" : .IsNoCDPatchInstalled = True
             End Select
@@ -54,21 +55,17 @@
                 ElseIf SC4InstallDir.EndsWith("\") = False Or My.Computer.FileSystem.FileExists(SC4InstallDir & "\Apps\SimCity 4.exe") = True Then
                     .SC4InstallDir = SC4InstallDir
                 End If
-                If My.Computer.FileSystem.DirectoryExists("Data") = True Then
-                    bgwComputeMD5.RunWorkerAsync() : Cursor = Cursors.WaitCursor
-                    Dim LanguageRegKeyName As String = Nothing
-                    If Environment.Is64BitOperatingSystem = True Then LanguageRegKeyName = "HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Maxis\SimCity 4\1.0"
-                    If Environment.Is64BitOperatingSystem = False Then LanguageRegKeyName = "HKEY_LOCAL_MACHINE\SOFTWARE\Maxis\SimCity 4\1.0"
-                    Select Case My.Computer.Registry.GetValue(LanguageRegKeyName, "Language", Nothing)
-                        Case "18" : .LanguagePatch = InstalledModule.Language.TraditionalChinese
-                        Case "17" : .LanguagePatch = InstalledModule.Language.SimplifiedChinese
-                        Case "1", "English US", Nothing : .LanguagePatch = InstalledModule.Language.English
-                    End Select
-                Else
-                    btnChangeModule.Enabled = False
-                End If
+                bgwComputeMD5.RunWorkerAsync() : Cursor = Cursors.WaitCursor
+                Dim LanguageRegKeyName As String = Nothing
+                If Environment.Is64BitOperatingSystem = True Then LanguageRegKeyName = "HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Maxis\SimCity 4\1.0"
+                If Environment.Is64BitOperatingSystem = False Then LanguageRegKeyName = "HKEY_LOCAL_MACHINE\SOFTWARE\Maxis\SimCity 4\1.0"
+                Select Case My.Computer.Registry.GetValue(LanguageRegKeyName, "Language", Nothing)
+                    Case "18" : .LanguagePatch = InstalledModule.Language.TraditionalChinese
+                    Case "17" : .LanguagePatch = InstalledModule.Language.SimplifiedChinese
+                    Case "1", "English US", Nothing : .LanguagePatch = InstalledModule.Language.English
+                End Select
                 btnInstall.Visible = False : btnChangeModule.Visible = True : btnUninstall.Visible = True
-                Me.AcceptButton = btnChangeModule : btnAbout.Location = New Point(270, 285) : btnExit.Location = New Point(270, 330)
+                btnAbout.Location = New Point(270, 285) : btnExit.Location = New Point(270, 330)
             Else : ModuleMain.InstalledModule = Nothing
             End If
         End With
@@ -82,9 +79,13 @@
     End Sub
 
     Private Sub btnChangeModule_Click(sender As Object, e As EventArgs) Handles btnChangeModule.Click
-        frmModuleChangeOption.Show()
-        RemoveHandler Me.FormClosing, AddressOf frmMain_FormClosing
-        Close()
+        If My.Computer.FileSystem.DirectoryExists("Data") = True Then
+            frmModuleChangeOption.Show()
+            RemoveHandler Me.FormClosing, AddressOf frmMain_FormClosing
+            Close()
+        Else
+            MessageBox.Show("请使用原始安装程序以添加或删除组件。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End If
     End Sub
 
     Private Sub btnUninstall_Click(sender As Object, e As EventArgs) Handles btnUninstall.Click

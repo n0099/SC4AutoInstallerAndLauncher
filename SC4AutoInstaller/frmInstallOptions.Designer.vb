@@ -29,17 +29,18 @@ Partial Class frmInstallOptions
         Dim TreeNode4 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("必选组件", New System.Windows.Forms.TreeNode() {TreeNode1, TreeNode2, TreeNode3})
         Dim TreeNode5 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("638补丁")
         Dim TreeNode6 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("640补丁")
-        Dim TreeNode7 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("4GB补丁")
-        Dim TreeNode8 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("免CD补丁")
-        Dim TreeNode9 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("模拟城市4 启动器")
-        Dim TreeNode10 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("繁体中文")
-        Dim TreeNode11 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("简体中文")
-        Dim TreeNode12 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("英语")
-        Dim TreeNode13 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("语言补丁", New System.Windows.Forms.TreeNode() {TreeNode10, TreeNode11, TreeNode12})
-        Dim TreeNode14 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("可选组件", New System.Windows.Forms.TreeNode() {TreeNode5, TreeNode6, TreeNode7, TreeNode8, TreeNode9, TreeNode13})
-        Dim TreeNode15 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("添加桌面图标")
-        Dim TreeNode16 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("添加开始菜单项")
-        Dim TreeNode17 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("附加任务", New System.Windows.Forms.TreeNode() {TreeNode15, TreeNode16})
+        Dim TreeNode7 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("641补丁")
+        Dim TreeNode8 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("4GB补丁")
+        Dim TreeNode9 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("免CD补丁")
+        Dim TreeNode10 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("模拟城市4 启动器")
+        Dim TreeNode11 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("繁体中文")
+        Dim TreeNode12 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("简体中文")
+        Dim TreeNode13 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("英语")
+        Dim TreeNode14 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("语言补丁", New System.Windows.Forms.TreeNode() {TreeNode11, TreeNode12, TreeNode13})
+        Dim TreeNode15 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("可选组件", New System.Windows.Forms.TreeNode() {TreeNode5, TreeNode6, TreeNode7, TreeNode8, TreeNode9, TreeNode10, TreeNode14})
+        Dim TreeNode16 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("添加桌面图标")
+        Dim TreeNode17 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("添加开始菜单项")
+        Dim TreeNode18 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("附加任务", New System.Windows.Forms.TreeNode() {TreeNode16, TreeNode17})
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmInstallOptions))
         Me.txtSC4InstallDir = New System.Windows.Forms.TextBox()
         Me.btnSC4InstallDir = New System.Windows.Forms.Button()
@@ -66,14 +67,14 @@ Partial Class frmInstallOptions
         '
         'txtSC4InstallDir
         '
-        Me.txtSC4InstallDir.Location = New System.Drawing.Point(12, 360)
+        Me.txtSC4InstallDir.Location = New System.Drawing.Point(12, 353)
         Me.txtSC4InstallDir.Name = "txtSC4InstallDir"
         Me.txtSC4InstallDir.Size = New System.Drawing.Size(514, 21)
         Me.txtSC4InstallDir.TabIndex = 6
         '
         'btnSC4InstallDir
         '
-        Me.btnSC4InstallDir.Location = New System.Drawing.Point(532, 358)
+        Me.btnSC4InstallDir.Location = New System.Drawing.Point(532, 351)
         Me.btnSC4InstallDir.Name = "btnSC4InstallDir"
         Me.btnSC4InstallDir.Size = New System.Drawing.Size(80, 23)
         Me.btnSC4InstallDir.TabIndex = 7
@@ -83,7 +84,7 @@ Partial Class frmInstallOptions
         'lblSC4lInstallDir
         '
         Me.lblSC4lInstallDir.AutoSize = True
-        Me.lblSC4lInstallDir.Location = New System.Drawing.Point(12, 339)
+        Me.lblSC4lInstallDir.Location = New System.Drawing.Point(10, 333)
         Me.lblSC4lInstallDir.Name = "lblSC4lInstallDir"
         Me.lblSC4lInstallDir.Size = New System.Drawing.Size(281, 12)
         Me.lblSC4lInstallDir.TabIndex = 5
@@ -95,7 +96,7 @@ Partial Class frmInstallOptions
         Me.btnCancel.Location = New System.Drawing.Point(532, 407)
         Me.btnCancel.Name = "btnCancel"
         Me.btnCancel.Size = New System.Drawing.Size(80, 23)
-        Me.btnCancel.TabIndex = 13
+        Me.btnCancel.TabIndex = 11
         Me.btnCancel.Text = "取消(&C)"
         Me.btnCancel.UseVisualStyleBackColor = True
         '
@@ -104,7 +105,7 @@ Partial Class frmInstallOptions
         Me.btnInstall.Location = New System.Drawing.Point(446, 407)
         Me.btnInstall.Name = "btnInstall"
         Me.btnInstall.Size = New System.Drawing.Size(80, 23)
-        Me.btnInstall.TabIndex = 12
+        Me.btnInstall.TabIndex = 10
         Me.btnInstall.Text = "安装(&N) >"
         Me.btnInstall.UseVisualStyleBackColor = True
         '
@@ -113,7 +114,7 @@ Partial Class frmInstallOptions
         Me.btnBack.Location = New System.Drawing.Point(360, 407)
         Me.btnBack.Name = "btnBack"
         Me.btnBack.Size = New System.Drawing.Size(80, 23)
-        Me.btnBack.TabIndex = 11
+        Me.btnBack.TabIndex = 9
         Me.btnBack.Text = "< 返回(&B)"
         Me.btnBack.UseVisualStyleBackColor = True
         '
@@ -133,79 +134,83 @@ Partial Class frmInstallOptions
         Me.tvwOptions.ImageList = Me.imgOptions
         Me.tvwOptions.Location = New System.Drawing.Point(12, 80)
         Me.tvwOptions.Name = "tvwOptions"
-        TreeNode1.ImageKey = "radiochecked"
+        TreeNode1.ImageKey = "radiounchecked"
         TreeNode1.Name = "模拟城市4 豪华版 镜像版"
-        TreeNode1.SelectedImageKey = "radiochecked"
+        TreeNode1.SelectedImageKey = "radiounchecked"
         TreeNode1.Text = "模拟城市4 豪华版 镜像版"
         TreeNode2.ImageKey = "radiounchecked"
         TreeNode2.Name = "模拟城市4 豪华版 硬盘版"
         TreeNode2.SelectedImageKey = "radiounchecked"
         TreeNode2.Text = "模拟城市4 豪华版 硬盘版"
-        TreeNode3.ImageKey = "checked"
+        TreeNode3.ImageKey = "unchecked"
         TreeNode3.Name = "DAEMON Tools Lite"
-        TreeNode3.SelectedImageKey = "checked"
+        TreeNode3.SelectedImageKey = "unchecked"
         TreeNode3.Text = "DAEMON Tools Lite"
         TreeNode4.ImageKey = "rootnodebackground"
         TreeNode4.Name = "必选组件"
         TreeNode4.SelectedImageKey = "rootnodebackground"
         TreeNode4.Text = "必选组件"
-        TreeNode5.ImageKey = "checked"
+        TreeNode5.ImageKey = "unchecked"
         TreeNode5.Name = "638补丁"
-        TreeNode5.SelectedImageKey = "checked"
+        TreeNode5.SelectedImageKey = "unchecked"
         TreeNode5.Text = "638补丁"
-        TreeNode6.ImageKey = "checked"
+        TreeNode6.ImageKey = "unchecked"
         TreeNode6.Name = "640补丁"
-        TreeNode6.SelectedImageKey = "checked"
+        TreeNode6.SelectedImageKey = "unchecked"
         TreeNode6.Text = "640补丁"
         TreeNode7.ImageKey = "unchecked"
-        TreeNode7.Name = "4GB补丁"
+        TreeNode7.Name = "641补丁"
         TreeNode7.SelectedImageKey = "unchecked"
-        TreeNode7.Text = "4GB补丁"
+        TreeNode7.Text = "641补丁"
         TreeNode8.ImageKey = "unchecked"
-        TreeNode8.Name = "免CD补丁"
+        TreeNode8.Name = "4GB补丁"
         TreeNode8.SelectedImageKey = "unchecked"
-        TreeNode8.Text = "免CD补丁"
-        TreeNode9.ImageKey = "checked"
-        TreeNode9.Name = "模拟城市4 启动器"
-        TreeNode9.SelectedImageKey = "checked"
-        TreeNode9.Text = "模拟城市4 启动器"
-        TreeNode10.ImageKey = "radiochecked"
-        TreeNode10.Name = "繁体中文"
-        TreeNode10.SelectedImageKey = "radiochecked"
-        TreeNode10.Text = "繁体中文"
+        TreeNode8.Text = "4GB补丁"
+        TreeNode9.ImageKey = "unchecked"
+        TreeNode9.Name = "免CD补丁"
+        TreeNode9.SelectedImageKey = "unchecked"
+        TreeNode9.Text = "免CD补丁"
+        TreeNode10.ImageKey = "unchecked"
+        TreeNode10.Name = "模拟城市4 启动器"
+        TreeNode10.SelectedImageKey = "unchecked"
+        TreeNode10.Text = "模拟城市4 启动器"
         TreeNode11.ImageKey = "radiounchecked"
-        TreeNode11.Name = "简体中文"
+        TreeNode11.Name = "繁体中文"
         TreeNode11.SelectedImageKey = "radiounchecked"
-        TreeNode11.Text = "简体中文"
+        TreeNode11.Text = "繁体中文"
         TreeNode12.ImageKey = "radiounchecked"
-        TreeNode12.Name = "英语"
+        TreeNode12.Name = "简体中文"
         TreeNode12.SelectedImageKey = "radiounchecked"
-        TreeNode12.Text = "英语"
-        TreeNode13.ImageKey = "nodebackground"
-        TreeNode13.Name = "语言补丁"
-        TreeNode13.SelectedImageKey = "nodebackground"
-        TreeNode13.Text = "语言补丁"
-        TreeNode14.ImageKey = "rootnodebackground"
-        TreeNode14.Name = "可选组件"
-        TreeNode14.SelectedImageKey = "rootnodebackground"
-        TreeNode14.Text = "可选组件"
-        TreeNode15.ImageKey = "checked"
-        TreeNode15.Name = "添加桌面图标"
-        TreeNode15.SelectedImageKey = "checked"
-        TreeNode15.Text = "添加桌面图标"
-        TreeNode16.ImageKey = "checked"
-        TreeNode16.Name = "添加开始菜单项"
-        TreeNode16.SelectedImageKey = "checked"
-        TreeNode16.Text = "添加开始菜单项"
-        TreeNode17.ImageKey = "rootnodebackground"
-        TreeNode17.Name = "附加任务"
-        TreeNode17.SelectedImageKey = "rootnodebackground"
-        TreeNode17.Text = "附加任务"
-        Me.tvwOptions.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode4, TreeNode14, TreeNode17})
+        TreeNode12.Text = "简体中文"
+        TreeNode13.ImageKey = "radiounchecked"
+        TreeNode13.Name = "英语"
+        TreeNode13.SelectedImageKey = "radiounchecked"
+        TreeNode13.Text = "英语"
+        TreeNode14.ImageKey = "nodebackground"
+        TreeNode14.Name = "语言补丁"
+        TreeNode14.SelectedImageKey = "nodebackground"
+        TreeNode14.Text = "语言补丁"
+        TreeNode15.ImageKey = "rootnodebackground"
+        TreeNode15.Name = "可选组件"
+        TreeNode15.SelectedImageKey = "rootnodebackground"
+        TreeNode15.Text = "可选组件"
+        TreeNode16.ImageKey = "unchecked"
+        TreeNode16.Name = "添加桌面图标"
+        TreeNode16.SelectedImageKey = "unchecked"
+        TreeNode16.Text = "添加桌面图标"
+        TreeNode17.ImageKey = "unchecked"
+        TreeNode17.Name = "添加开始菜单项"
+        TreeNode17.SelectedImageKey = "unchecked"
+        TreeNode17.Text = "添加开始菜单项"
+        TreeNode18.ImageKey = "rootnodebackground"
+        TreeNode18.Name = "附加任务"
+        TreeNode18.SelectedImageKey = "rootnodebackground"
+        TreeNode18.Text = "附加任务"
+        Me.tvwOptions.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode4, TreeNode15, TreeNode18})
         Me.tvwOptions.SelectedImageIndex = 0
         Me.tvwOptions.ShowPlusMinus = False
         Me.tvwOptions.ShowRootLines = False
-        Me.tvwOptions.Size = New System.Drawing.Size(300, 248)
+        Me.tvwOptions.Size = New System.Drawing.Size(300, 241)
         Me.tvwOptions.TabIndex = 3
         '
         'imgOptions
@@ -228,7 +233,7 @@ Partial Class frmInstallOptions
         Me.grpOptionsDetail.Controls.Add(Me.lblOptionsDetail)
         Me.grpOptionsDetail.Location = New System.Drawing.Point(318, 60)
         Me.grpOptionsDetail.Name = "grpOptionsDetail"
-        Me.grpOptionsDetail.Size = New System.Drawing.Size(294, 268)
+        Me.grpOptionsDetail.Size = New System.Drawing.Size(294, 261)
         Me.grpOptionsDetail.TabIndex = 4
         Me.grpOptionsDetail.TabStop = False
         Me.grpOptionsDetail.Text = "说明"
@@ -279,7 +284,7 @@ Partial Class frmInstallOptions
         '
         'lblNeedsDiskSpace
         '
-        Me.lblNeedsDiskSpace.Location = New System.Drawing.Point(12, 388)
+        Me.lblNeedsDiskSpace.Location = New System.Drawing.Point(10, 382)
         Me.lblNeedsDiskSpace.Name = "lblNeedsDiskSpace"
         Me.lblNeedsDiskSpace.Size = New System.Drawing.Size(600, 12)
         Me.lblNeedsDiskSpace.TabIndex = 8

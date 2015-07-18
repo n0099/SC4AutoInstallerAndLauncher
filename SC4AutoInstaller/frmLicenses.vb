@@ -5,14 +5,14 @@
                                 "Data\Licenses\CC BY-NC-SA 4.0 法律文本.rtf", "Data\Licenses\EA EULA.txt", "Data\Licenses\DAEMON Tools 隐私政策.rtf"}
 
     Private Sub rtxLinence_GotFocus(sender As Object, e As EventArgs) Handles rtxLinence.GotFocus
-        btnDisagree.Focus()
+        'btnDisagree.Focus()
     End Sub
 
     Private Sub btnAgree_Click(sender As Object, e As EventArgs) Handles btnAgree.Click
         Select Case i
-            Case 3 : rtxLinence.LoadFile(Licenses(i), RichTextBoxStreamType.PlainText)
+            Case 3 : rtxLinence.Clear() : rtxLinence.LoadFile(Licenses(i), RichTextBoxStreamType.PlainText)
             Case 5 : frmInstallOptions.Show() : Close()
-            Case Else : rtxLinence.LoadFile(Licenses(i))
+            Case Else : rtxLinence.Clear() : rtxLinence.LoadFile(Licenses(i)) : rtxLinence.DeselectAll()
         End Select
         i += 1
     End Sub

@@ -4,27 +4,28 @@ Public Class frmSetting
 
     Private Argument As String = ""
     Private Function IsPathValidated(ByVal TextBox As TextBox) As Boolean
-        Dim ReturnValue As Boolean = True
-        Dim Text As String = TextBox.Text
-        If Text = Nothing Then MessageBox.Show(IIf(TextBox.Name = "txtUserDir", "用户目录", "模拟城市4安装目录") & "的路径不能为空！" & vbCrLf & "您必须输入一个带驱动器卷标的完整路径！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) : ReturnValue = False
-        If System.Text.RegularExpressions.Regex.IsMatch(Text, "[A-Za-z]\:\\") = False Then
-            MessageBox.Show(IIf(TextBox.Name = "txtUserDir", "用户目录", "模拟城市4安装目录") & "的路径格式不正确！" & vbCrLf & "您必须输入一个带驱动器卷标和文件夹名的完整路径！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) : ReturnValue = False
-        ElseIf System.Text.RegularExpressions.Regex.IsMatch(Text.Remove(0, Text.IndexOf("\")), "[\,/,:,*,?,"",<,>,|]") = True Then
-            MessageBox.Show(IIf(TextBox.Name = "txtUserDir", "用户目录", "模拟城市4安装目录") & "文件夹名不能包含下列任何字符：" & vbCrLf & "\ / : * ? "" < > |", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) : ReturnValue = False
-        ElseIf IsNothing(My.Computer.FileSystem.GetDriveInfo(Text.Substring(0, 1))) = True Then
-            MessageBox.Show(IIf(TextBox.Name = "txtUserDir", "用户目录", "模拟城市4安装目录") & "文件夹路径的驱动器不存在！" & vbCrLf & "请检查拼写是否错误！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) : ReturnValue = False
-            Select Case My.Computer.FileSystem.GetDriveInfo(Text.Substring(0, 1)).DriveType
-                Case IO.DriveType.CDRom
-                    MessageBox.Show("目录不能在光驱驱动器上！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) : ReturnValue = False
-                Case IO.DriveType.Network
-                    MessageBox.Show("目录不能在网络驱动器上！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) : ReturnValue = False
-                Case IO.DriveType.Removable
-                    MessageBox.Show("目录不能在可移动驱动器上！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) : ReturnValue = False
-                Case IO.DriveType.Ram
-                    MessageBox.Show("目录不能在内存驱动器上！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) : ReturnValue = False
-            End Select
-        End If
-        Return ReturnValue
+        With TextBox
+            Dim PathName As String = IIf(.Name = "txtUserDir", "用户目录", "模拟城市4安装目录")
+            If .Text = Nothing Then MessageBox.Show(PathName & "的路径不能为空！" & vbCrLf & "您必须输入一个带驱动器卷标的完整路径！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) : Return False
+            If System.Text.RegularExpressions.Regex.IsMatch(.Text, "[A-Za-z]\:\\") = False Then
+                MessageBox.Show(PathName & "的路径格式不正确！" & vbCrLf & "您必须输入一个带驱动器卷标和文件夹名的完整路径！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) : Return False
+            ElseIf System.Text.RegularExpressions.Regex.IsMatch(.Text.Remove(0, .Text.IndexOf("\")), "[\,/,:,*,?,"",<,>,|]") = True Then
+                MessageBox.Show(PathName & "文件夹名不能包含下列任何字符：" & vbCrLf & "\ / : * ? "" < > |", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) : Return False
+            ElseIf IsNothing(My.Computer.FileSystem.GetDriveInfo(.Text.Substring(0, 1))) = True Then
+                MessageBox.Show(PathName & "文件夹路径的驱动器不存在！" & vbCrLf & "请检查拼写是否错误！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) : Return False
+                Select Case My.Computer.FileSystem.GetDriveInfo(.Text.Substring(0, 1)).DriveType
+                    Case IO.DriveType.CDRom
+                        MessageBox.Show("目录不能在光驱驱动器上！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) : Return False
+                    Case IO.DriveType.Network
+                        MessageBox.Show("目录不能在网络驱动器上！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) : Return False
+                    Case IO.DriveType.Removable
+                        MessageBox.Show("目录不能在可移动驱动器上！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) : Return False
+                    Case IO.DriveType.Ram
+                        MessageBox.Show("目录不能在内存驱动器上！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) : Return False
+                End Select
+            End If
+            Return True
+        End With
     End Function
 
     Private Sub ArgumentChanged()
@@ -187,15 +188,6 @@ Public Class frmSetting
     End Sub
 
     Private Sub txtUserDir_TextChanged(sender As Object, e As EventArgs) Handles txtUserDir.TextChanged
-        'If Argument.Contains("-UserDir") = True Then
-        '    Argument = Argument.Remove(Argument.IndexOf("""") + 1, (Argument.LastIndexOf("""") + 1) - (Argument.IndexOf("""") + 1))
-        '    If Argument.Contains(" -UserDir:""") = True Then Argument = Argument.Replace(" -UserDir:"" ", "") Else Argument = Argument.Replace("-UserDir:"" ", "")
-        'End If
-        'If Argument = "" OrElse (Argument.StartsWith(" ") = True Or Argument.EndsWith(" ") = True) Then
-        '    Argument &= "-UserDir:""" & txtUserDir.Text & """ "
-        'Else
-        '    Argument &= " -UserDir:""" & txtUserDir.Text & """ "
-        'End If
         With Argument
             If txtUserDir.Text <> Nothing And .Contains("-UserDir") = True Then
                 Argument = .Replace(.Substring(.IndexOf(""""), .LastIndexOf("""") - .IndexOf("""")), """" & txtUserDir.Text)
@@ -205,8 +197,6 @@ Public Class frmSetting
                 Else
                     Argument &= " -UserDir:""" & txtUserDir.Text & """ "
                 End If
-            ElseIf txtUserDir.Text = "" Then
-                Argument = .Remove(.IndexOf("-UserDir"), (.LastIndexOf("""") + 2) - .IndexOf("-UserDir")) : txtUserDir.Text = Nothing
             End If
         End With
         ArgumentChanged()

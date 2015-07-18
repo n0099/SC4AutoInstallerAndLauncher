@@ -8,6 +8,7 @@
     Public DAEMONToolsInstallResult As Result
     Public _638PatchInstallResult As Result
     Public _640PatchInstallResult As Result
+    Public _641PatchInstallResult As Result
     Public _4GBPatchInstallResult As Result
     Public NoCDPatchInstallResult As Result
     Public SC4LauncherInstallResult As Result
@@ -20,6 +21,7 @@
         DAEMONToolsInstallResult = Result.Success
         _638PatchInstallResult = Result.Success
         _640PatchInstallResult = Result.Success
+        _641PatchInstallResult = Result.Success
         _4GBPatchInstallResult = Result.Success
         NoCDPatchInstallResult = Result.Success
         SC4LauncherInstallResult = Result.Success

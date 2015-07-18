@@ -2,7 +2,7 @@
 
     Private Sub SubassemblyInstallFail(item As ListViewItem)
         item.ImageKey = "fail"
-        item.Group = lvwSubassembly.Groups.Item(1)
+        item.Group = lvwSubassembly.Groups.Item("lvwGroupFail")
         lblTitle2.Text = "部分组件安装失败"
     End Sub
 
@@ -27,6 +27,7 @@
         Dim SC4Item As ListViewItem = lvwSubassembly.FindItemWithText("模拟城市4 豪华版")
         Dim _638PatchItem As ListViewItem = lvwSubassembly.FindItemWithText("638补丁")
         Dim _640PatchItem As ListViewItem = lvwSubassembly.FindItemWithText("640补丁")
+        Dim _641PatchItem As ListViewItem = lvwSubassembly.FindItemWithText("641补丁")
         Dim _4GBPatchItem As ListViewItem = lvwSubassembly.FindItemWithText("4GB补丁")
         Dim NoCDPatchItem As ListViewItem = lvwSubassembly.FindItemWithText("免CD补丁")
         Dim SC4LauncherItem As ListViewItem = lvwSubassembly.FindItemWithText("模拟城市4 启动器")
@@ -34,6 +35,12 @@
         With ModuleMain.InstallOptions
             If IsNothing(ModuleMain.InstalledModule) = True Then
                 If .IsInstallDAEMONTools = False Then DAEMONItem.Remove()
+                If .IsInstall638Patch = False Then _638PatchItem.Remove()
+                If .IsInstall640Patch = False Then _640PatchItem.Remove()
+                If .IsInstall641Patch = False Then _641PatchItem.Remove()
+                If .IsInstall4GBPatch = False Then _4GBPatchItem.Remove()
+                If .IsInstallNoCDPatch = False Then NoCDPatchItem.Remove()
+                If .IsInstallSC4Launcher = False Then SC4LauncherItem.Remove()
                 If .IsInstallDAEMONTools = True Then If ModuleMain.InstallResult.DAEMONToolsInstallResult = InstallResult.Result.Fail Then SubassemblyInstallFail(DAEMONItem)
                 If ModuleMain.InstallResult.SC4InstallResult = InstallResult.Result.Success AndAlso _
                     My.Computer.FileSystem.FileExists(.SC4InstallDir & "\Apps\SimCity 4.exe") = True Then btnRunSC4.Enabled = True Else btnRunSC4.Enabled = False
@@ -42,22 +49,27 @@
                 If .SC4Type = InstallOptions.SC4InstallType.NoInstall Then SC4Item.Text = "模拟城市4 豪华版 硬盘版"
             Else
                 DAEMONItem.Remove() : SC4Item.Remove()
+                If ModuleMain.InstalledModule.Is638PatchInstalled = .IsInstall638Patch Then _638PatchItem.Remove()
+                If ModuleMain.InstalledModule.Is640PatchInstalled = .IsInstall640Patch Then _640PatchItem.Remove()
+                If ModuleMain.InstalledModule.Is641PatchInstalled = .IsInstall641Patch Then _641PatchItem.Remove()
+                If ModuleMain.InstalledModule.Is4GBPatchInstalled = .IsInstall4GBPatch Then _4GBPatchItem.Remove()
+                If ModuleMain.InstalledModule.IsNoCDPatchInstalled = .IsInstallNoCDPatch Then NoCDPatchItem.Remove()
+                If ModuleMain.InstalledModule.IsSC4LauncherInstalled = .IsInstallSC4Launcher Then SC4LauncherItem.Remove()
+                If ModuleMain.InstalledModule.LanguagePatch = .LanguagePatch Then LanguagePatchItem.Remove()
             End If
             With ModuleMain.InstallResult
-                If ModuleMain.InstallOptions.IsInstall638Patch = False Then _638PatchItem.Remove() Else If ._638PatchInstallResult = InstallResult.Result.Fail Then SubassemblyInstallFail(_638PatchItem)
-                If ModuleMain.InstallOptions.IsInstall640Patch = False Then _640PatchItem.Remove() Else If ._640PatchInstallResult = InstallResult.Result.Fail Then SubassemblyInstallFail(_640PatchItem)
-                If ModuleMain.InstallOptions.IsInstall4GBPatch = False Then _4GBPatchItem.Remove() Else If ._4GBPatchInstallResult = InstallResult.Result.Fail Then SubassemblyInstallFail(_4GBPatchItem)
-                If ModuleMain.InstallOptions.IsInstallNoCDPatch = False Then NoCDPatchItem.Remove() Else If .NoCDPatchInstallResult = InstallResult.Result.Fail Then SubassemblyInstallFail(NoCDPatchItem)
-                If ModuleMain.InstallOptions.IsInstallSC4Launcher = False Then SC4LauncherItem.Remove() Else If .SC4LauncherInstallResult = InstallResult.Result.Fail Then SubassemblyInstallFail(SC4LauncherItem)
+                If ._638PatchInstallResult = InstallResult.Result.Fail Then SubassemblyInstallFail(_638PatchItem)
+                If ._640PatchInstallResult = InstallResult.Result.Fail Then SubassemblyInstallFail(_640PatchItem)
+                If ._641PatchInstallResult = InstallResult.Result.Fail Then SubassemblyInstallFail(_641PatchItem)
+                If ._4GBPatchInstallResult = InstallResult.Result.Fail Then SubassemblyInstallFail(_4GBPatchItem)
+                If .NoCDPatchInstallResult = InstallResult.Result.Fail Then SubassemblyInstallFail(NoCDPatchItem)
+                If .SC4LauncherInstallResult = InstallResult.Result.Fail Then SubassemblyInstallFail(SC4LauncherItem)
+                If .LanguagePatchInstallResult = InstallResult.Result.Fail Then SubassemblyInstallFail(LanguagePatchItem)
             End With
-            If ModuleMain.InstallResult.LanguagePatchInstallResult = InstallResult.Result.Fail Then SubassemblyInstallFail(LanguagePatchItem)
             Select Case .LanguagePatch
-                Case InstallOptions.Language.TraditionalChinese
-                    LanguagePatchItem.Text = "繁体中文语言补丁"
-                Case InstallOptions.Language.SimplifiedChinese
-                    LanguagePatchItem.Text = "简体中文语言补丁"
-                Case InstallOptions.Language.English
-                    LanguagePatchItem.Remove()
+                Case InstallOptions.Language.TraditionalChinese : LanguagePatchItem.Text = "繁体中文语言补丁"
+                Case InstallOptions.Language.SimplifiedChinese : LanguagePatchItem.Text = "简体中文语言补丁"
+                Case InstallOptions.Language.English : LanguagePatchItem.Remove()
             End Select
         End With
         Dim FlashInfo As New FLASHINFO With {.cbSize = Convert.ToInt32(Runtime.InteropServices.Marshal.SizeOf(FlashInfo)) _

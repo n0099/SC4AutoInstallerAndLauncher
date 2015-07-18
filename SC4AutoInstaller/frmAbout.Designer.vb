@@ -32,9 +32,9 @@ Partial Class frmAbout
         Me.llbReportBug = New System.Windows.Forms.LinkLabel()
         Me.llbSCB = New System.Windows.Forms.LinkLabel()
         Me.lblName = New System.Windows.Forms.Label()
-        Me.LogoPictureBox = New System.Windows.Forms.PictureBox()
+        Me.picLogo = New System.Windows.Forms.PictureBox()
         Me.lblThanksList = New System.Windows.Forms.Label()
-        CType(Me.LogoPictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.picLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'btnClose
@@ -43,7 +43,7 @@ Partial Class frmAbout
         Me.btnClose.Location = New System.Drawing.Point(327, 221)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(75, 23)
-        Me.btnClose.TabIndex = 4
+        Me.btnClose.TabIndex = 7
         Me.btnClose.Text = "关闭(&C)"
         '
         'lblVersion
@@ -51,9 +51,9 @@ Partial Class frmAbout
         Me.lblVersion.AutoSize = True
         Me.lblVersion.Location = New System.Drawing.Point(142, 54)
         Me.lblVersion.Name = "lblVersion"
-        Me.lblVersion.Size = New System.Drawing.Size(29, 12)
+        Me.lblVersion.Size = New System.Drawing.Size(41, 12)
         Me.lblVersion.TabIndex = 1
-        Me.lblVersion.Text = "版本"
+        Me.lblVersion.Text = "版本号"
         '
         'lblAuthor
         '
@@ -70,7 +70,7 @@ Partial Class frmAbout
         Me.llbBlog.Location = New System.Drawing.Point(237, 193)
         Me.llbBlog.Name = "llbBlog"
         Me.llbBlog.Size = New System.Drawing.Size(71, 12)
-        Me.llbBlog.TabIndex = 11
+        Me.llbBlog.TabIndex = 5
         Me.llbBlog.TabStop = True
         Me.llbBlog.Text = "n0099的博客"
         '
@@ -80,7 +80,7 @@ Partial Class frmAbout
         Me.llbReportBug.Location = New System.Drawing.Point(314, 193)
         Me.llbReportBug.Name = "llbReportBug"
         Me.llbReportBug.Size = New System.Drawing.Size(47, 12)
-        Me.llbReportBug.TabIndex = 10
+        Me.llbReportBug.TabIndex = 6
         Me.llbReportBug.TabStop = True
         Me.llbReportBug.Text = "BUG反馈"
         '
@@ -90,7 +90,7 @@ Partial Class frmAbout
         Me.llbSCB.Location = New System.Drawing.Point(142, 193)
         Me.llbSCB.Name = "llbSCB"
         Me.llbSCB.Size = New System.Drawing.Size(89, 12)
-        Me.llbSCB.TabIndex = 9
+        Me.llbSCB.TabIndex = 4
         Me.llbSCB.TabStop = True
         Me.llbSCB.Text = "百度模拟城市吧"
         '
@@ -105,23 +105,23 @@ Partial Class frmAbout
         Me.lblName.Text = "模拟城市4 自动安装程序"
         Me.lblName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'LogoPictureBox
+        'picLogo
         '
-        Me.LogoPictureBox.Image = CType(resources.GetObject("LogoPictureBox.Image"), System.Drawing.Image)
-        Me.LogoPictureBox.Location = New System.Drawing.Point(12, 11)
-        Me.LogoPictureBox.Name = "LogoPictureBox"
-        Me.LogoPictureBox.Size = New System.Drawing.Size(124, 233)
-        Me.LogoPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.LogoPictureBox.TabIndex = 12
-        Me.LogoPictureBox.TabStop = False
+        Me.picLogo.Image = CType(resources.GetObject("picLogo.Image"), System.Drawing.Image)
+        Me.picLogo.Location = New System.Drawing.Point(12, 11)
+        Me.picLogo.Name = "picLogo"
+        Me.picLogo.Size = New System.Drawing.Size(124, 233)
+        Me.picLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.picLogo.TabIndex = 12
+        Me.picLogo.TabStop = False
         '
         'lblThanksList
         '
         Me.lblThanksList.Location = New System.Drawing.Point(142, 96)
         Me.lblThanksList.Name = "lblThanksList"
         Me.lblThanksList.Size = New System.Drawing.Size(260, 86)
-        Me.lblThanksList.TabIndex = 13
-        Me.lblThanksList.Text = "鸣谢：百你二渡、虚无中在飘渺、铁木真的使臣、绿色食品台风、坐在鸭子、周瑜K了Zero、cjak007"
+        Me.lblThanksList.TabIndex = 3
+        Me.lblThanksList.Text = "鸣谢：xcVista、百你二渡、虚无中在飘渺、铁木真的使臣、绿色食品台风、坐在鸭子、周瑜K了Zero、cjak007"
         '
         'frmAbout
         '
@@ -131,7 +131,7 @@ Partial Class frmAbout
         Me.CancelButton = Me.btnClose
         Me.ClientSize = New System.Drawing.Size(414, 255)
         Me.Controls.Add(Me.lblThanksList)
-        Me.Controls.Add(Me.LogoPictureBox)
+        Me.Controls.Add(Me.picLogo)
         Me.Controls.Add(Me.btnClose)
         Me.Controls.Add(Me.lblName)
         Me.Controls.Add(Me.llbSCB)
@@ -149,7 +149,7 @@ Partial Class frmAbout
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "关于"
-        CType(Me.LogoPictureBox, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.picLogo, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -160,7 +160,7 @@ Partial Class frmAbout
     Friend WithEvents llbReportBug As System.Windows.Forms.LinkLabel
     Friend WithEvents llbSCB As System.Windows.Forms.LinkLabel
     Friend WithEvents lblName As System.Windows.Forms.Label
-    Friend WithEvents LogoPictureBox As System.Windows.Forms.PictureBox
+    Friend WithEvents picLogo As System.Windows.Forms.PictureBox
     Friend WithEvents lblThanksList As System.Windows.Forms.Label
 
 End Class

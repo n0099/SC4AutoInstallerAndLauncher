@@ -51,41 +51,60 @@
         With ModuleMain.InstallOptions
             If e.Button <> Windows.Forms.MouseButtons.Left Then Exit Sub
             Select Case e.Node.Name
-                Case "638补丁", "640补丁", "4GB补丁", "免CD补丁", "模拟城市4 启动器"
+                Case "638补丁", "640补丁", "641补丁", "4GB补丁", "免CD补丁", "模拟城市4 启动器"
                     If GetNodeChecked(e.Node.Name) = NodeCheckedState.checked Then
                         SetNodeChecked(e.Node.Name, NodeCheckedState.unchecked)
                         Select Case e.Node.Name
-                            Case "638补丁" : .IsInstall638Patch = False : SetNodeChecked("640补丁", NodeCheckedState.unchecked)
+                            Case "638补丁" : .IsInstall638Patch = False
+                                SetNodeChecked("640补丁", NodeCheckedState.unchecked) : .IsInstall640Patch = False
+                                SetNodeChecked("641补丁", NodeCheckedState.unchecked) : .IsInstall641Patch = False
                             Case "640补丁" : .IsInstall640Patch = False
+                                SetNodeChecked("638补丁", NodeCheckedState.unchecked) : .IsInstall638Patch = False
+                                SetNodeChecked("641补丁", NodeCheckedState.unchecked) : .IsInstall641Patch = False
+                            Case "641补丁" : .IsInstall641Patch = False
+                                SetNodeChecked("638补丁", NodeCheckedState.unchecked) : .IsInstall638Patch = False
+                                SetNodeChecked("640补丁", NodeCheckedState.unchecked) : .IsInstall640Patch = False
                             Case "4GB补丁" : .IsInstall4GBPatch = False
-                            Case "免CD补丁" : .IsInstallNoCDPatch = True
+                            Case "免CD补丁" : .IsInstallNoCDPatch = False
                             Case "模拟城市4 启动器" : .IsInstallSC4Launcher = False
                         End Select
                     ElseIf GetNodeChecked(e.Node.Name) = NodeCheckedState.unchecked Then
                         SetNodeChecked(e.Node.Name, NodeCheckedState.checked)
                         Select Case e.Node.Name
                             Case "638补丁" : .IsInstall638Patch = True
-                            Case "640补丁" : .IsInstall640Patch = True : SetNodeChecked("638补丁", NodeCheckedState.checked)
+                                SetNodeChecked("免CD补丁", NodeCheckedState.unchecked) : .IsInstallNoCDPatch = False
+                            Case "640补丁" : .IsInstall640Patch = True
+                                SetNodeChecked("638补丁", NodeCheckedState.checked) : .IsInstall638Patch = True
+                                SetNodeChecked("免CD补丁", NodeCheckedState.unchecked) : .IsInstallNoCDPatch = False
+                            Case "641补丁" : .IsInstall641Patch = True
+                                SetNodeChecked("638补丁", NodeCheckedState.checked) : .IsInstall638Patch = True
+                                SetNodeChecked("640补丁", NodeCheckedState.checked) : .IsInstall640Patch = True
+                                SetNodeChecked("免CD补丁", NodeCheckedState.unchecked) : .IsInstallNoCDPatch = False
                             Case "4GB补丁" : .IsInstall4GBPatch = True
                             Case "免CD补丁" : .IsInstallNoCDPatch = True
+                                SetNodeChecked("638补丁", NodeCheckedState.unchecked) : .IsInstall638Patch = False
+                                SetNodeChecked("640补丁", NodeCheckedState.unchecked) : .IsInstall640Patch = False
+                                SetNodeChecked("641补丁", NodeCheckedState.unchecked) : .IsInstall641Patch = False
                             Case "模拟城市4 启动器" : .IsInstallSC4Launcher = True
+                            Case "添加桌面图标" : .IsAddDesktopIcon = True
+                            Case "添加开始菜单项" : .IsAddStartMenuItem = True
                         End Select
                     End If
                 Case "繁体中文"
-                    If GetNodeChecked(e.Node.Name) = NodeCheckedState.radiounchecked Then
-                        SetNodeChecked(e.Node.Name, NodeCheckedState.radiochecked) : SetNodeChecked("简体中文", NodeCheckedState.radiounchecked)
-                        SetNodeChecked("英语", NodeCheckedState.radiounchecked) : .LanguagePatch = InstallOptions.Language.TraditionalChinese
-                    End If
+            If GetNodeChecked(e.Node.Name) = NodeCheckedState.radiounchecked Then
+                SetNodeChecked(e.Node.Name, NodeCheckedState.radiochecked) : SetNodeChecked("简体中文", NodeCheckedState.radiounchecked)
+                SetNodeChecked("英语", NodeCheckedState.radiounchecked) : .LanguagePatch = InstallOptions.Language.TraditionalChinese
+            End If
                 Case "简体中文"
-                    If GetNodeChecked(e.Node.Name) = NodeCheckedState.radiounchecked Then
-                        SetNodeChecked(e.Node.Name, NodeCheckedState.radiochecked) : SetNodeChecked("繁体中文", NodeCheckedState.radiounchecked)
-                        SetNodeChecked("英语", NodeCheckedState.radiounchecked) : .LanguagePatch = InstallOptions.Language.SimplifiedChinese
-                    End If
+            If GetNodeChecked(e.Node.Name) = NodeCheckedState.radiounchecked Then
+                SetNodeChecked(e.Node.Name, NodeCheckedState.radiochecked) : SetNodeChecked("繁体中文", NodeCheckedState.radiounchecked)
+                SetNodeChecked("英语", NodeCheckedState.radiounchecked) : .LanguagePatch = InstallOptions.Language.SimplifiedChinese
+            End If
                 Case "英语"
-                    If GetNodeChecked(e.Node.Name) = NodeCheckedState.radiounchecked Then
-                        SetNodeChecked(e.Node.Name, NodeCheckedState.radiochecked) : SetNodeChecked("繁体中文", NodeCheckedState.radiounchecked)
-                        SetNodeChecked("简体中文", NodeCheckedState.radiounchecked) : .LanguagePatch = InstallOptions.Language.English
-                    End If
+            If GetNodeChecked(e.Node.Name) = NodeCheckedState.radiounchecked Then
+                SetNodeChecked(e.Node.Name, NodeCheckedState.radiochecked) : SetNodeChecked("繁体中文", NodeCheckedState.radiounchecked)
+                SetNodeChecked("简体中文", NodeCheckedState.radiounchecked) : .LanguagePatch = InstallOptions.Language.English
+            End If
             End Select
         End With
     End Sub

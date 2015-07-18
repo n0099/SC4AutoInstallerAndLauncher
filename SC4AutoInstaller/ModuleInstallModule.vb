@@ -1,7 +1,16 @@
 ﻿Module ModuleInstallModule
 
+    Private Function IsFileUsing(path As String) As Boolean
+        Try
+            IO.File.Open(path, IO.FileMode.Open).Close() : Return False
+        Catch ex As Exception
+            Return True
+        End Try
+    End Function
+
     Public Function InstallDAEMONTools() As InstallResult.Result
         Try
+            Do Until Not IsFileUsing("Data\DAEMON Tools Lite 5.0.exe") : Loop
             Process.Start("Data\DAEMON Tools Lite 5.0.exe", "/S /nogadget /path """ & ModuleMain.InstallOptions.DAEMONInstallDir & """").WaitForExit()
             Return IIf(My.Computer.FileSystem.FileExists(ModuleMain.InstallOptions.DAEMONInstallDir & "\DTLite.exe") = True, InstallResult.Result.Success, InstallResult.Result.Fail)
         Catch ex As Exception
@@ -10,127 +19,155 @@
     End Function
 
     Public Function InstallSC4(ByVal InstallType As InstallOptions.SC4InstallType) As InstallResult.Result
-        With ModuleMain.InstallOptions
-            Try
-                If InstallType = InstallOptions.SC4InstallType.ISO Then
-                    If ModuleMain.InstallResult.DAEMONToolsInstallResult = InstallResult.Result.Success Then
-                        Do Until My.Computer.FileSystem.FileExists("X:\AutoRun.exe")
-                            Process.Start(.DAEMONInstallDir & "\DTLite.exe", "-mount dt, X, """ & Environment.CurrentDirectory & "\Data\CD\SC4DELUXE CD1.mdf""")
-                        Loop
-                        Do Until My.Computer.FileSystem.FileExists("Y:\RunGame.exe")
-                            Process.Start(.DAEMONInstallDir & "\DTLite.exe", "-mount dt, Y, """ & Environment.CurrentDirectory & "\Data\CD\SC4DELUXE CD2.mdf""")
-                        Loop
+        Try
+            My.Computer.FileSystem.CopyFile(Application.ExecutablePath, ModuleMain.InstallOptions.SC4InstallDir & "\Setup.exe", True)
+            If InstallType = InstallOptions.SC4InstallType.ISO Then
+                If ModuleMain.InstallResult.DAEMONToolsInstallResult = InstallResult.Result.Success Then
+                    Do Until My.Computer.FileSystem.FileExists("X:\AutoRun.exe")
+                        Process.Start(ModuleMain.InstallOptions.DAEMONInstallDir & "\DTLite.exe", "-mount dt, X, """ & Environment.CurrentDirectory & "\Data\CD\SC4DELUXE CD1.mdf""")
+                    Loop
+                    Do Until My.Computer.FileSystem.FileExists("Y:\RunGame.exe")
+                        Process.Start(ModuleMain.InstallOptions.DAEMONInstallDir & "\DTLite.exe", "-mount dt, Y, """ & Environment.CurrentDirectory & "\Data\CD\SC4DELUXE CD2.mdf""")
+                    Loop
 
-                        Dim AutoRunProcess() As Process = Process.GetProcessesByName("AutoRun")
-                        Dim SC4CodeProcess() As Process = Process.GetProcessesByName("SimCity 4 Deluxe_Code")
-                        Dim SC4eRegProcess() As Process = Process.GetProcessesByName("SimCity 4 Deluxe_eReg")
-                        If AutoRunProcess.Length = 0 = False Then AutoRunProcess(0).Kill()
-                        If SC4CodeProcess.Length = 0 = False Then SC4CodeProcess(0).Kill()
-                        If SC4eRegProcess.Length = 0 = False Then SC4eRegProcess(0).Kill()
+                    Dim AutoRunProcess() As Process = Process.GetProcessesByName("AutoRun")
+                    Dim SC4CodeProcess() As Process = Process.GetProcessesByName("SimCity 4 Deluxe_Code")
+                    Dim SC4eRegProcess() As Process = Process.GetProcessesByName("SimCity 4 Deluxe_eReg")
+                    If AutoRunProcess.Length <> 0 Then AutoRunProcess(0).Kill()
+                    If SC4CodeProcess.Length <> 0 Then SC4CodeProcess(0).Kill()
+                    If SC4eRegProcess.Length <> 0 Then SC4eRegProcess(0).Kill()
 
-                        Dim tempfolder As String = Environment.GetEnvironmentVariable("TEMP")
-                        If My.Computer.FileSystem.FileExists(tempfolder & "\AutoRun.exe") = False Or My.Computer.FileSystem.FileExists(tempfolder & "\AutoRunGUI.dll") = False Then
-                            My.Computer.FileSystem.CopyFile("X:\AutoRun.exe", tempfolder & "\AutoRun.exe", FileIO.UIOption.OnlyErrorDialogs, FileIO.UICancelOption.DoNothing)
-                            My.Computer.FileSystem.CopyFile("X:\AutoRunGUI.dll", tempfolder & "\AutoRunGUI.dll", FileIO.UIOption.OnlyErrorDialogs, FileIO.UICancelOption.DoNothing)
-                            Process.Start("regsvr32.exe", "/s """ & tempfolder & "\AutoRunGUI.dll""").WaitForExit()
-                        End If
-                        Process.Start(tempfolder & "\AutoRun.exe", "-restart -dir X:\")
-
-                        Do Until FindWindow("#32770", "SimCity 4 Deluxe") <> Nothing : Loop
-                        PostMessage(FindWindowEx(FindWindow("#32770", "SimCity 4 Deluxe"), 0, "Button", "Install"), WM_LBUTTONDOWN, 0, 0)
-                        PostMessage(FindWindowEx(FindWindow("#32770", "SimCity 4 Deluxe"), 0, "Button", "Install"), WM_LBUTTONUP, 0, 0)
-                        Threading.Thread.Sleep(100) : Do Until FindWindow("#32770", "SimCity 4 Deluxe") <> Nothing : Loop
-                        Dim key() As String = {"C", "X", "9", "H", "4", "9", "8", "A", "M", "H", "S", "S", "8", "Q", "X", "D", "T", "X", "J", "B"}
-                        For Each i As String In key
-                            SetWindowPos(FindWindow("#32770", "SimCity 4 Deluxe"), HWND_TOP, 0, 0, 0, 0, SWP_NOSIZE + SWP_NOMOVE)
-                            SendKeys.SendWait(i)
-                        Next
-                        PostMessage(FindWindowEx(FindWindow("#32770", "SimCity 4 Deluxe"), 0, "Button", "&Next>"), WM_LBUTTONDOWN, 0, 0)
-                        PostMessage(FindWindowEx(FindWindow("#32770", "SimCity 4 Deluxe"), 0, "Button", "&Next>"), WM_LBUTTONUP, 0, 0)
-                        Threading.Thread.Sleep(100) : Do Until FindWindow("#32770", "SimCity 4 Deluxe") <> Nothing : Loop
-                        Dim installdir As String = "G:\SC4"
-                        SendMessage(FindWindowEx(FindWindow("#32770", "SimCity 4 Deluxe"), 0, "Edit", ""), WM_SETTEXT, 0, installdir)
-                        PostMessage(FindWindowEx(FindWindow("#32770", "SimCity 4 Deluxe"), 0, "Button", "&Next>"), WM_LBUTTONDOWN, 0, 0)
-                        PostMessage(FindWindowEx(FindWindow("#32770", "SimCity 4 Deluxe"), 0, "Button", "&Next>"), WM_LBUTTONUP, 0, 0)
-                        Threading.Thread.Sleep(100) : Do Until FindWindow("#32770", "Electronic Registration") <> Nothing : Loop : Threading.Thread.Sleep(100)
-                        PostMessage(FindWindowEx(FindWindow("#32770", "Electronic Registration"), 0, "Button", "Register Later"), WM_LBUTTONDOWN, 0, 0)
-                        PostMessage(FindWindowEx(FindWindow("#32770", "Electronic Registration"), 0, "Button", "Register Later"), WM_LBUTTONUP, 0, 0)
-                        Threading.Thread.Sleep(100) : Do Until FindWindow("#32770", "") <> Nothing : Loop
-                        PostMessage(FindWindowEx(FindWindow("#32770", ""), 0, "Button", "Ok"), WM_LBUTTONDOWN, 0, 0)
-                        PostMessage(FindWindowEx(FindWindow("#32770", ""), 0, "Button", "Ok"), WM_LBUTTONUP, 0, 0)
-
-                        Do Until Process.GetProcessesByName("SimCity 4.exe").Length <> 0 : Loop
-                        Process.GetProcessesByName("SimCity 4.exe")(0).Kill()
-
-                        Dim RARProcess As Process = Process.Start("Data\rar.exe", "x """ & Application.StartupPath & "\Data\SC4.rar"" -o+ ""Graphics Rules.sgr"" """ & .SC4InstallDir & "\""") : RARProcess.WaitForExit()
-                        My.Computer.FileSystem.CopyFile(Process.GetCurrentProcess.StartInfo.FileName, .SC4InstallDir & "\SC4AutoInstaller.exe")
-                        Return IIf(RARProcess.ExitCode = 0 Or My.Computer.FileSystem.FileExists(.SC4InstallDir & "\Apps\SimCity 4.exe") = True, InstallResult.Result.Success, InstallResult.Result.Fail)
-                    Else
-                        Return InstallResult.Result.Fail
+                    Dim tempfolder As String = Environment.GetEnvironmentVariable("TEMP")
+                    If My.Computer.FileSystem.FileExists(tempfolder & "\AutoRun.exe") = False Or My.Computer.FileSystem.FileExists(tempfolder & "\AutoRunGUI.dll") = False Then
+                        My.Computer.FileSystem.CopyFile("X:\AutoRun.exe", tempfolder & "\AutoRun.exe", FileIO.UIOption.OnlyErrorDialogs, FileIO.UICancelOption.DoNothing)
+                        My.Computer.FileSystem.CopyFile("X:\AutoRunGUI.dll", tempfolder & "\AutoRunGUI.dll", FileIO.UIOption.OnlyErrorDialogs, FileIO.UICancelOption.DoNothing)
+                        Process.Start("regsvr32.exe", "/s """ & tempfolder & "\AutoRunGUI.dll""").WaitForExit()
                     End If
-                ElseIf InstallType = InstallOptions.SC4InstallType.NoInstall Then
-                    Dim RARProcess As Process = Process.Start("Data\rar.exe", "x """ & Application.StartupPath & "\Data\SC4.rar"" *.* -o+ """ & .SC4InstallDir & "\""") : RARProcess.WaitForExit()
-                    Return IIf(RARProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
-                End If
-            Catch ex As Exception
-                Return InstallResult.Result.Fail
-            End Try
-        End With
-    End Function
+                    Process.Start(tempfolder & "\AutoRun.exe", "-restart -dir X:\")
 
-    Public Function Install638Patch() As InstallResult.Result
-        With ModuleMain.InstallOptions
-            Try
-                Dim RARProcess As Process
-                If .IsInstall638Patch = True Then
-                    RARProcess = Process.Start("Data\rar.exe", "x """ & Application.StartupPath & "\Data\Patch\638\638.rar"" *.* -o+ """ & .SC4InstallDir & "\""") : RARProcess.WaitForExit()
+                    Do Until FindWindow("#32770", "SimCity 4 Deluxe") <> Nothing : Loop
+                    PostMessage(FindWindowEx(FindWindow("#32770", "SimCity 4 Deluxe"), 0, "Button", "Install"), WM_LBUTTONDOWN, 0, 0)
+                    PostMessage(FindWindowEx(FindWindow("#32770", "SimCity 4 Deluxe"), 0, "Button", "Install"), WM_LBUTTONUP, 0, 0)
+                    Threading.Thread.Sleep(100) : Do Until FindWindow("#32770", "SimCity 4 Deluxe") <> Nothing : Loop
+                    Dim key() As String = {"C", "X", "9", "H", "4", "9", "8", "A", "M", "H", "S", "S", "8", "Q", "X", "D", "T", "X", "J", "B"}
+                    For Each i As String In key
+                        SetWindowPos(FindWindow("#32770", "SimCity 4 Deluxe"), HWND_TOP, 0, 0, 0, 0, SWP_NOSIZE + SWP_NOMOVE)
+                        SendKeys.SendWait(i)
+                    Next
+                    PostMessage(FindWindowEx(FindWindow("#32770", "SimCity 4 Deluxe"), 0, "Button", "&Next>"), WM_LBUTTONDOWN, 0, 0)
+                    PostMessage(FindWindowEx(FindWindow("#32770", "SimCity 4 Deluxe"), 0, "Button", "&Next>"), WM_LBUTTONUP, 0, 0)
+                    Threading.Thread.Sleep(100) : Do Until FindWindow("#32770", "SimCity 4 Deluxe") <> Nothing : Loop
+                    Dim installdir As String = "G:\SC4"
+                    SendMessage(FindWindowEx(FindWindow("#32770", "SimCity 4 Deluxe"), 0, "Edit", ""), WM_SETTEXT, 0, installdir)
+                    PostMessage(FindWindowEx(FindWindow("#32770", "SimCity 4 Deluxe"), 0, "Button", "&Next>"), WM_LBUTTONDOWN, 0, 0)
+                    PostMessage(FindWindowEx(FindWindow("#32770", "SimCity 4 Deluxe"), 0, "Button", "&Next>"), WM_LBUTTONUP, 0, 0)
+                    Threading.Thread.Sleep(100) : Do Until FindWindow("#32770", "Electronic Registration") <> Nothing : Loop : Threading.Thread.Sleep(100)
+                    PostMessage(FindWindowEx(FindWindow("#32770", "Electronic Registration"), 0, "Button", "Register Later"), WM_LBUTTONDOWN, 0, 0)
+                    PostMessage(FindWindowEx(FindWindow("#32770", "Electronic Registration"), 0, "Button", "Register Later"), WM_LBUTTONUP, 0, 0)
+                    Threading.Thread.Sleep(100) : Do Until FindWindow("#32770", "") <> Nothing : Loop
+                    PostMessage(FindWindowEx(FindWindow("#32770", ""), 0, "Button", "Ok"), WM_LBUTTONDOWN, 0, 0)
+                    PostMessage(FindWindowEx(FindWindow("#32770", ""), 0, "Button", "Ok"), WM_LBUTTONUP, 0, 0)
+
+                    Do Until Process.GetProcessesByName("SimCity 4.exe").Length <> 0 : Loop
+                    Process.GetProcessesByName("SimCity 4.exe")(0).Kill()
+
+                    Dim RARProcess As Process = Process.Start("Data\rar.exe", "x Data\SC4.rar -o+ ""Graphics Rules.sgr"" """ & installdir & "\""") : RARProcess.WaitForExit()
+                    My.Computer.FileSystem.CopyFile(Process.GetCurrentProcess.StartInfo.FileName, installdir & "\SC4AutoInstaller.exe")
+                    Return IIf(RARProcess.ExitCode = 0 Or My.Computer.FileSystem.FileExists(installdir & "\Apps\SimCity 4.exe") = True, InstallResult.Result.Success, InstallResult.Result.Fail)
                 Else
-                    RARProcess = Process.Start("Data\rar.exe", "x """ & Application.StartupPath & "\Data\Patch\SC4.rar"" ""Apps\SimCity 4.exe"" SimCity_*.dat -o+ """ & .SC4InstallDir & "\""") : RARProcess.WaitForExit()
+                    Return InstallResult.Result.Fail
                 End If
+            ElseIf InstallType = InstallOptions.SC4InstallType.NoInstall Then
+                Do Until Not IsFileUsing("Data\SC4.rar") : Loop
+                Dim RARProcess As Process = Process.Start("Data\rar.exe", "x Data\SC4.rar *.* -o+ """ & ModuleMain.InstallOptions.SC4InstallDir & "\""") : RARProcess.WaitForExit()
                 Return IIf(RARProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
-            Catch ex As Exception
-                Return InstallResult.Result.Fail
-            End Try
-        End With
+            End If
+        Catch ex As Exception
+            Return InstallResult.Result.Fail
+        End Try
     End Function
 
-    Public Function Install640Patch() As InstallResult.Result
-        With ModuleMain.InstallOptions
-            Try
+    Public Function Install638Patch(ByVal InstallDir As String, ByVal IsUninstall As Boolean) As InstallResult.Result
+        Try
+            Dim RARProcess As Process
+            If IsUninstall = False Then
+                Do Until Not IsFileUsing("Data\Patch\638.rar") : Loop
+                RARProcess = Process.Start("Data\rar.exe", "x Data\Patch\638.rar *.* -o+ """ & InstallDir & "\""") : RARProcess.WaitForExit()
+            Else
+                Do Until Not IsFileUsing("Data\SC4.rar") : Loop
+                RARProcess = Process.Start("Data\rar.exe", "x Data\SC4.rar ""Apps\SimCity 4.exe"" SimCity_*.dat -o+ """ & InstallDir & "\""") : RARProcess.WaitForExit()
+            End If
+            Return IIf(RARProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
+        Catch ex As Exception
+            Return InstallResult.Result.Fail
+        End Try
+    End Function
+
+    Public Function Install640Patch(ByVal InstallDir As String, ByVal IsUninstall As Boolean) As InstallResult.Result
+        Try
+            Dim RARProcess As Process
+            If IsUninstall = False Then
+                Do Until Not IsFileUsing("Data\Patch\640.rar") : Loop
+                RARProcess = Process.Start("Data\rar.exe", "x Data\Patch\640.rar *.* -o+ """ & InstallDir & "\""") : RARProcess.WaitForExit()
+            Else
+                Do Until Not IsFileUsing("Data\Patch\638.rar") : Loop
+                RARProcess = Process.Start("Data\rar.exe", "x Data\Patch\638.rar *.* -o+ """ & InstallDir & "\""") : RARProcess.WaitForExit()
+            End If
+            Return IIf(RARProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
+        Catch ex As Exception
+            Return InstallResult.Result.Fail
+        End Try
+    End Function
+
+    Public Function Install641Patch(ByVal InstallDir As String, ByVal IsUninstall As Boolean) As InstallResult.Result
+        Try
+            If IsUninstall = False Then
+                Do Until Not IsFileUsing(InstallDir & "\Apps\SimCity 4.exe") : Loop
+                My.Computer.FileSystem.CopyFile("Data\Patch\SimCity 4 641.exe", InstallDir & "\Apps\SimCity 4.exe", True)
+                Return IIf(My.Computer.FileSystem.GetFileInfo(InstallDir & "\Apps\SimCity 4.exe").Length = 7524352, InstallResult.Result.Success, InstallResult.Result.Fail)
+            Else
                 Dim RARProcess As Process
-                If .IsInstall640Patch = True Then
-                    RARProcess = Process.Start("Data\rar.exe", "x """ & Application.StartupPath & "\Data\Patch\640\640.rar"" *.* -o+ """ & .SC4InstallDir & "\""") : RARProcess.WaitForExit()
-                Else
-                    RARProcess = Process.Start("Data\rar.exe", "x """ & Application.StartupPath & "\Data\Patch\638\638.rar"" *.* -o+ """ & .SC4InstallDir & "\""") : RARProcess.WaitForExit()
-                End If
+                Do Until Not IsFileUsing("Data\Patch\640.rar") : Loop
+                RARProcess = Process.Start("Data\rar.exe", "x Data\Patch\640.rar *.* -o+ """ & InstallDir & "\""") : RARProcess.WaitForExit()
                 Return IIf(RARProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
-            Catch ex As Exception
-                Return InstallResult.Result.Fail
-            End Try
-        End With
+            End If
+        Catch ex As Exception
+            Return InstallResult.Result.Fail
+        End Try
     End Function
 
-    Public Function Install4GBPatch() As InstallResult.Result
+    Public Function Install4GBPatch(ByVal InstallDir As String, ByVal IsUninstall As Boolean) As InstallResult.Result
         With ModuleMain.InstallOptions
             Try
-                If .IsInstall4GBPatch = True Then
+                If IsUninstall = False Then
+                    Do Until Not IsFileUsing(InstallDir & "\Apps\SimCity 4.exe") : Loop
+                    Process.Start("Data\Patch\4GB.exe", """" & InstallDir & "\Apps\SimCity 4.exe""").WaitForExit()
                     Dim MD5CSP As New Security.Cryptography.MD5CryptoServiceProvider, MD5 As String
-                    Process.Start("Data\Patch\4GB.exe", """" & .SC4InstallDir & "\Apps\SimCity 4.exe""").WaitForExit()
-                    MD5 = BitConverter.ToString(MD5CSP.ComputeHash(New IO.FileStream(.SC4InstallDir & "\Apps\SimCity 4.exe", IO.FileMode.Open)))
-                    Return IIf(MD5 = "2F2BD7D9A76E85320A26D7BD7530DCAE" Or MD5 = "1C18B7DC760EDADD2C2EFAF33F60F150" Or MD5 = "AADC5464919FBDC0F8E315FA51582126", InstallResult.Result.Success, InstallResult.Result.Fail)
+                    MD5 = BitConverter.ToString(MD5CSP.ComputeHash(New IO.FileStream(InstallDir & "\Apps\SimCity 4.exe", IO.FileMode.Open))).Replace("-", "")
+                    Return IIf(MD5 = "78202C3EF76988BD2BF05F8D223BE7A3" Or MD5 = "2F2BD7D9A76E85320A26D7BD7530DCAE" Or MD5 = "1C18B7DC760EDADD2C2EFAF33F60F150" _
+                               Or MD5 = "1414E70EB5CE22DB37D22CB99439D012" Or MD5 = "AADC5464919FBDC0F8E315FA51582126", InstallResult.Result.Success, InstallResult.Result.Fail)
                 Else
-                    Dim RARProcess As Process = Nothing, RARProcess2 As Process = Nothing
-                    If .IsInstall638Patch = True Or .IsInstall640Patch = True Then
-                        If .IsInstall638Patch = True Then RARProcess = Process.Start("Data\rar.exe", "x """ & Application.StartupPath & "\Data\Patch\638\638.rar"" ""Apps\SimCity 4.exe"" -o+ """ & .SC4InstallDir & "\""") : RARProcess.WaitForExit()
+                    Dim RARProcess As Process = Nothing
+                    If .IsInstall638Patch = True Then
+                        Do Until Not IsFileUsing(InstallDir & "Data\Patch\638.rar") : Loop
+                        RARProcess = Process.Start("Data\rar.exe", "x Data\Patch\638.rar ""Apps\SimCity 4.exe"" -o+ """ & InstallDir & "\""") : RARProcess.WaitForExit()
                         Return IIf(RARProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
-                    ElseIf .IsInstall640Patch = True Then
-                        If .IsInstall638Patch = True Then RARProcess = Process.Start("Data\rar.exe", "x """ & Application.StartupPath & "\Data\Patch\638\638.rar"" ""Apps\SimCity 4.exe"" -o+ """ & .SC4InstallDir & "\""") : RARProcess.WaitForExit()
-                        If .IsInstall640Patch = True Then RARProcess2 = Process.Start("Data\rar.exe", "x """ & Application.StartupPath & "\Data\Patch\640\640.rar"" ""Apps\SimCity 4.exe"" -o+ """ & .SC4InstallDir & "\""") : RARProcess2.WaitForExit()
-                        Return IIf(RARProcess.ExitCode = 0 And RARProcess2.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
+                    ElseIf .IsInstall640Patch = True And .IsInstall638Patch = True Then
+                        Do Until Not IsFileUsing(InstallDir & "Data\Patch\640.rar") : Loop
+                        RARProcess = Process.Start("Data\rar.exe", "x Data\Patch\640.rar ""Apps\SimCity 4.exe"" -o+ """ & InstallDir & "\""") : RARProcess.WaitForExit()
+                        Return IIf(RARProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
+                    ElseIf .IsInstall641Patch = True And .IsInstall640Patch = True And .IsInstall638Patch = True Then
+                        Do Until Not IsFileUsing(InstallDir & "\Apps\SimCity 4.exe") : Loop
+                        My.Computer.FileSystem.CopyFile("Data\Patch\SimCity 4 641.exe", InstallDir & "\Apps\SimCity 4.exe", True)
+                        Return IIf(My.Computer.FileSystem.GetFileInfo(InstallDir & "\Apps\SimCity 4.exe").Length = 7524352, InstallResult.Result.Success, InstallResult.Result.Fail)
                     ElseIf .IsInstallNoCDPatch = True Then
-                        My.Computer.FileSystem.CopyFile("Data\Patch\NoCD\SimCity 4.exe", ModuleMain.InstallOptions.SC4InstallDir & "\Apps\SimCity 4.exe", True)
-                        Return IIf(My.Computer.FileSystem.GetFileInfo(ModuleMain.InstallOptions.SC4InstallDir & "\Apps\SimCity 4.exe").Length = 7524352, InstallResult.Result.Success, InstallResult.Result.Fail)
-                    Else : Return InstallResult.Result.Fail
+                        Do Until Not IsFileUsing(InstallDir & "\Apps\SimCity 4.exe") : Loop
+                        My.Computer.FileSystem.CopyFile("Data\Patch\SimCity 4 NoCD.exe", InstallDir & "\Apps\SimCity 4.exe", True)
+                        Return IIf(My.Computer.FileSystem.GetFileInfo(InstallDir & "\Apps\SimCity 4.exe").Length = 7524352, InstallResult.Result.Success, InstallResult.Result.Fail)
+                    ElseIf .IsInstall638Patch = False And .IsInstall640Patch = False And .IsInstall641Patch = False And .IsInstallNoCDPatch = False Then
+                        Do Until Not IsFileUsing("Data\SC4.rar") : Loop
+                        RARProcess = Process.Start("Data\rar.exe", "x Data\SC4.rar ""Apps\SimCity 4.exe"" SimCity_*.dat -o+ """ & InstallDir & "\""") : RARProcess.WaitForExit()
+                        Return IIf(RARProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
                     End If
                 End If
             Catch ex As Exception
@@ -139,40 +176,38 @@
         End With
     End Function
 
-    Public Function InstallNoCDPatch() As InstallResult.Result
-        With ModuleMain.InstallOptions
-            Try
-                If .IsInstallNoCDPatch = True Then
-                    My.Computer.FileSystem.CopyFile("Data\Patch\NoCD\SimCity 4.exe", .SC4InstallDir & "\Apps\SimCity 4.exe", True)
-                    Return IIf(My.Computer.FileSystem.GetFileInfo(ModuleMain.InstallOptions.SC4InstallDir & "\Apps\SimCity 4.exe").Length = 7524352, InstallResult.Result.Success, InstallResult.Result.Fail)
-                Else
-                    Dim RARProcess As Process = Process.Start("Data\rar.exe", "x """ & Application.StartupPath & "\Data\Patch\SC4.rar"" ""Apps\SimCity 4.exe"" SimCity_*.dat -o+ """ & .SC4InstallDir & "\""")
-                    RARProcess.WaitForExit()
-                    Return IIf(RARProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
-                End If
-            Catch ex As Exception
-                Return InstallResult.Result.Fail
-            End Try
-        End With
+    Public Function InstallNoCDPatch(ByVal InstallDir As String, ByVal IsUninstall As Boolean) As InstallResult.Result
+        Try
+            If IsUninstall = False Then
+                Do Until Not IsFileUsing(InstallDir & "\Apps\SimCity 4.exe") : Loop
+                My.Computer.FileSystem.CopyFile("Data\Patch\SimCity 4 NoCD.exe", InstallDir & "\Apps\SimCity 4.exe", True)
+                Return IIf(My.Computer.FileSystem.GetFileInfo(InstallDir & "\Apps\SimCity 4.exe").Length = 7524352, InstallResult.Result.Success, InstallResult.Result.Fail)
+            Else
+                Do Until Not IsFileUsing("Data\SC4.rar") : Loop
+                Dim RARProcess As Process = Process.Start("Data\rar.exe", "x Data\SC4.rar ""Apps\SimCity 4.exe"" SimCity_*.dat -o+ """ & InstallDir & "\""") : RARProcess.WaitForExit()
+                Return IIf(RARProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
+            End If
+        Catch ex As Exception
+            Return InstallResult.Result.Fail
+        End Try
     End Function
 
-    Public Function InstallSC4Launcher() As InstallResult.Result
-        With ModuleMain.InstallOptions
-            Try
-                If .IsInstallSC4Launcher = True Then
-                    My.Computer.FileSystem.CopyFile("Data\SC4Launcher.exe", .SC4InstallDir, True)
-                    Return IIf(My.Computer.FileSystem.FileExists(.SC4InstallDir & "\SC4Launcher.exe") = True, InstallResult.Result.Success, InstallResult.Result.Fail)
-                Else
-                    My.Computer.FileSystem.DeleteFile(.SC4InstallDir & "\SC4Launcher.exe")
-                    Return IIf(My.Computer.FileSystem.FileExists(.SC4InstallDir & "\SC4Launcher.exe") = False, InstallResult.Result.Success, InstallResult.Result.Fail)
-                End If
-            Catch ex As Exception
-                Return InstallResult.Result.Fail
-            End Try
-        End With
+    Public Function InstallSC4Launcher(ByVal InstallDir As String, ByVal IsUninstall As Boolean) As InstallResult.Result
+        Try
+            If IsUninstall = False Then
+                My.Computer.FileSystem.CopyFile("Data\SC4Launcher.exe", InstallDir & "\SC4Launcher.exe", True)
+                Return IIf(My.Computer.FileSystem.FileExists(InstallDir & "\SC4Launcher.exe") = True, InstallResult.Result.Success, InstallResult.Result.Fail)
+            Else
+                Do Until Not IsFileUsing(InstallDir & "\SC4Launcher.exe") : Loop
+                My.Computer.FileSystem.DeleteFile(InstallDir & "\SC4Launcher.exe")
+                Return IIf(My.Computer.FileSystem.FileExists(InstallDir & "\SC4Launcher.exe") = False, InstallResult.Result.Success, InstallResult.Result.Fail)
+            End If
+        Catch ex As Exception
+            Return InstallResult.Result.Fail
+        End Try
     End Function
 
-    Public Function InstallLanguagePatch(ByVal LanguagePatch As InstallOptions.Language) As InstallResult.Result
+    Public Function InstallLanguagePatch(ByVal InstallDir As String, ByVal LanguagePatch As InstallOptions.Language) As InstallResult.Result
         With My.Computer.Registry
             Dim LanguageRegKeyName As String = Nothing
             If Environment.Is64BitOperatingSystem = True Then LanguageRegKeyName = "HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Maxis\SimCity 4\1.0"
@@ -180,25 +215,25 @@
             Try
                 Select Case LanguagePatch
                     Case InstallOptions.Language.TraditionalChinese
-                        My.Computer.FileSystem.CopyDirectory("Data\Patch\Language\TChinese", ModuleMain.InstallOptions.SC4InstallDir, True)
+                        My.Computer.FileSystem.CopyDirectory("Data\Patch\Language\TChinese", InstallDir, True)
                         .SetValue(LanguageRegKeyName, "Language", 18, Microsoft.Win32.RegistryValueKind.DWord)
                         .SetValue(LanguageRegKeyName, "DisplayName", "SimCity 4 Deluxe", Microsoft.Win32.RegistryValueKind.String)
                         .SetValue(LanguageRegKeyName, "LanguageName", "Chinese (Traditional)", Microsoft.Win32.RegistryValueKind.String)
-                        Return IIf(My.Computer.FileSystem.DirectoryExists(ModuleMain.InstallOptions.SC4InstallDir & "TChinese") = True And _
+                        Return IIf(My.Computer.FileSystem.DirectoryExists(InstallDir & "\TChinese") = True And _
                             My.Computer.Registry.GetValue(LanguageRegKeyName, "Language", Nothing) = 18, InstallResult.Result.Success, InstallResult.Result.Fail)
                     Case InstallOptions.Language.SimplifiedChinese
-                        My.Computer.FileSystem.CopyDirectory("Data\Patch\Language\SChinese", ModuleMain.InstallOptions.SC4InstallDir, True)
+                        My.Computer.FileSystem.CopyDirectory("Data\Patch\Language\SChinese", InstallDir, True)
                         .SetValue(LanguageRegKeyName, "Language", 17, Microsoft.Win32.RegistryValueKind.DWord)
                         .SetValue(LanguageRegKeyName, "DisplayName", "SimCity 4 Deluxe", Microsoft.Win32.RegistryValueKind.String)
                         .SetValue(LanguageRegKeyName, "LanguageName", "Chinese (Simplified)", Microsoft.Win32.RegistryValueKind.String)
-                        Return IIf(My.Computer.FileSystem.DirectoryExists(ModuleMain.InstallOptions.SC4InstallDir & "SChinese") = True And _
+                        Return IIf(My.Computer.FileSystem.DirectoryExists(InstallDir & "\SChinese") = True And _
                             My.Computer.Registry.GetValue(LanguageRegKeyName, "Language", Nothing) = 17, InstallResult.Result.Success, InstallResult.Result.Fail)
                     Case Else
-                        My.Computer.FileSystem.CopyDirectory("Data\Patch\Language\English", ModuleMain.InstallOptions.SC4InstallDir, True)
+                        My.Computer.FileSystem.CopyDirectory("Data\Patch\Language\English", InstallDir, True)
                         .SetValue(LanguageRegKeyName, "Language", 1, Microsoft.Win32.RegistryValueKind.DWord)
                         .SetValue(LanguageRegKeyName, "DisplayName", "SimCity 4 Deluxe", Microsoft.Win32.RegistryValueKind.String)
                         .SetValue(LanguageRegKeyName, "LanguageName", "English US", Microsoft.Win32.RegistryValueKind.String)
-                        Return IIf(My.Computer.FileSystem.DirectoryExists(ModuleMain.InstallOptions.SC4InstallDir & "English") = True And _
+                        Return IIf(My.Computer.FileSystem.DirectoryExists(InstallDir & "\English") = True And _
                             My.Computer.Registry.GetValue(LanguageRegKeyName, "Language", Nothing) = 1, InstallResult.Result.Success, InstallResult.Result.Fail)
                 End Select
             Catch ex As Exception
@@ -236,7 +271,7 @@
             End If
             shortcut.WindowStyle = 1 : shortcut.IconLocation = .SC4InstallDir & "\SC4.ico" : shortcut.Save()
             shortcut = wshshell.CreateShortcut(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu) & "\Maxis\SimCity 4 Deluxe\卸载或更改模拟城市4 豪华版.lnk")
-            shortcut.TargetPath = .SC4InstallDir & "\SC4AutoInstaller.exe" : shortcut.Description = "使用模拟城市4 自动安装程序以卸载或更改模拟城市4 豪华版"
+            shortcut.TargetPath = .SC4InstallDir & "\Setup.exe" : shortcut.Description = "使用模拟城市4 自动安装程序以卸载或更改模拟城市4 豪华版"
             shortcut.WindowStyle = 1 : shortcut.IconLocation = .SC4InstallDir & "\SC4AutoInstaller.exe" : shortcut.Save()
         End With
     End Sub
@@ -264,9 +299,9 @@
             .SetValue(ProgramItemRegKeyName, "EstimatedSize", GetFolderSize(ModuleMain.InstallOptions.SC4InstallDir) / 1024, Microsoft.Win32.RegistryValueKind.DWord)
             .SetValue(ProgramItemRegKeyName, "InstallLocation", ModuleMain.InstallOptions.SC4InstallDir, Microsoft.Win32.RegistryValueKind.String)
             .SetValue(ProgramItemRegKeyName, "Publisher", "n0099", Microsoft.Win32.RegistryValueKind.String)
-            .SetValue(ProgramItemRegKeyName, "UninstallString", ModuleMain.InstallOptions.SC4InstallDir & "\SC4AutoInstaller.exe", Microsoft.Win32.RegistryValueKind.String)
+            .SetValue(ProgramItemRegKeyName, "UninstallString", ModuleMain.InstallOptions.SC4InstallDir & "\Setup.exe", Microsoft.Win32.RegistryValueKind.String)
             .SetValue(ProgramItemRegKeyName, "URLInfoAbout", "http://tieba.baidu.com/p/3802761033", Microsoft.Win32.RegistryValueKind.String)
-            .SetValue(ProgramItemRegKeyName, "URLUpdateInfo", "http://tieba.baidu.com/p/3860924605", Microsoft.Win32.RegistryValueKind.String)
+            .SetValue(ProgramItemRegKeyName, "URLUpdateInfo", "http://n0099.sinaapp.com", Microsoft.Win32.RegistryValueKind.String)
         End With
     End Sub
 

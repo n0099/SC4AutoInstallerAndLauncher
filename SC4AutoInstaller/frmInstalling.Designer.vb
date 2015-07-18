@@ -27,15 +27,16 @@ Partial Class frmInstalling
         Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("组件", System.Windows.Forms.HorizontalAlignment.Center)
         Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("附加任务", System.Windows.Forms.HorizontalAlignment.Center)
         Dim ListViewItem1 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("模拟城市4 豪华版")
-        Dim ListViewItem2 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("DAEMON Tools Lite", "(无)")
-        Dim ListViewItem3 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("638补丁", "(无)")
-        Dim ListViewItem4 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("640补丁", "(无)")
-        Dim ListViewItem5 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("免CD补丁", "(无)")
-        Dim ListViewItem6 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("4GB补丁")
-        Dim ListViewItem7 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("模拟城市4 启动器")
-        Dim ListViewItem8 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("语言补丁", "(无)")
-        Dim ListViewItem9 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("添加开始菜单项")
+        Dim ListViewItem2 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("DAEMON Tools Lite")
+        Dim ListViewItem3 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("638补丁")
+        Dim ListViewItem4 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("640补丁")
+        Dim ListViewItem5 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("641补丁")
+        Dim ListViewItem6 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("免CD补丁")
+        Dim ListViewItem7 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("4GB补丁")
+        Dim ListViewItem8 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("模拟城市4 启动器")
+        Dim ListViewItem9 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("语言补丁")
         Dim ListViewItem10 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("添加桌面图标")
+        Dim ListViewItem11 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("添加开始菜单项")
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmInstalling))
         Me.lvwTask = New System.Windows.Forms.ListView()
         Me.imgTask = New System.Windows.Forms.ImageList(Me.components)
@@ -62,26 +63,20 @@ Partial Class frmInstalling
         Me.lvwTask.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2, ListViewGroup3})
         ListViewItem1.Group = ListViewGroup1
         ListViewItem2.Group = ListViewGroup2
-        ListViewItem2.StateImageIndex = 0
         ListViewItem3.Group = ListViewGroup2
-        ListViewItem3.StateImageIndex = 0
         ListViewItem4.Group = ListViewGroup2
-        ListViewItem4.StateImageIndex = 0
         ListViewItem5.Group = ListViewGroup2
-        ListViewItem5.StateImageIndex = 0
         ListViewItem6.Group = ListViewGroup2
         ListViewItem7.Group = ListViewGroup2
         ListViewItem8.Group = ListViewGroup2
-        ListViewItem8.StateImageIndex = 0
-        ListViewItem9.Group = ListViewGroup3
-        ListViewItem9.StateImageIndex = 0
+        ListViewItem9.Group = ListViewGroup2
         ListViewItem10.Group = ListViewGroup3
-        ListViewItem10.StateImageIndex = 0
-        Me.lvwTask.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem1, ListViewItem2, ListViewItem3, ListViewItem4, ListViewItem5, ListViewItem6, ListViewItem7, ListViewItem8, ListViewItem9, ListViewItem10})
+        ListViewItem11.Group = ListViewGroup3
+        Me.lvwTask.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem1, ListViewItem2, ListViewItem3, ListViewItem4, ListViewItem5, ListViewItem6, ListViewItem7, ListViewItem8, ListViewItem9, ListViewItem10, ListViewItem11})
         Me.lvwTask.LargeImageList = Me.imgTask
         Me.lvwTask.Location = New System.Drawing.Point(12, 54)
         Me.lvwTask.Name = "lvwTask"
-        Me.lvwTask.Size = New System.Drawing.Size(176, 331)
+        Me.lvwTask.Size = New System.Drawing.Size(176, 414)
         Me.lvwTask.TabIndex = 1
         Me.lvwTask.TileSize = New System.Drawing.Size(170, 25)
         Me.lvwTask.UseCompatibleStateImageBehavior = False

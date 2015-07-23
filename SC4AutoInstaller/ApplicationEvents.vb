@@ -13,7 +13,10 @@
             Dim SC4InstallDir As String = Nothing
             If Environment.Is64BitOperatingSystem = True Then SC4InstallDir = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Maxis\SimCity 4", "Install Dir", Nothing)
             If Environment.Is64BitOperatingSystem = False Then SC4InstallDir = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Maxis\SimCity 4", "Install Dir", Nothing)
-            If SC4InstallDir <> Nothing And My.Computer.FileSystem.DirectoryExists("Data") = False Then My.Application.MainForm = frmMain
+            With My.Computer.FileSystem
+                If SC4InstallDir <> Nothing And .FileExists(SC4InstallDir & "\Apps\SimCity 4.exe") = True And .FileExists(SC4InstallDir & "\SimCity_1.dat") = True And _
+                .FileExists(SC4InstallDir & "\SimCity_2.dat") = True And .FileExists(SC4InstallDir & "\SimCity_3.dat") And .FileExists(SC4InstallDir & "\SimCity_4.dat") = True Then My.Application.MainForm = frmMain
+            End With
             Try
                 If My.Computer.Network.IsAvailable = True And My.Computer.Network.Ping("n0099.sinaapp.com") = True Then
                     Dim tempfolder As String = Environment.GetEnvironmentVariable("TEMP")

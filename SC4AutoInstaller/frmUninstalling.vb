@@ -2,7 +2,11 @@
 
     Private Sub bgwUninstall_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles bgwUninstall.DoWork
         With My.Computer.FileSystem
-            .DeleteDirectory(ModuleMain.InstalledModule.SC4InstallDir, FileIO.DeleteDirectoryOption.DeleteAllContents) : prgUninstall.Value += 1
+            Try
+                .DeleteDirectory(ModuleMain.InstalledModule.SC4InstallDir, FileIO.DeleteDirectoryOption.DeleteAllContents)
+            Catch ex As Exception
+            End Try
+            prgUninstall.Value += 1
             If .DirectoryExists(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu) & "\Maxis\SimCity 4 Deluxe") = True Then
                 .DeleteDirectory(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu) & "\Maxis\SimCity 4 Deluxe", FileIO.DeleteDirectoryOption.DeleteAllContents) : prgUninstall.Maximum += 1 : prgUninstall.Value += 1
             End If

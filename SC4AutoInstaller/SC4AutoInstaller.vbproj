@@ -125,10 +125,10 @@
     <Compile Include="frmInstalling.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmModuleChangeOption.Designer.vb">
-      <DependentUpon>frmModuleChangeOption.vb</DependentUpon>
+    <Compile Include="frmChangeModuleOptions.Designer.vb">
+      <DependentUpon>frmChangeModuleOptions.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmModuleChangeOption.vb">
+    <Compile Include="frmChangeModuleOptions.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmInstallOptions.Designer.vb">
@@ -204,8 +204,8 @@
       <DependentUpon>frmMain.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmModuleChangeOption.resx">
-      <DependentUpon>frmModuleChangeOption.vb</DependentUpon>
+    <EmbeddedResource Include="frmChangeModuleOptions.resx">
+      <DependentUpon>frmChangeModuleOptions.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="frmUninstalling.resx">
@@ -262,17 +262,6 @@
       <ProductName>Windows Installer 4.5</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <COMReference Include="IWshRuntimeLibrary">
-      <Guid>{F935DC20-1CF0-11D0-ADB9-00C04FD58A0B}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\SC4\SC4_1.png" />
@@ -333,6 +322,20 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\SC4\SC4_20.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="IWshRuntimeLibrary">
+      <Guid>{F935DC20-1CF0-11D0-ADB9-00C04FD58A0B}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

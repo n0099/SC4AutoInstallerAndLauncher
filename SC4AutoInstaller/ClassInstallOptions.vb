@@ -20,7 +20,7 @@ Public NotInheritable Class InstallOptions
     ''' <summary>安装模拟城市4所需要的以字节为单位的磁盘空间</summary>
     Public Const SC4NeedsDiskSpace As Integer = 1029863647
     ''' <summary>安装DAEMON Tools Lite所需要的以字节为单位的磁盘空间</summary>
-    Public Const DAEMONNeedsDiskSpace As Integer = 50226791
+    Public Const DAEMONToolsNeedsDiskSpace As Integer = 50226791
     ''' <summary>安装638补丁所需要的以字节为单位的磁盘空间</summary>
     Public Const _638NeedsDiskSpace As Integer = -535428
     ''' <summary>安装640补丁所需要的以字节为单位的磁盘空间</summary>

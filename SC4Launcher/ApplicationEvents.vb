@@ -10,22 +10,22 @@
     Partial Friend Class MyApplication
 
         Private Sub MyApplication_Startup(ByVal sender As Object, ByVal e As ApplicationServices.StartupEventArgs) Handles Me.Startup
+            '检查是否有新版本可用
             Try
-                If My.Computer.Network.IsAvailable = True And My.Computer.Network.Ping("n0099.sinaapp.com") = True Then
-                    Dim tempfolder As String = Environment.GetEnvironmentVariable("TEMP")
+                If My.Computer.Network.IsAvailable = True And My.Computer.Network.Ping("n0099.sinaapp.com") = True Then '检查能否连接更新服务器
                     Dim UpdataInfoXML As New Xml.XmlDocument, LauncherNode As Xml.XmlNode
-                    UpdataInfoXML.Load("http://n0099.sinaapp.com/updatainfo.xml")
+                    UpdataInfoXML.Load("http://n0099.sinaapp.com/updatainfo.xml") '获取更新信息
                     LauncherNode = UpdataInfoXML.GetElementsByTagName("Launcher").Item(0)
                     Dim LatestVersion As String = LauncherNode.Item("LatestVersion").InnerText
                     If LatestVersion.Split(".")(0) > My.Application.Info.Version.Major Or LatestVersion.Split(".")(1) > My.Application.Info.Version.Minor _
-                        Or LatestVersion.Split(".")(2) > My.Application.Info.Version.Revision Then
+                        Or LatestVersion.Split(".")(2) > My.Application.Info.Version.Revision Then '检查是否有新版本可用
                         Dim version As String = My.Application.Info.Version.Major & "." & My.Application.Info.Version.Minor & "." & My.Application.Info.Version.Revision
-                        Dim UpdataDetail As String = LauncherNode.Item("UpdataDetail").InnerText
+                        Dim UpdataDetail As String = LauncherNode.Item("UpdataDetail").InnerText '声明一个存储最新版的更新说明的字符串变量
                         If MessageBox.Show("检测到有新版本可用，是否下载更新？" & vbCrLf & "当前版本：" & version & vbCrLf & "更新说明：" & UpdataDetail, "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
-                            Dim DownloadLink As String = LauncherNode.Item("DonwloadLink").InnerText
-                            My.Computer.Network.DownloadFile(DownloadLink, My.Application.Info.DirectoryPath & "\Updata.exe", "", "", True, 6000000, True)
+                            Dim DownloadLink As String = LauncherNode.Item("DonwloadLink").InnerText '声明一个存储新版本的下载地址的字符串变量
+                            My.Computer.Network.DownloadFile(DownloadLink, My.Application.Info.DirectoryPath & "\Updata.exe", "", "", True, 6000000, True) '从指定的下载地址下载更新程序
                             If My.Computer.FileSystem.FileExists(My.Application.Info.DirectoryPath & "\Updata.exe") = True Then
-                                Process.Start(My.Application.Info.DirectoryPath & "\Updata.exe")
+                                Process.Start(My.Application.Info.DirectoryPath & "\Updata.exe") '运行更新程序
                                 Environment.Exit(0)
                             End If
                         End If
@@ -37,7 +37,6 @@ WebError:           MessageBox.Show("无法连接更新服务器！请检查网�
             Catch ex As TimeoutException : GoTo WebError
             Catch ex As Security.SecurityException : GoTo WebError
             Catch ex As Net.NetworkInformation.PingException : GoTo WebError
-            Catch ex As InvalidOperationException : GoTo WebError
             Catch ex As Exception
             End Try
         End Sub

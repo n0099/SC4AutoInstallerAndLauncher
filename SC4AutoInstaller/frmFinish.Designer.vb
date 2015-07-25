@@ -56,7 +56,7 @@ Partial Class frmFinish
         Me.btnClose.Location = New System.Drawing.Point(532, 407)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(80, 23)
-        Me.btnClose.TabIndex = 8
+        Me.btnClose.TabIndex = 9
         Me.btnClose.Text = "关闭(&C)"
         Me.btnClose.UseVisualStyleBackColor = True
         '
@@ -111,7 +111,7 @@ Partial Class frmFinish
         Me.btnRunSC4.Location = New System.Drawing.Point(346, 407)
         Me.btnRunSC4.Name = "btnRunSC4"
         Me.btnRunSC4.Size = New System.Drawing.Size(180, 23)
-        Me.btnRunSC4.TabIndex = 7
+        Me.btnRunSC4.TabIndex = 8
         Me.btnRunSC4.Text = "打开模拟城市4 豪华版(&R)"
         Me.btnRunSC4.UseVisualStyleBackColor = True
         '
@@ -175,7 +175,7 @@ Partial Class frmFinish
         Me.lvwSubassemblyFail.Location = New System.Drawing.Point(316, 80)
         Me.lvwSubassemblyFail.Name = "lvwSubassemblyFail"
         Me.lvwSubassemblyFail.Size = New System.Drawing.Size(296, 310)
-        Me.lvwSubassemblyFail.TabIndex = 9
+        Me.lvwSubassemblyFail.TabIndex = 7
         Me.lvwSubassemblyFail.TileSize = New System.Drawing.Size(250, 25)
         Me.lvwSubassemblyFail.UseCompatibleStateImageBehavior = False
         Me.lvwSubassemblyFail.View = System.Windows.Forms.View.Tile

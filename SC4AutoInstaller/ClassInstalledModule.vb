@@ -14,17 +14,17 @@ Public NotInheritable Class InstalledModule
     Public SC4InstallDir As String
     ''' <summary>获取或设置已安装的语言补丁的语言</summary>
     Public LanguagePatch As Language
-    ''' <summary>获取或设置638补丁是否已经安装</summary>
+    ''' <summary>获取或设置是否已经安装638补丁</summary>
     Public Is638PatchInstalled As Boolean
-    ''' <summary>获取或设置640补丁是否已经安装</summary>
+    ''' <summary>获取或设置是否已经安装640补丁</summary>
     Public Is640PatchInstalled As Boolean
-    ''' <summary>获取或设置641补丁是否已经安装</summary>
+    ''' <summary>获取或设置是否已经安装641补丁</summary>
     Public Is641PatchInstalled As Boolean
-    ''' <summary>获取或设置4GB补丁是否已经安装</summary>
+    ''' <summary>获取或设置是否已经安装4GB补丁</summary>
     Public Is4GBPatchInstalled As Boolean
-    ''' <summary>获取或设置免CD补丁是否已经安装</summary>
+    ''' <summary>获取或设置是否已经安装免CD补丁</summary>
     Public IsNoCDPatchInstalled As Boolean
-    ''' <summary>获取或设置模拟城市4 启动器是否已经安装</summary>
+    ''' <summary>获取或设置是否已经安装模拟城市4 启动器</summary>
     Public IsSC4LauncherInstalled As Boolean
 
 End Class

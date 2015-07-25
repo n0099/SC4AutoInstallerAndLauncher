@@ -2,32 +2,28 @@
 
 Public Class frmSetting
 
+    ''' <summary>临时存储的启动参数</summary>
     Private Argument As String = ""
+
+    ''' <summary>验证指定文本框的文本是否为有效的目录路径</summary>
+    ''' <param name="TextBox">要验证的文本框</param>
+    ''' <returns>如果文本框的文本为有效的目录路径，则为True；否则为False</returns>
     Private Function IsPathValidated(ByVal TextBox As TextBox) As Boolean
-        With TextBox
-            Dim PathName As String = IIf(.Name = "txtUserDir", "用户目录", "模拟城市4安装目录")
-            If .Text = Nothing Then MessageBox.Show(PathName & "的路径不能为空！" & vbCrLf & "您必须输入一个带驱动器卷标的完整路径！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) : Return False
-            If System.Text.RegularExpressions.Regex.IsMatch(.Text, "[A-Za-z]\:\\") = False Then
-                MessageBox.Show(PathName & "的路径格式不正确！" & vbCrLf & "您必须输入一个带驱动器卷标和文件夹名的完整路径！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) : Return False
-            ElseIf System.Text.RegularExpressions.Regex.IsMatch(.Text.Remove(0, .Text.IndexOf("\")), "[\,/,:,*,?,"",<,>,|]") = True Then
-                MessageBox.Show(PathName & "文件夹名不能包含下列任何字符：" & vbCrLf & "\ / : * ? "" < > |", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) : Return False
-            ElseIf IsNothing(My.Computer.FileSystem.GetDriveInfo(.Text.Substring(0, 1))) = True Then
-                MessageBox.Show(PathName & "文件夹路径的驱动器不存在！" & vbCrLf & "请检查拼写是否错误！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) : Return False
-                Select Case My.Computer.FileSystem.GetDriveInfo(.Text.Substring(0, 1)).DriveType
-                    Case IO.DriveType.CDRom
-                        MessageBox.Show("目录不能在光驱驱动器上！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) : Return False
-                    Case IO.DriveType.Network
-                        MessageBox.Show("目录不能在网络驱动器上！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) : Return False
-                    Case IO.DriveType.Removable
-                        MessageBox.Show("目录不能在可移动驱动器上！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) : Return False
-                    Case IO.DriveType.Ram
-                        MessageBox.Show("目录不能在内存驱动器上！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) : Return False
-                End Select
-            End If
-            Return True
-        End With
+        '声明一个用于存储要验证的安装目录是属于哪个组件的的字符串变量和一个存储要验证的安装目录的路径的字符串变量
+        Dim TextBoxName As String = IIf(TextBox.Name = "txtUserDir", "用户文件目录", "模拟城市4安装目录"), Path As String = TextBox.Text.Trim()
+        If Path = Nothing Then
+            MessageBox.Show(TextBoxName & " 的安装路径不能为空！" & vbCrLf & "您必须输入一个带分区卷标的完整路径！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) : Return False
+        ElseIf System.Text.RegularExpressions.Regex.IsMatch(Path, "[A-Za-z]\:\\") = False Then '使用正则表达式判断路径是否存在分区盘符
+            MessageBox.Show(TextBoxName & " 的安装路径格式不正确！" & vbCrLf & "您必须输入一个带分区卷标和安装文件夹名的完整路径！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) : Return False
+        ElseIf System.Text.RegularExpressions.Regex.IsMatch(Path.Remove(0, Path.IndexOf("\") + 1).TrimEnd("\"), "[\\,\/,\:,\*,\?,\"",\<,\>,\|]") = True Then '使用正则表达式判断去除开头的分区盘符和最后的\后的字符串是否存在不允许的字符
+            MessageBox.Show(TextBoxName & " 的安装路径不能包含下列任何字符：" & vbCrLf & "\ / : * ? "" < > |", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) : Return False
+        ElseIf My.Computer.FileSystem.GetDriveInfo(Path.Substring(0, 1)).IsReady = False Then '判断安装路径的分区是否可写
+            MessageBox.Show(TextBoxName & " 的安装路径的分区不存在或为不可写的分区！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) : Return False
+        End If
+        Return True
     End Function
 
+    ''' <summary>更新启动参数文本框的文本并激活应用按钮</summary>
     Private Sub ArgumentChanged()
         txtArgument.Text = Argument
         btnApply.Enabled = True
@@ -240,7 +236,7 @@ Public Class frmSetting
     End Sub
 
     Private Sub frmSetting_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        With My.Settings.Argument
+        With My.Settings.Argument '读取启动参数里的设置，并同步设置窗口上对应的选项
             rdoDisplayModeWindow.Checked = .Contains("-w")
             rdoDisplayModeFullScreen.Checked = .Contains("-fs")
             If .Contains("-r") = True And .Contains("-CustomResolution") = False Then
@@ -316,7 +312,7 @@ Public Class frmSetting
                 chkUserDir.Checked = False
             End If
             txtSC4InstallDir.Text = My.Settings.SC4InstallDir
-            AddHandler txtSC4InstallDir.TextChanged, AddressOf txtSC4InstallDir_TextChanged
+            AddHandler txtSC4InstallDir.TextChanged, AddressOf txtSC4InstallDir_TextChanged '添加关闭窗口过程和关闭窗口事件的关联
             txtArgument.Text = My.Settings.Argument
             Argument = My.Settings.Argument
             btnApply.Enabled = False

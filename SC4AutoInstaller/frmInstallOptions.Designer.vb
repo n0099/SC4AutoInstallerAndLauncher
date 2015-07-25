@@ -294,12 +294,12 @@ Partial Class frmInstallOptions
         'fbdSC4InstallDir
         '
         Me.fbdSC4InstallDir.Description = "选择 模拟城市4 豪华版 的安装目录"
-        Me.fbdSC4InstallDir.RootFolder = System.Environment.SpecialFolder.CommonProgramFilesX86
+        Me.fbdSC4InstallDir.RootFolder = System.Environment.SpecialFolder.MyComputer
         '
         'fbdDAEMONlInstallDir
         '
         Me.fbdDAEMONlInstallDir.Description = "选择 DAEMON Tools 的安装目录"
-        Me.fbdDAEMONlInstallDir.RootFolder = System.Environment.SpecialFolder.CommonProgramFilesX86
+        Me.fbdDAEMONlInstallDir.RootFolder = System.Environment.SpecialFolder.MyComputer
         '
         'lblTitle2
         '

@@ -10,29 +10,30 @@
     Partial Friend Class MyApplication
 
         Private Sub MyApplication_Startup(ByVal sender As Object, ByVal e As ApplicationServices.StartupEventArgs) Handles Me.Startup
-            Dim SC4InstallDir As String = Nothing
+            Dim SC4InstallDir As String = Nothing '声明一个用于存储HKEY_LOCAL_MACHINE\SOFTWARE\（Wow6432Node）\Maxis\SimCity 4\Install Dir项值的字符串变量
             If Environment.Is64BitOperatingSystem = True Then SC4InstallDir = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Maxis\SimCity 4", "Install Dir", Nothing)
             If Environment.Is64BitOperatingSystem = False Then SC4InstallDir = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Maxis\SimCity 4", "Install Dir", Nothing)
             With My.Computer.FileSystem
+                '如果已经安装了模拟城市4且Data文件夹不存在则不验证文件完整性
                 If SC4InstallDir <> Nothing And .FileExists(SC4InstallDir & "\Apps\SimCity 4.exe") = True And .FileExists(SC4InstallDir & "\SimCity_1.dat") = True And _
-                .FileExists(SC4InstallDir & "\SimCity_2.dat") = True And .FileExists(SC4InstallDir & "\SimCity_3.dat") And .FileExists(SC4InstallDir & "\SimCity_4.dat") = True Then My.Application.MainForm = frmMain
+                .FileExists(SC4InstallDir & "\SimCity_2.dat") = True And .FileExists(SC4InstallDir & "\SimCity_3.dat") And .FileExists(SC4InstallDir & "\SimCity_4.dat") = True And .DirectoryExists("Data") = False Then My.Application.MainForm = frmMain
             End With
+            '检查是否有新版本可用
             Try
-                If My.Computer.Network.IsAvailable = True And My.Computer.Network.Ping("n0099.sinaapp.com") = True Then
-                    Dim tempfolder As String = Environment.GetEnvironmentVariable("TEMP")
-                    Dim UpdataInfoXML As New Xml.XmlDocument, AutoInstallerNode As Xml.XmlNode
+                If My.Computer.Network.IsAvailable = True And My.Computer.Network.Ping("n0099.sinaapp.com") = True Then '检查能否连接更新服务器
+                    Dim UpdataInfoXML As New Xml.XmlDocument, AutoInstallerNode As Xml.XmlNode '获取更新信息
                     UpdataInfoXML.Load("http://n0099.sinaapp.com/updatainfo.xml")
                     AutoInstallerNode = UpdataInfoXML.GetElementsByTagName("AutoInstaller").Item(0)
                     Dim LatestVersion As String = AutoInstallerNode.Item("LatestVersion").InnerText
                     If LatestVersion.Split(".")(0) > My.Application.Info.Version.Major Or LatestVersion.Split(".")(1) > My.Application.Info.Version.Minor _
-                        Or LatestVersion.Split(".")(2) > My.Application.Info.Version.Revision Then
+                        Or LatestVersion.Split(".")(2) > My.Application.Info.Version.Revision Then '检查是否有新版本可用
                         Dim version As String = My.Application.Info.Version.Major & "." & My.Application.Info.Version.Minor & "." & My.Application.Info.Version.Revision
-                        Dim UpdataDetail As String = AutoInstallerNode.Item("UpdataDetail").InnerText
+                        Dim UpdataDetail As String = AutoInstallerNode.Item("UpdataDetail").InnerText '声明一个用于存储最新版的更新说明的字符串变量
                         If MessageBox.Show("检测到有新版本可用，是否下载更新？" & vbCrLf & "当前版本：" & version & vbCrLf & "更新说明：" & UpdataDetail, "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
-                            Dim DownloadLink As String = AutoInstallerNode.Item("DonwloadLink").InnerText
-                            My.Computer.Network.DownloadFile(DownloadLink, My.Application.Info.DirectoryPath & "\Updata.exe", "", "", True, 6000000, True)
+                            Dim DownloadLink As String = AutoInstallerNode.Item("DonwloadLink").InnerText '声明一个用于存储新版本的下载地址的字符串变量
+                            My.Computer.Network.DownloadFile(DownloadLink, My.Application.Info.DirectoryPath & "\Updata.exe", "", "", True, 6000000, True) '从指定的下载地址下载更新程序
                             If My.Computer.FileSystem.FileExists(My.Application.Info.DirectoryPath & "\Updata.exe") = True Then
-                                Process.Start(My.Application.Info.DirectoryPath & "\Updata.exe")
+                                Process.Start(My.Application.Info.DirectoryPath & "\Updata.exe") '运行更新程序
                                 Environment.Exit(0)
                             End If
                         End If

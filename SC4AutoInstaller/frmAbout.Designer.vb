@@ -117,11 +117,13 @@ Partial Class frmAbout
         '
         'lblThanksList
         '
+        Me.lblThanksList.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.lblThanksList.Location = New System.Drawing.Point(142, 96)
         Me.lblThanksList.Name = "lblThanksList"
         Me.lblThanksList.Size = New System.Drawing.Size(260, 86)
         Me.lblThanksList.TabIndex = 3
-        Me.lblThanksList.Text = "鸣谢：xcVista（SCCN）、百你二渡、虚无中在飘渺、铁木真的使臣（LasmGratel）、绿色食品台风（钽钨毛细血管瘤）、坐在鸭子、周瑜K了Zero、cjak007"
+        Me.lblThanksList.Text = "鸣谢：onewaychou、goflying_、xcVista（SCCN）、百你二渡、虚无中在飘渺、铁木真的使臣（LasmGratel）、绿色食品台风（钽钨毛细血" & _
+    "管瘤）、坐在鸭子、周瑜K了Zero、cjak007"
         '
         'frmAbout
         '

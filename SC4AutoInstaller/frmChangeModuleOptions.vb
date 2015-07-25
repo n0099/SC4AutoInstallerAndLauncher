@@ -55,10 +55,11 @@
     End Sub
 
     Private Sub tvwOptions_BeforeCollapse(sender As Object, e As TreeViewCancelEventArgs) Handles tvwOptions.BeforeCollapse
-        e.Cancel = True
+        e.Cancel = True '禁止折叠树节点
     End Sub
 
     Private Sub tvwOptions_NodeMouseClick(sender As Object, e As TreeNodeMouseClickEventArgs) Handles tvwOptions.NodeMouseClick
+        '当使用鼠标左键点击安装组件列表框的项时更新点击的项的图标和ModuleMain.InstallOptions的值
         With ModuleMain.InstallOptions
             If e.Button <> Windows.Forms.MouseButtons.Left Then Exit Sub
             Select Case e.Node.Name
@@ -67,32 +68,37 @@
                         SetNodeChecked(e.Node.Name, NodeCheckedState.unchecked)
                         Select Case e.Node.Name
                             Case "638补丁" : .Install638Patch = False
+                                '取消安装638补丁时同时取消640和641补丁的安装
                                 SetNodeChecked("640补丁", NodeCheckedState.unchecked) : .Install640Patch = False
                                 SetNodeChecked("641补丁", NodeCheckedState.unchecked) : .Install641Patch = False
                             Case "640补丁" : .Install640Patch = False
-                                SetNodeChecked("638补丁", NodeCheckedState.unchecked) : .Install638Patch = False
+                                '取消安装640补丁时同时取消641补丁的安装
                                 SetNodeChecked("641补丁", NodeCheckedState.unchecked) : .Install641Patch = False
                             Case "641补丁" : .Install641Patch = False
-                                SetNodeChecked("638补丁", NodeCheckedState.unchecked) : .Install638Patch = False
-                                SetNodeChecked("640补丁", NodeCheckedState.unchecked) : .Install640Patch = False
                             Case "4GB补丁" : .Install4GBPatch = False
                             Case "免CD补丁" : .InstallNoCDPatch = False
                             Case "模拟城市4 启动器" : .InstallSC4Launcher = False
+                            Case "添加桌面图标" : .AddDesktopIcon = False
+                            Case "添加开始菜单项" : .AddStartMenuItem = False
                         End Select
                     ElseIf GetNodeChecked(e.Node.Name) = NodeCheckedState.unchecked Then
                         SetNodeChecked(e.Node.Name, NodeCheckedState.checked)
                         Select Case e.Node.Name
                             Case "638补丁" : .Install638Patch = True
+                                '选择安装638补丁时同时取消免CD补丁的安装
                                 SetNodeChecked("免CD补丁", NodeCheckedState.unchecked) : .InstallNoCDPatch = False
                             Case "640补丁" : .Install640Patch = True
+                                '选择安装640补丁时同时选择安装638补丁以及取消免CD补丁的安装
                                 SetNodeChecked("638补丁", NodeCheckedState.checked) : .Install638Patch = True
                                 SetNodeChecked("免CD补丁", NodeCheckedState.unchecked) : .InstallNoCDPatch = False
                             Case "641补丁" : .Install641Patch = True
+                                '选择安装641补丁时同时选择安装638和640补丁以及取消免CD补丁的安装
                                 SetNodeChecked("638补丁", NodeCheckedState.checked) : .Install638Patch = True
                                 SetNodeChecked("640补丁", NodeCheckedState.checked) : .Install640Patch = True
                                 SetNodeChecked("免CD补丁", NodeCheckedState.unchecked) : .InstallNoCDPatch = False
                             Case "4GB补丁" : .Install4GBPatch = True
                             Case "免CD补丁" : .InstallNoCDPatch = True
+                                '选择安装免CD补丁时同时取消638、640和641补丁的安装
                                 SetNodeChecked("638补丁", NodeCheckedState.unchecked) : .Install638Patch = False
                                 SetNodeChecked("640补丁", NodeCheckedState.unchecked) : .Install640Patch = False
                                 SetNodeChecked("641补丁", NodeCheckedState.unchecked) : .Install641Patch = False
@@ -121,14 +127,12 @@
     End Sub
 
     Private Sub frmModuleChangeOption_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
-        If e.CloseReason = CloseReason.ApplicationExitCall Then
-            If MessageBox.Show("确定要退出安装程序吗？", "确认退出", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.No Then e.Cancel = True
-        End If
+        If MessageBox.Show("确定要退出安装程序吗？", "确认退出", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.No Then e.Cancel = True
     End Sub
 
     Private Sub frmModuleChangeOption_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        tvwOptions.ExpandAll()
-        With ModuleMain.InstallOptions
+        tvwOptions.ExpandAll() '展开所有的树节点
+        With ModuleMain.InstallOptions '更新已安装的组件在安装组件列表框里对应项的图标
             If ModuleMain.InstalledModule.Is638PatchInstalled = True Then SetNodeChecked("638补丁", NodeCheckedState.checked) : .Install638Patch = True
             If ModuleMain.InstalledModule.Is640PatchInstalled = True Then SetNodeChecked("640补丁", NodeCheckedState.checked) : .Install640Patch = True
             If ModuleMain.InstalledModule.Is641PatchInstalled = True Then SetNodeChecked("641补丁", NodeCheckedState.checked) : .Install641Patch = True
@@ -144,18 +148,18 @@
                     SetNodeChecked("英语", NodeCheckedState.radiochecked) : ModuleMain.InstallOptions.LanguagePatch = InstallOptions.Language.English
             End Select
         End With
-        Text &= " " & My.Application.Info.Version.Major & "." & My.Application.Info.Version.Minor & "." & My.Application.Info.Version.Revision & " By n0099"
+        Text &= " " & My.Application.Info.Version.Major & "." & My.Application.Info.Version.Minor & "." & My.Application.Info.Version.Revision & " By n0099" '初始化窗口标题
     End Sub
 
     Private Sub btnBack_Click(sender As Object, e As EventArgs) Handles btnBack.Click
         frmMain.Show()
-        RemoveHandler Me.FormClosing, AddressOf frmModuleChangeOption_FormClosing
+        RemoveHandler Me.FormClosing, AddressOf frmModuleChangeOption_FormClosing '移除关闭窗口过程和关闭窗口事件的关联
         Close()
     End Sub
 
     Private Sub btnNext_Click(sender As Object, e As EventArgs) Handles btnNext.Click
         frmInstalling.Show()
-        RemoveHandler Me.FormClosing, AddressOf frmModuleChangeOption_FormClosing
+        RemoveHandler Me.FormClosing, AddressOf frmModuleChangeOption_FormClosing '移除关闭窗口过程和关闭窗口事件的关联
         Close()
     End Sub
 

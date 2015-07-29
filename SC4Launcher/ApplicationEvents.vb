@@ -31,7 +31,7 @@
                         End If
                     End If
                 Else
-WebError:           MessageBox.Show("无法连接更新服务器！请检查网络连接后重试。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+WebError:           MessageBox.Show("无法连接更新服务器！请检查网络连接后重试", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 End If
             Catch ex As Net.WebException : GoTo WebError
             Catch ex As TimeoutException : GoTo WebError

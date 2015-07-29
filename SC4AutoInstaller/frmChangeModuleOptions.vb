@@ -12,26 +12,6 @@
         radiounchecked
     End Enum
 
-    ''' <summary>获取安装组件列表框里项的图标</summary>
-    ''' <param name="NodeName">安装组件列表框项的Name属性值</param>
-    ''' <returns>返回 NodeCheckedState 枚举的值之一</returns>
-    Private Function GetNodeChecked(ByVal NodeName As String) As NodeCheckedState
-        With tvwOptions
-            Select Case .Nodes.Find(NodeName, True)(0).ImageKey
-                Case "checked"
-                    Return NodeCheckedState.checked
-                Case "unchecked"
-                    Return NodeCheckedState.unchecked
-                Case "radiochecked"
-                    Return NodeCheckedState.radiochecked
-                Case "radiounchecked"
-                    Return NodeCheckedState.radiounchecked
-                Case Else
-                    Return Nothing
-            End Select
-        End With
-    End Function
-
     ''' <summary>设置安装组件列表框里项的图标</summary>
     ''' <param name="NodeName">安装组件列表框项的Name属性值</param>
     ''' <param name="value">要设置的图标，必须为 NodeCheckedState 枚举的值之一</param>
@@ -53,6 +33,28 @@
             End Select
         End With
     End Sub
+
+    ''' <summary>获取安装组件列表框里项的图标</summary>
+    ''' <param name="NodeName">安装组件列表框项的Name属性值</param>
+    ''' <returns>返回 NodeCheckedState 枚举的值之一</returns>
+    Private Function GetNodeChecked(ByVal NodeName As String) As NodeCheckedState
+        With tvwOptions
+            Select Case .Nodes.Find(NodeName, True)(0).ImageKey
+                Case "checked"
+                    Return NodeCheckedState.checked
+                Case "unchecked"
+                    Return NodeCheckedState.unchecked
+                Case "radiochecked"
+                    Return NodeCheckedState.radiochecked
+                Case "radiounchecked"
+                    Return NodeCheckedState.radiounchecked
+                Case Else
+                    Return Nothing
+            End Select
+        End With
+    End Function
+
+
 
     Private Sub tvwOptions_BeforeCollapse(sender As Object, e As TreeViewCancelEventArgs) Handles tvwOptions.BeforeCollapse
         e.Cancel = True '禁止折叠树节点

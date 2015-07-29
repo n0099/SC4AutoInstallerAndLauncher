@@ -5,7 +5,7 @@
             Try
                 .DeleteDirectory(ModuleMain.InstalledModule.SC4InstallDir, FileIO.DeleteDirectoryOption.DeleteAllContents) '删除游戏安装目录
             Catch ex As IO.IOException
-                MessageBox.Show("游戏安装目录下的部分文件无法删除，您可以随后手动删除。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                MessageBox.Show("游戏安装目录下的部分文件无法删除" & vbCrLf & "您可以随后手动删除", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             End Try
             prgUninstall.Value += 1
             If .DirectoryExists(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu) & "\Maxis\SimCity 4 Deluxe") = True Then '如果开始菜单文件夹下存在Maxis\SimCity 4 Deluxe文件夹则删除该文件夹
@@ -33,7 +33,7 @@
     End Sub
 
     Private Sub bgwUninstall_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles bgwUninstall.RunWorkerCompleted
-        MessageBox.Show("模拟城市4 豪华版 卸载完成。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        MessageBox.Show("模拟城市4 豪华版 卸载完成", "提示", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         Application.Exit()
     End Sub
 

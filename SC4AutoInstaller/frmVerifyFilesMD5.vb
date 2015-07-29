@@ -1,7 +1,7 @@
 ﻿Public Class frmVerifyFilesMD5
 
     ''' <summary>一个用于存储要验证的文件的相对路径和MD5值的 List 泛型类</summary>
-    Dim DataFilesMD5 As New List(Of String)({"Data\DAEMON Tools Lite 5.0.exe", "E4D2A05D4A5C22C6D4BC20D6B502CE6B", "Data\rar.exe", "863B5C17C3A02095DFAE098CBCC09A6E", "Data\SC4Launcher.exe", "694916B0FA561E88225BA91ECCD9C18F" _
+    Dim DataFilesMD5 As New List(Of String)({"Data\DAEMON Tools Lite 5.0.exe", "E4D2A05D4A5C22C6D4BC20D6B502CE6B", "Data\rar.exe", "863B5C17C3A02095DFAE098CBCC09A6E", "Data\SC4Launcher.exe", "56E57E6AAA272DB5506718C639AC8EF2" _
                                             , "Data\Licenses\CC BY-NC-SA.rtf", "995C9B18CABFBB6DE54A4EE7886D843C", "Data\Licenses\CC BY-NC-SA 3.0 法律文本.rtf", "473B4BFEDFE91351CE00BB962284DBCC" _
                                             , "Data\Licenses\CC BY-NC-SA 4.0 法律文本.rtf", "E27D76D2E75DE182B6C10F6EBA0482A4", "Data\Licenses\EA EULA.txt", "4A263CEC16B302BE4E080A85614A90F9", "Data\Licenses\DAEMON Tools 隐私政策.rtf", "B772FA3468C7C3879A5A16614DC3613C" _
                                             , "Data\Patch\638.rar", "198FC87663DFA08CFACED3600F97C9C6", "Data\Patch\640.rar", "70912679404A52B4F0A3FA41C98B2335", "Data\Patch\SimCity 4 641.exe", "53D2AE4FA9114B88AD91ECF32A7F16A4" _
@@ -36,7 +36,7 @@ Retry:          Dim File As New IO.FileStream(DataFilesMD5(i), IO.FileMode.Open)
                         Case Windows.Forms.DialogResult.Retry
                             File.Close() : GoTo Retry '关闭文件使用后重新开始验证
                         Case Windows.Forms.DialogResult.Ignore
-                            If MessageBox.Show("确定忽略此错误吗？" & vbCrLf & "文件不完整可能会导致安装失败。", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = Windows.Forms.DialogResult.Yes Then GoTo Ignore Else GoTo Retry '跳转到下一个循环
+                            If MessageBox.Show("确定忽略此错误吗？" & vbCrLf & "文件不完整可能会导致安装失败", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = Windows.Forms.DialogResult.Yes Then GoTo Ignore Else GoTo Retry '跳转到下一个循环
                     End Select
                 End If
 Ignore:         bgwComputeMD5.ReportProgress(i)
@@ -48,7 +48,7 @@ Ignore:         bgwComputeMD5.ReportProgress(i)
                     Case Windows.Forms.DialogResult.Retry
                         GoTo Retry
                     Case Windows.Forms.DialogResult.Ignore
-                        If MessageBox.Show("确定忽略此错误吗？" & vbCrLf & "文件不完整可能会导致安装失败。", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = Windows.Forms.DialogResult.Yes Then GoTo Ignore Else GoTo Retry
+                        If MessageBox.Show("确定忽略此错误吗？" & vbCrLf & "文件不完整可能会导致安装失败", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = Windows.Forms.DialogResult.Yes Then GoTo Ignore Else GoTo Retry
                 End Select
             End Try
         Next
@@ -69,7 +69,7 @@ Ignore:         bgwComputeMD5.ReportProgress(i)
 
     Private Sub frmVerifyFilesMD5_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
         If e.CloseReason = CloseReason.UserClosing Then
-            If MessageBox.Show("确定要取消文件验证吗？" & vbCrLf & "如果文件不完整可能会导致安装失败。", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.Yes Then
+            If MessageBox.Show("确定要取消文件验证吗？" & vbCrLf & "如果文件不完整可能会导致安装失败", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.Yes Then
                 frmMain.Show() : bgwComputeMD5.CancelAsync() '取消异步验证文件完整性
                 e.Cancel = False
             Else
@@ -81,12 +81,12 @@ Ignore:         bgwComputeMD5.ReportProgress(i)
     Private Sub frmVerifyFiles_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         With My.Computer.FileSystem
             If .DirectoryExists("Data") = False Then MessageBox.Show("Data 文件夹不存在！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) : Application.Exit()
-            Dim CDSC4FilesMD5() As String = {"Data\CD\SC4DELUXE CD1.mdf", "82A112B441DC90305331ABEFF0E66237", "Data\CD\SC4DELUXE CD1.mds", "CFB13663F10FCAB916C0A4EDD29FC975" _
-                                            , "Data\CD\SC4DELUXE CD2.mdf", "15AD42821D2CCFAC4ED62CF2E5E153D1", "Data\CD\SC4DELUXE CD2.mds", "F623584CCC7E3206045D97CD12D454C8"}
-            Dim NoInstallSC4FileMD5() As String = {"Data\SC4.rar", "2ACDA5FEEE321943722FA49C70D47DF1"}
-            If .DirectoryExists("Data\CD") = True Then DataFilesMD5.AddRange(CDSC4FilesMD5) '如果存在Data\CD文件夹则向要验证的文件列表里增加项
-            If .FileExists("Data\SC4.rar") = True Then DataFilesMD5.AddRange(NoInstallSC4FileMD5) '如果存在Data\SC4.rar文件则向要验证的文件列表里增加项
-            If .DirectoryExists("Data\CD") = False And .FileExists("Data\SC4.rar") = False Then MessageBox.Show("Data\CD 文件夹或 Data\SC4.rar 文件不存在！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) : Application.Exit()
+            Dim CDSC4FilesMD5() As String = {"Data\SC4\CD\CD1.mdf", "82A112B441DC90305331ABEFF0E66237", "Data\SC4\CD\CD1.mds", "CFB13663F10FCAB916C0A4EDD29FC975" _
+                                            , "Data\SC4\CD\CD2.mdf", "15AD42821D2CCFAC4ED62CF2E5E153D1", "Data\SC4\CD\CD2.mds", "F623584CCC7E3206045D97CD12D454C8"}
+            Dim NoInstallSC4FileMD5() As String = {"Data\SC4\NoInstall.rar", "2ACDA5FEEE321943722FA49C70D47DF1"}
+            If .DirectoryExists("Data\SC4\CD") = True Then DataFilesMD5.AddRange(CDSC4FilesMD5) '如果存在Data\SC4\CD文件夹则向要验证的文件列表里增加项
+            If .FileExists("Data\SC4\NoInstall.rar") = True Then DataFilesMD5.AddRange(NoInstallSC4FileMD5) '如果存在Data\SC4\NoInstall.rar文件则向要验证的文件列表里增加项
+            If .DirectoryExists("Data\SC4\CD") = False And .FileExists("Data\SC4\NoInstall.rar") = False Then MessageBox.Show("Data\SC4\CD 文件夹或 Data\SC4\NoInstall.rar 文件不存在！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) : Application.Exit()
         End With
         lblProgress.Text = "0% 0/" & DataFilesMD5.Count / 2 '初始化进度条和进度文本
         prgProgress.Maximum = Int(GetFolderSize("Data") / 1024)

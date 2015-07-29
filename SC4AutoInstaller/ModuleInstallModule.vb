@@ -36,11 +36,11 @@ Module ModuleInstallModule
                 If InstallType = InstallOptions.SC4InstallType.ISO Then
                     If ModuleMain.InstallResult.DAEMONToolsInstallResult = InstallResult.Result.Success Then
                         Do Until My.Computer.FileSystem.FileExists("X:\AutoRun.exe") '将CD1虚拟光驱镜像文件加载到X盘符上
-                            Process.Start(.DAEMONInstallDir & "\DTLite.exe", "-mount dt, X, """ & Environment.CurrentDirectory & "\Data\CD\SC4DELUXE CD1.mdf""")
+                            Process.Start(.DAEMONInstallDir & "\DTLite.exe", "-mount dt, X, """ & Environment.CurrentDirectory & "\Data\SC4\CD\CD1.mdf""")
                             Threading.Thread.Sleep(5000) '等待5秒以避免死循环（DAEMON Tools Lite需要几秒钟来加载虚拟光驱）
                         Loop
                         Do Until My.Computer.FileSystem.FileExists("Y:\RunGame.exe") '将CD2虚拟光驱镜像文件加载到Y盘符上
-                            Process.Start(.DAEMONInstallDir & "\DTLite.exe", "-mount dt, Y, """ & Environment.CurrentDirectory & "\Data\CD\SC4DELUXE CD2.mdf""")
+                            Process.Start(.DAEMONInstallDir & "\DTLite.exe", "-mount dt, Y, """ & Environment.CurrentDirectory & "\Data\SC4\CD\CD2.mdf""")
                             Threading.Thread.Sleep(5000) '等待5秒以避免死循环（DAEMON Tools Lite需要几秒钟来加载虚拟光驱）
                         Loop
 
@@ -95,15 +95,15 @@ Module ModuleInstallModule
                         Loop
 
                         '将GOG版模拟城市4的Graphics Rules.sgr文件解压到游戏安装目录下
-                        Dim RARProcess As Process = Process.Start("Data\rar.exe", "x Data\SC4.rar -o+ ""Graphics Rules.sgr"" """ & .SC4InstallDir & "\""") : RARProcess.WaitForExit()
+                        Dim RARProcess As Process = Process.Start("Data\rar.exe", "x Data\SC4\NoInstall.rar -o+ ""Graphics Rules.sgr"" """ & .SC4InstallDir & "\""") : RARProcess.WaitForExit()
                         Return IIf(RARProcess.ExitCode = 0 Or My.Computer.FileSystem.FileExists(.SC4InstallDir & "\Apps\SimCity 4.exe") = True, InstallResult.Result.Success, InstallResult.Result.Fail)
                     Else
                         '如果DAEMON Tools Lite安装失败，则不安装镜像版模拟城市4，并返回安装失败
                         Return InstallResult.Result.Fail
                     End If
                 ElseIf InstallType = InstallOptions.SC4InstallType.NoInstall Then
-                    Do Until Not IsFileUsing("Data\SC4.rar") : Loop '确保没有进程正在使用Data\SC4.rar文件
-                    Dim RARProcess As Process = Process.Start("Data\rar.exe", "x Data\SC4.rar *.* -o+ """ & .SC4InstallDir & "\""") : RARProcess.WaitForExit() '将Data\SC4.rar压缩包解压到游戏安装目录下替换源文件
+                    Do Until Not IsFileUsing("Data\SC4\NoInstall.rar") : Loop '确保没有进程正在使用Data\SC4\NoInstall.rar文件
+                    Dim RARProcess As Process = Process.Start("Data\rar.exe", "x Data\SC4\NoInstall.rar *.* -o+ """ & .SC4InstallDir & "\""") : RARProcess.WaitForExit() '将Data\SC4\NoInstall.rar压缩包解压到游戏安装目录下替换源文件
                     Return IIf(RARProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
                 End If
             Catch ex As Exception
@@ -123,8 +123,8 @@ Module ModuleInstallModule
                 Do Until Not IsFileUsing("Data\Patch\638.rar") : Loop '确保没有进程正在使用Data\Patch\638.rar文件
                 RARProcess = Process.Start("Data\rar.exe", "x Data\Patch\638.rar *.* -o+ """ & InstallDir & "\""") : RARProcess.WaitForExit() '将Data\Patch\638.rar压缩包解压到游戏安装目录下替换源文件
             Else
-                Do Until Not IsFileUsing("Data\SC4.rar") : Loop '确保没有进程正在使用Data\SC4.rar文件
-                RARProcess = Process.Start("Data\rar.exe", "x Data\SC4.rar ""Apps\SimCity 4.exe"" SimCity_*.dat -o+ """ & InstallDir & "\""") : RARProcess.WaitForExit() '将Data\SC4.rar压缩包的Apps\SimCity 4.exe和SimCity_1到5.dat文件解压到游戏安装目录下替换
+                Do Until Not IsFileUsing("Data\SC4\NoInstall.rar") : Loop '确保没有进程正在使用Data\SC4\NoInstall.rar文件
+                RARProcess = Process.Start("Data\rar.exe", "x Data\SC4\NoInstall.rar ""Apps\SimCity 4.exe"" SimCity_*.dat -o+ """ & InstallDir & "\""") : RARProcess.WaitForExit() '将Data\SC4\NoInstall.rar压缩包的Apps\SimCity 4.exe和SimCity_1到5.dat文件解压到游戏安装目录下替换
             End If
             Return IIf(RARProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
         Catch ex As Exception
@@ -225,9 +225,9 @@ Module ModuleInstallModule
                 My.Computer.FileSystem.CopyFile("Data\Patch\SimCity 4 NoCD.exe", InstallDir & "\Apps\SimCity 4.exe", True) '将Data\Patch\SimCity 4 NoCD.exe复制到游戏安装目录\Apps目录下并重命名为SimCity 4.exe替换源文件
                 Return IIf(My.Computer.FileSystem.GetFileInfo(InstallDir & "\Apps\SimCity 4.exe").Length = 7524352, InstallResult.Result.Success, InstallResult.Result.Fail)
             Else
-                Do Until Not IsFileUsing("Data\SC4.rar") : Loop '确保没有进程正在使用Data\SC4.rar文件
+                Do Until Not IsFileUsing("Data\SC4\NoInstall.rar") : Loop '确保没有进程正在使用Data\SC4\NoInstall.rar文件
 
-                Dim RARProcess As Process = Process.Start("Data\rar.exe", "x Data\SC4.rar ""Apps\SimCity 4.exe"" SimCity_*.dat -o+ """ & InstallDir & "\""") : RARProcess.WaitForExit() '将Data\SC4.rar压缩包的Apps\SimCity 4.exe和SimCity_1到5.dat文件解压到游戏安装目录下替换
+                Dim RARProcess As Process = Process.Start("Data\rar.exe", "x Data\SC4\NoInstall.rar ""Apps\SimCity 4.exe"" SimCity_*.dat -o+ """ & InstallDir & "\""") : RARProcess.WaitForExit() '将Data\SC4\NoInstall.rar压缩包的Apps\SimCity 4.exe和SimCity_1到5.dat文件解压到游戏安装目录下替换
                 Return IIf(RARProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
             End If
         Catch ex As Exception

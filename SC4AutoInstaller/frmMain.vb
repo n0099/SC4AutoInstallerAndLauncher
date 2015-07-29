@@ -91,7 +91,7 @@
             RemoveHandler Me.FormClosing, AddressOf frmMain_FormClosing '移除关闭窗口过程和关闭窗口事件的关联
             Close()
         Else
-            MessageBox.Show("请使用原始安装程序以添加或删除组件。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("请使用原始安装程序以添加或删除组件", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
     End Sub
 

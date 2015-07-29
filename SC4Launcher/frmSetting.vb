@@ -10,16 +10,41 @@ Public Class frmSetting
     ''' <returns>如果文本框的文本为有效的目录路径，则为True；否则为False</returns>
     Private Function IsPathValidated(ByVal TextBox As TextBox) As Boolean
         '声明一个用于存储要验证的安装目录是属于哪个组件的的字符串变量和一个存储要验证的安装目录的路径的字符串变量
-        Dim TextBoxName As String = IIf(TextBox.Name = "txtUserDir", "用户文件目录", "模拟城市4安装目录"), Path As String = TextBox.Text.Trim()
-        If Path = Nothing Then
-            MessageBox.Show(TextBoxName & " 的安装路径不能为空！" & vbCrLf & "您必须输入一个带分区卷标的完整路径！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) : Return False
-        ElseIf System.Text.RegularExpressions.Regex.IsMatch(Path, "[A-Za-z]\:\\") = False Then '使用正则表达式判断路径是否存在分区盘符
-            MessageBox.Show(TextBoxName & " 的安装路径格式不正确！" & vbCrLf & "您必须输入一个带分区卷标和安装文件夹名的完整路径！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) : Return False
-        ElseIf System.Text.RegularExpressions.Regex.IsMatch(Path.Remove(0, Path.IndexOf("\") + 1).TrimEnd("\"), "[\\,\/,\:,\*,\?,\"",\<,\>,\|]") = True Then '使用正则表达式判断去除开头的分区盘符和最后的\后的字符串是否存在不允许的字符
-            MessageBox.Show(TextBoxName & " 的安装路径不能包含下列任何字符：" & vbCrLf & "\ / : * ? "" < > |", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) : Return False
-        ElseIf My.Computer.FileSystem.GetDriveInfo(Path.Substring(0, 1)).IsReady = False Then '判断安装路径的分区是否可写
-            MessageBox.Show(TextBoxName & " 的安装路径的分区不存在或为不可写的分区！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) : Return False
+        Dim TextBoxName As String = IIf(TextBox.Name = "txtDAEMONlInstallDir", "DAEMON Tools Lite", "模拟城市4"), Path As String = TextBox.Text.Trim
+        If Path.Substring(1, Path.Length - 1).EndsWith(":\") = False And Path.EndsWith("\") = True Then Path = Path.TrimEnd("\").Trim() '如果目录路径以\结尾且不是分区根路径则去掉结尾的\
+        If Path.Substring(1, Path.Length - 1).StartsWith(":\") = False Then '确定目录路径以分区盘符开头
+            MessageBox.Show(TextBoxName & "的安装目录路径必须以分区盘符开头！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Return False
         End If
+        Try '创建目录以便验证路径有效
+            My.Computer.FileSystem.CreateDirectory(Path)
+        Catch ex As ArgumentNullException
+            MessageBox.Show("请输入" & TextBoxName & "的目录路径！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Catch ex As ArgumentException
+            MessageBox.Show(TextBoxName & "的目录路径无效！" & vbCrLf & vbCrLf & "可能的原因：" & vbCrLf & "您输入了一个没有分区卷标的路径" & vbCrLf & "您输入了一个含有\ / : * ? "" < > |这些字符的路径" & vbCrLf & "您输入了一个只有空格的路径", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Catch ex As IO.PathTooLongException
+            MessageBox.Show(TextBoxName & "的目录名过长！" & vbCrLf & "目录名不能超过260个字符", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Catch ex As NotSupportedException
+            MessageBox.Show(TextBoxName & "的目录路径不能含有冒号！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Catch ex As IO.IOException
+            MessageBox.Show("无法创建" & TextBoxName & "的目录！" & vbCrLf & vbCrLf & "可能的原因：" & vbCrLf & "其父目录不可写", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Catch ex As UnauthorizedAccessException
+            MessageBox.Show("无法创建" & TextBoxName & "的目录！" & vbCrLf & vbCrLf & "可能的原因：" & vbCrLf & "其父目录不可写")
+        Catch ex As Exception
+            Return False
+        End Try
+        If My.Computer.FileSystem.DirectoryExists(Path) = False Then Return False '确定安装目录存在
+        Try '向目录里写一个空文件以确定该目录可写
+            My.Computer.FileSystem.WriteAllText(Path & "\test", Nothing, False)
+        Catch ex As Security.SecurityException
+            MessageBox.Show(TextBoxName & "的目录无法访问！" & vbCrLf & vbCrLf & "可能的原因：" & vbCrLf & "当前用户没有足够的权限访问该目录或其父目录", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Catch ex As UnauthorizedAccessException
+            MessageBox.Show(TextBoxName & "的目录无法访问！" & vbCrLf & vbCrLf & "可能的原因：" & vbCrLf & "当前用户没有足够的权限访问该目录或其父目录", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Catch ex As Exception
+            Return False
+        Finally
+            If My.Computer.FileSystem.FileExists(Path & "\test") Then My.Computer.FileSystem.DeleteFile(Path & "\test")
+        End Try
         Return True
     End Function
 
@@ -229,7 +254,7 @@ Public Class frmSetting
         End With
         If My.Computer.FileSystem.FileExists(SC4cfgFilePath) = True Then
             My.Computer.FileSystem.DeleteFile(SC4cfgFilePath)
-            MessageBox.Show("已成功删除SimCity 4.cfg文件。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            MessageBox.Show("已成功删除SimCity 4.cfg文件", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Else
             MessageBox.Show("SimCity 4.cfg文件不存在！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End If

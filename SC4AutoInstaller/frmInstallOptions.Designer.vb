@@ -51,18 +51,21 @@ Partial Class frmInstallOptions
         Me.lblTitle = New System.Windows.Forms.Label()
         Me.tvwOptions = New System.Windows.Forms.TreeView()
         Me.imgOptions = New System.Windows.Forms.ImageList(Me.components)
-        Me.grpOptionsDetail = New System.Windows.Forms.GroupBox()
+        Me.grpOptionDetail = New System.Windows.Forms.GroupBox()
         Me.btnDAEMONlInstallDir = New System.Windows.Forms.Button()
         Me.lblDAEMONlInstallDir = New System.Windows.Forms.Label()
         Me.txtDAEMONlInstallDir = New System.Windows.Forms.TextBox()
-        Me.lblOptionsDiskSpace = New System.Windows.Forms.Label()
-        Me.lblOptionsDetail = New System.Windows.Forms.Label()
+        Me.lblOptionDiskSpace = New System.Windows.Forms.Label()
+        Me.lblOptionDetail = New System.Windows.Forms.Label()
         Me.lblNeedsDiskSpace = New System.Windows.Forms.Label()
         Me.fbdSC4InstallDir = New System.Windows.Forms.FolderBrowserDialog()
         Me.fbdDAEMONlInstallDir = New System.Windows.Forms.FolderBrowserDialog()
         Me.lblTitle2 = New System.Windows.Forms.Label()
         Me.cmbOptions = New System.Windows.Forms.ComboBox()
-        Me.grpOptionsDetail.SuspendLayout()
+        Me.pnlOptions = New System.Windows.Forms.Panel()
+        Me.tmrCheckMousePosition = New System.Windows.Forms.Timer(Me.components)
+        Me.grpOptionDetail.SuspendLayout()
+        Me.pnlOptions.SuspendLayout()
         Me.SuspendLayout()
         '
         'txtSC4InstallDir
@@ -132,7 +135,7 @@ Partial Class frmInstallOptions
         '
         Me.tvwOptions.ImageKey = "rootnodebackground.png"
         Me.tvwOptions.ImageList = Me.imgOptions
-        Me.tvwOptions.Location = New System.Drawing.Point(12, 80)
+        Me.tvwOptions.Location = New System.Drawing.Point(0, 20)
         Me.tvwOptions.Name = "tvwOptions"
         TreeNode1.ImageKey = "radiounchecked"
         TreeNode1.Name = "模拟城市4 豪华版 镜像版"
@@ -210,7 +213,7 @@ Partial Class frmInstallOptions
         Me.tvwOptions.SelectedImageIndex = 0
         Me.tvwOptions.ShowPlusMinus = False
         Me.tvwOptions.ShowRootLines = False
-        Me.tvwOptions.Size = New System.Drawing.Size(300, 241)
+        Me.tvwOptions.Size = New System.Drawing.Size(300, 239)
         Me.tvwOptions.TabIndex = 3
         '
         'imgOptions
@@ -224,19 +227,19 @@ Partial Class frmInstallOptions
         Me.imgOptions.Images.SetKeyName(4, "radiochecked")
         Me.imgOptions.Images.SetKeyName(5, "radiounchecked")
         '
-        'grpOptionsDetail
+        'grpOptionDetail
         '
-        Me.grpOptionsDetail.Controls.Add(Me.btnDAEMONlInstallDir)
-        Me.grpOptionsDetail.Controls.Add(Me.lblDAEMONlInstallDir)
-        Me.grpOptionsDetail.Controls.Add(Me.txtDAEMONlInstallDir)
-        Me.grpOptionsDetail.Controls.Add(Me.lblOptionsDiskSpace)
-        Me.grpOptionsDetail.Controls.Add(Me.lblOptionsDetail)
-        Me.grpOptionsDetail.Location = New System.Drawing.Point(318, 60)
-        Me.grpOptionsDetail.Name = "grpOptionsDetail"
-        Me.grpOptionsDetail.Size = New System.Drawing.Size(294, 261)
-        Me.grpOptionsDetail.TabIndex = 4
-        Me.grpOptionsDetail.TabStop = False
-        Me.grpOptionsDetail.Text = "说明"
+        Me.grpOptionDetail.Controls.Add(Me.btnDAEMONlInstallDir)
+        Me.grpOptionDetail.Controls.Add(Me.lblDAEMONlInstallDir)
+        Me.grpOptionDetail.Controls.Add(Me.txtDAEMONlInstallDir)
+        Me.grpOptionDetail.Controls.Add(Me.lblOptionDiskSpace)
+        Me.grpOptionDetail.Controls.Add(Me.lblOptionDetail)
+        Me.grpOptionDetail.Location = New System.Drawing.Point(306, 0)
+        Me.grpOptionDetail.Name = "grpOptionDetail"
+        Me.grpOptionDetail.Size = New System.Drawing.Size(294, 259)
+        Me.grpOptionDetail.TabIndex = 4
+        Me.grpOptionDetail.TabStop = False
+        Me.grpOptionDetail.Text = "说明"
         '
         'btnDAEMONlInstallDir
         '
@@ -266,25 +269,25 @@ Partial Class frmInstallOptions
         Me.txtDAEMONlInstallDir.TabIndex = 2
         Me.txtDAEMONlInstallDir.Visible = False
         '
-        'lblOptionsDiskSpace
+        'lblOptionDiskSpace
         '
-        Me.lblOptionsDiskSpace.Location = New System.Drawing.Point(6, 214)
-        Me.lblOptionsDiskSpace.Name = "lblOptionsDiskSpace"
-        Me.lblOptionsDiskSpace.Size = New System.Drawing.Size(282, 31)
-        Me.lblOptionsDiskSpace.TabIndex = 4
-        Me.lblOptionsDiskSpace.Text = "此组件需要 0KB 硬盘空间"
+        Me.lblOptionDiskSpace.Location = New System.Drawing.Point(6, 214)
+        Me.lblOptionDiskSpace.Name = "lblOptionDiskSpace"
+        Me.lblOptionDiskSpace.Size = New System.Drawing.Size(279, 35)
+        Me.lblOptionDiskSpace.TabIndex = 4
+        Me.lblOptionDiskSpace.Text = "此组件需要 0KB 硬盘空间"
         '
-        'lblOptionsDetail
+        'lblOptionDetail
         '
-        Me.lblOptionsDetail.Location = New System.Drawing.Point(8, 27)
-        Me.lblOptionsDetail.Name = "lblOptionsDetail"
-        Me.lblOptionsDetail.Size = New System.Drawing.Size(279, 119)
-        Me.lblOptionsDetail.TabIndex = 0
-        Me.lblOptionsDetail.Text = "组件说明"
+        Me.lblOptionDetail.Location = New System.Drawing.Point(8, 20)
+        Me.lblOptionDetail.Name = "lblOptionDetail"
+        Me.lblOptionDetail.Size = New System.Drawing.Size(280, 118)
+        Me.lblOptionDetail.TabIndex = 0
+        Me.lblOptionDetail.Text = "组件说明"
         '
         'lblNeedsDiskSpace
         '
-        Me.lblNeedsDiskSpace.Location = New System.Drawing.Point(10, 382)
+        Me.lblNeedsDiskSpace.Location = New System.Drawing.Point(12, 382)
         Me.lblNeedsDiskSpace.Name = "lblNeedsDiskSpace"
         Me.lblNeedsDiskSpace.Size = New System.Drawing.Size(600, 12)
         Me.lblNeedsDiskSpace.TabIndex = 8
@@ -315,10 +318,25 @@ Partial Class frmInstallOptions
         Me.cmbOptions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cmbOptions.FormattingEnabled = True
         Me.cmbOptions.Items.AddRange(New Object() {"完全安装", "推荐安装", "精简安装", "自定义"})
-        Me.cmbOptions.Location = New System.Drawing.Point(12, 60)
+        Me.cmbOptions.Location = New System.Drawing.Point(0, 0)
         Me.cmbOptions.Name = "cmbOptions"
         Me.cmbOptions.Size = New System.Drawing.Size(300, 20)
         Me.cmbOptions.TabIndex = 2
+        '
+        'pnlOptions
+        '
+        Me.pnlOptions.Controls.Add(Me.cmbOptions)
+        Me.pnlOptions.Controls.Add(Me.tvwOptions)
+        Me.pnlOptions.Controls.Add(Me.grpOptionDetail)
+        Me.pnlOptions.Location = New System.Drawing.Point(12, 60)
+        Me.pnlOptions.Name = "pnlOptions"
+        Me.pnlOptions.Size = New System.Drawing.Size(600, 259)
+        Me.pnlOptions.TabIndex = 12
+        '
+        'tmrCheckMousePosition
+        '
+        Me.tmrCheckMousePosition.Enabled = True
+        Me.tmrCheckMousePosition.Interval = 500
         '
         'frmInstallOptions
         '
@@ -327,11 +345,9 @@ Partial Class frmInstallOptions
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.btnCancel
         Me.ClientSize = New System.Drawing.Size(624, 442)
-        Me.Controls.Add(Me.cmbOptions)
+        Me.Controls.Add(Me.pnlOptions)
         Me.Controls.Add(Me.lblTitle2)
         Me.Controls.Add(Me.lblNeedsDiskSpace)
-        Me.Controls.Add(Me.grpOptionsDetail)
-        Me.Controls.Add(Me.tvwOptions)
         Me.Controls.Add(Me.txtSC4InstallDir)
         Me.Controls.Add(Me.btnSC4InstallDir)
         Me.Controls.Add(Me.lblTitle)
@@ -345,12 +361,13 @@ Partial Class frmInstallOptions
         Me.Name = "frmInstallOptions"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "模拟城市4 豪华版 自动安装程序"
-        Me.grpOptionsDetail.ResumeLayout(False)
-        Me.grpOptionsDetail.PerformLayout()
+        Me.grpOptionDetail.ResumeLayout(False)
+        Me.grpOptionDetail.PerformLayout()
+        Me.pnlOptions.ResumeLayout(False)
         Me.ResumeLayout(False)
-        Me.PerformLayout()
+        Me.PerformLayout
 
-    End Sub
+End Sub
     Friend WithEvents txtSC4InstallDir As System.Windows.Forms.TextBox
     Friend WithEvents btnSC4InstallDir As System.Windows.Forms.Button
     Friend WithEvents lblSC4lInstallDir As System.Windows.Forms.Label
@@ -359,9 +376,9 @@ Partial Class frmInstallOptions
     Friend WithEvents btnBack As System.Windows.Forms.Button
     Friend WithEvents lblTitle As System.Windows.Forms.Label
     Friend WithEvents tvwOptions As System.Windows.Forms.TreeView
-    Friend WithEvents grpOptionsDetail As System.Windows.Forms.GroupBox
-    Friend WithEvents lblOptionsDiskSpace As System.Windows.Forms.Label
-    Friend WithEvents lblOptionsDetail As System.Windows.Forms.Label
+    Friend WithEvents grpOptionDetail As System.Windows.Forms.GroupBox
+    Friend WithEvents lblOptionDiskSpace As System.Windows.Forms.Label
+    Friend WithEvents lblOptionDetail As System.Windows.Forms.Label
     Friend WithEvents lblNeedsDiskSpace As System.Windows.Forms.Label
     Friend WithEvents btnDAEMONlInstallDir As System.Windows.Forms.Button
     Friend WithEvents lblDAEMONlInstallDir As System.Windows.Forms.Label
@@ -371,4 +388,6 @@ Partial Class frmInstallOptions
     Friend WithEvents imgOptions As System.Windows.Forms.ImageList
     Friend WithEvents lblTitle2 As System.Windows.Forms.Label
     Friend WithEvents cmbOptions As System.Windows.Forms.ComboBox
+    Friend WithEvents pnlOptions As System.Windows.Forms.Panel
+    Friend WithEvents tmrCheckMousePosition As System.Windows.Forms.Timer
 End Class

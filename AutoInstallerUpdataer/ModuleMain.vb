@@ -29,6 +29,9 @@
                 End If
                 If .FileExists("Data\Patch\638.EXE") = True Then .DeleteFile("Data\Patch\638.EXE")
                 If .FileExists("Data\Patch\640.exe") = True Then .DeleteFile("Data\Patch\640.exe")
+                '2.4.10
+                If .DirectoryExists("Data\CD") = True Then .MoveDirectory("Data\CD", "Data\SC4\CD")
+                If .FileExists("Data\SC4.rar") = True Then .MoveFile("Data\SC4.rar", "Data\SC4\NoInstall.rar")
             Else
                 .DeleteDirectory("Data", FileIO.DeleteDirectoryOption.DeleteAllContents)
             End If

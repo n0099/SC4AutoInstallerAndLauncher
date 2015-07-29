@@ -34,13 +34,14 @@ Partial Class frmAbout
         Me.lblName = New System.Windows.Forms.Label()
         Me.picLogo = New System.Windows.Forms.PictureBox()
         Me.lblThanksList = New System.Windows.Forms.Label()
+        Me.llbSCCN = New System.Windows.Forms.LinkLabel()
         CType(Me.picLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'btnClose
         '
         Me.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnClose.Location = New System.Drawing.Point(327, 221)
+        Me.btnClose.Location = New System.Drawing.Point(327, 227)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(75, 23)
         Me.btnClose.TabIndex = 7
@@ -49,25 +50,27 @@ Partial Class frmAbout
         'lblVersion
         '
         Me.lblVersion.AutoSize = True
+        Me.lblVersion.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.lblVersion.Location = New System.Drawing.Point(142, 54)
         Me.lblVersion.Name = "lblVersion"
-        Me.lblVersion.Size = New System.Drawing.Size(41, 12)
+        Me.lblVersion.Size = New System.Drawing.Size(44, 17)
         Me.lblVersion.TabIndex = 1
         Me.lblVersion.Text = "版本号"
         '
         'lblAuthor
         '
         Me.lblAuthor.AutoSize = True
-        Me.lblAuthor.Location = New System.Drawing.Point(142, 75)
+        Me.lblAuthor.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.lblAuthor.Location = New System.Drawing.Point(323, 54)
         Me.lblAuthor.Name = "lblAuthor"
-        Me.lblAuthor.Size = New System.Drawing.Size(71, 12)
+        Me.lblAuthor.Size = New System.Drawing.Size(79, 17)
         Me.lblAuthor.TabIndex = 2
         Me.lblAuthor.Text = "作者：n0099"
         '
         'llbBlog
         '
         Me.llbBlog.AutoSize = True
-        Me.llbBlog.Location = New System.Drawing.Point(237, 193)
+        Me.llbBlog.Location = New System.Drawing.Point(195, 227)
         Me.llbBlog.Name = "llbBlog"
         Me.llbBlog.Size = New System.Drawing.Size(71, 12)
         Me.llbBlog.TabIndex = 5
@@ -77,7 +80,7 @@ Partial Class frmAbout
         'llbReportBug
         '
         Me.llbReportBug.AutoSize = True
-        Me.llbReportBug.Location = New System.Drawing.Point(314, 193)
+        Me.llbReportBug.Location = New System.Drawing.Point(142, 227)
         Me.llbReportBug.Name = "llbReportBug"
         Me.llbReportBug.Size = New System.Drawing.Size(47, 12)
         Me.llbReportBug.TabIndex = 6
@@ -87,7 +90,7 @@ Partial Class frmAbout
         'llbSCB
         '
         Me.llbSCB.AutoSize = True
-        Me.llbSCB.Location = New System.Drawing.Point(142, 193)
+        Me.llbSCB.Location = New System.Drawing.Point(142, 203)
         Me.llbSCB.Name = "llbSCB"
         Me.llbSCB.Size = New System.Drawing.Size(89, 12)
         Me.llbSCB.TabIndex = 4
@@ -118,12 +121,22 @@ Partial Class frmAbout
         'lblThanksList
         '
         Me.lblThanksList.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.lblThanksList.Location = New System.Drawing.Point(142, 96)
+        Me.lblThanksList.Location = New System.Drawing.Point(142, 82)
         Me.lblThanksList.Name = "lblThanksList"
-        Me.lblThanksList.Size = New System.Drawing.Size(260, 86)
+        Me.lblThanksList.Size = New System.Drawing.Size(260, 92)
         Me.lblThanksList.TabIndex = 3
-        Me.lblThanksList.Text = "鸣谢：onewaychou、goflying_、xcVista（SCCN）、百你二渡、虚无中在飘渺、铁木真的使臣（LasmGratel）、绿色食品台风（钽钨毛细血" & _
-    "管瘤）、坐在鸭子、周瑜K了Zero、cjak007"
+        Me.lblThanksList.Text = "鸣谢：yangyinjie123、Sourire丶雨、萧涯离、帽子578onewaychou、goflying_、xcVista（SCCN）、百你二渡、虚无中在飘" & _
+    "渺、铁木真的使臣（LasmGratel）、绿色食品台风（钽钨毛细血管瘤）、坐在鸭子、周瑜K了Zero和cjak007"
+        '
+        'llbSCCN
+        '
+        Me.llbSCCN.AutoSize = True
+        Me.llbSCCN.Location = New System.Drawing.Point(237, 203)
+        Me.llbSCCN.Name = "llbSCCN"
+        Me.llbSCCN.Size = New System.Drawing.Size(137, 12)
+        Me.llbSCCN.TabIndex = 13
+        Me.llbSCCN.TabStop = True
+        Me.llbSCCN.Text = "模拟城市中文网（SCCN）"
         '
         'frmAbout
         '
@@ -131,7 +144,8 @@ Partial Class frmAbout
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.btnClose
-        Me.ClientSize = New System.Drawing.Size(414, 255)
+        Me.ClientSize = New System.Drawing.Size(414, 261)
+        Me.Controls.Add(Me.llbSCCN)
         Me.Controls.Add(Me.lblThanksList)
         Me.Controls.Add(Me.picLogo)
         Me.Controls.Add(Me.btnClose)
@@ -164,5 +178,6 @@ Partial Class frmAbout
     Friend WithEvents lblName As System.Windows.Forms.Label
     Friend WithEvents picLogo As System.Windows.Forms.PictureBox
     Friend WithEvents lblThanksList As System.Windows.Forms.Label
+    Friend WithEvents llbSCCN As System.Windows.Forms.LinkLabel
 
 End Class

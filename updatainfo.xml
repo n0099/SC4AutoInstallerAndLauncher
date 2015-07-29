@@ -1,52 +1,39 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <UpdataInfo>
   <AutoInstaller>
-    <LatestVersion>2.3.38</LatestVersion>
+    <LatestVersion>2.4.10</LatestVersion>
     <UpdataDetail>
-模拟城市4 豪华版 自动安装程序(SC4AutoInstaller) 2.3.38 正式版 (2015-07-25)<br />
+模拟城市4 豪华版 自动安装程序(SC4AutoInstaller) 2.4.10 正式版 (2015-07-29)<br />
 ====================================================================================<br />
-<br />
-新增<br />
-====<br />
-1.如果Data\CD文件夹不存在，在验证文件完整性时会跳过该文件夹的验证且在安装选项窗口没有模拟城市4 豪华版 镜像版项。<br />
-2.如果Data\SC4.rar文件不存在，在验证文件完整性时会跳过该文件的验证且在安装选项窗口没有模拟城市4 豪华版 硬盘版项。<br />
 <br />
 修改<br />
 ====<br />
-1.在关于窗口的鸣谢文本框里添加了onewaychou和goflying_的名字。<br />
-2.将关于窗口的鸣谢文本框的字体和字号改为微软雅黑和9pt。<br />
-3.修改了安装完成窗口的Tab键顺序。<br />
-4.将验证文件完整性窗口的进度条的最大值和进度百分比由要验证的文件数量改为要验证的文件占用空间。<br />
+1.在关于窗口的鸣谢文本框里添加了yangyinjie123、Sourire丶雨、萧涯离和帽子578的名字。<br />
+2.更改了关于窗口的大小、添加模拟城市中文网的链接和移动文字位置。<br />
+3.修改了在安装选项窗口当鼠标指针放在安装组件列表框的添加桌面图标或添加开始菜单项时的组件信息的文本。<br />
+4.将Data\SC4.rar文件重命名为Data\SC4\NoInstall.rar；将Data\CD文件夹移到到Data\SC4下。<br />
+5.将Data\CD\SC4DELUXE CD1.mdf、SC4DELUXE CD1.mds、SC4DELUXE CD2.mdf和SC4DELUXE CD2.mds文件重命名为Data\SC4\CD\CD1.mdf、CD1.mds、CD2.mdf和CD2.mds。<br />
 <br />
 修复<br />
 ====<br />
-1.修复了如果已经安装了DAEMON Tools Lite，在安装选项窗口改变快速选择组件组合框时会触发IndexOutOfRangeException异常的bug。<br />
-2.修复了即便已经在安装选项窗口更改了模拟城市4的安装目录且选择安装镜像版模拟城市，在安装中窗口仍然会安装到G:\SC4目录下的bug（感谢onewaychou、goflying_、虚无中在飘渺发现此bug）。<br />
-3.修复了如果在安装选项窗口选择安装镜像版模拟城市4，且不存在盘符为G的磁盘分区，在安装完成窗口显示所有组件都安装失败的bug（感谢onewaychou、goflying_、虚无中在飘渺发现此bug）。<br />
-4.修复了如果在安装选项窗口选择安装镜像版模拟城市4，在安装该组件时会触发IndexOutOfRangeException异常并在安装完成窗口显示所有组件均安装失败的bug（感谢onewaychou、goflying_、虚无中在飘渺发现此bug）。<br />
-5.修复了通过点击标题栏右上角的X按钮关闭任何一个窗口时不会弹出确定退出对话框的bug。<br />
-6.修复了在安装选项窗口如果安装路径是以空格开头的，则点击安装按钮时会触发ArgumentException异常的bug。<br />
-7.修复了在安装选项窗口的安装路径文本框可以输入以空格结尾或含有\、/、:、*、?、&quot;、&lt;、&gt;和|字符的安装路径的bug。<br />
-8.修复了如果在安装选项窗口验证安装路径是否有效时触发了异常，可能不会将安装目录下的test文件删除的bug。<br />
-9.修复了在安装选项窗口的安装路径文本框输入以不存在的分区盘符开头的路径后点击安装按钮会提示安装路径无法访问而不是提示分区不存在的bug。<br />
-10.修复了如果已经安装了模拟城市4，则打开安装程序后不会验证文件完整性的bug。<br />
-11.修复了在安装选项窗口或添加或删除组件窗口取消安装640或641补丁会同时取消安装638或640补丁的bug。<br />
-12.修复了如果在添加或删除组件窗口选择安装638或640补丁，同时选择卸载4GB补丁，在安装中窗口无法卸载4GB补丁的bug。<br />
-13.修复了在验证文件完整性窗口，如果要验证文件正在被其他进程使用，则会直接跳过验证文件完整性的bug。<br />
-14.修复了在验证文件完整性窗口如果某个文件不完整，点击弹出的文件不完整对话框的忽略按钮后，如果点击弹出的确认忽略对话框的否后会跳过该文件的验证的bug。<br />
+1.修复了即便存在Data\CD文件夹，在安装选项窗口仍然只有模拟城市4 豪华版 硬盘版选项的bug。<br />
+2.修复了鼠标指针一旦移出安装选项窗口的安装组件列表框，组件信息里的DAEMON Tools Lite安装目录文本框和按钮就会消失的bug。<br />
+3.修复了在安装选项窗口如果在安装目录文本框里输入以空格和\结尾的路径，仍然可以通过验证安装目录路径的bug（感谢萧涯离、goflying_和帽子578发现此bug）。<br />
+4.修复了在安装选项窗口只要在安装目录文本框输入以分区盘符开头的路径，验证安装目录路径时会弹出安装路径格式不正确对话框的bug。（感谢萧涯离、goflying_和帽子578发现此bug）<br />
+5.修复了在32位系统下，在进入安装选项窗口时或切换快速选择组件组合框项时会触发IndexOutOfRangeException异常的bug（感谢yangyinjie123和Sourire丶雨发现此bug）。<br />
     </UpdataDetail>
     <DonwloadLink>http://cdn.sinacloud.net/updata/AutoInstallerUpdata.exe</DonwloadLink>
   </AutoInstaller>
   <Launcher>
-    <LatestVersion>1.0.22</LatestVersion>
+    <LatestVersion>1.0.24</LatestVersion>
     <UpdataDetail>
-模拟城市4 启动器(SC4Launcher) 1.0.22 正式版 (2015-07-25)<br />
+模拟城市4 启动器(SC4Launcher) 1.0.24 正式版 (2015-07-29)<br />
 ====================================================================================<br />
 <br />
 修复<br />
 ====<br />
-1.修复了在设置窗口的用户文件目录文本框可以输入以空格结尾或含有\、/、:、*、?、&quot;、&lt;、&gt;和|字符的路径的bug。<br />
-2.修复了在设置窗口的用户文件目录文本框可以输入以不存在的分区盘符开头的路径的bug。<br />
+1.修复了在设置窗口如果在用户文件目录或模拟城市4 安装路径文本框里输入以空格和\结尾的路径，仍然可以通过验证安装目录路径的bug（感谢萧涯离、goflying_和帽子578发现此bug）。<br />
+2.修复了在设置窗口只要在用户文件目录或模拟城市4 安装路径文本框输入以分区盘符开头的路径，验证安装目录路径时会弹出安装路径格式不正确对话框的bug（感谢萧涯离、goflying_和帽子578发现此bug）。<br />
     </UpdataDetail>
     <DonwloadLink>http://cdn.sinacloud.net/updata/LauncherUpdata.exe</DonwloadLink>
   </Launcher>

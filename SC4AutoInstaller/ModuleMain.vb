@@ -29,46 +29,10 @@ Module ModuleMain
     ''' <param name="hWnd">其菜单条需要被重画的窗口的句柄。</param>
     ''' <returns>如果函数调用成功，返回非零值：如果函数调用失败，返回值是零。</returns>
     Public Declare Function DrawMenuBar Lib "user32" (ByVal hWnd As IntPtr) As Integer
-
-    ''' <summary>该函数将指定的消息发送到一个或多个窗口。此函数为指定的窗口调用窗口程序，直到窗口程序处理完消息再返回。</summary>
-    ''' <param name="hWnd">其窗口程序将接收消息的窗口的句柄。如果此参数为HWND_BROADCAST，则消息将被发送到系统中所有顶层窗口，包括无效或不可见的非自身拥有的窗口、被覆盖的窗口和弹出式窗口，但消息不被发送到子窗口。</param>
-    ''' <param name="Msg">指定被发送的消息。</param>
-    ''' <param name="wParam">指定附加的消息特定信息。</param>
-    ''' <param name="lParam">指定附加的消息特定信息。</param>
-    ''' <returns>返回值指定消息处理的结果，依赖于所发送的消息。</returns>
-    ''' <remarks>需要用HWND_BROADCAST通信的应用程序应当使用函数RegisterWindowMessage来为应用程序间的通信取得一个唯一的消息。</remarks>
-    Public Declare Function SendMessage Lib "user32" Alias "SendMessageA" (ByVal hWnd As IntPtr, ByVal Msg As UInteger, ByVal wParam As IntPtr, ByVal lParam As String) As IntPtr
-    ''' <summary>该函数将一个消息放入（寄送）到与指定窗口创建的线程相联系消息队列里，不等待线程处理消息就返回，是异步消息模式。</summary>
-    ''' <param name="hWnd">其窗口程序接收消息的窗口的句柄。</param>
-    ''' <param name="Msg">指定被寄送的消息。</param>
-    ''' <param name="wParam">指定附加的消息特定的信息。</param>
-    ''' <param name="lParam">指定附加的消息特定的信息。</param>
-    ''' <returns>如果函数调用成功，返回非零，否则返回值为零</returns>
-    Public Declare Function PostMessage Lib "user32" Alias "PostMessageA" (ByVal hWnd As IntPtr, ByVal Msg As UInteger, ByVal wParam As IntPtr, ByVal lParam As IntPtr) As Boolean
-
-    ''' <summary>FindWindow函数检索处理顶级窗口的类名和窗口名称匹配指定的字符串。该函数不搜索子窗口。</summary>
-    ''' <param name="lpClassName">指向一个以null结尾的、用来指定类名的字符串或一个可以确定类名字符串的原子。</param>
-    ''' <param name="lpWindowName">指向一个以null结尾的、用来指定窗口名（即窗口标题）的字符串。如果此参数为NULL，则匹配所有窗口名。</param>
-    ''' <returns>如果函数执行成功，则返回值是拥有指定窗口类名或窗口名的窗口的句柄。</returns>
-    Public Declare Function FindWindow Lib "user32" Alias "FindWindowA" (ByVal lpClassName As String, ByVal lpWindowName As String) As IntPtr
-    ''' <summary>在窗口列表中寻找与指定条件相符的第一个子窗口。</summary>
-    ''' <param name="parentHandle">要查找的子窗口所在的父窗口的句柄。</param> 
-    ''' <param name="childAfter">子窗口句柄。查找从在Z序中的下一个子窗口开始。</param>
-    ''' <param name="lclassName">指向一个指定了类名的空结束字符串，或一个标识类名字符串的成员的指针。</param>
-    ''' <param name="windowTitle">指向一个指定了窗口名（窗口标题）的空结束字符串。如果该参数为 NULL，则为所有窗口全匹配。</param>
-    ''' <returns>如果函数成功，返回值为具有指定类名和窗口名的窗口句柄。如果函数失败，返回值为NULL。</returns>
-    Public Declare Function FindWindowEx Lib "user32" Alias "FindWindowExA" (ByVal parentHandle As IntPtr, ByVal childAfter As IntPtr, ByVal lclassName As String, ByVal windowTitle As String) As IntPtr
-
-    ''' <summary>改变一个子窗口，弹出式窗口或顶层窗口的尺寸，位置和Z序。子窗口，弹出式窗口，及顶层窗口根据它们在屏幕上出现的顺序排序、顶层窗口设置的级别最高，并且被设置为Z序的第一个窗口。</summary>
-    ''' <param name="hWnd">窗口句柄。</param>
-    ''' <param name="hWndInsertAfter">在z序中的位于被置位的窗口前的窗口句柄。该参数必须为一个窗口句柄。</param>
-    ''' <param name="X">以客户坐标指定窗口新位置的左边界。</param>
-    ''' <param name="Y">以客户坐标指定窗口新位置的顶边界。</param>
-    ''' <param name="cx">以像素指定窗口的新的宽度。</param>
-    ''' <param name="cy">以像素指定窗口的新的高度。</param>
-    ''' <param name="uFlags">窗口尺寸和定位的标志。</param>
-    ''' <returns>如果函数成功，返回值为非零；如果函数失败，返回值为零。</returns>
-    Public Declare Function SetWindowPos Lib "user32" (ByVal hWnd As IntPtr, ByVal hWndInsertAfter As IntPtr, ByVal X As Integer, ByVal Y As Integer, ByVal cx As Integer, ByVal cy As Integer, ByVal uFlags As UInteger) As Boolean
+    ''' <summary>Indicates that the uIDCheckItem parameter gives the zero-based relative position of the menu item.</summary>
+    Public Const MF_BYPOSITION = &H400&
+    ''' <summary>使菜单项无效，以便它不能被选择，但不变灰。</summary>
+    Public Const MF_DISABLED = &H2&
 
     ''' <summary>Flashes the specified window. It does not change the active state of the window.</summary>
     ''' <param name="pwfi">A pointer to a FLASHWINFO structure.</param>
@@ -88,27 +52,6 @@ Module ModuleMain
         ''' <summary>The rate at which the window is to be flashed, in milliseconds. If dwTimeout is zero, the function uses the default cursor blink rate.</summary>
         Public dwTimeout As UInt32
     End Structure
-
-    ''' <summary>当用户在window客户区域点击鼠标左键的时候发送。如果当前鼠标没有被捕捉，消息发送给鼠标下面的window窗体。否则，消息发送给当前捕捉鼠标消息的方法。</summary>
-    Public Const WM_LBUTTONDOWN = &H201
-    ''' <summary>当光标在窗口客户区时，用户释放鼠标左键时发出的消息。如果鼠标没有捕获，这个消息被送到光标下的窗口。否则，该消息发布到捕获鼠标的窗口。</summary>
-    Public Const WM_LBUTTONUP = &H202
-
-    ''' <summary>Sets the text of a window.</summary>
-    Public Const WM_SETTEXT = &HC
-
-    ''' <summary>将窗口置于Z序的顶部。</summary>
-    Public Const HWND_TOP = 0
-    ''' <summary>维持当前尺寸（忽略cx和Cy参数）。</summary>
-    Public Const SWP_NOSIZE = &H1
-    ''' <summary>维持当前位置（忽略X和Y参数）。</summary>
-    Public Const SWP_NOMOVE = &H2
-
-    ''' <summary>Indicates that the uIDCheckItem parameter gives the zero-based relative position of the menu item.</summary>
-    Public Const MF_BYPOSITION = &H400&
-    ''' <summary>使菜单项无效，以便它不能被选择，但不变灰。</summary>
-    Public Const MF_DISABLED = &H2&
-
     ''' <summary>Flash both the window caption and taskbar button. This is equivalent to setting the FLASHW_CAPTION | FLASHW_TRAY flags.</summary>
     Public Const FLASHW_ALL = 3
 

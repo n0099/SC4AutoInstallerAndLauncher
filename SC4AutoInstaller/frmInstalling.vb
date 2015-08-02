@@ -57,10 +57,10 @@
                     SC4Item.ImageKey = "installing" : ReportProgress(ModuleInstallModule.InstallSC4(InstallOptions.SC4InstallType.ISO), SC4Item)
                 ElseIf .SC4Type = InstallOptions.SC4InstallType.NoInstall Then
                     SC4Item.ImageKey = "installing" : ReportProgress(ModuleInstallModule.InstallSC4(InstallOptions.SC4InstallType.NoInstall), SC4Item)
-                    ModuleInstallModule.SetNoInstallSC4RegValue() '导入镜像版模拟城市4所添加的注册表项
                 End If
-                ModuleInstallModule.SetControlPanelProgramItemRegValue() '在控制面板的卸载或更改程序里添加模拟城市4 豪华版 自动安装程序项
                 If bgwInstall.CancellationPending = True Then Exit Sub '如果模拟城市4安装失败则停止安装后续组件
+                If .SC4Type = InstallOptions.SC4InstallType.NoInstall Then ModuleInstallModule.SetNoInstallSC4RegValue() '导入镜像版模拟城市4所添加的注册表项
+                ModuleInstallModule.SetControlPanelProgramItemRegValue() '在控制面板的卸载或更改程序里添加模拟城市4 豪华版 自动安装程序项
                 '安装指定的组件并将安装组件列表框里对应项的图标改为安装中图标
                 If .Install638Patch = True Then _638PatchItem.ImageKey = "installing" _
                     : ReportProgress(ModuleInstallModule.Install638Patch(.SC4InstallDir, False), _638PatchItem)
@@ -88,12 +88,22 @@
                 If .AddStartMenuItem = True Then AddStartMenuIem.ImageKey = "installing" : ReportProgress(ModuleInstallModule.AddStartMenuItems(), AddStartMenuIem)
             Else
                 '安装或卸载指定的组件并将安装组件列表框里对应项的图标改为安装中图标
-                If ModuleMain.InstalledModule.Is638PatchInstalled <> .Install638Patch Then _638PatchItem.ImageKey = "installing" _
-                    : ReportProgress(ModuleInstallModule.Install638Patch(ModuleMain.InstalledModule.SC4InstallDir, Not .Install638Patch), _638PatchItem)
-                If ModuleMain.InstalledModule.Is640PatchInstalled <> .Install640Patch And ModuleMain.InstallResult._638PatchInstallResult = InstallResult.Result.Success Then _640PatchItem.ImageKey = "installing" _
-                    : ReportProgress(ModuleInstallModule.Install640Patch(ModuleMain.InstalledModule.SC4InstallDir, Not .Install640Patch), _640PatchItem)
-                If ModuleMain.InstalledModule.Is641PatchInstalled <> .Install641Patch And ModuleMain.InstallResult._641PatchInstallResult = InstallResult.Result.Success Then _641PatchItem.ImageKey = "installing" _
-                    : ReportProgress(ModuleInstallModule.Install641Patch(ModuleMain.InstalledModule.SC4InstallDir, Not .Install641Patch), _641PatchItem)
+                '如果要安装638、640或641补丁则按照安装638、安装640和安装641的顺序安装，如果要卸载638、640或641补丁则按照卸载641、卸载640和卸载638补丁的顺序卸载
+                If .Install638Patch = True Or .Install640Patch = True Or .Install641Patch = True Then
+                    If ModuleMain.InstalledModule.Is638PatchInstalled <> .Install638Patch Then _638PatchItem.ImageKey = "installing" _
+                        : ReportProgress(ModuleInstallModule.Install638Patch(ModuleMain.InstalledModule.SC4InstallDir, Not .Install638Patch), _638PatchItem)
+                    If ModuleMain.InstalledModule.Is640PatchInstalled <> .Install640Patch And ModuleMain.InstallResult._638PatchInstallResult = InstallResult.Result.Success Then _640PatchItem.ImageKey = "installing" _
+                        : ReportProgress(ModuleInstallModule.Install640Patch(ModuleMain.InstalledModule.SC4InstallDir, Not .Install640Patch), _640PatchItem)
+                    If ModuleMain.InstalledModule.Is641PatchInstalled <> .Install641Patch And ModuleMain.InstallResult._641PatchInstallResult = InstallResult.Result.Success Then _641PatchItem.ImageKey = "installing" _
+                        : ReportProgress(ModuleInstallModule.Install641Patch(ModuleMain.InstalledModule.SC4InstallDir, Not .Install641Patch), _641PatchItem)
+                ElseIf .Install638Patch = True Or .Install640Patch = True Or .Install641Patch = True Then
+                    If ModuleMain.InstalledModule.Is641PatchInstalled <> .Install641Patch And ModuleMain.InstallResult._641PatchInstallResult = InstallResult.Result.Success Then _641PatchItem.ImageKey = "installing" _
+                        : ReportProgress(ModuleInstallModule.Install641Patch(ModuleMain.InstalledModule.SC4InstallDir, Not .Install641Patch), _641PatchItem)
+                    If ModuleMain.InstalledModule.Is640PatchInstalled <> .Install640Patch And ModuleMain.InstallResult._638PatchInstallResult = InstallResult.Result.Success Then _640PatchItem.ImageKey = "installing" _
+                        : ReportProgress(ModuleInstallModule.Install640Patch(ModuleMain.InstalledModule.SC4InstallDir, Not .Install640Patch), _640PatchItem)
+                    If ModuleMain.InstalledModule.Is638PatchInstalled <> .Install638Patch Then _638PatchItem.ImageKey = "installing" _
+                        : ReportProgress(ModuleInstallModule.Install638Patch(ModuleMain.InstalledModule.SC4InstallDir, Not .Install638Patch), _638PatchItem)
+                End If
                 If ModuleMain.InstalledModule.IsNoCDPatchInstalled <> .InstallNoCDPatch Then NoCDPatchItem.ImageKey = "installing" _
                     : ReportProgress(ModuleInstallModule.InstallNoCDPatch(ModuleMain.InstalledModule.SC4InstallDir, Not .InstallNoCDPatch), NoCDPatchItem)
                 If ModuleMain.InstalledModule.Is4GBPatchInstalled <> .Install4GBPatch Then _4GBPatchItem.ImageKey = "installing" _

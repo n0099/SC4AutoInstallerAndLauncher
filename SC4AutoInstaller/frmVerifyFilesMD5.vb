@@ -1,10 +1,10 @@
 ﻿Public Class frmVerifyFilesMD5
 
     ''' <summary>一个用于存储要验证的文件的相对路径和MD5值的 List 泛型类</summary>
-    Dim DataFilesMD5 As New List(Of String)({"Data\DAEMON Tools Lite 5.0.exe", "E4D2A05D4A5C22C6D4BC20D6B502CE6B", "Data\rar.exe", "863B5C17C3A02095DFAE098CBCC09A6E", "Data\SC4Launcher.exe", "56E57E6AAA272DB5506718C639AC8EF2" _
+    Dim DataFilesMD5 As New List(Of String)({"Data\DAEMON Tools Lite 5.0.exe", "E4D2A05D4A5C22C6D4BC20D6B502CE6B", "Data\7z.exe", "A51D90F2F9394F5EA0A3ACAE3BD2B219", "Data\SC4Launcher.exe", "6D00D6D267FB9D6C3E7505287444F1FD" _
                                             , "Data\Licenses\CC BY-NC-SA.rtf", "995C9B18CABFBB6DE54A4EE7886D843C", "Data\Licenses\CC BY-NC-SA 3.0 法律文本.rtf", "473B4BFEDFE91351CE00BB962284DBCC" _
                                             , "Data\Licenses\CC BY-NC-SA 4.0 法律文本.rtf", "E27D76D2E75DE182B6C10F6EBA0482A4", "Data\Licenses\EA EULA.txt", "4A263CEC16B302BE4E080A85614A90F9", "Data\Licenses\DAEMON Tools 隐私政策.rtf", "B772FA3468C7C3879A5A16614DC3613C" _
-                                            , "Data\Patch\638.rar", "198FC87663DFA08CFACED3600F97C9C6", "Data\Patch\640.rar", "70912679404A52B4F0A3FA41C98B2335", "Data\Patch\SimCity 4 641.exe", "53D2AE4FA9114B88AD91ECF32A7F16A4" _
+                                            , "Data\Patch\638.7z", "29AF195D1AB5F0ECCA63554E4BB69325", "Data\Patch\640.7z", "59CD8A9571880CA378AB0E5523E1D058", "Data\Patch\SimCity 4 641.exe", "53D2AE4FA9114B88AD91ECF32A7F16A4" _
                                             , "Data\Patch\SimCity 4 NoCD.exe", "B57B5B03C4854C194CE8BEBD173F3483", "Data\Patch\4GB.exe", "96490CFDF3C7DD5AE7EF378C689A8734" _
                                             , "Data\Patch\Language\TChinese\SimCityLocale.DAT", "3D7163C89D35E7388CF7EBC503BAF47B", "Data\Patch\Language\SChinese\SimCityLocale.DAT", "42E66866C5E7C95A29CD153423F4F6FD", "Data\Patch\Language\English\SimCityLocale.DAT", "196A1F3CD9CF58E84E0B0F31E9F81171"})
 
@@ -41,6 +41,10 @@ Retry:          Dim File As New IO.FileStream(DataFilesMD5(i), IO.FileMode.Open)
                 End If
 Ignore:         bgwComputeMD5.ReportProgress(i)
                 File.Close() '关闭文件使用
+            Catch ex As IO.FileNotFoundException
+                MessageBox.Show(DataFilesMD5(i) & " 文件不存在！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) : Application.Exit()
+            Catch ex As IO.DirectoryNotFoundException
+                MessageBox.Show(DataFilesMD5(i).Remove(DataFilesMD5(i).LastIndexOf("\")) & " 文件夹不存在！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) : Application.Exit()
             Catch ex As IO.IOException
                 Select Case MessageBox.Show("文件 " & DataFilesMD5(i) & " 正在使用，无法验证此文件的完整性" & vbCrLf & "您可以尝试稍后再试", "错误", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Error, MessageBoxDefaultButton.Button2)
                     Case Windows.Forms.DialogResult.Abort
@@ -83,10 +87,10 @@ Ignore:         bgwComputeMD5.ReportProgress(i)
             If .DirectoryExists("Data") = False Then MessageBox.Show("Data 文件夹不存在！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) : Application.Exit()
             Dim CDSC4FilesMD5() As String = {"Data\SC4\CD\CD1.mdf", "82A112B441DC90305331ABEFF0E66237", "Data\SC4\CD\CD1.mds", "CFB13663F10FCAB916C0A4EDD29FC975" _
                                             , "Data\SC4\CD\CD2.mdf", "15AD42821D2CCFAC4ED62CF2E5E153D1", "Data\SC4\CD\CD2.mds", "F623584CCC7E3206045D97CD12D454C8"}
-            Dim NoInstallSC4FileMD5() As String = {"Data\SC4\NoInstall.rar", "2ACDA5FEEE321943722FA49C70D47DF1"}
+            Dim NoInstallSC4FileMD5() As String = {"Data\SC4\NoInstall.7z", "7B9E95C32FDF1DB09B2835A70E821DA9"}
             If .DirectoryExists("Data\SC4\CD") = True Then DataFilesMD5.AddRange(CDSC4FilesMD5) '如果存在Data\SC4\CD文件夹则向要验证的文件列表里增加项
-            If .FileExists("Data\SC4\NoInstall.rar") = True Then DataFilesMD5.AddRange(NoInstallSC4FileMD5) '如果存在Data\SC4\NoInstall.rar文件则向要验证的文件列表里增加项
-            If .DirectoryExists("Data\SC4\CD") = False And .FileExists("Data\SC4\NoInstall.rar") = False Then MessageBox.Show("Data\SC4\CD 文件夹或 Data\SC4\NoInstall.rar 文件不存在！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) : Application.Exit()
+            If .FileExists("Data\SC4\NoInstall.7z") = True Then DataFilesMD5.AddRange(NoInstallSC4FileMD5) '如果存在Data\SC4\NoInstall.7z文件则向要验证的文件列表里增加项
+            If .DirectoryExists("Data\SC4\CD") = False And .FileExists("Data\SC4\NoInstall.7z") = False Then MessageBox.Show("Data\SC4\CD 文件夹和 Data\SC4\NoInstall.7z 文件都不存在！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) : Application.Exit()
         End With
         lblProgress.Text = "0% 0/" & DataFilesMD5.Count / 2 '初始化进度条和进度文本
         prgProgress.Maximum = Int(GetFolderSize("Data") / 1024)

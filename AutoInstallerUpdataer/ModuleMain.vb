@@ -32,14 +32,22 @@
                 '2.4.10
                 If .DirectoryExists("Data\CD") = True Then .MoveDirectory("Data\CD", "Data\SC4\CD")
                 If .FileExists("Data\SC4.rar") = True Then .MoveFile("Data\SC4.rar", "Data\SC4\NoInstall.rar")
+                If .FileExists("Data\SC4\CD\SC4DELUXE CD1.mdf") = True Then .RenameFile("Data\SC4\CD\SC4DELUXE CD1.mdf", "Data\SC4\CD\CD1.mdf")
+                If .FileExists("Data\SC4\CD\SC4DELUXE CD1.mds") = True Then .RenameFile("Data\SC4\CD\SC4DELUXE CD1.mds", "Data\SC4\CD\CD1.mds")
+                If .FileExists("Data\SC4\CD\SC4DELUXE CD2.mdf") = True Then .RenameFile("Data\SC4\CD\SC4DELUXE CD2.mdf", "Data\SC4\CD\CD2.mdf")
+                If .FileExists("Data\SC4\CD\SC4DELUXE CD2.mds") = True Then .RenameFile("Data\SC4\CD\SC4DELUXE CD2.mds", "Data\SC4\CD\CD2.mds")
+                '2.5.21
+                If .FileExists("Data\SC4\NoInstall.rar") = True Or .FileExists("Data\Patch\638.rar") = True Or .FileExists("Data\Patch\640.rar") = True Then
+                    Console.WriteLine("请到http://pan.baidu.com/s/1bnezR7h重下Data\SC4\NoInstall.7z、638.7z和640.7z文件！" & vbCrLf)
+                End If
             Else
                 .DeleteDirectory("Data", FileIO.DeleteDirectoryOption.DeleteAllContents)
             End If
             Console.Write("更新安装完成")
             Dim bat As String = ":del" & vbCrLf & "del %1" & vbCrLf & "if exist %1 goto del" & vbCrLf & "del %0"
             My.Computer.FileSystem.WriteAllText("DeleteUpdater.bat", bat, False, Text.Encoding.ASCII)
-            My.Computer.FileSystem.DeleteFile("Updata.exe")
-            Process.Start("Setup.exe")
+            If .FileExists("Updata.exe") = True Then My.Computer.FileSystem.DeleteFile("Updata.exe")
+            If .FileExists("Setup.exe") = True Then Process.Start("Setup.exe")
             Process.Start("DeleteUpdater.bat", """" & Process.GetCurrentProcess.MainModule.FileName & """")
         End With
     End Sub

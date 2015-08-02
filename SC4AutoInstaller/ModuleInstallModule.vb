@@ -19,11 +19,61 @@ Module ModuleInstallModule
         Try
             Do Until Not IsFileUsing("Data\DAEMON Tools Lite 5.0.exe") : Loop
             Process.Start("Data\DAEMON Tools Lite 5.0.exe", "/S /nogadget /path """ & ModuleMain.InstallOptions.DAEMONInstallDir & """").WaitForExit()
-            Return IIf(My.Computer.FileSystem.FileExists(ModuleMain.InstallOptions.DAEMONInstallDir & "\DTLite.exe") = True, InstallResult.Result.Success, InstallResult.Result.Fail)
+            Return IIf(My.Computer.FileSystem.FileExists(ModuleMain.InstallOptions.DAEMONInstallDir & "\DTLite.exe"), InstallResult.Result.Success, InstallResult.Result.Fail)
         Catch ex As Exception
             Return InstallResult.Result.Fail
         End Try
     End Function
+
+    ''' <summary>该函数将指定的消息发送到一个或多个窗口。此函数为指定的窗口调用窗口程序，直到窗口程序处理完消息再返回。</summary>
+    ''' <param name="hWnd">其窗口程序将接收消息的窗口的句柄。如果此参数为HWND_BROADCAST，则消息将被发送到系统中所有顶层窗口，包括无效或不可见的非自身拥有的窗口、被覆盖的窗口和弹出式窗口，但消息不被发送到子窗口。</param>
+    ''' <param name="Msg">指定被发送的消息。</param>
+    ''' <param name="wParam">指定附加的消息特定信息。</param>
+    ''' <param name="lParam">指定附加的消息特定信息。</param>
+    ''' <returns>返回值指定消息处理的结果，依赖于所发送的消息。</returns>
+    ''' <remarks>需要用HWND_BROADCAST通信的应用程序应当使用函数RegisterWindowMessage来为应用程序间的通信取得一个唯一的消息。</remarks>
+    Public Declare Function SendMessage Lib "user32" Alias "SendMessageA" (ByVal hWnd As IntPtr, ByVal Msg As UInteger, ByVal wParam As IntPtr, ByVal lParam As String) As IntPtr
+    ''' <summary>该函数将一个消息放入（寄送）到与指定窗口创建的线程相联系消息队列里，不等待线程处理消息就返回，是异步消息模式。</summary>
+    ''' <param name="hWnd">其窗口程序接收消息的窗口的句柄。</param>
+    ''' <param name="Msg">指定被寄送的消息。</param>
+    ''' <param name="wParam">指定附加的消息特定的信息。</param>
+    ''' <param name="lParam">指定附加的消息特定的信息。</param>
+    ''' <returns>如果函数调用成功，返回非零，否则返回值为零</returns>
+    Public Declare Function PostMessage Lib "user32" Alias "PostMessageA" (ByVal hWnd As IntPtr, ByVal Msg As UInteger, ByVal wParam As IntPtr, ByVal lParam As IntPtr) As Boolean
+    ''' <summary>当用户在window客户区域点击鼠标左键的时候发送。如果当前鼠标没有被捕捉，消息发送给鼠标下面的window窗体。否则，消息发送给当前捕捉鼠标消息的方法。</summary>
+    Public Const WM_LBUTTONDOWN = &H201
+    ''' <summary>当光标在窗口客户区时，用户释放鼠标左键时发出的消息。如果鼠标没有捕获，这个消息被送到光标下的窗口。否则，该消息发布到捕获鼠标的窗口。</summary>
+    Public Const WM_LBUTTONUP = &H202
+    ''' <summary>Sets the text of a window.</summary>
+    Public Const WM_SETTEXT = &HC
+    ''' <summary>FindWindow函数检索处理顶级窗口的类名和窗口名称匹配指定的字符串。该函数不搜索子窗口。</summary>
+    ''' <param name="lpClassName">指向一个以null结尾的、用来指定类名的字符串或一个可以确定类名字符串的原子。</param>
+    ''' <param name="lpWindowName">指向一个以null结尾的、用来指定窗口名（即窗口标题）的字符串。如果此参数为NULL，则匹配所有窗口名。</param>
+    ''' <returns>如果函数执行成功，则返回值是拥有指定窗口类名或窗口名的窗口的句柄。</returns>
+    Public Declare Function FindWindow Lib "user32" Alias "FindWindowA" (ByVal lpClassName As String, ByVal lpWindowName As String) As IntPtr
+    ''' <summary>在窗口列表中寻找与指定条件相符的第一个子窗口。</summary>
+    ''' <param name="parentHandle">要查找的子窗口所在的父窗口的句柄。</param> 
+    ''' <param name="childAfter">子窗口句柄。查找从在Z序中的下一个子窗口开始。</param>
+    ''' <param name="lclassName">指向一个指定了类名的空结束字符串，或一个标识类名字符串的成员的指针。</param>
+    ''' <param name="windowTitle">指向一个指定了窗口名（窗口标题）的空结束字符串。如果该参数为 NULL，则为所有窗口全匹配。</param>
+    ''' <returns>如果函数成功，返回值为具有指定类名和窗口名的窗口句柄。如果函数失败，返回值为NULL。</returns>
+    Public Declare Function FindWindowEx Lib "user32" Alias "FindWindowExA" (ByVal parentHandle As IntPtr, ByVal childAfter As IntPtr, ByVal lclassName As String, ByVal windowTitle As String) As IntPtr
+    ''' <summary>改变一个子窗口，弹出式窗口或顶层窗口的尺寸，位置和Z序。子窗口，弹出式窗口，及顶层窗口根据它们在屏幕上出现的顺序排序、顶层窗口设置的级别最高，并且被设置为Z序的第一个窗口。</summary>
+    ''' <param name="hWnd">窗口句柄。</param>
+    ''' <param name="hWndInsertAfter">在z序中的位于被置位的窗口前的窗口句柄。该参数必须为一个窗口句柄。</param>
+    ''' <param name="X">以客户坐标指定窗口新位置的左边界。</param>
+    ''' <param name="Y">以客户坐标指定窗口新位置的顶边界。</param>
+    ''' <param name="cx">以像素指定窗口的新的宽度。</param>
+    ''' <param name="cy">以像素指定窗口的新的高度。</param>
+    ''' <param name="uFlags">窗口尺寸和定位的标志。</param>
+    ''' <returns>如果函数成功，返回值为非零；如果函数失败，返回值为零。</returns>
+    Public Declare Function SetWindowPos Lib "user32" (ByVal hWnd As IntPtr, ByVal hWndInsertAfter As IntPtr, ByVal X As Integer, ByVal Y As Integer, ByVal cx As Integer, ByVal cy As Integer, ByVal uFlags As UInteger) As Boolean
+    ''' <summary>将窗口置于Z序的顶部。</summary>
+    Public Const HWND_TOP = 0
+    ''' <summary>维持当前尺寸（忽略cx和Cy参数）。</summary>
+    Public Const SWP_NOSIZE = &H1
+    ''' <summary>维持当前位置（忽略X和Y参数）。</summary>
+    Public Const SWP_NOMOVE = &H2
 
     ''' <summary>安装指定版本的模拟城市4</summary>
     ''' <param name="InstallType">InstallOptions.SC4InstallType 的值之一，指定要安装的版本</param>
@@ -45,13 +95,13 @@ Module ModuleInstallModule
                         Loop
 
                         '如果安装程序正在运行则结束安装程序的进程
-                        'If Process.GetProcessesByName("AutoRun").Length <> 0 Then Process.GetProcessesByName("AutoRun")(0).Kill()
-                        'If Process.GetProcessesByName("SimCity 4 Deluxe_Code").Length <> 0 Then Process.GetProcessesByName("SimCity 4 Deluxe_Code")(0).Kill()
-                        'If Process.GetProcessesByName("SimCity 4 Deluxe_eReg").Length <> 0 Then Process.GetProcessesByName("SimCity 4 Deluxe_eReg")(0).Kill()
+                        If Process.GetProcessesByName("AutoRun").Length <> 0 Then Process.GetProcessesByName("AutoRun")(0).Kill()
+                        If Process.GetProcessesByName("SimCity 4 Deluxe_Code").Length <> 0 Then Process.GetProcessesByName("SimCity 4 Deluxe_Code")(0).Kill()
+                        If Process.GetProcessesByName("SimCity 4 Deluxe_eReg").Length <> 0 Then Process.GetProcessesByName("SimCity 4 Deluxe_eReg")(0).Kill()
 
-                        Dim tempfolder As String = Environment.GetEnvironmentVariable("TEMP") '系统变量TEMP的值
+                        Dim tempfolder As String = IO.Path.GetTempPath '声明一个用于存储临时文件目录的路径的字符串变量
                         If My.Computer.FileSystem.FileExists(tempfolder & "\AutoRun.exe") = False Or My.Computer.FileSystem.FileExists(tempfolder & "\AutoRunGUI.dll") = False Then
-                            '将X:\AutoRun.exe文件和X:\AutoRunGUI.dll文件复制到系统变量TEMP的路径下
+                            '将X:\AutoRun.exe文件和X:\AutoRunGUI.dll文件复制到临时文件目录下
                             My.Computer.FileSystem.CopyFile("X:\AutoRun.exe", tempfolder & "\AutoRun.exe", FileIO.UIOption.OnlyErrorDialogs, FileIO.UICancelOption.DoNothing)
                             My.Computer.FileSystem.CopyFile("X:\AutoRunGUI.dll", tempfolder & "\AutoRunGUI.dll", FileIO.UIOption.OnlyErrorDialogs, FileIO.UICancelOption.DoNothing)
                             Process.Start("regsvr32.exe", "/s """ & tempfolder & "\AutoRunGUI.dll""").WaitForExit() '注册AutoRunGUI.dll文件
@@ -77,34 +127,29 @@ Module ModuleInstallModule
                         PostMessage(FindWindowEx(FindWindow("#32770", "SimCity 4 Deluxe"), 0, "Button", "&Next>"), WM_LBUTTONDOWN, 0, 0) '模拟点击下一步按钮
                         PostMessage(FindWindowEx(FindWindow("#32770", "SimCity 4 Deluxe"), 0, "Button", "&Next>"), WM_LBUTTONUP, 0, 0)
 
-                        Do Until Process.GetProcessesByName("SimCity 4 Deluxe_eReg").Length = 0 '结束注册EA账号对话框的进程，以便让安装继续
-                            Process.GetProcessesByName("SimCity 4 Deluxe_eReg")(0).Kill()
-                        Loop
-                        '也可以通过PostMessage API向注册EA账号对话框发送WM_LBUTTONDOWN消息和WM_LBUTTONUP来模拟点击不注册按钮
-                        'Threading.Thread.Sleep(100) : Do Until FindWindow("#32770", "Electronic Registration") <> Nothing : Loop '等待注册EA账号对话框的出现
-                        'PostMessage(FindWindowEx(FindWindow("#32770", "Electronic Registration"), 0, "Button", "Register Later"), WM_LBUTTONDOWN, 0, 0) '模拟点击以后注册按钮
-                        'PostMessage(FindWindowEx(FindWindow("#32770", "Electronic Registration"), 0, "Button", "Register Later"), WM_LBUTTONUP, 0, 0)
-                        'Threading.Thread.Sleep(100) : Do Until FindWindow("#32770", "") <> Nothing : Loop '等待确定不注册EA账号对话框的出现
-                        'PostMessage(FindWindowEx(FindWindow("#32770", ""), 0, "Button", "Ok"), WM_LBUTTONDOWN, 0, 0) '模拟点击下一步按钮
-                        'PostMessage(FindWindowEx(FindWindow("#32770", ""), 0, "Button", "Ok"), WM_LBUTTONUP, 0, 0)
+                        '通过PostMessage API向注册EA账号对话框发送WM_LBUTTONDOWN消息和WM_LBUTTONUP来模拟点击不注册按钮
+                        Threading.Thread.Sleep(500) '停止当前线程0.5秒
+                        Threading.Thread.Sleep(100) : Do Until FindWindow("#32770", "Electronic Registration") <> Nothing : Loop '等待注册EA账号对话框的出现
+                        PostMessage(FindWindowEx(FindWindow("#32770", "Electronic Registration"), 0, "Button", "Register Later"), WM_LBUTTONDOWN, 0, 0) '模拟点击以后注册按钮
+                        PostMessage(FindWindowEx(FindWindow("#32770", "Electronic Registration"), 0, "Button", "Register Later"), WM_LBUTTONUP, 0, 0)
+                        Threading.Thread.Sleep(100) : Do Until FindWindow("#32770", "") <> Nothing : Loop '等待确定不注册EA账号对话框的出现
+                        PostMessage(FindWindowEx(FindWindow("#32770", ""), 0, "Button", "Ok"), WM_LBUTTONDOWN, 0, 0) '模拟点击下一步按钮
+                        PostMessage(FindWindowEx(FindWindow("#32770", ""), 0, "Button", "Ok"), WM_LBUTTONUP, 0, 0)
 
                         Do Until Process.GetProcessesByName("AutoRun").Length = 0 : Loop '等待安装完成
-
-                        Do Until Process.GetProcessesByName("SimCity 4").Length = 0 '等待安装完成后启动的游戏进程出现，并结束该进程
-                            Process.GetProcessesByName("SimCity 4")(0).Kill()
-                        Loop
+                        If Process.GetProcessesByName("SimCity 4").Length <> 0 Then Process.GetProcessesByName("SimCity 4")(0).Kill() '结束安装完成后自动运行的游戏进程
 
                         '将GOG版模拟城市4的Graphics Rules.sgr文件解压到游戏安装目录下
-                        Dim RARProcess As Process = Process.Start("Data\rar.exe", "x Data\SC4\NoInstall.rar -o+ ""Graphics Rules.sgr"" """ & .SC4InstallDir & "\""") : RARProcess.WaitForExit()
-                        Return IIf(RARProcess.ExitCode = 0 Or My.Computer.FileSystem.FileExists(.SC4InstallDir & "\Apps\SimCity 4.exe") = True, InstallResult.Result.Success, InstallResult.Result.Fail)
+                        Dim _7zProcess As Process = Process.Start("Data\7z.exe", "x Data\SC4\NoInstall.7z -aoa ""Graphics Rules.sgr"" -o""" & .SC4InstallDir & """") : _7zProcess.WaitForExit()
+                        Return IIf(_7zProcess.ExitCode = 0 Or My.Computer.FileSystem.FileExists(.SC4InstallDir & "\Apps\SimCity 4.exe"), InstallResult.Result.Success, InstallResult.Result.Fail)
                     Else
                         '如果DAEMON Tools Lite安装失败，则不安装镜像版模拟城市4，并返回安装失败
                         Return InstallResult.Result.Fail
                     End If
                 ElseIf InstallType = InstallOptions.SC4InstallType.NoInstall Then
-                    Do Until Not IsFileUsing("Data\SC4\NoInstall.rar") : Loop '确保没有进程正在使用Data\SC4\NoInstall.rar文件
-                    Dim RARProcess As Process = Process.Start("Data\rar.exe", "x Data\SC4\NoInstall.rar *.* -o+ """ & .SC4InstallDir & "\""") : RARProcess.WaitForExit() '将Data\SC4\NoInstall.rar压缩包解压到游戏安装目录下替换源文件
-                    Return IIf(RARProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
+                    Do Until Not IsFileUsing("Data\SC4\NoInstall.7z") : Loop '确保没有进程正在使用Data\SC4\NoInstall.7z文件
+                    Dim _7zProcess As Process = Process.Start("Data\7z.exe", "x Data\SC4\NoInstall.7z -aoa -o""" & .SC4InstallDir & """") : _7zProcess.WaitForExit() '将Data\SC4\NoInstall.7z压缩包解压到游戏安装目录下替换源文件
+                    Return IIf(_7zProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
                 End If
             Catch ex As Exception
                 Return InstallResult.Result.Fail '如果遇到异常则返回安装失败
@@ -118,15 +163,15 @@ Module ModuleInstallModule
     ''' <returns>InstallResult.Result 的值之一，如果安装或卸载成功，则为InstallResult.Result.Success；否则为InstallResult.Result.Fail</returns>
     Public Function Install638Patch(ByVal InstallDir As String, ByVal IsUninstall As Boolean) As InstallResult.Result
         Try
-            Dim RARProcess As Process
+            Dim _7zProcess As Process
             If IsUninstall = False Then
-                Do Until Not IsFileUsing("Data\Patch\638.rar") : Loop '确保没有进程正在使用Data\Patch\638.rar文件
-                RARProcess = Process.Start("Data\rar.exe", "x Data\Patch\638.rar *.* -o+ """ & InstallDir & "\""") : RARProcess.WaitForExit() '将Data\Patch\638.rar压缩包解压到游戏安装目录下替换源文件
+                Do Until Not IsFileUsing("Data\Patch\638.7z") : Loop '确保没有进程正在使用Data\Patch\638.7z文件
+                _7zProcess = Process.Start("Data\7z.exe", "x Data\Patch\638.7z -aoa -o""" & InstallDir & """") : _7zProcess.WaitForExit() '将Data\Patch\638.7z压缩包解压到游戏安装目录下替换源文件
             Else
-                Do Until Not IsFileUsing("Data\SC4\NoInstall.rar") : Loop '确保没有进程正在使用Data\SC4\NoInstall.rar文件
-                RARProcess = Process.Start("Data\rar.exe", "x Data\SC4\NoInstall.rar ""Apps\SimCity 4.exe"" SimCity_*.dat -o+ """ & InstallDir & "\""") : RARProcess.WaitForExit() '将Data\SC4\NoInstall.rar压缩包的Apps\SimCity 4.exe和SimCity_1到5.dat文件解压到游戏安装目录下替换
+                Do Until Not IsFileUsing("Data\SC4\NoInstall.7z") : Loop '确保没有进程正在使用Data\SC4\NoInstall.7z文件
+                _7zProcess = Process.Start("Data\7z.exe", "x Data\SC4\NoInstall.7z ""Apps\SimCity 4.exe"" ""SimCity_*.dat"" -aoa -o""" & InstallDir & """") : _7zProcess.WaitForExit() '将Data\SC4\NoInstall.7z压缩包的Apps\SimCity 4.exe和SimCity_1到5.dat文件解压到游戏安装目录下替换
             End If
-            Return IIf(RARProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
+            Return IIf(_7zProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
         Catch ex As Exception
             Return InstallResult.Result.Fail '如果遇到异常则返回安装失败
         End Try
@@ -138,15 +183,15 @@ Module ModuleInstallModule
     ''' <returns>InstallResult.Result 的值之一，如果安装或卸载成功，则为InstallResult.Result.Success；否则为InstallResult.Result.Fail</returns>
     Public Function Install640Patch(ByVal InstallDir As String, ByVal IsUninstall As Boolean) As InstallResult.Result
         Try
-            Dim RARProcess As Process
+            Dim _7zProcess As Process
             If IsUninstall = False Then
-                Do Until Not IsFileUsing("Data\Patch\640.rar") : Loop '确保没有进程正在使用Data\Patch\640.rar文件
-                RARProcess = Process.Start("Data\rar.exe", "x Data\Patch\640.rar *.* -o+ """ & InstallDir & "\""") : RARProcess.WaitForExit() '将Data\Patch\640.rar压缩包解压到游戏安装目录下替换源文件
+                Do Until Not IsFileUsing("Data\Patch\640.7z") : Loop '确保没有进程正在使用Data\Patch\640.7z文件
+                _7zProcess = Process.Start("Data\7z.exe", "x Data\Patch\640.7z -aoa -o""" & InstallDir & """") : _7zProcess.WaitForExit() '将Data\Patch\640.7z压缩包解压到游戏安装目录下替换源文件
             Else
-                Do Until Not IsFileUsing("Data\Patch\638.rar") : Loop '确保没有进程正在使用Data\Patch\638.rar文件
-                RARProcess = Process.Start("Data\rar.exe", "x Data\Patch\638.rar *.* -o+ """ & InstallDir & "\""") : RARProcess.WaitForExit() '将Data\Patch\638.rar压缩包解压到游戏安装目录下替换源文件
+                Do Until Not IsFileUsing("Data\Patch\638.7z") : Loop '确保没有进程正在使用Data\Patch\638.7z文件
+                _7zProcess = Process.Start("Data\7z.exe", "x Data\Patch\638.7z -aoa -o""" & InstallDir & """") : _7zProcess.WaitForExit() '将Data\Patch\638.7z压缩包解压到游戏安装目录下替换源文件
             End If
-            Return IIf(RARProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
+            Return IIf(_7zProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
         Catch ex As Exception
             Return InstallResult.Result.Fail '如果遇到异常则返回安装失败
         End Try
@@ -163,10 +208,10 @@ Module ModuleInstallModule
                 My.Computer.FileSystem.CopyFile("Data\Patch\SimCity 4 641.exe", InstallDir & "\Apps\SimCity 4.exe", True) '将Data\Patch\SimCity 4 641.exe复制到游戏安装目录\Apps目录下并重命名为SimCity 4.exe替换源文件
                 Return IIf(My.Computer.FileSystem.GetFileInfo(InstallDir & "\Apps\SimCity 4.exe").Length = 7524352, InstallResult.Result.Success, InstallResult.Result.Fail)
             Else
-                Dim RARProcess As Process
-                Do Until Not IsFileUsing("Data\Patch\640.rar") : Loop '确保没有进程正在使用Data\Patch\640.rar文件
-                RARProcess = Process.Start("Data\rar.exe", "x Data\Patch\640.rar *.* -o+ """ & InstallDir & "\""") : RARProcess.WaitForExit() '将Data\Patch\640.rar压缩包解压到游戏安装目录下替换源文件
-                Return IIf(RARProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
+                Dim _7zProcess As Process
+                Do Until Not IsFileUsing("Data\Patch\640.7z") : Loop '确保没有进程正在使用Data\Patch\640.7z文件
+                _7zProcess = Process.Start("Data\7z.exe", "x Data\Patch\640.7z -aoa -o""" & InstallDir & """") : _7zProcess.WaitForExit() '将Data\Patch\640.7z压缩包解压到游戏安装目录下替换源文件
+                Return IIf(_7zProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
             End If
         Catch ex As Exception
             Return InstallResult.Result.Fail '如果遇到异常则返回安装失败
@@ -190,15 +235,15 @@ Module ModuleInstallModule
                     Return IIf(MD5 = "78202C3EF76988BD2BF05F8D223BE7A3" Or MD5 = "2F2BD7D9A76E85320A26D7BD7530DCAE" Or MD5 = "1C18B7DC760EDADD2C2EFAF33F60F150" _
                                Or MD5 = "1414E70EB5CE22DB37D22CB99439D012" Or MD5 = "AADC5464919FBDC0F8E315FA51582126", InstallResult.Result.Success, InstallResult.Result.Fail)
                 Else
-                    Dim RARProcess As Process = Nothing '声明一个用于管理WinRAR便携式控制台程序的System.Diagnostics.Process类实例
+                    Dim _7zProcess As Process = Nothing '声明一个用于管理WinRAR便携式控制台程序的System.Diagnostics.Process类实例
                     If .Install638Patch = True And .Install640Patch = False And .Install641Patch = False Then
-                        Do Until Not IsFileUsing("Data\Patch\638.rar") : Loop '确保没有进程正在使用Data\Patch\638.rar文件
-                        RARProcess = Process.Start("Data\rar.exe", "x Data\Patch\638.rar ""Apps\SimCity 4.exe"" -o+ """ & InstallDir & "\""") : RARProcess.WaitForExit() '将Data\Patch\638.rar压缩包里的Apps\SimCity 4.exe文件解压到游戏安装目录下替换源文件
-                        Return IIf(RARProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
+                        Do Until Not IsFileUsing("Data\Patch\638.7z") : Loop '确保没有进程正在使用Data\Patch\638.7z文件
+                        _7zProcess = Process.Start("Data\7z.exe", "x Data\Patch\638.7z ""Apps\SimCity 4.exe"" -aoa -o""" & InstallDir & """") : _7zProcess.WaitForExit() '将Data\Patch\638.7z压缩包里的Apps\SimCity 4.exe文件解压到游戏安装目录下替换源文件
+                        Return IIf(_7zProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
                     ElseIf .Install638Patch = True And .Install640Patch = True And .Install641Patch = False Then
-                        Do Until Not IsFileUsing("Data\Patch\640.rar") : Loop '确保没有进程正在使用Data\Patch\640.rar文件
-                        RARProcess = Process.Start("Data\rar.exe", "x Data\Patch\640.rar ""Apps\SimCity 4.exe"" -o+ """ & InstallDir & "\""") : RARProcess.WaitForExit() '将Data\Patch\640.rar压缩包里的Apps\SimCity 4.exe文件解压到游戏安装目录下替换源文件
-                        Return IIf(RARProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
+                        Do Until Not IsFileUsing("Data\Patch\640.7z") : Loop '确保没有进程正在使用Data\Patch\640.7z文件
+                        _7zProcess = Process.Start("Data\7z.exe", "x Data\Patch\640.7z ""Apps\SimCity 4.exe"" -aoa -o""" & InstallDir & """") : _7zProcess.WaitForExit() '将Data\Patch\640.7z压缩包里的Apps\SimCity 4.exe文件解压到游戏安装目录下替换源文件
+                        Return IIf(_7zProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
                     ElseIf .Install638Patch = True And .Install640Patch = True And .Install641Patch = True Then
                         Return Install641Patch(InstallDir, False) '直接调用安装641补丁的方法
                     ElseIf .Install638Patch = False And .Install640Patch = False And .Install641Patch = False Then
@@ -221,14 +266,10 @@ Module ModuleInstallModule
         Try
             If IsUninstall = False Then
                 Do Until Not IsFileUsing(InstallDir & "\Apps\SimCity 4.exe") : Loop '确保没有进程正在使用游戏安装目录\Apps\SimCity_4.exe文件
-
                 My.Computer.FileSystem.CopyFile("Data\Patch\SimCity 4 NoCD.exe", InstallDir & "\Apps\SimCity 4.exe", True) '将Data\Patch\SimCity 4 NoCD.exe复制到游戏安装目录\Apps目录下并重命名为SimCity 4.exe替换源文件
                 Return IIf(My.Computer.FileSystem.GetFileInfo(InstallDir & "\Apps\SimCity 4.exe").Length = 7524352, InstallResult.Result.Success, InstallResult.Result.Fail)
             Else
-                Do Until Not IsFileUsing("Data\SC4\NoInstall.rar") : Loop '确保没有进程正在使用Data\SC4\NoInstall.rar文件
-
-                Dim RARProcess As Process = Process.Start("Data\rar.exe", "x Data\SC4\NoInstall.rar ""Apps\SimCity 4.exe"" SimCity_*.dat -o+ """ & InstallDir & "\""") : RARProcess.WaitForExit() '将Data\SC4\NoInstall.rar压缩包的Apps\SimCity 4.exe和SimCity_1到5.dat文件解压到游戏安装目录下替换
-                Return IIf(RARProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
+                Return Install638Patch(InstallDir, True)
             End If
         Catch ex As Exception
             Return InstallResult.Result.Fail '如果遇到异常则返回安装失败
@@ -243,7 +284,7 @@ Module ModuleInstallModule
         Try
             If IsUninstall = False Then
                 My.Computer.FileSystem.CopyFile("Data\SC4Launcher.exe", InstallDir & "\SC4Launcher.exe", True) '将Data\SC4Launcher.exe复制到游戏安装目录下替换源文件
-                Return IIf(My.Computer.FileSystem.FileExists(InstallDir & "\SC4Launcher.exe") = True, InstallResult.Result.Success, InstallResult.Result.Fail)
+                Return IIf(My.Computer.FileSystem.FileExists(InstallDir & "\SC4Launcher.exe"), InstallResult.Result.Success, InstallResult.Result.Fail)
             Else
                 Do Until Not IsFileUsing(InstallDir & "\SC4Launcher.exe") : Loop '确保没有进程正在使用游戏安装目录\SC4Launcher.exe文件
                 My.Computer.FileSystem.DeleteFile(InstallDir & "\SC4Launcher.exe") '删除游戏安装目录\SC4Launcher.exe文件
@@ -266,21 +307,21 @@ Module ModuleInstallModule
                 If Environment.Is64BitOperatingSystem = False Then LanguageRegKeyName = "HKEY_LOCAL_MACHINE\SOFTWARE\Maxis\SimCity 4\1.0"
                 Select Case LanguagePatch
                     Case InstallOptions.Language.TraditionalChinese
-                        My.Computer.FileSystem.CopyDirectory("Data\Patch\Language\TChinese", InstallDir, True) '将Data\Patch\Language\TChinese文件夹复制到游戏安装目录下替换源文件
+                        My.Computer.FileSystem.CopyDirectory("Data\Patch\Language\TChinese", InstallDir & "\TChinese", True) '将Data\Patch\Language\TChinese文件夹复制到游戏安装目录下替换源文件
                         .SetValue(LanguageRegKeyName, "Language", 18, Microsoft.Win32.RegistryValueKind.DWord) '设置繁体中文语言补丁的注册表值
                         .SetValue(LanguageRegKeyName, "DisplayName", "SimCity 4 Deluxe", Microsoft.Win32.RegistryValueKind.String)
                         .SetValue(LanguageRegKeyName, "LanguageName", "Chinese (Traditional)", Microsoft.Win32.RegistryValueKind.String)
                         Return IIf(My.Computer.FileSystem.DirectoryExists(InstallDir & "\TChinese") = True And _
                             My.Computer.Registry.GetValue(LanguageRegKeyName, "Language", Nothing) = 18, InstallResult.Result.Success, InstallResult.Result.Fail)
                     Case InstallOptions.Language.SimplifiedChinese
-                        My.Computer.FileSystem.CopyDirectory("Data\Patch\Language\SChinese", InstallDir, True) '将Data\Patch\Language\SChinese文件夹复制到游戏安装目录下替换源文件
+                        My.Computer.FileSystem.CopyDirectory("Data\Patch\Language\SChinese", InstallDir & "\SChinese", True) '将Data\Patch\Language\SChinese文件夹复制到游戏安装目录下替换源文件
                         .SetValue(LanguageRegKeyName, "Language", 17, Microsoft.Win32.RegistryValueKind.DWord) '设置简体中文语言补丁的注册表值
                         .SetValue(LanguageRegKeyName, "DisplayName", "SimCity 4 Deluxe", Microsoft.Win32.RegistryValueKind.String)
                         .SetValue(LanguageRegKeyName, "LanguageName", "Chinese (Simplified)", Microsoft.Win32.RegistryValueKind.String)
                         Return IIf(My.Computer.FileSystem.DirectoryExists(InstallDir & "\SChinese") = True And _
                             My.Computer.Registry.GetValue(LanguageRegKeyName, "Language", Nothing) = 17, InstallResult.Result.Success, InstallResult.Result.Fail)
                     Case Else
-                        My.Computer.FileSystem.CopyDirectory("Data\Patch\Language\English", InstallDir, True) '将Data\Patch\Language\English文件夹复制到游戏安装目录下替换源文件
+                        My.Computer.FileSystem.CopyDirectory("Data\Patch\Language\English", InstallDir & "\English", True) '将Data\Patch\Language\English文件夹复制到游戏安装目录下替换源文件
                         .SetValue(LanguageRegKeyName, "Language", 1, Microsoft.Win32.RegistryValueKind.DWord) '设置英语语言补丁的注册表值
                         .SetValue(LanguageRegKeyName, "DisplayName", "SimCity 4 Deluxe", Microsoft.Win32.RegistryValueKind.String)
                         .SetValue(LanguageRegKeyName, "LanguageName", "English US", Microsoft.Win32.RegistryValueKind.String)
@@ -300,20 +341,21 @@ Module ModuleInstallModule
         Try
             '声明一个IWshRuntimeLibrary.WshShell接口的实例和一个IWshRuntimeLibrary.IWshShortcut接口的实例（引用自Windows Script Host Object Model）
             Dim wshshell As New IWshRuntimeLibrary.WshShell, shortcut As IWshRuntimeLibrary.IWshShortcut
+            Dim DesktopPath As String = Environment.GetFolderPath(Environment.SpecialFolder.CommonDesktopDirectory) '声明一个用于存储公用桌面目录路径的字符串变量
             With ModuleMain.InstallOptions
                 If My.Computer.FileSystem.FileExists(.SC4InstallDir & "\SC4Launcher.exe") = True Then
-                    shortcut = wshshell.CreateShortcut(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) & "\模拟城市4 启动器.lnk")
+                    shortcut = wshshell.CreateShortcut(DesktopPath & "\模拟城市4 启动器.lnk")
                     shortcut.TargetPath = .SC4InstallDir & "\SC4Launcher.exe" : shortcut.Description = "使用模拟城市4 启动器来运行模拟城市4 豪华版"
                     shortcut.WindowStyle = 1 : shortcut.IconLocation = .SC4InstallDir & "\SC4.ico" : shortcut.Save()
                 Else
-                    shortcut = wshshell.CreateShortcut(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) & "\模拟城市4 豪华版.lnk")
+                    shortcut = wshshell.CreateShortcut(DesktopPath & "\模拟城市4 豪华版.lnk")
                     shortcut.TargetPath = .SC4InstallDir & "\Apps\SimCity 4.exe" : shortcut.Description = "运行模拟城市4 豪华版"
                     shortcut.WindowStyle = 1 : shortcut.IconLocation = .SC4InstallDir & "\SC4.ico" : shortcut.Save()
                 End If
                 shortcut.WindowStyle = 1 : shortcut.IconLocation = .SC4InstallDir & "\SC4.ico" : shortcut.Save() '设置快捷方式的窗口启动方式、图标路径并保存快捷方式
-                Return IIf(My.Computer.FileSystem.FileExists(.SC4InstallDir & "\SC4Launcher.exe") = True, _
-                           IIf(My.Computer.FileSystem.FileExists(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) & "\模拟城市4 启动器.lnk"), InstallResult.Result.Success, InstallResult.Result.Fail), _
-                           IIf(My.Computer.FileSystem.FileExists(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) & "\模拟城市4 豪华版.lnk"), InstallResult.Result.Success, InstallResult.Result.Fail))
+                Return IIf(My.Computer.FileSystem.FileExists(.SC4InstallDir & "\SC4Launcher.exe"), _
+                           IIf(My.Computer.FileSystem.FileExists(DesktopPath & "\模拟城市4 启动器.lnk"), InstallResult.Result.Success, InstallResult.Result.Fail), _
+                           IIf(My.Computer.FileSystem.FileExists(DesktopPath & "\模拟城市4 豪华版.lnk"), InstallResult.Result.Success, InstallResult.Result.Fail))
             End With
         Catch ex As Exception
             Return InstallResult.Result.Fail '如果遇到异常则返回安装失败
@@ -327,24 +369,25 @@ Module ModuleInstallModule
         Try
             '声明一个IWshRuntimeLibrary.WshShell接口的实例和一个IWshRuntimeLibrary.IWshShortcut接口的实例（引用自Windows Script Host Object Model）
             Dim wshshell As New IWshRuntimeLibrary.WshShell, shortcut As IWshRuntimeLibrary.IWshShortcut
-            My.Computer.FileSystem.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu) & "\Maxis\SimCity 4 Deluxe") '在开始菜单\Maxis下创建一个名为SimCity 4 Deluxe的文件夹
+            Dim StartMenuPath As String = Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu) & "\Programs" '声明一个用于存储公用开始菜单目录路径的字符串变量
+            My.Computer.FileSystem.CreateDirectory(StartMenuPath & "\Maxis\SimCity 4 Deluxe") '在公用开始菜单\Maxis下创建一个名为SimCity 4 Deluxe的文件夹
             With ModuleMain.InstallOptions
                 If My.Computer.FileSystem.FileExists(.SC4InstallDir & "\SC4Launcher.exe") = True Then
-                    shortcut = wshshell.CreateShortcut(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu) & "\Maxis\SimCity 4 Deluxe\模拟城市4 启动器.lnk")
+                    shortcut = wshshell.CreateShortcut(StartMenuPath & "\Maxis\SimCity 4 Deluxe\模拟城市4 启动器.lnk")
                     shortcut.TargetPath = .SC4InstallDir & "\SC4Launcher.exe" : shortcut.Description = "使用模拟城市4 启动器来运行模拟城市4 豪华版"
                 Else
-                    shortcut = wshshell.CreateShortcut(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu) & "\Maxis\SimCity 4 Deluxe\模拟城市4 豪华版.lnk")
+                    shortcut = wshshell.CreateShortcut(StartMenuPath & "\Maxis\SimCity 4 Deluxe\模拟城市4 豪华版.lnk")
                     shortcut.TargetPath = .SC4InstallDir & "\Apps\SimCity 4.exe" : shortcut.Description = "运行模拟城市4 豪华版"
                 End If
                 shortcut.WindowStyle = 1 : shortcut.IconLocation = .SC4InstallDir & "\SC4.ico" : shortcut.Save() '设置快捷方式的窗口启动方式、图标路径并保存快捷方式
-                shortcut = wshshell.CreateShortcut(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu) & "\Maxis\SimCity 4 Deluxe\卸载或更改模拟城市4 豪华版.lnk") '新建另外一个快捷方式
+                shortcut = wshshell.CreateShortcut(StartMenuPath & "\Maxis\SimCity 4 Deluxe\卸载或更改模拟城市4 豪华版.lnk") '新建另外一个快捷方式
                 shortcut.TargetPath = .SC4InstallDir & "\Setup.exe" : shortcut.Description = "使用模拟城市4 自动安装程序以卸载或更改模拟城市4 豪华版" '设置快捷方式的目标和说明
                 shortcut.WindowStyle = 1 : shortcut.IconLocation = .SC4InstallDir & "\Setup.exe" : shortcut.Save() '设置快捷方式的窗口启动方式、图标路径并保存快捷方式
-                Return IIf(My.Computer.FileSystem.FileExists(.SC4InstallDir & "\SC4Launcher.exe") = True, _
-                           IIf(My.Computer.FileSystem.FileExists(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu) & "\Maxis\SimCity 4 Deluxe\模拟城市4 启动器.lnk") And _
-                               My.Computer.FileSystem.FileExists(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu) & "\Maxis\SimCity 4 Deluxe\卸载或更改模拟城市4 豪华版.lnk"), InstallResult.Result.Success, InstallResult.Result.Fail), _
-                           IIf(My.Computer.FileSystem.FileExists(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu) & "\Maxis\SimCity 4 Deluxe\模拟城市4 豪华版.lnk") And _
-                               My.Computer.FileSystem.FileExists(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu) & "\Maxis\SimCity 4 Deluxe\卸载或更改模拟城市4 豪华版.lnk"), InstallResult.Result.Success, InstallResult.Result.Fail))
+                Return IIf(My.Computer.FileSystem.FileExists(.SC4InstallDir & "\SC4Launcher.exe"), _
+                           IIf(My.Computer.FileSystem.FileExists(StartMenuPath & "\Maxis\SimCity 4 Deluxe\模拟城市4 启动器.lnk") And _
+                               My.Computer.FileSystem.FileExists(StartMenuPath & "\Maxis\SimCity 4 Deluxe\卸载或更改模拟城市4 豪华版.lnk"), InstallResult.Result.Success, InstallResult.Result.Fail), _
+                           IIf(My.Computer.FileSystem.FileExists(StartMenuPath & "\Maxis\SimCity 4 Deluxe\模拟城市4 豪华版.lnk") And _
+                               My.Computer.FileSystem.FileExists(StartMenuPath & "\Maxis\SimCity 4 Deluxe\卸载或更改模拟城市4 豪华版.lnk"), InstallResult.Result.Success, InstallResult.Result.Fail))
             End With
         Catch ex As Exception
             Return InstallResult.Result.Fail '如果遇到异常则返回安装失败
@@ -391,11 +434,11 @@ Module ModuleInstallModule
         Try
             Dim SC4RegKeyName As String, ergcRegKeyName As String '声明两个用于存储模拟城市4所产生的注册表键名的字符串变量
             If Environment.Is64BitOperatingSystem = True Then
-                SC4RegKeyName = "HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Maxis\SimCity 4\1.0"
+                SC4RegKeyName = "HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Maxis\SimCity 4"
                 ergcRegKeyName = "HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Electronic Arts\Maxis\SimCity 4 Deluxe\ergc"
             Else
                 ergcRegKeyName = "HKEY_LOCAL_MACHINE\SOFTWARE\Electronic Arts\Maxis\SimCity 4 Deluxe\ergc"
-                SC4RegKeyName = "HKEY_LOCAL_MACHINE\SOFTWARE\Maxis\SimCity 4\1.0"
+                SC4RegKeyName = "HKEY_LOCAL_MACHINE\SOFTWARE\Maxis\SimCity 4"
             End If
             With My.Computer.Registry '导入镜像版模拟城市4的安装程序所添加、更改或删除的注册表键、项和值
                 .SetValue(ergcRegKeyName, "(Default)", "CX9H498AMHSS8QXDTXJB", Microsoft.Win32.RegistryValueKind.String)
@@ -412,7 +455,7 @@ Module ModuleInstallModule
                 .SetValue(SC4RegKeyName, "Region", "NA", Microsoft.Win32.RegistryValueKind.String)
                 .SetValue(SC4RegKeyName, "Registration", ergcRegKeyName, Microsoft.Win32.RegistryValueKind.String)
                 .SetValue(SC4RegKeyName, "SwapSize", 0, Microsoft.Win32.RegistryValueKind.DWord)
-                .SetValue(SC4RegKeyName, "Folder", Environment.GetFolderPath(Environment.SpecialFolder.StartMenu) & "\模拟城市4 豪华版", Microsoft.Win32.RegistryValueKind.String)
+                .SetValue(SC4RegKeyName, "Folder", Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu) & "\Programs\Maxis\SimCity 4 Deluxe", Microsoft.Win32.RegistryValueKind.String)
                 .SetValue(SC4RegKeyName & "\EP1", "(Default)", "5ZH4HSUIYKHTPFPN7Q30", Microsoft.Win32.RegistryValueKind.String)
                 .SetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\SimCity 4.exe", "(Default)", ModuleMain.InstallOptions.SC4InstallDir & "\Apps\SimCity 4.exe", Microsoft.Win32.RegistryValueKind.String)
                 .SetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\SimCity 4.exe", "Path", ModuleMain.InstallOptions.SC4InstallDir, Microsoft.Win32.RegistryValueKind.String)

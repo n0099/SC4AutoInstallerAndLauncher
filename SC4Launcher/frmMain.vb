@@ -9,6 +9,7 @@
         Dim SC4InstallDir As String = Nothing '声明一个用于存储HKEY_LOCAL_MACHINE\SOFTWARE\（Wow6432Node）\Maxis\SimCity 4\Install Dir项值的字符串变量
         If Environment.Is64BitOperatingSystem = True Then SC4InstallDir = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Maxis\SimCity 4", "Install Dir", Nothing)
         If Environment.Is64BitOperatingSystem = False Then SC4InstallDir = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Maxis\SimCity 4", "Install Dir", Nothing)
+        SC4InstallDir = IO.Path.GetFullPath(SC4InstallDir) '将短路径转换为长路径
         If My.Settings.IsFirstRun = True And SC4InstallDir <> Nothing Then
             If SC4InstallDir.EndsWith("\") = True Then My.Settings.SC4InstallDir = SC4InstallDir.Substring(0, SC4InstallDir.Length - 1) Else My.Settings.SC4InstallDir = SC4InstallDir '如果安装目录路径以\结尾则去掉结尾的\
         ElseIf SC4InstallDir = Nothing Then

@@ -8,7 +8,7 @@
         item.Group = lvwSubassemblyFail.Groups.Item("lvwGroupFail") '改变该项的组
         lvwSubassemblyFail.Items.Add(item) '在安装失败组件列表框内添加该项
         lvwSubassemblyFail.Visible = True '显示安装失败组件列表框
-        lblTitle2.Text = "部分组件安装失败"
+        lblTitle2.Text = "部分组件安装失败，您可以随后使用本安装程序来重装安装失败的组件。"
     End Sub
 
     Private Sub llbBlog_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles llbBlog.LinkClicked
@@ -39,9 +39,6 @@
             lvwSubassemblySuccess.BeginUpdate() : lvwSubassemblyFail.BeginUpdate()
             If IsNothing(ModuleMain.InstalledModule) = True Then '判断是否已经安装了模拟城市4
                 If .InstallDAEMONTools = False Then DAEMONItem.Remove() Else If ModuleMain.InstallResult.DAEMONToolsInstallResult = InstallResult.Result.Fail Then SubassemblyInstallFail(DAEMONItem)
-                '如果模拟城市4安装成功且存在游戏安装目录\Apps\SimCity 4.exe文件则激活启动模拟城市4 豪华版按钮
-                If ModuleMain.InstallResult.SC4InstallResult = InstallResult.Result.Success And _
-                    My.Computer.FileSystem.FileExists(.SC4InstallDir & "\Apps\SimCity 4.exe") = True Then btnRunSC4.Enabled = True
                 '如果模拟城市4安装失败，则将安装成功的组件列表框的对应项移动到安装失败的组件列表框里
                 If ModuleMain.InstallResult.SC4InstallResult = InstallResult.Result.Fail Then SubassemblyInstallFail(SC4Item)
                 '根据安装选项里所选择的模拟城市4版本来更改安装成功的组件列表框里模拟城市4 豪华版项的文本
@@ -85,8 +82,11 @@
                 Case InstallOptions.Language.English : LanguagePatchItem.Remove()
             End Select
             lvwSubassemblySuccess.EndUpdate() : lvwSubassemblyFail.EndUpdate()
+            '如果模拟城市4安装成功且存在游戏安装目录\Apps\SimCity 4.exe文件则激活启动模拟城市4 豪华版按钮
+            If ModuleMain.InstallResult.SC4InstallResult = InstallResult.Result.Success Or _
+                My.Computer.FileSystem.FileExists(.SC4InstallDir & "\Apps\SimCity 4.exe") = True Then btnRunSC4.Enabled = True
         End With
-        Dim FlashInfo As New FLASHINFO With {.cbSize = Convert.ToInt32(Runtime.InteropServices.Marshal.SizeOf(FlashInfo)) _
+        Dim FlashInfo As New FLASHINFO With {.cbSize = Runtime.InteropServices.Marshal.SizeOf(FlashInfo) _
                                              , .uCount = 5, .dwTimeout = 0, .hwnd = Me.Handle, .dwFlags = FLASHW_ALL} '创建一个ModuleMain.FLASHINFO结构的实例
         FlashWindowEx(FlashInfo) '以FlashInfo实例的选项来闪动窗口
         Text &= " " & My.Application.Info.Version.Major & "." & My.Application.Info.Version.Minor & "." & My.Application.Info.Version.Revision & " By n0099" '初始化窗口标题

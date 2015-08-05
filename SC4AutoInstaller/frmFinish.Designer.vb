@@ -97,9 +97,9 @@ Partial Class frmFinish
         ListViewItem11.Group = ListViewGroup1
         Me.lvwSubassemblySuccess.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem1, ListViewItem2, ListViewItem3, ListViewItem4, ListViewItem5, ListViewItem6, ListViewItem7, ListViewItem8, ListViewItem9, ListViewItem10, ListViewItem11})
         Me.lvwSubassemblySuccess.LargeImageList = Me.imgTask
-        Me.lvwSubassemblySuccess.Location = New System.Drawing.Point(12, 80)
+        Me.lvwSubassemblySuccess.Location = New System.Drawing.Point(12, 71)
         Me.lvwSubassemblySuccess.Name = "lvwSubassemblySuccess"
-        Me.lvwSubassemblySuccess.Size = New System.Drawing.Size(296, 310)
+        Me.lvwSubassemblySuccess.Size = New System.Drawing.Size(296, 319)
         Me.lvwSubassemblySuccess.TabIndex = 6
         Me.lvwSubassemblySuccess.TileSize = New System.Drawing.Size(250, 25)
         Me.lvwSubassemblySuccess.UseCompatibleStateImageBehavior = False
@@ -118,7 +118,7 @@ Partial Class frmFinish
         'llbSCB
         '
         Me.llbSCB.AutoSize = True
-        Me.llbSCB.Location = New System.Drawing.Point(250, 56)
+        Me.llbSCB.Location = New System.Drawing.Point(12, 399)
         Me.llbSCB.Name = "llbSCB"
         Me.llbSCB.Size = New System.Drawing.Size(89, 12)
         Me.llbSCB.TabIndex = 2
@@ -128,7 +128,7 @@ Partial Class frmFinish
         'llbSCCN
         '
         Me.llbSCCN.AutoSize = True
-        Me.llbSCCN.Location = New System.Drawing.Point(345, 56)
+        Me.llbSCCN.Location = New System.Drawing.Point(107, 399)
         Me.llbSCCN.Name = "llbSCCN"
         Me.llbSCCN.Size = New System.Drawing.Size(137, 12)
         Me.llbSCCN.TabIndex = 3
@@ -138,16 +138,16 @@ Partial Class frmFinish
         'lblTitle2
         '
         Me.lblTitle2.AutoSize = True
-        Me.lblTitle2.Location = New System.Drawing.Point(12, 56)
+        Me.lblTitle2.Location = New System.Drawing.Point(12, 46)
         Me.lblTitle2.Name = "lblTitle2"
-        Me.lblTitle2.Size = New System.Drawing.Size(125, 12)
+        Me.lblTitle2.Size = New System.Drawing.Size(389, 12)
         Me.lblTitle2.TabIndex = 1
-        Me.lblTitle2.Text = "所有组件均已成功安装"
+        Me.lblTitle2.Text = "所有组件均已成功安装，您可以随后使用本安装程序来添加或删除组件。"
         '
         'llbReportBug
         '
         Me.llbReportBug.AutoSize = True
-        Me.llbReportBug.Location = New System.Drawing.Point(488, 56)
+        Me.llbReportBug.Location = New System.Drawing.Point(12, 418)
         Me.llbReportBug.Name = "llbReportBug"
         Me.llbReportBug.Size = New System.Drawing.Size(47, 12)
         Me.llbReportBug.TabIndex = 4
@@ -157,7 +157,7 @@ Partial Class frmFinish
         'llbBlog
         '
         Me.llbBlog.AutoSize = True
-        Me.llbBlog.Location = New System.Drawing.Point(541, 56)
+        Me.llbBlog.Location = New System.Drawing.Point(65, 418)
         Me.llbBlog.Name = "llbBlog"
         Me.llbBlog.Size = New System.Drawing.Size(71, 12)
         Me.llbBlog.TabIndex = 5
@@ -172,9 +172,9 @@ Partial Class frmFinish
         ListViewGroup2.Name = "lvwGroupFail"
         Me.lvwSubassemblyFail.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup2})
         Me.lvwSubassemblyFail.LargeImageList = Me.imgTask
-        Me.lvwSubassemblyFail.Location = New System.Drawing.Point(316, 80)
+        Me.lvwSubassemblyFail.Location = New System.Drawing.Point(316, 71)
         Me.lvwSubassemblyFail.Name = "lvwSubassemblyFail"
-        Me.lvwSubassemblyFail.Size = New System.Drawing.Size(296, 310)
+        Me.lvwSubassemblyFail.Size = New System.Drawing.Size(296, 319)
         Me.lvwSubassemblyFail.TabIndex = 7
         Me.lvwSubassemblyFail.TileSize = New System.Drawing.Size(250, 25)
         Me.lvwSubassemblyFail.UseCompatibleStateImageBehavior = False

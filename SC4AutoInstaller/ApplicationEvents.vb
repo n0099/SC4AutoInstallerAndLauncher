@@ -45,7 +45,7 @@ WebError:           MessageBox.Show("无法连接更新服务器！" & vbCrLf & 
             Catch ex As TimeoutException : GoTo WebError
             Catch ex As Security.SecurityException : GoTo WebError
             Catch ex As Net.NetworkInformation.PingException : GoTo WebError
-            Catch ex As Exception
+            Catch
             End Try
         End Sub
 

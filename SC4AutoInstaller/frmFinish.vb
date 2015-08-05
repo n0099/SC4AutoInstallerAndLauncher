@@ -8,7 +8,7 @@
         item.Group = lvwSubassemblyFail.Groups.Item("lvwGroupFail") '改变该项的组
         lvwSubassemblyFail.Items.Add(item) '在安装失败组件列表框内添加该项
         lvwSubassemblyFail.Visible = True '显示安装失败组件列表框
-        lblTitle2.Text = "部分组件安装失败，您可以随后使用本安装程序来重装安装失败的组件。"
+        lblTitle2.Text = "部分组件安装失败，您可以随后使用本安装程序来重新安装安装失败的组件。"
     End Sub
 
     Private Sub llbBlog_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles llbBlog.LinkClicked

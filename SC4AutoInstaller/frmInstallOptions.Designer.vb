@@ -213,7 +213,7 @@ Partial Class frmInstallOptions
         Me.tvwOptions.SelectedImageIndex = 0
         Me.tvwOptions.ShowPlusMinus = False
         Me.tvwOptions.ShowRootLines = False
-        Me.tvwOptions.Size = New System.Drawing.Size(300, 239)
+        Me.tvwOptions.Size = New System.Drawing.Size(300, 229)
         Me.tvwOptions.TabIndex = 3
         '
         'imgOptions
@@ -236,7 +236,7 @@ Partial Class frmInstallOptions
         Me.grpOptionDetail.Controls.Add(Me.lblOptionDetail)
         Me.grpOptionDetail.Location = New System.Drawing.Point(306, 0)
         Me.grpOptionDetail.Name = "grpOptionDetail"
-        Me.grpOptionDetail.Size = New System.Drawing.Size(294, 259)
+        Me.grpOptionDetail.Size = New System.Drawing.Size(294, 249)
         Me.grpOptionDetail.TabIndex = 4
         Me.grpOptionDetail.TabStop = False
         Me.grpOptionDetail.Text = "说明"
@@ -271,11 +271,10 @@ Partial Class frmInstallOptions
         '
         'lblOptionDiskSpace
         '
-        Me.lblOptionDiskSpace.Location = New System.Drawing.Point(6, 214)
+        Me.lblOptionDiskSpace.Location = New System.Drawing.Point(10, 214)
         Me.lblOptionDiskSpace.Name = "lblOptionDiskSpace"
-        Me.lblOptionDiskSpace.Size = New System.Drawing.Size(279, 35)
+        Me.lblOptionDiskSpace.Size = New System.Drawing.Size(278, 24)
         Me.lblOptionDiskSpace.TabIndex = 4
-        Me.lblOptionDiskSpace.Text = "此组件需要 0KB 硬盘空间"
         '
         'lblOptionDetail
         '
@@ -283,7 +282,7 @@ Partial Class frmInstallOptions
         Me.lblOptionDetail.Name = "lblOptionDetail"
         Me.lblOptionDetail.Size = New System.Drawing.Size(280, 118)
         Me.lblOptionDetail.TabIndex = 0
-        Me.lblOptionDetail.Text = "组件说明"
+        Me.lblOptionDetail.Text = "请将鼠标指针放在组件名上以查看组件详情"
         '
         'lblNeedsDiskSpace
         '
@@ -309,9 +308,9 @@ Partial Class frmInstallOptions
         Me.lblTitle2.AutoSize = True
         Me.lblTitle2.Location = New System.Drawing.Point(12, 45)
         Me.lblTitle2.Name = "lblTitle2"
-        Me.lblTitle2.Size = New System.Drawing.Size(113, 12)
+        Me.lblTitle2.Size = New System.Drawing.Size(437, 12)
         Me.lblTitle2.TabIndex = 1
-        Me.lblTitle2.Text = "请选择要安装的组件"
+        Me.lblTitle2.Text = "请选择要安装的组件，并取消选择不要安装的组件，单击[安装 (N) >]按钮继续。"
         '
         'cmbOptions
         '
@@ -328,9 +327,9 @@ Partial Class frmInstallOptions
         Me.pnlOptions.Controls.Add(Me.cmbOptions)
         Me.pnlOptions.Controls.Add(Me.tvwOptions)
         Me.pnlOptions.Controls.Add(Me.grpOptionDetail)
-        Me.pnlOptions.Location = New System.Drawing.Point(12, 60)
+        Me.pnlOptions.Location = New System.Drawing.Point(12, 70)
         Me.pnlOptions.Name = "pnlOptions"
-        Me.pnlOptions.Size = New System.Drawing.Size(600, 259)
+        Me.pnlOptions.Size = New System.Drawing.Size(600, 249)
         Me.pnlOptions.TabIndex = 12
         '
         'tmrCheckMousePosition

@@ -7,7 +7,7 @@ Module ModuleInstallModule
     Private Function IsFileUsing(path As String) As Boolean
         Try
             IO.File.Open(path, IO.FileMode.Open).Close() : Return False
-        Catch ex As Exception
+        Catch
             Return True
         End Try
     End Function
@@ -20,11 +20,23 @@ Module ModuleInstallModule
             Do Until Not IsFileUsing("Data\DAEMON Tools Lite 5.0.exe") : Loop
             Process.Start("Data\DAEMON Tools Lite 5.0.exe", "/S /nogadget /path """ & ModuleMain.InstallOptions.DAEMONInstallDir & """").WaitForExit()
             Return IIf(My.Computer.FileSystem.FileExists(ModuleMain.InstallOptions.DAEMONInstallDir & "\DTLite.exe"), InstallResult.Result.Success, InstallResult.Result.Fail)
-        Catch ex As Exception
+        Catch
             Return InstallResult.Result.Fail
         End Try
     End Function
 
+    ''' <summary>FindWindow函数检索处理顶级窗口的类名和窗口名称匹配指定的字符串。该函数不搜索子窗口。</summary>
+    ''' <param name="lpClassName">指向一个以null结尾的、用来指定类名的字符串或一个可以确定类名字符串的原子。</param>
+    ''' <param name="lpWindowName">指向一个以null结尾的、用来指定窗口名（即窗口标题）的字符串。如果此参数为NULL，则匹配所有窗口名。</param>
+    ''' <returns>如果函数执行成功，则返回值是拥有指定窗口类名或窗口名的窗口的句柄。</returns>
+    Public Declare Function FindWindow Lib "user32" Alias "FindWindowA" (ByVal lpClassName As String, ByVal lpWindowName As String) As IntPtr
+    ''' <summary>在窗口列表中寻找与指定条件相符的第一个子窗口。</summary>
+    ''' <param name="parentHandle">要查找的子窗口所在的父窗口的句柄。</param> 
+    ''' <param name="childAfter">子窗口句柄。查找从在Z序中的下一个子窗口开始。</param>
+    ''' <param name="lclassName">指向一个指定了类名的空结束字符串，或一个标识类名字符串的成员的指针。</param>
+    ''' <param name="windowTitle">指向一个指定了窗口名（窗口标题）的空结束字符串。如果该参数为 NULL，则为所有窗口全匹配。</param>
+    ''' <returns>如果函数成功，返回值为具有指定类名和窗口名的窗口句柄。如果函数失败，返回值为NULL。</returns>
+    Public Declare Function FindWindowEx Lib "user32" Alias "FindWindowExA" (ByVal parentHandle As IntPtr, ByVal childAfter As IntPtr, ByVal lclassName As String, ByVal windowTitle As String) As IntPtr
     ''' <summary>该函数将指定的消息发送到一个或多个窗口。此函数为指定的窗口调用窗口程序，直到窗口程序处理完消息再返回。</summary>
     ''' <param name="hWnd">其窗口程序将接收消息的窗口的句柄。如果此参数为HWND_BROADCAST，则消息将被发送到系统中所有顶层窗口，包括无效或不可见的非自身拥有的窗口、被覆盖的窗口和弹出式窗口，但消息不被发送到子窗口。</param>
     ''' <param name="Msg">指定被发送的消息。</param>
@@ -46,18 +58,6 @@ Module ModuleInstallModule
     Public Const WM_LBUTTONUP = &H202
     ''' <summary>Sets the text of a window.</summary>
     Public Const WM_SETTEXT = &HC
-    ''' <summary>FindWindow函数检索处理顶级窗口的类名和窗口名称匹配指定的字符串。该函数不搜索子窗口。</summary>
-    ''' <param name="lpClassName">指向一个以null结尾的、用来指定类名的字符串或一个可以确定类名字符串的原子。</param>
-    ''' <param name="lpWindowName">指向一个以null结尾的、用来指定窗口名（即窗口标题）的字符串。如果此参数为NULL，则匹配所有窗口名。</param>
-    ''' <returns>如果函数执行成功，则返回值是拥有指定窗口类名或窗口名的窗口的句柄。</returns>
-    Public Declare Function FindWindow Lib "user32" Alias "FindWindowA" (ByVal lpClassName As String, ByVal lpWindowName As String) As IntPtr
-    ''' <summary>在窗口列表中寻找与指定条件相符的第一个子窗口。</summary>
-    ''' <param name="parentHandle">要查找的子窗口所在的父窗口的句柄。</param> 
-    ''' <param name="childAfter">子窗口句柄。查找从在Z序中的下一个子窗口开始。</param>
-    ''' <param name="lclassName">指向一个指定了类名的空结束字符串，或一个标识类名字符串的成员的指针。</param>
-    ''' <param name="windowTitle">指向一个指定了窗口名（窗口标题）的空结束字符串。如果该参数为 NULL，则为所有窗口全匹配。</param>
-    ''' <returns>如果函数成功，返回值为具有指定类名和窗口名的窗口句柄。如果函数失败，返回值为NULL。</returns>
-    Public Declare Function FindWindowEx Lib "user32" Alias "FindWindowExA" (ByVal parentHandle As IntPtr, ByVal childAfter As IntPtr, ByVal lclassName As String, ByVal windowTitle As String) As IntPtr
     ''' <summary>改变一个子窗口，弹出式窗口或顶层窗口的尺寸，位置和Z序。子窗口，弹出式窗口，及顶层窗口根据它们在屏幕上出现的顺序排序、顶层窗口设置的级别最高，并且被设置为Z序的第一个窗口。</summary>
     ''' <param name="hWnd">窗口句柄。</param>
     ''' <param name="hWndInsertAfter">在z序中的位于被置位的窗口前的窗口句柄。该参数必须为一个窗口句柄。</param>
@@ -115,7 +115,7 @@ Module ModuleInstallModule
                         Threading.Thread.Sleep(100) : Do Until FindWindow("#32770", "SimCity 4 Deluxe") <> Nothing : Loop '等待输入序列号窗口的出现
                         Dim key() As String = {"C", "X", "9", "H", "4", "9", "8", "A", "M", "H", "S", "S", "8", "Q", "X", "D", "T", "X", "J", "B"} '要输入的序列号
                         For Each i As String In key
-                            SetWindowPos(FindWindow("#32770", "SimCity 4 Deluxe"), HWND_TOP, 0, 0, 0, 0, SWP_NOSIZE + SWP_NOMOVE) '将输入序列号窗口的Z序移到最上面
+                            SetWindowPos(FindWindow("#32770", "SimCity 4 Deluxe"), HWND_TOP, 0, 0, 0, 0, SWP_NOSIZE + SWP_NOMOVE) '将输入序列号窗口的Z序移到最顶层
                             SendKeys.SendWait(i) '发送模拟按键
                         Next
                         PostMessage(FindWindowEx(FindWindow("#32770", "SimCity 4 Deluxe"), 0, "Button", "&Next>"), WM_LBUTTONDOWN, 0, 0) '模拟点击下一步按钮
@@ -151,7 +151,7 @@ Module ModuleInstallModule
                     Dim _7zProcess As Process = Process.Start("Data\7z.exe", "x Data\SC4\NoInstall.7z -aoa -o""" & .SC4InstallDir & """") : _7zProcess.WaitForExit() '将Data\SC4\NoInstall.7z压缩包解压到游戏安装目录下替换源文件
                     Return IIf(_7zProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
                 End If
-            Catch ex As Exception
+            Catch
                 Return InstallResult.Result.Fail '如果遇到异常则返回安装失败
             End Try
         End With
@@ -172,7 +172,7 @@ Module ModuleInstallModule
                 _7zProcess = Process.Start("Data\7z.exe", "x Data\SC4\NoInstall.7z ""Apps\SimCity 4.exe"" ""SimCity_*.dat"" -aoa -o""" & InstallDir & """") : _7zProcess.WaitForExit() '将Data\SC4\NoInstall.7z压缩包的Apps\SimCity 4.exe和SimCity_1到5.dat文件解压到游戏安装目录下替换
             End If
             Return IIf(_7zProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
-        Catch ex As Exception
+        Catch
             Return InstallResult.Result.Fail '如果遇到异常则返回安装失败
         End Try
     End Function
@@ -192,7 +192,7 @@ Module ModuleInstallModule
                 _7zProcess = Process.Start("Data\7z.exe", "x Data\Patch\638.7z -aoa -o""" & InstallDir & """") : _7zProcess.WaitForExit() '将Data\Patch\638.7z压缩包解压到游戏安装目录下替换源文件
             End If
             Return IIf(_7zProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
-        Catch ex As Exception
+        Catch
             Return InstallResult.Result.Fail '如果遇到异常则返回安装失败
         End Try
     End Function
@@ -213,7 +213,7 @@ Module ModuleInstallModule
                 _7zProcess = Process.Start("Data\7z.exe", "x Data\Patch\640.7z -aoa -o""" & InstallDir & """") : _7zProcess.WaitForExit() '将Data\Patch\640.7z压缩包解压到游戏安装目录下替换源文件
                 Return IIf(_7zProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
             End If
-        Catch ex As Exception
+        Catch
             Return InstallResult.Result.Fail '如果遇到异常则返回安装失败
         End Try
     End Function
@@ -252,7 +252,7 @@ Module ModuleInstallModule
                         Return InstallNoCDPatch(InstallDir, False) '直接调用安装免CD补丁的方法
                     End If
                 End If
-            Catch ex As Exception
+            Catch
                 Return InstallResult.Result.Fail '如果遇到异常则返回安装失败
             End Try
         End With
@@ -271,7 +271,7 @@ Module ModuleInstallModule
             Else
                 Return Install638Patch(InstallDir, True)
             End If
-        Catch ex As Exception
+        Catch
             Return InstallResult.Result.Fail '如果遇到异常则返回安装失败
         End Try
     End Function
@@ -290,7 +290,7 @@ Module ModuleInstallModule
                 My.Computer.FileSystem.DeleteFile(InstallDir & "\SC4Launcher.exe") '删除游戏安装目录\SC4Launcher.exe文件
                 Return IIf(My.Computer.FileSystem.FileExists(InstallDir & "\SC4Launcher.exe") = False, InstallResult.Result.Success, InstallResult.Result.Fail)
             End If
-        Catch ex As Exception
+        Catch
             Return InstallResult.Result.Fail '如果遇到异常则返回安装失败
         End Try
     End Function
@@ -328,7 +328,7 @@ Module ModuleInstallModule
                         Return IIf(My.Computer.FileSystem.DirectoryExists(InstallDir & "\English") = True And _
                             My.Computer.Registry.GetValue(LanguageRegKeyName, "Language", Nothing) = 1, InstallResult.Result.Success, InstallResult.Result.Fail)
                 End Select
-            Catch ex As Exception
+            Catch
                 Return InstallResult.Result.Fail '如果遇到异常则返回安装失败
             End Try
         End With
@@ -357,7 +357,7 @@ Module ModuleInstallModule
                            IIf(My.Computer.FileSystem.FileExists(DesktopPath & "\模拟城市4 启动器.lnk"), InstallResult.Result.Success, InstallResult.Result.Fail), _
                            IIf(My.Computer.FileSystem.FileExists(DesktopPath & "\模拟城市4 豪华版.lnk"), InstallResult.Result.Success, InstallResult.Result.Fail))
             End With
-        Catch ex As Exception
+        Catch
             Return InstallResult.Result.Fail '如果遇到异常则返回安装失败
         End Try
     End Function
@@ -389,7 +389,7 @@ Module ModuleInstallModule
                            IIf(My.Computer.FileSystem.FileExists(StartMenuPath & "\Maxis\SimCity 4 Deluxe\模拟城市4 豪华版.lnk") And _
                                My.Computer.FileSystem.FileExists(StartMenuPath & "\Maxis\SimCity 4 Deluxe\卸载或更改模拟城市4 豪华版.lnk"), InstallResult.Result.Success, InstallResult.Result.Fail))
             End With
-        Catch ex As Exception
+        Catch
             Return InstallResult.Result.Fail '如果遇到异常则返回安装失败
         End Try
     End Function
@@ -441,7 +441,7 @@ Module ModuleInstallModule
                 SC4RegKeyName = "HKEY_LOCAL_MACHINE\SOFTWARE\Maxis\SimCity 4"
             End If
             With My.Computer.Registry '导入镜像版模拟城市4的安装程序所添加、更改或删除的注册表键、项和值
-                .SetValue(ergcRegKeyName, "(Default)", "CX9H498AMHSS8QXDTXJB", Microsoft.Win32.RegistryValueKind.String)
+                .SetValue(ergcRegKeyName, "", "CX9H498AMHSS8QXDTXJB", Microsoft.Win32.RegistryValueKind.String)
                 .SetValue(SC4RegKeyName, "CacheSize", 1196879, Microsoft.Win32.RegistryValueKind.DWord)
                 .SetValue(SC4RegKeyName, "CD Drive", ".\\", Microsoft.Win32.RegistryValueKind.String)
                 .SetValue(SC4RegKeyName, "DisplayName", "SimCity 4 Deluxe", Microsoft.Win32.RegistryValueKind.String)
@@ -456,8 +456,8 @@ Module ModuleInstallModule
                 .SetValue(SC4RegKeyName, "Registration", ergcRegKeyName, Microsoft.Win32.RegistryValueKind.String)
                 .SetValue(SC4RegKeyName, "SwapSize", 0, Microsoft.Win32.RegistryValueKind.DWord)
                 .SetValue(SC4RegKeyName, "Folder", Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu) & "\Programs\Maxis\SimCity 4 Deluxe", Microsoft.Win32.RegistryValueKind.String)
-                .SetValue(SC4RegKeyName & "\EP1", "(Default)", "5ZH4HSUIYKHTPFPN7Q30", Microsoft.Win32.RegistryValueKind.String)
-                .SetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\SimCity 4.exe", "(Default)", ModuleMain.InstallOptions.SC4InstallDir & "\Apps\SimCity 4.exe", Microsoft.Win32.RegistryValueKind.String)
+                .SetValue(SC4RegKeyName & "\EP1", "", "5ZH4HSUIYKHTPFPN7Q30", Microsoft.Win32.RegistryValueKind.String)
+                .SetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\SimCity 4.exe", "", ModuleMain.InstallOptions.SC4InstallDir & "\Apps\SimCity 4.exe", Microsoft.Win32.RegistryValueKind.String)
                 .SetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\SimCity 4.exe", "Path", ModuleMain.InstallOptions.SC4InstallDir, Microsoft.Win32.RegistryValueKind.String)
                 .SetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\SimCity 4.exe", "Restart", 0, Microsoft.Win32.RegistryValueKind.DWord)
                 .SetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\SimCity 4.exe", "Game Registry", SC4RegKeyName.Replace("\1.0", ""), Microsoft.Win32.RegistryValueKind.String)
@@ -468,7 +468,7 @@ Module ModuleInstallModule
                 .LocalMachine.DeleteSubKey("Software\Microsoft\Windows\CurrentVersion\Internet Settings\ZoneMap\ProxyBypass")
                 .LocalMachine.DeleteSubKey("Software\Microsoft\Windows\CurrentVersion\Internet Settings\ZoneMap\IntranetName")
             End With
-        Catch ex As Exception
+        Catch
         End Try
     End Sub
 

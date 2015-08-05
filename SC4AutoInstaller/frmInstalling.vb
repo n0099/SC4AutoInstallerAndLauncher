@@ -11,13 +11,13 @@
                 Case "638补丁" : ._638PatchInstallResult = result
                     If result = InstallResult.Result.Fail Then
                         ._640PatchInstallResult = InstallResult.Result.Fail : ._641PatchInstallResult = InstallResult.Result.Fail
-                        If IsNothing(lvwTask.FindItemWithText("640补丁")) = True Then lvwTask.FindItemWithText("640补丁").ImageKey = "fail"
-                        If IsNothing(lvwTask.FindItemWithText("641补丁")) = True Then lvwTask.FindItemWithText("641补丁").ImageKey = "fail"
+                        If IsNothing(lvwTask.FindItemWithText("640补丁")) = False Then lvwTask.FindItemWithText("640补丁").ImageKey = "fail"
+                        If IsNothing(lvwTask.FindItemWithText("641补丁")) = False Then lvwTask.FindItemWithText("641补丁").ImageKey = "fail"
                     End If
                 Case "640补丁" : ._640PatchInstallResult = result
                     If result = InstallResult.Result.Fail Then
                         ._641PatchInstallResult = InstallResult.Result.Fail
-                        If IsNothing(lvwTask.FindItemWithText("641补丁")) = True Then lvwTask.FindItemWithText("641补丁").ImageKey = "fail"
+                        If IsNothing(lvwTask.FindItemWithText("641补丁")) = False Then lvwTask.FindItemWithText("641补丁").ImageKey = "fail"
                     End If
                 Case "641补丁" : ._641PatchInstallResult = result
                 Case "4GB补丁" : ._4GBPatchInstallResult = result
@@ -96,7 +96,7 @@
                         : ReportProgress(ModuleInstallModule.Install640Patch(ModuleMain.InstalledModule.SC4InstallDir, Not .Install640Patch), _640PatchItem)
                     If ModuleMain.InstalledModule.Is641PatchInstalled <> .Install641Patch And ModuleMain.InstallResult._641PatchInstallResult = InstallResult.Result.Success Then _641PatchItem.ImageKey = "installing" _
                         : ReportProgress(ModuleInstallModule.Install641Patch(ModuleMain.InstalledModule.SC4InstallDir, Not .Install641Patch), _641PatchItem)
-                ElseIf .Install638Patch = True Or .Install640Patch = True Or .Install641Patch = True Then
+                ElseIf .Install638Patch = False Or .Install640Patch = False Or .Install641Patch = False Then
                     If ModuleMain.InstalledModule.Is641PatchInstalled <> .Install641Patch And ModuleMain.InstallResult._641PatchInstallResult = InstallResult.Result.Success Then _641PatchItem.ImageKey = "installing" _
                         : ReportProgress(ModuleInstallModule.Install641Patch(ModuleMain.InstalledModule.SC4InstallDir, Not .Install641Patch), _641PatchItem)
                     If ModuleMain.InstalledModule.Is640PatchInstalled <> .Install640Patch And ModuleMain.InstallResult._638PatchInstallResult = InstallResult.Result.Success Then _640PatchItem.ImageKey = "installing" _

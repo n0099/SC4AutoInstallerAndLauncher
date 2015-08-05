@@ -52,15 +52,11 @@
             Dim SC4InstallDir As String = Nothing '声明一个用于存储HKEY_LOCAL_MACHINE\SOFTWARE\（Wow6432Node）\Maxis\SimCity 4\Install Dir项值的字符串变量
             If Environment.Is64BitOperatingSystem = True Then SC4InstallDir = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Maxis\SimCity 4", "Install Dir", Nothing)
             If Environment.Is64BitOperatingSystem = False Then SC4InstallDir = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Maxis\SimCity 4", "Install Dir", Nothing)
-            SC4InstallDir = IO.Path.GetFullPath(SC4InstallDir) '将短路径转换为长路径
-            '如果注册表的安装路径下存在游戏文件则判断已安装的组件
+            If SC4InstallDir <> Nothing Then SC4InstallDir = IO.Path.GetFullPath(SC4InstallDir) '将短路径转换为长路径
             If SC4InstallDir <> Nothing And .FileExists(SC4InstallDir & "\Apps\SimCity 4.exe") = True And .FileExists(SC4InstallDir & "\SimCity_1.dat") = True And _
-                .FileExists(SC4InstallDir & "\SimCity_2.dat") = True And .FileExists(SC4InstallDir & "\SimCity_3.dat") And .FileExists(SC4InstallDir & "\SimCity_4.dat") = True Then
+                .FileExists(SC4InstallDir & "\SimCity_2.dat") = True And .FileExists(SC4InstallDir & "\SimCity_3.dat") And .FileExists(SC4InstallDir & "\SimCity_4.dat") = True Then '如果注册表里的安装路径项值存在且安装路径下存在游戏文件则判断已安装的组件
                 With ModuleMain.InstalledModule
-                    If SC4InstallDir.EndsWith("\") = True Or My.Computer.FileSystem.FileExists(SC4InstallDir & "Apps\SimCity 4.exe") = True Then '如果安装目录路径以\结尾则去掉结尾的\
-                        .SC4InstallDir = SC4InstallDir.Substring(0, SC4InstallDir.Length - 1)
-                    ElseIf SC4InstallDir.EndsWith("\") = False Or My.Computer.FileSystem.FileExists(SC4InstallDir & "\Apps\SimCity 4.exe") = True Then : .SC4InstallDir = SC4InstallDir
-                    End If
+                    If SC4InstallDir.EndsWith("\") = True Then .SC4InstallDir = SC4InstallDir.Substring(0, SC4InstallDir.Length - 1) Else .SC4InstallDir = SC4InstallDir '如果安装目录路径以\结尾则去掉结尾的\
                     bgwComputeMD5.RunWorkerAsync() : Cursor = Cursors.WaitCursor '开始异步判断已安装的组件并将指针图标改为等待图标
                     Dim LanguageRegKeyName As String = Nothing '声明一个用于存储模拟城市4的语言设置的注册表键值的字符串变量
                     If Environment.Is64BitOperatingSystem = True Then LanguageRegKeyName = "HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Maxis\SimCity 4\1.0"

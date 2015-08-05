@@ -86,7 +86,7 @@
             MessageBox.Show("无法创建" & TextBoxName & "的安装目录！" & vbCrLf & vbCrLf & "可能的原因：" & vbCrLf & "其父目录不可写", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Catch ex As UnauthorizedAccessException
             MessageBox.Show("无法创建" & TextBoxName & "的安装目录！" & vbCrLf & vbCrLf & "可能的原因：" & vbCrLf & "其父目录不可写")
-        Catch ex As Exception
+        Catch
             Return False
         End Try
         If My.Computer.FileSystem.DirectoryExists(Path) = False Then Return False '确定安装目录存在
@@ -96,7 +96,7 @@
             MessageBox.Show(TextBoxName & "的安装目录无法访问！" & vbCrLf & vbCrLf & "可能的原因：" & vbCrLf & "当前用户没有足够的权限访问安装目录或其父目录", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Catch ex As UnauthorizedAccessException
             MessageBox.Show(TextBoxName & "的安装目录无法访问！" & vbCrLf & vbCrLf & "可能的原因：" & vbCrLf & "当前用户没有足够的权限访问安装目录或其父目录", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        Catch ex As Exception
+        Catch
             Return False
         Finally
             If My.Computer.FileSystem.FileExists(Path & "\test") Then My.Computer.FileSystem.DeleteFile(Path & "\test")
@@ -205,7 +205,7 @@
         btnDAEMONlInstallDir.Visible = (e.Node.Name = "DAEMON Tools Lite")
         Select Case e.Node.Name '更新组件信息文本和该组件所需要的磁盘空间文本
             Case "必选组件", "可选组件", "附加任务", "语言补丁"
-                lblOptionDetail.Text = "请将鼠标放在组件名上以查看组件详情" : lblOptionDiskSpace.Text = ""
+                lblOptionDetail.Text = "请将鼠标指针放在组件名上以查看组件详情" : lblOptionDiskSpace.Text = ""
             Case "模拟城市4 豪华版 镜像版"
                 lblOptionDetail.Text = "安装模拟城市4 豪华版 镜像版" & vbCrLf & vbCrLf & "安装镜像版时必须同时安装DAEMON Tools" & vbCrLf & vbCrLf & "建议安装镜像版模拟城市4，不建议安装硬盘版模拟城市4。"
                 lblOptionDiskSpace.Text = "此组件需要 " & Math.Round(InstallOptions.SC4NeedsDiskSpace / 1024 / 1024 / 1024, 2) & "GB 的硬盘空间"
@@ -327,7 +327,7 @@
     Private Sub tmrCheckMousePosition_Tick(sender As Object, e As EventArgs) Handles tmrCheckMousePosition.Tick
         Dim rect As Rectangle = pnlOptions.Bounds, x As Integer = MousePosition.X - Me.Left, y As Integer = MousePosition.Y - Me.Top
         If (x <= rect.Left Or x >= rect.Right Or y <= rect.Top Or y >= rect.Bottom) = True Then '判断鼠标是否不在安装组件容器内
-            lblOptionDetail.Text = "请将鼠标放在组件名上以查看组件详情" : lblOptionDiskSpace.Text = ""
+            lblOptionDetail.Text = "请将鼠标指针放在组件名上以查看组件详情" : lblOptionDiskSpace.Text = ""
             lblDAEMONlInstallDir.Visible = False : txtDAEMONlInstallDir.Visible = False : btnDAEMONlInstallDir.Visible = False '隐藏或显示选择DAEMON Tools Lite安装路径文本框和按钮
         End If
     End Sub
@@ -373,7 +373,6 @@
             cmbOptions.SelectedItem = cmbOptions.Items(1) '自动选择安装选项
             lblNeedsDiskSpace.Text = "安装目录至少需要 " & .GetNeedsDiskSpaceByGB() & "GB 的硬盘空间" '更新当前选择的组件所需要的磁盘空间的文本
         End With
-        lblOptionDetail.Text = "请将鼠标放在组件名上以查看组件详情" : lblOptionDiskSpace.Text = ""
         txtSC4InstallDir.Text = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86) & "\Maxis\SimCity 4 Deluxe" '初始化模拟城市4的安装目录路径
         txtDAEMONlInstallDir.Text = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86) & "\DAEMON Tools Lite" '初始化DAEMON Tools Lite的安装目录路径
         Text &= " " & My.Application.Info.Version.Major & "." & My.Application.Info.Version.Minor & "." & My.Application.Info.Version.Revision & " By n0099" '初始化窗口标题

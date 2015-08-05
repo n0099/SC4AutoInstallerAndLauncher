@@ -40,8 +40,7 @@ Partial Class frmUninstalling
         '
         'prgUninstall
         '
-        Me.prgUninstall.Location = New System.Drawing.Point(12, 39)
-        Me.prgUninstall.Maximum = 6
+        Me.prgUninstall.Location = New System.Drawing.Point(12, 48)
         Me.prgUninstall.Name = "prgUninstall"
         Me.prgUninstall.Size = New System.Drawing.Size(460, 23)
         Me.prgUninstall.Style = System.Windows.Forms.ProgressBarStyle.Continuous
@@ -54,7 +53,7 @@ Partial Class frmUninstalling
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(484, 74)
+        Me.ClientSize = New System.Drawing.Size(484, 83)
         Me.Controls.Add(Me.prgUninstall)
         Me.Controls.Add(Me.lblTitle)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog

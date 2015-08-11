@@ -46,9 +46,8 @@
             Console.Write("更新安装完成")
             Dim bat As String = ":del" & vbCrLf & "del %1" & vbCrLf & "if exist %1 goto del" & vbCrLf & "del %0"
             My.Computer.FileSystem.WriteAllText("DeleteUpdater.bat", bat, False, Text.Encoding.ASCII)
-            If .FileExists("Updata.exe") = True Then My.Computer.FileSystem.DeleteFile("Updata.exe")
             If .FileExists("Setup.exe") = True Then Process.Start("Setup.exe")
-            Process.Start("DeleteUpdater.bat", """" & Process.GetCurrentProcess.MainModule.FileName & """")
+            Process.Start(New ProcessStartInfo With {.FileName = "DeleteUpdater.bat", .Arguments = """" & Process.GetCurrentProcess.MainModule.FileName & """", .Verb = "runas", .WindowStyle = ProcessWindowStyle.Hidden})
         End With
     End Sub
 

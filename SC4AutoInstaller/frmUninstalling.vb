@@ -69,7 +69,7 @@
         If ModuleMain.InstalledModule.SC4InstallDir = Application.StartupPath Then
             Dim bat As String = ":del" & vbCrLf & "del %1" & vbCrLf & "if exist %1 goto del" & vbCrLf & "del %0"
             My.Computer.FileSystem.WriteAllText("del.bat", bat, False, System.Text.Encoding.ASCII)
-            Process.Start("del.bat", """" & Process.GetCurrentProcess.MainModule.FileName & """")
+            Process.Start(New ProcessStartInfo With {.FileName = "del.bat", .Arguments = """" & Application.ExecutablePath & """", .Verb = "runas", .WindowStyle = ProcessWindowStyle.Hidden})
         End If
         Application.Exit()
     End Sub

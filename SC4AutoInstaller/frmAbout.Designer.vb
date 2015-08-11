@@ -125,8 +125,9 @@ Partial Class frmAbout
         Me.lblThanksList.Name = "lblThanksList"
         Me.lblThanksList.Size = New System.Drawing.Size(270, 132)
         Me.lblThanksList.TabIndex = 3
-        Me.lblThanksList.Text = "鸣谢：工藤a梦jin2、abcTom123、yangyinjie123、Sourire丶雨、萧涯离、帽子578onewaychou、goflying_、xcVis" & _
-    "ta（SCCN）、百你二渡、虚无中在飘渺、铁木真的使臣（LasmGratel）、绿色食品台风（钽钨毛细血管瘤）、坐在鸭子、周瑜K了Zero和cjak007"
+        Me.lblThanksList.Text = "鸣谢：爱神de忧伤、回眸执晚筝、饥饿仪式、工藤a梦jin2、abcTom123、yangyinjie123、Sourire丶雨、萧涯离、帽子578onewaych" & _
+    "ou、goflying_、xcVista（SCCN）、百你二渡、虚无中在飘渺、铁木真的使臣（LasmGratel）、绿色食品台风（钽钨毛细血管瘤）、坐在鸭子、周" & _
+    "瑜K了Zero和cjak007"
         '
         'llbSCCN
         '

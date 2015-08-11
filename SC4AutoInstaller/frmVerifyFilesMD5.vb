@@ -1,7 +1,7 @@
 ﻿Public Class frmVerifyFilesMD5
 
     ''' <summary>一个用于存储要验证的文件的相对路径和MD5值的 List 泛型类</summary>
-    Dim DataFilesMD5 As New List(Of String)({"Data\DAEMON Tools Lite 5.0.exe", "E4D2A05D4A5C22C6D4BC20D6B502CE6B", "Data\7z.exe", "A51D90F2F9394F5EA0A3ACAE3BD2B219", "Data\SC4Launcher.exe", "9A2A3BD3089CD7F5AD06DF49703B742C" _
+    Dim DataFilesMD5 As New List(Of String)({"Data\DAEMON Tools Lite 5.0.exe", "E4D2A05D4A5C22C6D4BC20D6B502CE6B", "Data\7z.exe", "A51D90F2F9394F5EA0A3ACAE3BD2B219", "Data\SC4Launcher.exe", "529F86F3E830B78521F8AB155ABBE4BF" _
                                             , "Data\Licenses\CC BY-NC-SA.rtf", "995C9B18CABFBB6DE54A4EE7886D843C", "Data\Licenses\CC BY-NC-SA 3.0 法律文本.rtf", "473B4BFEDFE91351CE00BB962284DBCC" _
                                             , "Data\Licenses\CC BY-NC-SA 4.0 法律文本.rtf", "E27D76D2E75DE182B6C10F6EBA0482A4", "Data\Licenses\EA EULA.txt", "4A263CEC16B302BE4E080A85614A90F9", "Data\Licenses\DAEMON Tools 隐私政策.rtf", "B772FA3468C7C3879A5A16614DC3613C" _
                                             , "Data\Patch\638.7z", "29AF195D1AB5F0ECCA63554E4BB69325", "Data\Patch\640.7z", "59CD8A9571880CA378AB0E5523E1D058", "Data\Patch\SimCity 4 641.exe", "53D2AE4FA9114B88AD91ECF32A7F16A4" _

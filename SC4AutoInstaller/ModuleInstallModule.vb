@@ -61,15 +61,6 @@ Module ModuleInstallModule
     Public Const WM_LBUTTONUP = &H202
     ''' <summary>Sets the text of a window.</summary>
     Public Const WM_SETTEXT = &HC
-    ''' <summary>改变一个子窗口，弹出式窗口或顶层窗口的尺寸，位置和Z序。子窗口，弹出式窗口，及顶层窗口根据它们在屏幕上出现的顺序排序、顶层窗口设置的级别最高，并且被设置为Z序的第一个窗口。</summary>
-    ''' <param name="hWnd">窗口句柄。</param>
-    ''' <param name="hWndInsertAfter">在z序中的位于被置位的窗口前的窗口句柄。该参数必须为一个窗口句柄。</param>
-    ''' <param name="X">以客户坐标指定窗口新位置的左边界。</param>
-    ''' <param name="Y">以客户坐标指定窗口新位置的顶边界。</param>
-    ''' <param name="cx">以像素指定窗口的新的宽度。</param>
-    ''' <param name="cy">以像素指定窗口的新的高度。</param>
-    ''' <param name="uFlags">窗口尺寸和定位的标志。</param>
-    ''' <returns>如果函数成功，返回值为非零；如果函数失败，返回值为零。</returns>
 
     ''' <summary>安装指定版本的模拟城市4</summary>
     ''' <param name="InstallType">InstallOptions.SC4InstallType 的值之一，指定要安装的版本</param>

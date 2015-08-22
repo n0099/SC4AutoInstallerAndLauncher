@@ -1,4 +1,6 @@
-﻿Public Class frmChangeModuleOptions
+﻿Imports Opt = SC4AutoInstaller.InstallOptions '引用SC4AutoInstaller.InstallOptions类以便省略代码中重复的InstallOptions类引用
+
+Public Class frmChangeModuleOptions
 
     ''' <summary>指定安装组件列表框项的图标</summary>
     Private Enum NodeCheckedState
@@ -53,8 +55,6 @@
             End Select
         End With
     End Function
-
-
 
     Private Sub tvwOptions_BeforeCollapse(sender As Object, e As TreeViewCancelEventArgs) Handles tvwOptions.BeforeCollapse
         e.Cancel = True '禁止折叠树节点
@@ -112,24 +112,24 @@
                 Case "繁体中文"
                     If GetNodeChecked(e.Node.Name) = NodeCheckedState.radiounchecked Then
                         SetNodeChecked(e.Node.Name, NodeCheckedState.radiochecked) : SetNodeChecked("简体中文", NodeCheckedState.radiounchecked)
-                        SetNodeChecked("英语", NodeCheckedState.radiounchecked) : .LanguagePatch = InstallOptions.Language.TraditionalChinese
+                        SetNodeChecked("英语", NodeCheckedState.radiounchecked) : .LanguagePatch = Opt.Language.TraditionalChinese
                     End If
                 Case "简体中文"
                     If GetNodeChecked(e.Node.Name) = NodeCheckedState.radiounchecked Then
                         SetNodeChecked(e.Node.Name, NodeCheckedState.radiochecked) : SetNodeChecked("繁体中文", NodeCheckedState.radiounchecked)
-                        SetNodeChecked("英语", NodeCheckedState.radiounchecked) : .LanguagePatch = InstallOptions.Language.SimplifiedChinese
+                        SetNodeChecked("英语", NodeCheckedState.radiounchecked) : .LanguagePatch = Opt.Language.SimplifiedChinese
                     End If
                 Case "英语"
                     If GetNodeChecked(e.Node.Name) = NodeCheckedState.radiounchecked Then
                         SetNodeChecked(e.Node.Name, NodeCheckedState.radiochecked) : SetNodeChecked("繁体中文", NodeCheckedState.radiounchecked)
-                        SetNodeChecked("简体中文", NodeCheckedState.radiounchecked) : .LanguagePatch = InstallOptions.Language.English
+                        SetNodeChecked("简体中文", NodeCheckedState.radiounchecked) : .LanguagePatch = Opt.Language.English
                     End If
             End Select
         End With
     End Sub
 
     Private Sub frmModuleChangeOption_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
-        If MessageBox.Show("确定要退出安装程序吗？", "确认退出", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.No Then e.Cancel = True
+        If MessageBox.Show("确定要退出安装程序吗？", "确认退出", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.No Then e.Cancel = True
     End Sub
 
     Private Sub frmModuleChangeOption_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -143,11 +143,11 @@
             If ModuleMain.InstalledModule.IsSC4LauncherInstalled = True Then SetNodeChecked("模拟城市4 启动器", NodeCheckedState.checked) : .InstallSC4Launcher = True
             Select Case ModuleMain.InstalledModule.LanguagePatch
                 Case InstalledModule.Language.TraditionalChinese
-                    SetNodeChecked("繁体中文", NodeCheckedState.radiochecked) : ModuleMain.InstallOptions.LanguagePatch = InstallOptions.Language.TraditionalChinese
+                    SetNodeChecked("繁体中文", NodeCheckedState.radiochecked) : .LanguagePatch = Opt.Language.TraditionalChinese
                 Case InstalledModule.Language.SimplifiedChinese
-                    SetNodeChecked("简体中文", NodeCheckedState.radiochecked) : ModuleMain.InstallOptions.LanguagePatch = InstallOptions.Language.SimplifiedChinese
+                    SetNodeChecked("简体中文", NodeCheckedState.radiochecked) : .LanguagePatch = Opt.Language.SimplifiedChinese
                 Case InstalledModule.Language.English
-                    SetNodeChecked("英语", NodeCheckedState.radiochecked) : ModuleMain.InstallOptions.LanguagePatch = InstallOptions.Language.English
+                    SetNodeChecked("英语", NodeCheckedState.radiochecked) : .LanguagePatch = Opt.Language.English
             End Select
         End With
         Text &= " " & My.Application.Info.Version.Major & "." & My.Application.Info.Version.Minor & "." & My.Application.Info.Version.Revision & " By n0099" '初始化窗口标题
@@ -159,7 +159,10 @@
         Close()
     End Sub
 
-    Private Sub btnNext_Click(sender As Object, e As EventArgs) Handles btnNext.Click
+    Private Sub btnInstall_Click(sender As Object, e As EventArgs) Handles btnInstall.Click
+        If ModuleMain.InstallOptions.Install638Patch = False And My.Computer.FileSystem.FileExists("Data\SC4\NoInstall.7z") = False Then
+            MessageBox.Show("Data\SC4\NoInstall.7z 文件不存在！" & vbCrLf & "无法卸载638补丁！请使用原始安装程序以添加或删除组件", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) : Exit Sub
+        End If
         frmInstalling.Show()
         RemoveHandler Me.FormClosing, AddressOf frmModuleChangeOption_FormClosing '移除关闭窗口过程和关闭窗口事件的关联
         Close()

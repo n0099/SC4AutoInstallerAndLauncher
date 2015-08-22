@@ -14,7 +14,7 @@
                 SC4InstallDir = IO.Path.GetFullPath(SC4InstallDir) '将短路径转换为长路径
                 If SC4InstallDir.EndsWith("\") = True Then .SC4InstallDir = SC4InstallDir.Substring(0, SC4InstallDir.Length - 1) Else .SC4InstallDir = SC4InstallDir '如果安装目录路径以\结尾则去掉结尾的\
             ElseIf SC4InstallDir = Nothing Then
-                If MessageBox.Show("未检测到模拟城市4安装目录，是否手动选择安装目录？", "错误", MessageBoxButtons.YesNo, MessageBoxIcon.Error) = Windows.Forms.DialogResult.Yes Then
+                If MessageBox.Show("未检测到模拟城市4安装目录，是否手动选择安装目录？", "错误", MessageBoxButtons.YesNo, MessageBoxIcon.Error) = DialogResult.Yes Then
                     fbdSC4InstallDir.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86) : fbdSC4InstallDir.ShowDialog()
                     Do Until fbdSC4InstallDir.SelectedPath <> Nothing : fbdSC4InstallDir.ShowDialog() : Loop
                     .SC4InstallDir = fbdSC4InstallDir.SelectedPath
@@ -22,7 +22,7 @@
                 End If
             End If
             Do Until My.Computer.FileSystem.FileExists(.SC4InstallDir & "\Apps\SimCity 4.exe")
-                If MessageBox.Show("模拟城市4安装目录里没有游戏程序！" & vbCrLf & "是否重新选择模拟城市4安装目录？", "错误", MessageBoxButtons.YesNo, MessageBoxIcon.Error) = Windows.Forms.DialogResult.Yes Then
+                If MessageBox.Show("模拟城市4安装目录里没有游戏程序！" & vbCrLf & "是否重新选择模拟城市4安装目录？", "错误", MessageBoxButtons.YesNo, MessageBoxIcon.Error) = DialogResult.Yes Then
                     fbdSC4InstallDir.SelectedPath = .SC4InstallDir : fbdSC4InstallDir.ShowDialog()
                     Do Until fbdSC4InstallDir.SelectedPath <> Nothing : fbdSC4InstallDir.ShowDialog() : Loop
                     .SC4InstallDir = fbdSC4InstallDir.SelectedPath
@@ -32,7 +32,7 @@
             .IsFirstRun = False : .Save()
         End With
         Dim random As New Random '声明一个用于产生随机数的System.Random类实例
-        BackgroundImage = CType(My.Resources.ResourceManager.GetObject("SC4_" & random.Next(1, 7)), Image) '将主窗口的背景图片设置为资源文件里名为SC4_随机数（介于1到7之间）的图片
+        BackgroundImage = CType(My.Resources.ResourceManager.GetObject("SC4_" & random.Next(1, 10)), Image) '将主窗口的背景图片设置为资源文件里名为SC4_随机数（介于1到7之间）的图片
         Text &= " " & My.Application.Info.Version.Major & "." & My.Application.Info.Version.Minor & "." & My.Application.Info.Version.Revision & " By n0099" '初始化窗口标题
     End Sub
 

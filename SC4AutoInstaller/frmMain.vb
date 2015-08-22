@@ -53,7 +53,7 @@
             If Environment.Is64BitOperatingSystem = True Then SC4InstallDir = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Maxis\SimCity 4", "Install Dir", Nothing)
             If Environment.Is64BitOperatingSystem = False Then SC4InstallDir = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Maxis\SimCity 4", "Install Dir", Nothing)
             If SC4InstallDir <> Nothing Then SC4InstallDir = IO.Path.GetFullPath(SC4InstallDir) '将短路径转换为长路径
-            If SC4InstallDir <> Nothing And .FileExists(SC4InstallDir & "\Apps\SimCity 4.exe") = True And .FileExists(SC4InstallDir & "\SimCity_1.dat") = True And _
+            If SC4InstallDir <> Nothing And .FileExists(SC4InstallDir & "\Apps\SimCity 4.exe") = True And .FileExists(SC4InstallDir & "\SimCity_1.dat") = True And
                 .FileExists(SC4InstallDir & "\SimCity_2.dat") = True And .FileExists(SC4InstallDir & "\SimCity_3.dat") And .FileExists(SC4InstallDir & "\SimCity_4.dat") = True Then '如果注册表里的安装路径项值存在且安装路径下存在游戏文件则判断已安装的组件
                 With ModuleMain.InstalledModule
                     If SC4InstallDir.EndsWith("\") = True Then .SC4InstallDir = SC4InstallDir.Substring(0, SC4InstallDir.Length - 1) Else .SC4InstallDir = SC4InstallDir '如果安装目录路径以\结尾则去掉结尾的\
@@ -76,6 +76,11 @@
     End Sub
 
     Private Sub btnInstall_Click(sender As Object, e As EventArgs) Handles btnInstall.Click
+        With My.Computer.FileSystem
+            If .DirectoryExists("Data\SC4\CD") = False And .FileExists("Data\SC4\NoInstall.7z") = False Then MessageBox.Show("Data\SC4\CD 文件夹和Data\SC4\NoInstall.7z 文件不存在！" & vbCrLf & "请使用原始安装程序以安装模拟城市4", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) : Exit Sub
+            If .DirectoryExists("Data\SC4\CD") = False Then MessageBox.Show("Data\SC4\CD 文件夹不存在！" & vbCrLf & "请使用原始安装程序以安装模拟城市4", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) : Exit Sub
+            If .FileExists("Data\SC4\NoInstall.7z") = False Then MessageBox.Show("Data\SC4\NoInstall.7z 文件不存在！" & vbCrLf & "请使用原始安装程序以安装模拟城市4", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) : Exit Sub
+        End With
         frmLicenses.Show()
         RemoveHandler Me.FormClosing, AddressOf frmMain_FormClosing '移除关闭窗口过程和关闭窗口事件的关联
         Close()
@@ -90,7 +95,7 @@
                 RemoveHandler Me.FormClosing, AddressOf frmMain_FormClosing '移除关闭窗口过程和关闭窗口事件的关联
                 Close()
             Else
-                MessageBox.Show("请使用原始安装程序以添加或删除组件", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show("Data文件夹不存在！" & vbCrLf & "请使用原始安装程序以添加或删除组件", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
         End With
     End Sub

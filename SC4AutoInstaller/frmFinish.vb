@@ -1,4 +1,7 @@
-﻿Public Class frmFinish
+﻿Imports Opt = SC4AutoInstaller.InstallOptions '引用SC4AutoInstaller.InstallOptions类以便省略代码中重复的InstallOptions类引用
+Imports Res = SC4AutoInstaller.InstallResult '引用SC4AutoInstaller.InstallResult类以便省略代码中重复的InstallResult类引用
+
+Public Class frmFinish
 
     ''' <summary>将某个组件标记为安装失败，并将该项从安装成功组件列表框移到到安装失败列表框内</summary>
     ''' <param name="item">要标记为安装失败的项</param>
@@ -38,12 +41,12 @@
         With ModuleMain.InstallOptions
             lvwSubassemblySuccess.BeginUpdate() : lvwSubassemblyFail.BeginUpdate()
             If IsNothing(ModuleMain.InstalledModule) = True Then '判断是否已经安装了模拟城市4
-                If .InstallDAEMONTools = False Then DAEMONItem.Remove() Else If ModuleMain.InstallResult.DAEMONToolsInstallResult = InstallResult.Result.Fail Then SubassemblyInstallFail(DAEMONItem)
+                If .InstallDAEMONTools = False Then DAEMONItem.Remove() Else If ModuleMain.InstallResult.DAEMONToolsInstallResult = Res.Result.Fail Then SubassemblyInstallFail(DAEMONItem)
                 '如果模拟城市4安装失败，则将安装成功的组件列表框的对应项移动到安装失败的组件列表框里
-                If ModuleMain.InstallResult.SC4InstallResult = InstallResult.Result.Fail Then SubassemblyInstallFail(SC4Item)
+                If ModuleMain.InstallResult.SC4InstallResult = Res.Result.Fail Then SubassemblyInstallFail(SC4Item)
                 '根据安装选项里所选择的模拟城市4版本来更改安装成功的组件列表框里模拟城市4 豪华版项的文本
-                If .SC4Type = InstallOptions.SC4InstallType.ISO Then SC4Item.Text = "模拟城市4 豪华版 镜像版"
-                If .SC4Type = InstallOptions.SC4InstallType.NoInstall Then SC4Item.Text = "模拟城市4 豪华版 硬盘版"
+                If .SC4Type = Opt.SC4InstallType.ISO Then SC4Item.Text = "模拟城市4 豪华版 镜像版"
+                If .SC4Type = Opt.SC4InstallType.NoInstall Then SC4Item.Text = "模拟城市4 豪华版 硬盘版"
                 '删除安装选项里选择不安装的组件在安装成功的组件列表框里的对应项
                 If .Install638Patch = False Then _638PatchItem.Remove()
                 If .Install640Patch = False Then _640PatchItem.Remove()
@@ -65,26 +68,25 @@
                 If ModuleMain.InstalledModule.LanguagePatch = .LanguagePatch Then LanguagePatchItem.Remove()
             End If
             With ModuleMain.InstallResult '如果某个组件安装失败，则将安装成功的组件列表框的对应项移动到安装失败的组件列表框里
-                If ._638PatchInstallResult = InstallResult.Result.Fail Then SubassemblyInstallFail(_638PatchItem)
-                If ._640PatchInstallResult = InstallResult.Result.Fail Then SubassemblyInstallFail(_640PatchItem)
-                If ._641PatchInstallResult = InstallResult.Result.Fail Then SubassemblyInstallFail(_641PatchItem)
-                If ._4GBPatchInstallResult = InstallResult.Result.Fail Then SubassemblyInstallFail(_4GBPatchItem)
-                If .NoCDPatchInstallResult = InstallResult.Result.Fail Then SubassemblyInstallFail(NoCDPatchItem)
-                If .SC4LauncherInstallResult = InstallResult.Result.Fail Then SubassemblyInstallFail(SC4LauncherItem)
-                If .LanguagePatchInstallResult = InstallResult.Result.Fail Then SubassemblyInstallFail(LanguagePatchItem)
-                If .AddDesktopIconResult = InstallResult.Result.Fail Then SubassemblyInstallFail(AddDesktopIconItem)
-                If .AddStartMenuItemResult = InstallResult.Result.Fail Then SubassemblyInstallFail(AddStartMenuIem)
+                If ._638PatchInstallResult = Res.Result.Fail Then SubassemblyInstallFail(_638PatchItem)
+                If ._640PatchInstallResult = Res.Result.Fail Then SubassemblyInstallFail(_640PatchItem)
+                If ._641PatchInstallResult = Res.Result.Fail Then SubassemblyInstallFail(_641PatchItem)
+                If ._4GBPatchInstallResult = Res.Result.Fail Then SubassemblyInstallFail(_4GBPatchItem)
+                If .NoCDPatchInstallResult = Res.Result.Fail Then SubassemblyInstallFail(NoCDPatchItem)
+                If .SC4LauncherInstallResult = Res.Result.Fail Then SubassemblyInstallFail(SC4LauncherItem)
+                If .LanguagePatchInstallResult = Res.Result.Fail Then SubassemblyInstallFail(LanguagePatchItem)
+                If .AddDesktopIconResult = Res.Result.Fail Then SubassemblyInstallFail(AddDesktopIconItem)
+                If .AddStartMenuItemResult = Res.Result.Fail Then SubassemblyInstallFail(AddStartMenuIem)
             End With
             '根据安装选项里所选择的语言补丁来更改安装组件列表框里对应项的文本
             Select Case .LanguagePatch
-                Case InstallOptions.Language.TraditionalChinese : LanguagePatchItem.Text = "繁体中文语言补丁"
-                Case InstallOptions.Language.SimplifiedChinese : LanguagePatchItem.Text = "简体中文语言补丁"
-                Case InstallOptions.Language.English : LanguagePatchItem.Remove()
+                Case Opt.Language.TraditionalChinese : LanguagePatchItem.Text = "繁体中文语言补丁"
+                Case Opt.Language.SimplifiedChinese : LanguagePatchItem.Text = "简体中文语言补丁"
+                Case Opt.Language.English : LanguagePatchItem.Remove()
             End Select
             lvwSubassemblySuccess.EndUpdate() : lvwSubassemblyFail.EndUpdate()
             '如果模拟城市4安装成功且存在游戏安装目录\Apps\SimCity 4.exe文件则激活启动模拟城市4 豪华版按钮
-            If ModuleMain.InstallResult.SC4InstallResult = InstallResult.Result.Success Or _
-                My.Computer.FileSystem.FileExists(.SC4InstallDir & "\Apps\SimCity 4.exe") = True Then btnRunSC4.Enabled = True
+            If ModuleMain.InstallResult.SC4InstallResult = Res.Result.Success And My.Computer.FileSystem.FileExists(.SC4InstallDir & "\Apps\SimCity 4.exe") = True Then btnRunSC4.Enabled = True
         End With
         Dim FlashInfo As New FLASHINFO With {.cbSize = Runtime.InteropServices.Marshal.SizeOf(FlashInfo) _
                                              , .uCount = 5, .dwTimeout = 0, .hwnd = Me.Handle, .dwFlags = FLASHW_ALL} '创建一个ModuleMain.FLASHINFO结构的实例

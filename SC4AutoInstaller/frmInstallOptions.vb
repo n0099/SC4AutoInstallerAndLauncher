@@ -1,4 +1,6 @@
-﻿Public Class frmInstallOptions
+﻿Imports Opt = SC4AutoInstaller.InstallOptions '引用SC4AutoInstaller.InstallOptions类以便省略代码中重复的InstallOptions类引用
+
+Public Class frmInstallOptions
 
     ''' <summary>获取或设置是否已经安装DAEMON Tools Lite</summary>
     Dim IsDAEMONToolsInstalled As Boolean
@@ -109,94 +111,93 @@
     End Sub
 
     Private Sub tvwOptions_NodeMouseClick(sender As Object, e As TreeNodeMouseClickEventArgs) Handles tvwOptions.NodeMouseClick
-        '当使用鼠标左键点击安装组件列表框的项时更新点击的项的图标和ModuleMain.InstallOptions的值
-        With ModuleMain.InstallOptions
-            If e.Button <> Windows.Forms.MouseButtons.Left Then Exit Sub
-            lblNeedsDiskSpace.Text = "安装目录至少需要 " & .GetNeedsDiskSpaceByGB() & "GB 的硬盘空间"
-            tvwOptions.BeginUpdate()
-            Select Case e.Node.Name
-                Case "模拟城市4 豪华版 镜像版"
-                    If GetNodeChecked(e.Node.Name) = NodeCheckedState.radiounchecked Then
-                        SetNodeChecked(e.Node.Name, NodeCheckedState.radiochecked) : SetNodeChecked("模拟城市4 豪华版 硬盘版", NodeCheckedState.radiounchecked)
-                        If IsDAEMONToolsInstalled = False Then SetNodeChecked("DAEMON Tools Lite", NodeCheckedState.checked) : .InstallDAEMONTools = True
-                        .SC4Type = InstallOptions.SC4InstallType.ISO
-                    End If
-                Case "模拟城市4 豪华版 硬盘版"
-                    If GetNodeChecked(e.Node.Name) = NodeCheckedState.radiounchecked Then
-                        SetNodeChecked(e.Node.Name, NodeCheckedState.radiochecked) : SetNodeChecked("模拟城市4 豪华版 镜像版", NodeCheckedState.radiounchecked)
-                        .SC4Type = InstallOptions.SC4InstallType.NoInstall
-                    End If
-                Case "DAEMON Tools Lite"
-                    '只有在Data\SC4\CD文件夹存在或Data\SC4\NoInstall.7z文件存在且已选中模拟城市4 豪华版 硬盘版项时才会更新
-                    If IsSC4FileExists = True AndAlso GetNodeChecked("模拟城市4 豪华版 硬盘版") = NodeCheckedState.radiochecked Then
-                        If GetNodeChecked(e.Node.Name) = NodeCheckedState.checked Then
-                            SetNodeChecked(e.Node.Name, NodeCheckedState.unchecked) : .InstallDAEMONTools = False
-                        ElseIf GetNodeChecked(e.Node.Name) = NodeCheckedState.unchecked Then
-                            SetNodeChecked(e.Node.Name, NodeCheckedState.checked) : .InstallDAEMONTools = True
+        If cmbOptions.SelectedItem = "自定义" Then '如果快速选择组件列表框选择的项不为自定义则不改变组件列表框里对应的项
+            '当使用鼠标左键点击安装组件列表框的项时更新点击的项的图标和ModuleMain.InstallOptions的值
+            With ModuleMain.InstallOptions
+                If e.Button <> Windows.Forms.MouseButtons.Left Then Exit Sub
+                lblNeedsDiskSpace.Text = "安装目录至少需要 " & .GetNeedsDiskSpaceByGB() & "GB 的硬盘空间"
+                tvwOptions.BeginUpdate()
+                Select Case e.Node.Name
+                    Case "模拟城市4 豪华版 镜像版"
+                        If GetNodeChecked(e.Node.Name) = NodeCheckedState.radiounchecked Then : .SC4Type = Opt.SC4InstallType.ISO
+                            SetNodeChecked(e.Node.Name, NodeCheckedState.radiochecked) : SetNodeChecked("模拟城市4 豪华版 硬盘版", NodeCheckedState.radiounchecked)
+                            If IsDAEMONToolsInstalled = False Then SetNodeChecked("DAEMON Tools Lite", NodeCheckedState.checked) : .InstallDAEMONTools = True
                         End If
-                    End If
-                Case "638补丁", "640补丁", "641补丁", "4GB补丁", "免CD补丁", "模拟城市4 启动器", "添加桌面图标", "添加开始菜单项"
-                    If GetNodeChecked(e.Node.Name) = NodeCheckedState.checked Then
-                        SetNodeChecked(e.Node.Name, NodeCheckedState.unchecked)
-                        Select Case e.Node.Name
-                            Case "638补丁" : .Install638Patch = False
-                                '取消安装638补丁时同时取消640和641补丁的安装
-                                SetNodeChecked("640补丁", NodeCheckedState.unchecked) : .Install640Patch = False
-                                SetNodeChecked("641补丁", NodeCheckedState.unchecked) : .Install641Patch = False
-                            Case "640补丁" : .Install640Patch = False
-                                '取消安装640补丁时同时取消641补丁的安装
-                                SetNodeChecked("641补丁", NodeCheckedState.unchecked) : .Install641Patch = False
-                            Case "641补丁" : .Install641Patch = False
-                            Case "4GB补丁" : .Install4GBPatch = False
-                            Case "免CD补丁" : .InstallNoCDPatch = False
-                            Case "模拟城市4 启动器" : .InstallSC4Launcher = False
-                            Case "添加桌面图标" : .AddDesktopIcon = False
-                            Case "添加开始菜单项" : .AddStartMenuItem = False
-                        End Select
-                    ElseIf GetNodeChecked(e.Node.Name) = NodeCheckedState.unchecked Then
-                        SetNodeChecked(e.Node.Name, NodeCheckedState.checked)
-                        Select Case e.Node.Name
-                            Case "638补丁" : .Install638Patch = True
-                                '选择安装638补丁时同时取消免CD补丁的安装
-                                SetNodeChecked("免CD补丁", NodeCheckedState.unchecked) : .InstallNoCDPatch = False
-                            Case "640补丁" : .Install640Patch = True
-                                '选择安装640补丁时同时选择安装638补丁以及取消免CD补丁的安装
-                                SetNodeChecked("638补丁", NodeCheckedState.checked) : .Install638Patch = True
-                                SetNodeChecked("免CD补丁", NodeCheckedState.unchecked) : .InstallNoCDPatch = False
-                            Case "641补丁" : .Install641Patch = True
-                                '选择安装641补丁时同时选择安装638和640补丁以及取消免CD补丁的安装
-                                SetNodeChecked("638补丁", NodeCheckedState.checked) : .Install638Patch = True
-                                SetNodeChecked("640补丁", NodeCheckedState.checked) : .Install640Patch = True
-                                SetNodeChecked("免CD补丁", NodeCheckedState.unchecked) : .InstallNoCDPatch = False
-                            Case "4GB补丁" : .Install4GBPatch = True
-                            Case "免CD补丁" : .InstallNoCDPatch = True
-                                '选择安装免CD补丁时同时取消638、640和641补丁的安装
-                                SetNodeChecked("638补丁", NodeCheckedState.unchecked) : .Install638Patch = False
-                                SetNodeChecked("640补丁", NodeCheckedState.unchecked) : .Install640Patch = False
-                                SetNodeChecked("641补丁", NodeCheckedState.unchecked) : .Install641Patch = False
-                            Case "模拟城市4 启动器" : .InstallSC4Launcher = True
-                            Case "添加桌面图标" : .AddDesktopIcon = True
-                            Case "添加开始菜单项" : .AddStartMenuItem = True
-                        End Select
-                    End If
-                Case "繁体中文"
-                    If GetNodeChecked(e.Node.Name) = NodeCheckedState.radiounchecked Then
-                        SetNodeChecked(e.Node.Name, NodeCheckedState.radiochecked) : SetNodeChecked("简体中文", NodeCheckedState.radiounchecked)
-                        SetNodeChecked("英语", NodeCheckedState.radiounchecked) : .LanguagePatch = InstallOptions.Language.TraditionalChinese
-                    End If
-                Case "简体中文"
-                    If GetNodeChecked(e.Node.Name) = NodeCheckedState.radiounchecked Then
-                        SetNodeChecked(e.Node.Name, NodeCheckedState.radiochecked) : SetNodeChecked("繁体中文", NodeCheckedState.radiounchecked)
-                        SetNodeChecked("英语", NodeCheckedState.radiounchecked) : .LanguagePatch = InstallOptions.Language.SimplifiedChinese
-                    End If
-                Case "英语"
-                    If GetNodeChecked(e.Node.Name) = NodeCheckedState.radiounchecked Then
-                        SetNodeChecked(e.Node.Name, NodeCheckedState.radiochecked) : SetNodeChecked("繁体中文", NodeCheckedState.radiounchecked)
-                        SetNodeChecked("简体中文", NodeCheckedState.radiounchecked) : .LanguagePatch = InstallOptions.Language.English
-                    End If
-            End Select
-            tvwOptions.EndUpdate()
-        End With
+                    Case "模拟城市4 豪华版 硬盘版"
+                        If GetNodeChecked(e.Node.Name) = NodeCheckedState.radiounchecked Then : .SC4Type = Opt.SC4InstallType.NoInstall
+                            SetNodeChecked(e.Node.Name, NodeCheckedState.radiochecked) : SetNodeChecked("模拟城市4 豪华版 镜像版", NodeCheckedState.radiounchecked)
+                        End If
+                    Case "DAEMON Tools Lite" '只有在Data\SC4\CD文件夹存在或Data\SC4\NoInstall.7z文件存在且已选中模拟城市4 豪华版 硬盘版项时才会更新
+                        If IsSC4FileExists = True AndAlso GetNodeChecked("模拟城市4 豪华版 硬盘版") = NodeCheckedState.radiochecked Then
+                            If GetNodeChecked(e.Node.Name) = NodeCheckedState.checked Then
+                                SetNodeChecked(e.Node.Name, NodeCheckedState.unchecked) : .InstallDAEMONTools = False
+                            ElseIf GetNodeChecked(e.Node.Name) = NodeCheckedState.unchecked Then
+                                SetNodeChecked(e.Node.Name, NodeCheckedState.checked) : .InstallDAEMONTools = True
+                            End If
+                        End If
+                    Case "638补丁", "640补丁", "641补丁", "4GB补丁", "免CD补丁", "模拟城市4 启动器", "添加桌面图标", "添加开始菜单项"
+                        If GetNodeChecked(e.Node.Name) = NodeCheckedState.checked Then
+                            SetNodeChecked(e.Node.Name, NodeCheckedState.unchecked)
+                            Select Case e.Node.Name
+                                Case "638补丁" : .Install638Patch = False
+                                    '取消安装638补丁时同时取消640和641补丁的安装
+                                    SetNodeChecked("640补丁", NodeCheckedState.unchecked) : .Install640Patch = False
+                                    SetNodeChecked("641补丁", NodeCheckedState.unchecked) : .Install641Patch = False
+                                Case "640补丁" : .Install640Patch = False
+                                    '取消安装640补丁时同时取消641补丁的安装
+                                    SetNodeChecked("641补丁", NodeCheckedState.unchecked) : .Install641Patch = False
+                                Case "641补丁" : .Install641Patch = False
+                                Case "4GB补丁" : .Install4GBPatch = False
+                                Case "免CD补丁" : .InstallNoCDPatch = False
+                                Case "模拟城市4 启动器" : .InstallSC4Launcher = False
+                                Case "添加桌面图标" : .AddDesktopIcon = False
+                                Case "添加开始菜单项" : .AddStartMenuItem = False
+                            End Select
+                        ElseIf GetNodeChecked(e.Node.Name) = NodeCheckedState.unchecked Then
+                            SetNodeChecked(e.Node.Name, NodeCheckedState.checked)
+                            Select Case e.Node.Name
+                                Case "638补丁" : .Install638Patch = True
+                                    '选择安装638补丁时同时取消免CD补丁的安装
+                                    SetNodeChecked("免CD补丁", NodeCheckedState.unchecked) : .InstallNoCDPatch = False
+                                Case "640补丁" : .Install640Patch = True
+                                    '选择安装640补丁时同时选择安装638补丁以及取消免CD补丁的安装
+                                    SetNodeChecked("638补丁", NodeCheckedState.checked) : .Install638Patch = True
+                                    SetNodeChecked("免CD补丁", NodeCheckedState.unchecked) : .InstallNoCDPatch = False
+                                Case "641补丁" : .Install641Patch = True
+                                    '选择安装641补丁时同时选择安装638和640补丁以及取消免CD补丁的安装
+                                    SetNodeChecked("638补丁", NodeCheckedState.checked) : .Install638Patch = True
+                                    SetNodeChecked("640补丁", NodeCheckedState.checked) : .Install640Patch = True
+                                    SetNodeChecked("免CD补丁", NodeCheckedState.unchecked) : .InstallNoCDPatch = False
+                                Case "4GB补丁" : .Install4GBPatch = True
+                                Case "免CD补丁" : .InstallNoCDPatch = True
+                                    '选择安装免CD补丁时同时取消638、640和641补丁的安装
+                                    SetNodeChecked("638补丁", NodeCheckedState.unchecked) : .Install638Patch = False
+                                    SetNodeChecked("640补丁", NodeCheckedState.unchecked) : .Install640Patch = False
+                                    SetNodeChecked("641补丁", NodeCheckedState.unchecked) : .Install641Patch = False
+                                Case "模拟城市4 启动器" : .InstallSC4Launcher = True
+                                Case "添加桌面图标" : .AddDesktopIcon = True
+                                Case "添加开始菜单项" : .AddStartMenuItem = True
+                            End Select
+                        End If
+                    Case "繁体中文"
+                        If GetNodeChecked(e.Node.Name) = NodeCheckedState.radiounchecked Then
+                            SetNodeChecked(e.Node.Name, NodeCheckedState.radiochecked) : SetNodeChecked("简体中文", NodeCheckedState.radiounchecked)
+                            SetNodeChecked("英语", NodeCheckedState.radiounchecked) : .LanguagePatch = Opt.Language.TraditionalChinese
+                        End If
+                    Case "简体中文"
+                        If GetNodeChecked(e.Node.Name) = NodeCheckedState.radiounchecked Then
+                            SetNodeChecked(e.Node.Name, NodeCheckedState.radiochecked) : SetNodeChecked("繁体中文", NodeCheckedState.radiounchecked)
+                            SetNodeChecked("英语", NodeCheckedState.radiounchecked) : .LanguagePatch = Opt.Language.SimplifiedChinese
+                        End If
+                    Case "英语"
+                        If GetNodeChecked(e.Node.Name) = NodeCheckedState.radiounchecked Then
+                            SetNodeChecked(e.Node.Name, NodeCheckedState.radiochecked) : SetNodeChecked("繁体中文", NodeCheckedState.radiounchecked)
+                            SetNodeChecked("简体中文", NodeCheckedState.radiounchecked) : .LanguagePatch = Opt.Language.English
+                        End If
+                End Select
+                tvwOptions.EndUpdate()
+            End With
+        End If
     End Sub
 
     Private Sub tvwOptions_NodeMouseHover(sender As Object, e As TreeNodeMouseHoverEventArgs) Handles tvwOptions.NodeMouseHover
@@ -208,31 +209,31 @@
                 lblOptionDetail.Text = "请将鼠标指针放在组件名上以查看组件详情" : lblOptionDiskSpace.Text = ""
             Case "模拟城市4 豪华版 镜像版"
                 lblOptionDetail.Text = "安装模拟城市4 豪华版 镜像版" & vbCrLf & vbCrLf & "安装镜像版时必须同时安装DAEMON Tools" & vbCrLf & vbCrLf & "建议安装镜像版模拟城市4，不建议安装硬盘版模拟城市4。"
-                lblOptionDiskSpace.Text = "此组件需要 " & Math.Round(InstallOptions.SC4NeedsDiskSpace / 1024 / 1024 / 1024, 2) & "GB 的硬盘空间"
+                lblOptionDiskSpace.Text = "此组件需要 " & Math.Round(Opt.SC4NeedsDiskSpace / 1024 / 1024 / 1024, 2) & "GB 的硬盘空间"
             Case "模拟城市4 豪华版 硬盘版"
                 lblOptionDetail.Text = "安装模拟城市4 豪华版 硬盘版" & vbCrLf & vbCrLf & "安装硬盘版时不必同时安装DAEMON Tools" & vbCrLf & vbCrLf & "建议安装镜像版模拟城市4，不建议安装硬盘版模拟城市4。"
-                lblOptionDiskSpace.Text = "此组件需要 " & Math.Round(InstallOptions.SC4NeedsDiskSpace / 1024 / 1024 / 1024, 2) & "GB 的硬盘空间"
+                lblOptionDiskSpace.Text = "此组件需要 " & Math.Round(Opt.SC4NeedsDiskSpace / 1024 / 1024 / 1024, 2) & "GB 的硬盘空间"
             Case "DAEMON Tools Lite"
                 lblOptionDetail.Text = "安装DAEMON Tools Lite 5.0" & vbCrLf & vbCrLf & "DAEMON Tools用于加载虚拟光驱" & vbCrLf & vbCrLf & "如果要安装镜像版模拟城市4，则必须安装此项。"
-                lblOptionDiskSpace.Text = "此组件需要 " & InstallOptions.DAEMONToolsNeedsDiskSpace \ 1024 \ 1024 & "MB 的硬盘空间"
+                lblOptionDiskSpace.Text = "此组件需要 " & Opt.DAEMONToolsNeedsDiskSpace \ 1024 \ 1024 & "MB 的硬盘空间"
             Case "638补丁"
                 lblOptionDetail.Text = "安装638补丁" & vbCrLf & vbCrLf & "638补丁修复了一些bug" & vbCrLf & vbCrLf & "建议同时安装640灯光补丁。"
-                lblOptionDiskSpace.Text = "此组件需要 " & InstallOptions._638NeedsDiskSpace \ 1024 & "KB 的硬盘空间"
+                lblOptionDiskSpace.Text = "此组件需要 " & Opt._638NeedsDiskSpace \ 1024 & "KB 的硬盘空间"
             Case "640补丁"
                 lblOptionDetail.Text = "安装640灯光补丁" & vbCrLf & vbCrLf & "如果不安装640补丁大部分的插件在晚上不会显示灯光" & vbCrLf & vbCrLf & "安装此补丁必须同时安装638补丁，建议安装。"
-                lblOptionDiskSpace.Text = "此组件需要 " & InstallOptions._640NeedsDiskSpace \ 1024 & "KB 的硬盘空间"
+                lblOptionDiskSpace.Text = "此组件需要 " & Opt._640NeedsDiskSpace \ 1024 & "KB 的硬盘空间"
             Case "641补丁"
                 lblOptionDetail.Text = "安装641官方免CD补丁" & vbCrLf & vbCrLf & "安装此补丁后打开游戏前不需要加载CD2虚拟光驱" & vbCrLf & vbCrLf & "安装此补丁必须同时安装640补丁和638补丁" & vbCrLf & vbCrLf & "建议安装此补丁，不建议安装非官方免CD补丁。"
-                lblOptionDiskSpace.Text = "此组件需要 " & InstallOptions._641NeedsDiskSpace \ 1024 & "KB 的硬盘空间"
+                lblOptionDiskSpace.Text = "此组件需要 " & Opt._641NeedsDiskSpace \ 1024 & "KB 的硬盘空间"
             Case "4GB补丁"
                 lblOptionDetail.Text = "安装4GB补丁" & vbCrLf & vbCrLf & "安装此补丁后游戏跳出的几率会大大降低" & vbCrLf & vbCrLf & "仅64位系统可以安装。"
                 lblOptionDiskSpace.Text = "此组件需要 0KB 的硬盘空间"
             Case "免CD补丁"
                 lblOptionDetail.Text = "安装非官方免CD补丁" & vbCrLf & vbCrLf & "安装此补丁后打开游戏前不需要加载CD2虚拟光驱" & vbCrLf & vbCrLf & "安装此补丁的同时不能安装638、640和641补丁" & vbCrLf & vbCrLf & "641补丁同样有免CD的功能，建议安装641补丁，不建议安装此补丁。"
-                lblOptionDiskSpace.Text = "此组件需要 " & InstallOptions.NoCDNeedsDiskSpace \ 1024 & "KB 的硬盘空间"
+                lblOptionDiskSpace.Text = "此组件需要 " & Opt.NoCDNeedsDiskSpace \ 1024 & "KB 的硬盘空间"
             Case "模拟城市4 启动器"
                 lblOptionDetail.Text = "安装模拟城市4 启动器" & vbCrLf & vbCrLf & "启动器可以方便地以带参数的模式启动游戏" & vbCrLf & vbCrLf & "建议安装。"
-                lblOptionDiskSpace.Text = "此组件需要 " & InstallOptions.SC4LauncherNeedsDiskSpace \ 1024 & "KB 的硬盘空间"
+                lblOptionDiskSpace.Text = "此组件需要 " & Opt.SC4LauncherNeedsDiskSpace \ 1024 & "KB 的硬盘空间"
             Case "语言补丁"
                 lblOptionDetail.Text = "安装语言补丁" & vbCrLf & vbCrLf & "如果不安装语言补丁" & vbCrLf & vbCrLf & "默认语言为英语" & vbCrLf & vbCrLf & "建议安装。"
                 lblOptionDiskSpace.Text = ""
@@ -241,7 +242,7 @@
                 lblOptionDiskSpace.Text = "此组件需要 0KB 的硬盘空间"
             Case "简体中文"
                 lblOptionDetail.Text = "安装简体中文语言补丁" & vbCrLf & vbCrLf & "建议使用繁体中文语言补丁，不建议使用简体中文语言补丁。"
-                lblOptionDiskSpace.Text = "此组件需要 " & InstallOptions.LanguageSimplifiedChineseNeedsDiskSpace \ 1024 & "KB 的硬盘空间"
+                lblOptionDiskSpace.Text = "此组件需要 " & Opt.LanguageSimplifiedChineseNeedsDiskSpace \ 1024 & "KB 的硬盘空间"
             Case "英语"
                 lblOptionDetail.Text = "安装英语语言补丁" & vbCrLf & vbCrLf & "建议使用繁体中文语言补丁。"
                 lblOptionDiskSpace.Text = "此组件需要 0KB 的硬盘空间"
@@ -259,11 +260,11 @@
                 If IsCDDirectoryExists = True Then '如果存在Data\SC4\CD文件夹则选择安装镜像版模拟城市4
                     SetNodeChecked("模拟城市4 豪华版 镜像版", NodeCheckedState.radiochecked)
                     If IsSC4FileExists = True Then SetNodeChecked("模拟城市4 豪华版 硬盘版", NodeCheckedState.radiounchecked)
-                    ModuleMain.InstallOptions.SC4Type = InstallOptions.SC4InstallType.ISO '更新ModuleMain.InstallOptions.SC4Type的值
+                    ModuleMain.InstallOptions.SC4Type = Opt.SC4InstallType.ISO '更新ModuleMain.InstallOptions.SC4Type的值
                 ElseIf IsSC4FileExists = True Then '如果存在Data\SC4\NoInstall.7z文件则选中安装硬盘版模拟城市4项
                     SetNodeChecked("模拟城市4 豪华版 硬盘版", NodeCheckedState.radiochecked)
                     If IsCDDirectoryExists = True Then SetNodeChecked("模拟城市4 豪华版 镜像版", NodeCheckedState.radiounchecked)
-                    ModuleMain.InstallOptions.SC4Type = InstallOptions.SC4InstallType.NoInstall '更新ModuleMain.InstallOptions.SC4Type的值
+                    ModuleMain.InstallOptions.SC4Type = Opt.SC4InstallType.NoInstall '更新ModuleMain.InstallOptions.SC4Type的值
                 End If
                 If IsDAEMONToolsInstalled = False Then SetNodeChecked("DAEMON Tools Lite", NodeCheckedState.checked) : ModuleMain.InstallOptions.InstallDAEMONTools = True '如果尚未安装DAEMON Tools Lite则选中DAEMON Tools Lite项
                 With ModuleMain.InstallOptions
@@ -278,7 +279,7 @@
                             '更新ModuleMain.InstallOptions的值
                             .Install638Patch = True : .Install640Patch = True : .Install641Patch = True
                             .InstallNoCDPatch = False : .InstallSC4Launcher = True
-                            .LanguagePatch = InstallOptions.Language.TraditionalChinese : .AddDesktopIcon = True : .AddStartMenuItem = True
+                            .LanguagePatch = Opt.Language.TraditionalChinese : .AddDesktopIcon = True : .AddStartMenuItem = True
                             lblNeedsDiskSpace.Text = "安装目录至少需要 " & .GetNeedsDiskSpaceByGB() & "GB 的硬盘空间"
                         Case "推荐安装"
                             '更新安装组件列表框项的图标
@@ -290,19 +291,19 @@
                             '更新ModuleMain.InstallOptions的值
                             .Install638Patch = True : .Install640Patch = True : .Install641Patch = True
                             .Install4GBPatch = False : .InstallNoCDPatch = False : .InstallSC4Launcher = True
-                            .LanguagePatch = InstallOptions.Language.TraditionalChinese : .AddDesktopIcon = False : .AddStartMenuItem = True
+                            .LanguagePatch = Opt.Language.TraditionalChinese : .AddDesktopIcon = False : .AddStartMenuItem = True
                             lblNeedsDiskSpace.Text = "安装目录至少需要 " & .GetNeedsDiskSpaceByGB() & "GB 的硬盘空间"
                         Case "精简安装"
                             If IsCDDirectoryExists = True Then
                                 SetNodeChecked("模拟城市4 豪华版 镜像版", NodeCheckedState.radiochecked)
                                 If IsSC4FileExists = True Then SetNodeChecked("模拟城市4 豪华版 硬盘版", NodeCheckedState.radiounchecked)
                                 If IsDAEMONToolsInstalled = False Then SetNodeChecked("DAEMON Tools Lite", NodeCheckedState.checked) : ModuleMain.InstallOptions.InstallDAEMONTools = True
-                                ModuleMain.InstallOptions.SC4Type = InstallOptions.SC4InstallType.ISO
+                                ModuleMain.InstallOptions.SC4Type = Opt.SC4InstallType.ISO
                             ElseIf IsSC4FileExists = True Then
                                 SetNodeChecked("模拟城市4 豪华版 硬盘版", NodeCheckedState.radiochecked)
                                 If IsCDDirectoryExists = True Then SetNodeChecked("模拟城市4 豪华版 镜像版", NodeCheckedState.radiounchecked)
                                 If IsDAEMONToolsInstalled = False Then SetNodeChecked("DAEMON Tools Lite", NodeCheckedState.unchecked) : ModuleMain.InstallOptions.InstallDAEMONTools = False
-                                ModuleMain.InstallOptions.SC4Type = InstallOptions.SC4InstallType.NoInstall
+                                ModuleMain.InstallOptions.SC4Type = Opt.SC4InstallType.NoInstall
                             End If
                             '更新安装组件列表框项的图标
                             SetNodeChecked("638补丁", NodeCheckedState.unchecked) : SetNodeChecked("640补丁", NodeCheckedState.unchecked) : SetNodeChecked("641补丁", NodeCheckedState.unchecked)
@@ -313,13 +314,10 @@
                             '更新ModuleMain.InstallOptions的值
                             .Install638Patch = False : .Install640Patch = False : .Install641Patch = False
                             .Install4GBPatch = False : .InstallNoCDPatch = False : .InstallSC4Launcher = False
-                            .LanguagePatch = InstallOptions.Language.TraditionalChinese : .AddDesktopIcon = False : .AddStartMenuItem = True
+                            .LanguagePatch = Opt.Language.TraditionalChinese : .AddDesktopIcon = False : .AddStartMenuItem = True
                             lblNeedsDiskSpace.Text = "安装目录至少需要 " & .GetNeedsDiskSpaceByGB() & "GB 的硬盘空间"
                     End Select
                 End With
-                tvwOptions.Enabled = False
-            Case "自定义"
-                tvwOptions.Enabled = True
         End Select
         tvwOptions.EndUpdate()
     End Sub
@@ -335,7 +333,7 @@
     Private Sub btnSC4InstallDir_Click(sender As Object, e As EventArgs) Handles btnSC4InstallDir.Click
         With fbdSC4InstallDir
             fbdSC4InstallDir.SelectedPath = txtSC4InstallDir.Text '将选择模拟城市4安装路径对话框的选择路径设为模拟城市4安装路径文本框的路径
-            If fbdSC4InstallDir.ShowDialog = Windows.Forms.DialogResult.OK And fbdSC4InstallDir.SelectedPath <> Nothing Then
+            If fbdSC4InstallDir.ShowDialog = DialogResult.OK And fbdSC4InstallDir.SelectedPath <> Nothing Then
                 txtSC4InstallDir.Text = IIf(.SelectedPath.Length = 3, .SelectedPath & "SimCity 4 Deluxe", .SelectedPath & "\SimCity 4 Deluxe") '判断选择的路径是否以分区盘符开头
             End If
         End With
@@ -344,14 +342,14 @@
     Private Sub btnDAEMONlInstallDir_Click(sender As Object, e As EventArgs) Handles btnDAEMONlInstallDir.Click
         With fbdDAEMONlInstallDir
             .SelectedPath = txtSC4InstallDir.Text '将选择DAEMON Tools Lite安装路径对话框的选择路径设为DAEMON Tools Lite安装路径文本框的路径
-            If .ShowDialog = Windows.Forms.DialogResult.OK And .SelectedPath <> Nothing Then
+            If .ShowDialog = DialogResult.OK And .SelectedPath <> Nothing Then
                 txtDAEMONlInstallDir.Text = IIf(.SelectedPath.Length = 3, .SelectedPath & "DAEMON Tools Lite", .SelectedPath & "\DAEMON Tools Lite") '判断选择的路径是否以分区盘符开头
             End If
         End With
     End Sub
 
     Private Sub frmInstallOptions_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
-        If MessageBox.Show("确定要退出安装程序吗？", "确认退出", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.No Then e.Cancel = True
+        If MessageBox.Show("确定要退出安装程序吗？", "确认退出", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.No Then e.Cancel = True
     End Sub
 
     Private Sub frmInstallOptions_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -362,11 +360,11 @@
                 .DAEMONInstallDir = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Disc Soft\DAEMON Tools Lite", "Path", Nothing)
             End If
             If My.Computer.FileSystem.DirectoryExists("Data\SC4\CD") = False Then '如果不存在Data\SC4\CD文件夹则删除安装选项列表框的模拟城市4 豪华版 镜像版项
-                tvwOptions.Nodes.Find("模拟城市4 豪华版 镜像版", True)(0).Remove() : IsCDDirectoryExists = False : .SC4Type = InstallOptions.SC4InstallType.NoInstall
+                tvwOptions.Nodes.Find("模拟城市4 豪华版 镜像版", True)(0).Remove() : IsCDDirectoryExists = False : .SC4Type = Opt.SC4InstallType.NoInstall
             Else : IsCDDirectoryExists = True
             End If
             If My.Computer.FileSystem.FileExists("Data\SC4\NoInstall.7z") = False Then '如果不存在Data\SC4\NoInstall.7z文件则删除安装选项列表框的模拟城市4 豪华版 硬盘版项
-                tvwOptions.Nodes.Find("模拟城市4 豪华版 硬盘版", True)(0).Remove() : IsSC4FileExists = False : .SC4Type = InstallOptions.SC4InstallType.ISO
+                tvwOptions.Nodes.Find("模拟城市4 豪华版 硬盘版", True)(0).Remove() : IsSC4FileExists = False : .SC4Type = Opt.SC4InstallType.ISO
             Else : IsSC4FileExists = True
             End If
             If Environment.Is64BitOperatingSystem = False Then tvwOptions.Nodes.Find("4GB补丁", True)(0).Remove() : .Install4GBPatch = False '如果系统不是64位系统则删除安装组件列表框里的4GB补丁项

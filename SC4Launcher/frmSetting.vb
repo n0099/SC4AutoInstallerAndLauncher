@@ -1,4 +1,4 @@
-﻿Imports System.Text.RegularExpressions
+﻿Imports System.Text.RegularExpressions '引用System.Text.RegularExpressions命名空间以便对启动参数进行正则表达式查找
 
 Public Class frmSetting
 
@@ -94,7 +94,7 @@ Public Class frmSetting
     End Sub
 
     Private Sub mtxCustomResolution_TextChanged(sender As Object, e As EventArgs) Handles mtxCustomResolution.TextChanged
-        Dim tmp As String = Regex.Match(Argument, "-r\d{3,4}x\d{3,4} ").ToString '声明一个用于判断启动参数里是否存在分辨率参数的字符串变量
+        Dim tmp As String = Regex.Match(Argument, "-r\d{2,4}x\d{2,4} ").ToString '声明一个用于判断启动参数里是否存在分辨率参数的字符串变量
         If tmp <> Nothing Then Argument = Argument.Replace(tmp, "")
         If mtxCustomResolution.Text.Replace(" ", "").Length > 6 Then Argument &= "-r" & mtxCustomResolution.Text.Replace(" ", "") & " "
         ArgumentChanged()
@@ -194,7 +194,7 @@ Public Class frmSetting
     End Sub
 
     Private Sub btnUserDir_Click(sender As Object, e As EventArgs) Handles btnUserDir.Click
-        If fbdUserDir.ShowDialog = Windows.Forms.DialogResult.OK And fbdUserDir.SelectedPath <> Nothing Then
+        If fbdUserDir.ShowDialog = DialogResult.OK And fbdUserDir.SelectedPath <> Nothing Then
             txtUserDir.Text = fbdUserDir.SelectedPath
             With Argument
                 If .Contains("-UserDir") = True Then
@@ -228,9 +228,9 @@ Public Class frmSetting
 
     Private Sub btnSC4Installdir_Click(sender As Object, e As EventArgs) Handles btnSC4InstallDir.Click
         fbdSC4InstallDir.SelectedPath = My.Settings.SC4InstallDir
-        If fbdSC4InstallDir.ShowDialog = Windows.Forms.DialogResult.OK And fbdSC4InstallDir.SelectedPath <> Nothing Then
+        If fbdSC4InstallDir.ShowDialog = DialogResult.OK And fbdSC4InstallDir.SelectedPath <> Nothing Then
             If My.Computer.FileSystem.FileExists(fbdSC4InstallDir.SelectedPath & "\Apps\SimCity 4.exe") = True Then '判断用户选择的路径里存不存在游戏程序
-                If MessageBox.Show("模拟城市4安装目录里没有游戏程序！" & vbCrLf & "是否重新选择模拟城市4安装目录？", "错误", MessageBoxButtons.YesNo, MessageBoxIcon.Error) = Windows.Forms.DialogResult.Yes Then
+                If MessageBox.Show("模拟城市4安装目录里没有游戏程序！" & vbCrLf & "是否重新选择模拟城市4安装目录？", "错误", MessageBoxButtons.YesNo, MessageBoxIcon.Error) = DialogResult.Yes Then
                     fbdSC4InstallDir.ShowDialog()
                 Else
                     Exit Sub

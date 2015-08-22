@@ -1,9 +1,12 @@
-﻿Public Class frmInstalling
+﻿Imports Opt = SC4AutoInstaller.InstallOptions '引用SC4AutoInstaller.InstallOptions类以便省略代码中重复的InstallOptions类引用
+Imports Res = SC4AutoInstaller.InstallResult '引用SC4AutoInstaller.InstallResult类以便省略代码中重复的InstallResult类引用
+
+Public Class frmInstalling
 
     ''' <summary>报告某个组件的安装结果，并更改安装任务列表框内对应项的图标</summary>
-    ''' <param name="result">组件的安装结果，必须为 InstallResult.Result 枚举的值之一</param>
+    ''' <param name="result">组件的安装结果，必须为InstallResult.Result枚举的值之一</param>
     ''' <param name="item">安装任务列表框的对应项</param>
-    Private Sub ReportProgress(ByVal result As InstallResult.Result, ByVal item As ListViewItem)
+    Private Sub ReportProgress(ByVal result As Res.Result, ByVal item As ListViewItem)
         With ModuleMain.InstallResult
             If result = InstallResult.Result.Success Then item.ImageKey = "success" Else item.ImageKey = "fail"
             Select Case item.Text
@@ -52,74 +55,73 @@
         Dim AddDesktopIconItem As ListViewItem = lvwTask.FindItemWithText("添加桌面图标"), AddStartMenuIem As ListViewItem = lvwTask.FindItemWithText("添加开始菜单项")
         With ModuleMain.InstallOptions
             If IsNothing(ModuleMain.InstalledModule) = True Then '判断是否已经安装了模拟城市4
-                If .InstallDAEMONTools = True Then DAEMONItem.ImageKey = "installing" : ReportProgress(ModuleInstallModule.InstallDAEMONTools(), DAEMONItem)
-                If .SC4Type = InstallOptions.SC4InstallType.ISO Then '安装指定版本的模拟城市4
-                    SC4Item.ImageKey = "installing" : ReportProgress(ModuleInstallModule.InstallSC4(InstallOptions.SC4InstallType.ISO), SC4Item)
-                ElseIf .SC4Type = InstallOptions.SC4InstallType.NoInstall Then
-                    SC4Item.ImageKey = "installing" : ReportProgress(ModuleInstallModule.InstallSC4(InstallOptions.SC4InstallType.NoInstall), SC4Item)
+                If .InstallDAEMONTools = True Then DAEMONItem.ImageKey = "installing" : ReportProgress(InstallDAEMONTools(), DAEMONItem)
+                If .SC4Type = Opt.SC4InstallType.ISO Then '安装指定版本的模拟城市4
+                    SC4Item.ImageKey = "installing" : ReportProgress(InstallSC4(Opt.SC4InstallType.ISO), SC4Item)
+                ElseIf .SC4Type = Opt.SC4InstallType.NoInstall Then
+                    SC4Item.ImageKey = "installing" : ReportProgress(InstallSC4(Opt.SC4InstallType.NoInstall), SC4Item)
                 End If
                 If bgwInstall.CancellationPending = True Then Exit Sub '如果模拟城市4安装失败则停止安装后续组件
-                If .SC4Type = InstallOptions.SC4InstallType.NoInstall Then ModuleInstallModule.SetNoInstallSC4RegValue() '导入镜像版模拟城市4所添加的注册表项
-                ModuleInstallModule.SetControlPanelProgramItemRegValue() '在控制面板的卸载或更改程序里添加模拟城市4 豪华版 自动安装程序项
+                If .SC4Type = Opt.SC4InstallType.NoInstall Then SetNoInstallSC4RegValue() '导入镜像版模拟城市4所添加的注册表项
+                SetControlPanelProgramItemRegValue() '在控制面板的卸载或更改程序里添加模拟城市4 豪华版 自动安装程序项
                 '安装指定的组件并将安装组件列表框里对应项的图标改为安装中图标
                 If .Install638Patch = True Then _638PatchItem.ImageKey = "installing" _
-                    : ReportProgress(ModuleInstallModule.Install638Patch(.SC4InstallDir, False), _638PatchItem)
-                If .Install640Patch = True And ModuleMain.InstallResult._638PatchInstallResult = InstallResult.Result.Success Then _640PatchItem.ImageKey = "installing" _
-                    : ReportProgress(ModuleInstallModule.Install640Patch(.SC4InstallDir, False), _640PatchItem)
-                If .Install641Patch = True And ModuleMain.InstallResult._640PatchInstallResult = InstallResult.Result.Success Then _641PatchItem.ImageKey = "installing" _
-                    : ReportProgress(ModuleInstallModule.Install641Patch(.SC4InstallDir, False), _641PatchItem)
-                If .InstallNoCDPatch = True Then NoCDPatchItem.ImageKey = "installing" _
-                    : ReportProgress(ModuleInstallModule.InstallNoCDPatch(.SC4InstallDir, False), NoCDPatchItem)
-                If .Install4GBPatch = True Then _4GBPatchItem.ImageKey = "installing" _
-                    : ReportProgress(ModuleInstallModule.Install4GBPatch(.SC4InstallDir, False), _4GBPatchItem)
-                If .InstallSC4Launcher = True Then SC4LauncherItem.ImageKey = "installing" _
-                    : ReportProgress(ModuleInstallModule.InstallSC4Launcher(.SC4InstallDir, False), SC4LauncherItem)
+                    : ReportProgress(Install638Patch(.SC4InstallDir, False), _638PatchItem)
+                If .Install640Patch = True And ModuleMain.InstallResult._638PatchInstallResult = Res.Result.Success Then _640PatchItem.ImageKey = "installing" _
+                    : ReportProgress(Install640Patch(.SC4InstallDir, False), _640PatchItem)
+                If .Install641Patch = True And ModuleMain.InstallResult._640PatchInstallResult = Res.Result.Success Then _641PatchItem.ImageKey = "installing" _
+                    : ReportProgress(Install641Patch(.SC4InstallDir, False), _641PatchItem)
+                If .InstallNoCDPatch = True Then NoCDPatchItem.ImageKey = "installing" : ReportProgress(InstallNoCDPatch(.SC4InstallDir, False), NoCDPatchItem)
+                If .Install4GBPatch = True Then _4GBPatchItem.ImageKey = "installing" : ReportProgress(Install4GBPatch(.SC4InstallDir, False), _4GBPatchItem)
+                If .InstallSC4Launcher = True Then SC4LauncherItem.ImageKey = "installing" : ReportProgress(InstallSC4Launcher(.SC4InstallDir, False), SC4LauncherItem)
                 Select Case .LanguagePatch
-                    Case InstallOptions.Language.TraditionalChinese
+                    Case Opt.Language.TraditionalChinese
                         lvwTask.FindItemWithText("繁体中文语言补丁").ImageKey = "installing"
-                        ReportProgress(ModuleInstallModule.InstallLanguagePatch(.SC4InstallDir, InstallOptions.Language.TraditionalChinese), lvwTask.FindItemWithText("繁体中文语言补丁"))
-                    Case InstallOptions.Language.SimplifiedChinese
+                        ReportProgress(InstallLanguagePatch(.SC4InstallDir, Opt.Language.TraditionalChinese), lvwTask.FindItemWithText("繁体中文语言补丁"))
+                    Case Opt.Language.SimplifiedChinese
                         lvwTask.FindItemWithText("简体中文语言补丁").ImageKey = "installing"
-                        ReportProgress(ModuleInstallModule.InstallLanguagePatch(.SC4InstallDir, InstallOptions.Language.SimplifiedChinese), lvwTask.FindItemWithText("简体中文语言补丁"))
-                    Case InstallOptions.Language.English
-                        ModuleInstallModule.InstallLanguagePatch(.SC4InstallDir, InstallOptions.Language.English)
+                        ReportProgress(InstallLanguagePatch(.SC4InstallDir, Opt.Language.SimplifiedChinese), lvwTask.FindItemWithText("简体中文语言补丁"))
+                    Case Opt.Language.English
+                        InstallLanguagePatch(.SC4InstallDir, Opt.Language.English)
                 End Select
-                If .AddDesktopIcon = True Then AddDesktopIconItem.ImageKey = "installing" : ReportProgress(ModuleInstallModule.AddDestopIcon(), AddDesktopIconItem)
-                If .AddStartMenuItem = True Then AddStartMenuIem.ImageKey = "installing" : ReportProgress(ModuleInstallModule.AddStartMenuItems(), AddStartMenuIem)
+                If .AddDesktopIcon = True Then AddDesktopIconItem.ImageKey = "installing" : ReportProgress(AddDestopIcon(), AddDesktopIconItem)
+                If .AddStartMenuItem = True Then AddStartMenuIem.ImageKey = "installing" : ReportProgress(AddStartMenuItems(), AddStartMenuIem)
             Else
                 '安装或卸载指定的组件并将安装组件列表框里对应项的图标改为安装中图标
-                '如果要安装638、640或641补丁则按照安装638、安装640和安装641的顺序安装，如果要卸载638、640或641补丁则按照卸载641、卸载640和卸载638补丁的顺序卸载
-                If .Install638Patch = True Or .Install640Patch = True Or .Install641Patch = True Then
-                    If ModuleMain.InstalledModule.Is638PatchInstalled <> .Install638Patch Then _638PatchItem.ImageKey = "installing" _
-                        : ReportProgress(ModuleInstallModule.Install638Patch(ModuleMain.InstalledModule.SC4InstallDir, Not .Install638Patch), _638PatchItem)
-                    If ModuleMain.InstalledModule.Is640PatchInstalled <> .Install640Patch And ModuleMain.InstallResult._638PatchInstallResult = InstallResult.Result.Success Then _640PatchItem.ImageKey = "installing" _
-                        : ReportProgress(ModuleInstallModule.Install640Patch(ModuleMain.InstalledModule.SC4InstallDir, Not .Install640Patch), _640PatchItem)
-                    If ModuleMain.InstalledModule.Is641PatchInstalled <> .Install641Patch And ModuleMain.InstallResult._641PatchInstallResult = InstallResult.Result.Success Then _641PatchItem.ImageKey = "installing" _
-                        : ReportProgress(ModuleInstallModule.Install641Patch(ModuleMain.InstalledModule.SC4InstallDir, Not .Install641Patch), _641PatchItem)
-                ElseIf .Install638Patch = False Or .Install640Patch = False Or .Install641Patch = False Then
-                    If ModuleMain.InstalledModule.Is641PatchInstalled <> .Install641Patch And ModuleMain.InstallResult._641PatchInstallResult = InstallResult.Result.Success Then _641PatchItem.ImageKey = "installing" _
-                        : ReportProgress(ModuleInstallModule.Install641Patch(ModuleMain.InstalledModule.SC4InstallDir, Not .Install641Patch), _641PatchItem)
-                    If ModuleMain.InstalledModule.Is640PatchInstalled <> .Install640Patch And ModuleMain.InstallResult._638PatchInstallResult = InstallResult.Result.Success Then _640PatchItem.ImageKey = "installing" _
-                        : ReportProgress(ModuleInstallModule.Install640Patch(ModuleMain.InstalledModule.SC4InstallDir, Not .Install640Patch), _640PatchItem)
-                    If ModuleMain.InstalledModule.Is638PatchInstalled <> .Install638Patch Then _638PatchItem.ImageKey = "installing" _
-                        : ReportProgress(ModuleInstallModule.Install638Patch(ModuleMain.InstalledModule.SC4InstallDir, Not .Install638Patch), _638PatchItem)
-                End If
+                '声明3个用于存储638补丁或640补丁或641补丁是否更改的布尔值变量
+                Dim Is638PatchChange As Boolean = ModuleMain.InstalledModule.Is638PatchInstalled <> .Install638Patch
+                Dim Is640PatchChange As Boolean = ModuleMain.InstalledModule.Is640PatchInstalled <> .Install640Patch
+                Dim Is641PatchChange As Boolean = ModuleMain.InstalledModule.Is641PatchInstalled <> .Install641Patch
                 If ModuleMain.InstalledModule.IsNoCDPatchInstalled <> .InstallNoCDPatch Then NoCDPatchItem.ImageKey = "installing" _
-                    : ReportProgress(ModuleInstallModule.InstallNoCDPatch(ModuleMain.InstalledModule.SC4InstallDir, Not .InstallNoCDPatch), NoCDPatchItem)
+                    : ReportProgress(InstallNoCDPatch(ModuleMain.InstalledModule.SC4InstallDir, Not .InstallNoCDPatch), NoCDPatchItem)
+                '如果要安装638、640或641补丁则按照安装638、安装640和安装641的顺序安装，如果要卸载638、640或641补丁则按照卸载641、卸载640和卸载638补丁的顺序卸载
+                If (Is638PatchChange And .Install638Patch = True) Or (Is640PatchChange And .Install640Patch = True) Or (Is641PatchChange And .Install641Patch = True) Then
+                    If Is638PatchChange = True Then _638PatchItem.ImageKey = "installing" : ReportProgress(Install638Patch(ModuleMain.InstalledModule.SC4InstallDir, Not .Install638Patch), _638PatchItem)
+                    If Is640PatchChange = True And ModuleMain.InstallResult._638PatchInstallResult = Res.Result.Success Then _640PatchItem.ImageKey = "installing" _
+                        : ReportProgress(Install640Patch(ModuleMain.InstalledModule.SC4InstallDir, Not .Install640Patch), _640PatchItem)
+                    If Is641PatchChange = True And ModuleMain.InstallResult._641PatchInstallResult = Res.Result.Success Then _641PatchItem.ImageKey = "installing" _
+                        : ReportProgress(Install641Patch(ModuleMain.InstalledModule.SC4InstallDir, Not .Install641Patch), _641PatchItem)
+                ElseIf (Is638PatchChange And .Install638Patch = False) Or (Is640PatchChange And .Install640Patch = False) Or (Is641PatchChange And .Install641Patch = False) Then
+                    If Is641PatchChange = True Then _641PatchItem.ImageKey = "installing" : ReportProgress(Install641Patch(ModuleMain.InstalledModule.SC4InstallDir, Not .Install641Patch), _641PatchItem)
+                    If Is640PatchChange = True And ModuleMain.InstallResult._641PatchInstallResult = Res.Result.Success Then _640PatchItem.ImageKey = "installing" _
+                        : ReportProgress(Install640Patch(ModuleMain.InstalledModule.SC4InstallDir, Not .Install640Patch), _640PatchItem)
+                    If Is638PatchChange = True And ModuleMain.InstallResult._640PatchInstallResult = Res.Result.Success Then _638PatchItem.ImageKey = "installing" _
+                        : ReportProgress(Install638Patch(ModuleMain.InstalledModule.SC4InstallDir, Not .Install638Patch), _638PatchItem)
+                End If
                 If ModuleMain.InstalledModule.Is4GBPatchInstalled <> .Install4GBPatch Then _4GBPatchItem.ImageKey = "installing" _
-                    : ReportProgress(ModuleInstallModule.Install4GBPatch(ModuleMain.InstalledModule.SC4InstallDir, Not .Install4GBPatch), _4GBPatchItem)
+                      : ReportProgress(Install4GBPatch(ModuleMain.InstalledModule.SC4InstallDir, Not .Install4GBPatch), _4GBPatchItem)
                 If ModuleMain.InstalledModule.IsSC4LauncherInstalled <> .InstallSC4Launcher Then SC4LauncherItem.ImageKey = "installing" _
-                    : ReportProgress(ModuleInstallModule.InstallSC4Launcher(ModuleMain.InstalledModule.SC4InstallDir, Not .InstallSC4Launcher), SC4LauncherItem)
+                    : ReportProgress(InstallSC4Launcher(ModuleMain.InstalledModule.SC4InstallDir, Not .InstallSC4Launcher), SC4LauncherItem)
                 If ModuleMain.InstalledModule.LanguagePatch <> .LanguagePatch Then
                     Select Case .LanguagePatch
-                        Case InstallOptions.Language.TraditionalChinese
+                        Case Opt.Language.TraditionalChinese
                             lvwTask.FindItemWithText("繁体中文语言补丁").ImageKey = "installing"
-                            ReportProgress(ModuleInstallModule.InstallLanguagePatch(ModuleMain.InstalledModule.SC4InstallDir, InstallOptions.Language.TraditionalChinese), lvwTask.FindItemWithText("繁体中文语言补丁"))
-                        Case InstallOptions.Language.SimplifiedChinese
+                            ReportProgress(InstallLanguagePatch(ModuleMain.InstalledModule.SC4InstallDir, Opt.Language.TraditionalChinese), lvwTask.FindItemWithText("繁体中文语言补丁"))
+                        Case Opt.Language.SimplifiedChinese
                             lvwTask.FindItemWithText("简体中文语言补丁").ImageKey = "installing"
-                            ReportProgress(ModuleInstallModule.InstallLanguagePatch(ModuleMain.InstalledModule.SC4InstallDir, InstallOptions.Language.SimplifiedChinese), lvwTask.FindItemWithText("简体中文语言补丁"))
-                        Case InstallOptions.Language.English
-                            ModuleInstallModule.InstallLanguagePatch(ModuleMain.InstalledModule.SC4InstallDir, InstallOptions.Language.English)
+                            ReportProgress(InstallLanguagePatch(ModuleMain.InstalledModule.SC4InstallDir, Opt.Language.SimplifiedChinese), lvwTask.FindItemWithText("简体中文语言补丁"))
+                        Case Opt.Language.English
+                            InstallLanguagePatch(ModuleMain.InstalledModule.SC4InstallDir, Opt.Language.English)
                     End Select
                 End If
             End If
@@ -150,8 +152,8 @@
             lvwTask.BeginUpdate()
             If IsNothing(ModuleMain.InstalledModule) = True Then '判断是否已经安装了模拟城市4
                 '根据安装选项里所选择的模拟城市4版本来更改安装组件列表框里模拟城市4 豪华版项的文本
-                If .SC4Type = InstallOptions.SC4InstallType.ISO Then SC4Item.Text = "模拟城市4 豪华版 镜像版"
-                If .SC4Type = InstallOptions.SC4InstallType.NoInstall Then SC4Item.Text = "模拟城市4 豪华版 硬盘版"
+                If .SC4Type = Opt.SC4InstallType.ISO Then SC4Item.Text = "模拟城市4 豪华版 镜像版"
+                If .SC4Type = Opt.SC4InstallType.NoInstall Then SC4Item.Text = "模拟城市4 豪华版 硬盘版"
                 '删除安装选项里选择不安装的组件在安装组件列表框里的对应项
                 If .InstallDAEMONTools = False Then DAEMONItem.Remove()
                 If .Install638Patch = False Then _638PatchItem.Remove()
@@ -164,9 +166,9 @@
                 If .AddStartMenuItem = False Then AddStartMenuIem.Remove()
                 '根据安装选项里所选择的语言补丁来更改安装组件列表框里对应项的文本
                 Select Case .LanguagePatch
-                    Case InstallOptions.Language.TraditionalChinese : LanguagePatchItem.Text = "繁体中文语言补丁"
-                    Case InstallOptions.Language.SimplifiedChinese : LanguagePatchItem.Text = "简体中文语言补丁"
-                    Case InstallOptions.Language.English : LanguagePatchItem.Remove()
+                    Case Opt.Language.TraditionalChinese : LanguagePatchItem.Text = "繁体中文语言补丁"
+                    Case Opt.Language.SimplifiedChinese : LanguagePatchItem.Text = "简体中文语言补丁"
+                    Case Opt.Language.English : LanguagePatchItem.Remove()
                 End Select
             Else
                 lblTitle.Text = "正在更改组件"
@@ -183,9 +185,9 @@
                 Else
                     '根据安装选项里所选择的语言补丁来更改安装组件列表框里对应项的文本
                     Select Case .LanguagePatch
-                        Case InstallOptions.Language.TraditionalChinese : LanguagePatchItem.Text = "繁体中文语言补丁"
-                        Case InstallOptions.Language.SimplifiedChinese : LanguagePatchItem.Text = "简体中文语言补丁"
-                        Case InstallOptions.Language.English : LanguagePatchItem.Remove()
+                        Case Opt.Language.TraditionalChinese : LanguagePatchItem.Text = "繁体中文语言补丁"
+                        Case Opt.Language.SimplifiedChinese : LanguagePatchItem.Text = "简体中文语言补丁"
+                        Case Opt.Language.English : LanguagePatchItem.Remove()
                     End Select
                 End If
             End If

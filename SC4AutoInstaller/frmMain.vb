@@ -76,11 +76,9 @@
     End Sub
 
     Private Sub btnInstall_Click(sender As Object, e As EventArgs) Handles btnInstall.Click
-        With My.Computer.FileSystem
-            If .DirectoryExists("Data\SC4\CD") = False And .FileExists("Data\SC4\NoInstall.7z") = False Then MessageBox.Show("Data\SC4\CD 文件夹和Data\SC4\NoInstall.7z 文件不存在！" & vbCrLf & "请使用原始安装程序以安装模拟城市4", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) : Exit Sub
-            If .DirectoryExists("Data\SC4\CD") = False Then MessageBox.Show("Data\SC4\CD 文件夹不存在！" & vbCrLf & "请使用原始安装程序以安装模拟城市4", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) : Exit Sub
-            If .FileExists("Data\SC4\NoInstall.7z") = False Then MessageBox.Show("Data\SC4\NoInstall.7z 文件不存在！" & vbCrLf & "请使用原始安装程序以安装模拟城市4", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) : Exit Sub
-        End With
+        If My.Computer.FileSystem.DirectoryExists("Data\SC4\CD") = False And My.Computer.FileSystem.FileExists("Data\SC4\NoInstall.7z") = False Then
+            MessageBox.Show("Data\SC4\CD 文件夹和Data\SC4\NoInstall.7z 文件不存在！" & vbCrLf & "请使用原始安装程序以安装模拟城市4", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) : Exit Sub
+        End If
         frmLicenses.Show()
         RemoveHandler Me.FormClosing, AddressOf frmMain_FormClosing '移除关闭窗口过程和关闭窗口事件的关联
         Close()

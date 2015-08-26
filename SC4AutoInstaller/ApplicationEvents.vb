@@ -32,9 +32,8 @@
                         If MessageBox.Show("检测到有新版本可用，是否下载更新？" & vbCrLf & "当前版本：" & version & vbCrLf & "更新说明：" & UpdataDetail, "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
                             Dim DownloadLink As String = AutoInstallerNode.Item("DonwloadLink").InnerText '声明一个用于存储新版本的下载地址的字符串变量
                             My.Computer.Network.DownloadFile(DownloadLink, "Updata.exe", "", "", True, 6000000, True) '从指定的下载地址下载自动更新程序
-                            If My.Computer.FileSystem.FileExists("Updata.exe") = True Then
-                                Process.Start(New ProcessStartInfo With {.FileName = "Updata.exe", .Verb = "runas"}) '启动自动更新程序
-                                Environment.Exit(0)
+                            If My.Computer.FileSystem.FileExists("Updata.exe") = True Then '如果存在自动更新程序则以管理员权限启动自动更新程序并退出程序
+                                Process.Start(New ProcessStartInfo With {.FileName = "Updata.exe", .Verb = "runas"}) : Environment.Exit(0)
                             End If
                         End If
                     End If

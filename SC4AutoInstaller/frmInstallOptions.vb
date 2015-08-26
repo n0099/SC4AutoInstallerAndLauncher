@@ -272,7 +272,7 @@ Public Class frmInstallOptions
                         Case "完全安装"
                             '更新安装组件列表框项的图标
                             SetNodeChecked("638补丁", NodeCheckedState.checked) : SetNodeChecked("640补丁", NodeCheckedState.checked) : SetNodeChecked("641补丁", NodeCheckedState.checked)
-                            If Environment.Is64BitOperatingSystem = True Then SetNodeChecked("4GB补丁", NodeCheckedState.checked) : .Install4GBPatch = True Else .Install4GBPatch = False '如果系统为64位系统，则选中4GB补丁项
+                            If Environment.Is64BitOperatingSystem = True Then SetNodeChecked("4GB补丁", NodeCheckedState.checked) : .Install4GBPatch = True '如果系统为64位系统，则选中4GB补丁项
                             SetNodeChecked("免CD补丁", NodeCheckedState.unchecked) : SetNodeChecked("模拟城市4 启动器", NodeCheckedState.checked)
                             SetNodeChecked("繁体中文", NodeCheckedState.radiochecked) : SetNodeChecked("简体中文", NodeCheckedState.radiounchecked) : SetNodeChecked("英语", NodeCheckedState.radiounchecked)
                             SetNodeChecked("添加桌面图标", NodeCheckedState.checked) : SetNodeChecked("添加开始菜单项", NodeCheckedState.checked)

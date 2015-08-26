@@ -8,18 +8,18 @@ Public Class frmInstalling
     ''' <param name="item">安装任务列表框的对应项</param>
     Private Sub ReportProgress(ByVal result As Res.Result, ByVal item As ListViewItem)
         With ModuleMain.InstallResult
-            If result = InstallResult.Result.Success Then item.ImageKey = "success" Else item.ImageKey = "fail"
+            If result = Res.Result.Success Then item.ImageKey = "success" Else item.ImageKey = "fail"
             Select Case item.Text
                 Case "DAEMON Tools Lite" : .DAEMONToolsInstallResult = result
                 Case "638补丁" : ._638PatchInstallResult = result
-                    If result = InstallResult.Result.Fail Then
-                        ._640PatchInstallResult = InstallResult.Result.Fail : ._641PatchInstallResult = InstallResult.Result.Fail
+                    If result = Res.Result.Fail Then
+                        ._640PatchInstallResult = Res.Result.Fail : ._641PatchInstallResult = Res.Result.Fail
                         If IsNothing(lvwTask.FindItemWithText("640补丁")) = False Then lvwTask.FindItemWithText("640补丁").ImageKey = "fail"
                         If IsNothing(lvwTask.FindItemWithText("641补丁")) = False Then lvwTask.FindItemWithText("641补丁").ImageKey = "fail"
                     End If
                 Case "640补丁" : ._640PatchInstallResult = result
-                    If result = InstallResult.Result.Fail Then
-                        ._641PatchInstallResult = InstallResult.Result.Fail
+                    If result = Res.Result.Fail Then
+                        ._641PatchInstallResult = Res.Result.Fail
                         If IsNothing(lvwTask.FindItemWithText("641补丁")) = False Then lvwTask.FindItemWithText("641补丁").ImageKey = "fail"
                     End If
                 Case "641补丁" : ._641PatchInstallResult = result
@@ -29,17 +29,17 @@ Public Class frmInstalling
                 Case "添加开始菜单项" : .AddDesktopIconResult = result
                 Case "添加桌面图标" : .AddStartMenuItemResult = result
                 Case Else
-                    If item.Text.Contains("模拟城市4 豪华版") = True And result = InstallResult.Result.Success Then
+                    If item.Text.Contains("模拟城市4 豪华版") = True And result = Res.Result.Success Then
                         .SC4InstallResult = result
-                    ElseIf item.Text.Contains("模拟城市4 豪华版") = True And result = InstallResult.Result.Fail Then
+                    ElseIf item.Text.Contains("模拟城市4 豪华版") = True And result = Res.Result.Fail Then
                         For i As Integer = 0 To lvwTask.Items.Count - 1
                             lvwTask.Items(i).ImageKey = "fail"
                         Next
-                        .SC4InstallResult = InstallResult.Result.Fail
-                        ._638PatchInstallResult = InstallResult.Result.Fail : ._640PatchInstallResult = InstallResult.Result.Fail : ._641PatchInstallResult = InstallResult.Result.Fail
-                        ._4GBPatchInstallResult = InstallResult.Result.Fail : .NoCDPatchInstallResult = InstallResult.Result.Fail
-                        .SC4LauncherInstallResult = InstallResult.Result.Fail : .LanguagePatchInstallResult = InstallResult.Result.Fail
-                        .AddDesktopIconResult = InstallResult.Result.Fail : .AddStartMenuItemResult = InstallResult.Result.Fail
+                        .SC4InstallResult = Res.Result.Fail
+                        ._638PatchInstallResult = Res.Result.Fail : ._640PatchInstallResult = Res.Result.Fail : ._641PatchInstallResult = Res.Result.Fail
+                        ._4GBPatchInstallResult = Res.Result.Fail : .NoCDPatchInstallResult = Res.Result.Fail
+                        .SC4LauncherInstallResult = Res.Result.Fail : .LanguagePatchInstallResult = Res.Result.Fail
+                        .AddDesktopIconResult = Res.Result.Fail : .AddStartMenuItemResult = Res.Result.Fail
                         bgwInstall.CancelAsync()
                     End If
             End Select

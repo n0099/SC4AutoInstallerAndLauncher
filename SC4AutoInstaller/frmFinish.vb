@@ -6,12 +6,14 @@ Public Class frmFinish
     ''' <summary>将某个组件标记为安装失败，并将该项从安装成功组件列表框移到到安装失败列表框内</summary>
     ''' <param name="item">要标记为安装失败的项</param>
     Private Sub SubassemblyInstallFail(item As ListViewItem)
-        item.ImageKey = "fail" '将该项的图标改为失败图标
-        item.Remove() '将该项从安装成功组件列表框删除
-        item.Group = lvwSubassemblyFail.Groups.Item("lvwGroupFail") '改变该项的组
-        lvwSubassemblyFail.Items.Add(item) '在安装失败组件列表框内添加该项
-        lvwSubassemblyFail.Visible = True '显示安装失败组件列表框
-        lblTitle2.Text = "部分组件安装失败，您可以随后使用本安装程序来重新安装安装失败的组件。"
+        If IsNothing(item) = False Then
+            item.ImageKey = "fail" '将该项的图标改为失败图标
+            item.Remove() '将该项从安装成功组件列表框删除
+            item.Group = lvwSubassemblyFail.Groups.Item("lvwGroupFail") '改变该项的组
+            lvwSubassemblyFail.Items.Add(item) '在安装失败组件列表框内添加该项
+            lvwSubassemblyFail.Visible = True '显示安装失败组件列表框
+            lblTitle2.Text = "部分组件安装失败，您可以随后使用本安装程序来重新安装安装失败的组件。"
+        End If
     End Sub
 
     Private Sub llbBlog_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles llbBlog.LinkClicked
@@ -48,14 +50,14 @@ Public Class frmFinish
                 If .SC4Type = Opt.SC4InstallType.ISO Then SC4Item.Text = "模拟城市4 豪华版 镜像版"
                 If .SC4Type = Opt.SC4InstallType.NoInstall Then SC4Item.Text = "模拟城市4 豪华版 硬盘版"
                 '删除安装选项里选择不安装的组件在安装成功的组件列表框里的对应项
-                If .Install638Patch = False Then _638PatchItem.Remove()
-                If .Install640Patch = False Then _640PatchItem.Remove()
-                If .Install641Patch = False Then _641PatchItem.Remove()
-                If .Install4GBPatch = False Then _4GBPatchItem.Remove()
-                If .InstallNoCDPatch = False Then NoCDPatchItem.Remove()
-                If .InstallSC4Launcher = False Then SC4LauncherItem.Remove()
-                If .AddDesktopIcon = False Then AddDesktopIconItem.Remove()
-                If .AddStartMenuItem = False Then AddStartMenuIem.Remove()
+                If .Install638Patch = False Then _638PatchItem.Remove() : _638PatchItem = Nothing
+                If .Install640Patch = False Then _640PatchItem.Remove() : _640PatchItem = Nothing
+                If .Install641Patch = False Then _641PatchItem.Remove() : _641PatchItem = Nothing
+                If .Install4GBPatch = False Then _4GBPatchItem.Remove() : _4GBPatchItem = Nothing
+                If .InstallNoCDPatch = False Then NoCDPatchItem.Remove() : NoCDPatchItem = Nothing
+                If .InstallSC4Launcher = False Then SC4LauncherItem.Remove() : SC4LauncherItem = Nothing
+                If .AddDesktopIcon = False Then AddDesktopIconItem.Remove() : AddDesktopIconItem = Nothing
+                If .AddStartMenuItem = False Then AddStartMenuIem.Remove() : AddStartMenuIem = Nothing
             Else
                 DAEMONItem.Remove() : SC4Item.Remove() : AddDesktopIconItem.Remove() : AddStartMenuIem.Remove()
                 '删除安装选项里没有更改的组件在安装组件列表框里对应项

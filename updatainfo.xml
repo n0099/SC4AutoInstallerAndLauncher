@@ -1,34 +1,25 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <UpdataInfo>
   <AutoInstaller>
-    <LatestVersion>2.6.24</LatestVersion>
+    <LatestVersion>2.6.30</LatestVersion>
     <UpdataDetail>
 如果下载更新后没有自动安装更新，请手动运行安装程序所在目录下的Updata.exe程序来手动更新！<br />
-模拟城市4 豪华版 自动安装程序(SC4AutoInstaller) 2.6.24 正式版 (2015-08-22)<br />
+模拟城市4 豪华版 自动安装程序(SC4AutoInstaller) 2.6.30 正式版 (2015-08-26)<br />
 ====================================================================================<br />
-<br />
-新增<br />
-====<br />
-1.现在如果不存在Data\SC4\NoInstall.7z文件也可以进入添加或删除组件窗口（但不能卸载638补丁）。<br />
 <br />
 修改<br />
 ====<br />
-1.删除并更换了9张在安装中窗口右侧循环显示的游戏截图。<br />
-2.在关于窗口的鸣谢文本框里添加了q476126499、Leo_Fitz_、鸡辱李维斯和带怪兽去你家的名字。<br />
-3.现在如果安装选项窗口的快速选择组件组合框的选择项不为自定义，仍然可以滚动安装组件列表框的项（感谢坐在鸭子的建议）。<br />
-4.现在在验证文件完整性如果不存在Data\SC4\CD文件夹和Data\SC4\NoInstall.7z文件时不会显示错误提示框并退出安装程序。<br />
-5.现在在主窗口点击安装按钮时会检查Data\SC4\CD文件夹和Data\SC4\NoInstall.7z文件是否存在，如果不存在则会弹出错误提示框。<br />
+1.在关于窗口的鸣谢文本框里添加了A梦星辰、滥人、神·紫杉、丨懒阳阳丨和谁伴我闯荡yx的名字。<br />
+2.将关于窗口的鸣谢列表文本分为特别鸣谢和鸣谢两部分并修改了关于窗口的大小和链接的位置。<br />
+2.将7z.exe 15.05 64位命令行压缩程序更新为15.06 32位命令行压缩程序。<br />
 <br />
 修复<br />
 ====<br />
-1.修复了在Windows 10系统下无法安装638补丁，且安装中窗口一直显示正在安装638补丁的bug（感谢铁木真的使臣、q476126499、Leo_Fitz_、鸡辱李维斯和带怪兽去你家发现此bug）。<br />
-2.修复了如果在添加或删除组件窗口选择不更改638、640或641补丁且有一补丁尚未安装，则在安装时会按照安装或卸载641、640和638补丁的顺序进行修改的bug。<br />
-3.修复了如果在添加或删除组件窗口选择卸载638、640或641补丁，则在安装时会按照安装或卸载638、640和641补丁的顺序进行修改的bug。<br />
-4.修复了如果在添加或删除组件窗口选择卸载638补丁和640补丁，则在安装时不会在卸载638补丁前判断640补丁是否卸载成功的bug。<br />
-5.修复了如果在添加或删除组件窗口选择卸载免CD补丁和安装638、640或641补丁，则在安装时会先安装638、640或641补丁然后再卸载免CD补丁的bug。<br />
-6.修复了在卸载模拟城市4窗口当模拟城市4卸载完成后，卸载进度条仍然显示为尚未完成卸载的bug。
+1.修复了如果Data\CD文件夹或Data\SC4\NoInstall.7z文件其一不存在，在点击主窗口的安装按钮时会弹出错误框的bug（感谢滥人发现此bug）。<br />
+2.修复了在32位系统下无法安装硬盘版模拟城市4，无法安装或卸载638补丁和640补丁的bug（感谢A梦星辰、滥人、神·紫杉、回眸执晚筝、abcTom123、丨懒阳阳丨和谁伴我闯荡yx发现此bug）。<br />
+3.修复了如果在安装中窗口模拟城市4安装失败，在安装完成窗口里未选择安装的组件也显示为安装失败的bug（感谢A梦星辰发现此bug）。
     </UpdataDetail>
-    <DonwloadLink>http://cdn.sinacloud.net/updata/AutoInstallerUpdata.exe</DonwloadLink>
+    <DonwloadLink>https://n0099.github.io/AutoInstallerUpdata.exe</DonwloadLink>
   </AutoInstaller>
   <Launcher>
     <LatestVersion>1.1.10</LatestVersion>
@@ -45,6 +36,6 @@
 ====<br />
 1.修复了在设置窗口在输入自定义分辨率时启动参数可能会设置为多个分辨率参数的bug。
     </UpdataDetail>
-    <DonwloadLink>http://cdn.sinacloud.net/updata/LauncherUpdata.exe</DonwloadLink>
+    <DonwloadLink>https://n0099.github.io/LauncherUpdata.exe</DonwloadLink>
   </Launcher>
 </UpdataInfo>

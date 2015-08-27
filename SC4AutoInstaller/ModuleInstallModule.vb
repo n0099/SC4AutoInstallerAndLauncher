@@ -1,5 +1,6 @@
 ﻿''' <summary>ModuleInstallModule 模块提供安装各种组件的方法</summary>
 Module ModuleInstallModule
+    Private _7zVersion As String = IIf(Environment.Is64BitOperatingSystem, "Data\7z x64.exe", "Data\7z x86.exe") '声明一个用于存储使用64位还是32位7z.exe程序的字符串变量
 
     ''' <summary>判断某个文件是否正在使用</summary>
     ''' <param name="path">要判断的文件的路径</param>
@@ -137,7 +138,7 @@ Module ModuleInstallModule
 
                         '将GOG版模拟城市4的Graphics Rules.sgr文件解压到游戏安装目录下
                         '以管理员权限启动7z.exe并隐藏进程窗口以便将Data\SC4\NoInstall.7z压缩包的Graphics Rules.sgr文件解压到游戏安装目录下替换源文件并等待其完成解压缩
-                        _7zProcess = Process.Start(New ProcessStartInfo With {.FileName = "Data\7z.exe", .Arguments = "x Data\SC4\NoInstall.7z -aoa ""Graphics Rules.sgr"" -o""" & ModuleMain.InstallOptions.SC4InstallDir & """" _
+                        _7zProcess = Process.Start(New ProcessStartInfo With {.FileName = _7zVersion, .Arguments = "x Data\SC4\NoInstall.7z -aoa ""Graphics Rules.sgr"" -o""" & ModuleMain.InstallOptions.SC4InstallDir & """" _
                                                                              , .Verb = "runas", .WindowStyle = ProcessWindowStyle.Hidden}) : _7zProcess.WaitForExit()
                         Return IIf(_7zProcess.ExitCode = 0 Or My.Computer.FileSystem.FileExists(.SC4InstallDir & "\Apps\SimCity 4.exe"), InstallResult.Result.Success, InstallResult.Result.Fail)
                     Else
@@ -147,9 +148,9 @@ Module ModuleInstallModule
                 ElseIf InstallType = InstallOptions.SC4InstallType.NoInstall Then
                     Do Until IsFileUsing("Data\SC4\NoInstall.7z") = False : Loop '确保没有进程正在使用Data\SC4\NoInstall.7z文件
                     '以管理员权限启动7z.exe并隐藏进程窗口以便将Data\SC4\NoInstall.7z压缩包的所有文件解压到游戏安装目录下替换源文件并等待其完成解压缩
-                    _7zProcess = Process.Start(New ProcessStartInfo With {.FileName = "Data\7z.exe", .Arguments = "x Data\SC4\NoInstall.7z -aoa -o""" & ModuleMain.InstallOptions.SC4InstallDir & """" _
+                    _7zProcess = Process.Start(New ProcessStartInfo With {.FileName = _7zVersion, .Arguments = "x Data\SC4\NoInstall.7z -aoa -o""" & ModuleMain.InstallOptions.SC4InstallDir & """" _
                                                                          , .Verb = "runas", .WindowStyle = ProcessWindowStyle.Hidden}) : _7zProcess.WaitForExit()
-                    Return InstallResult.Result.Success 'Return IIf(_7zProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
+                    Return IIf(_7zProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
                 End If
             Catch
                 Return InstallResult.Result.Fail '如果在安装过程中遇到异常则返回安装失败
@@ -170,14 +171,14 @@ Module ModuleInstallModule
                 For Each i As String In Files : Do Until IsFileUsing(i) = False : Loop : Next '确保没有进程正在使用Files字符串数组变量所存储的文件
                 Do Until IsFileUsing("Data\Patch\638.7z") = False : Loop '确保Data\Patch\638.7z文件没有被占用
                 '以管理员权限启动7z.exe并隐藏进程窗口以便将Data\Patch\638.7z压缩包的所有文件解压到游戏安装目录下替换源文件并等待其完成解压缩
-                _7zProcess = Process.Start(New ProcessStartInfo With {.FileName = "Data\7z.exe", .Arguments = "x Data\Patch\638.7z -aoa -o""" & InstallDir & """" _
+                _7zProcess = Process.Start(New ProcessStartInfo With {.FileName = _7zVersion, .Arguments = "x Data\Patch\638.7z -aoa -o""" & InstallDir & """" _
                                                                      , .Verb = "runas", .WindowStyle = ProcessWindowStyle.Hidden}) : _7zProcess.WaitForExit()
             Else
                 Dim Files As String() = {"Data\SC4\NoInstall.7z", InstallDir & "\Apps\SimCity 4.exe", InstallDir & "\SimCity_1.dat", InstallDir & "\SimCity_2.dat", InstallDir & "\SimCity_3.dat" _
                                         , InstallDir & "\SimCity_4.dat", InstallDir & "\SimCity_5.dat"} '声明一个用于存储要验证是否正在被进程使用的文件列表的字符串数组变量
                 For Each i As String In Files : Do Until IsFileUsing(i) = False : Loop : Next '确保没有进程正在使用Files字符串数组变量所存储的文件
                 '以管理员权限启动7z.exe并隐藏进程窗口以便将Data\SC4\NoInstall.7z压缩包的Apps\SimCity 4.exe和SimCity_1到5.dat文件解压到游戏安装目录下替换源文件并等待其完成解压缩
-                _7zProcess = Process.Start(New ProcessStartInfo With {.FileName = "Data\7z.exe", .Arguments = "x Data\SC4\NoInstall.7z ""Apps\SimCity 4.exe"" ""SimCity_*.dat"" -aoa -o""" & InstallDir & """" _
+                _7zProcess = Process.Start(New ProcessStartInfo With {.FileName = _7zVersion, .Arguments = "x Data\SC4\NoInstall.7z ""Apps\SimCity 4.exe"" ""SimCity_*.dat"" -aoa -o""" & InstallDir & """" _
                                                                      , .Verb = "runas", .WindowStyle = ProcessWindowStyle.Hidden}) : _7zProcess.WaitForExit()
             End If
             Return IIf(_7zProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
@@ -197,7 +198,7 @@ Module ModuleInstallModule
                 Dim Files As String() = {"Data\Patch\640.7z", InstallDir & "\Apps\SimCity 4.exe", InstallDir & "\SimCity_1.dat"} '声明一个用于存储要验证是否正在被进程使用的文件列表的字符串数组变量
                 For Each i As String In Files : Do Until IsFileUsing(i) = False : Loop : Next '确保没有进程正在使用Files字符串数组变量所存储的文件
                 '以管理员权限启动7z.exe并隐藏进程窗口以便将Data\Patch\640.7z压缩包的所有文件解压到游戏安装目录下替换源文件并等待其完成解压缩
-                _7zProcess = Process.Start(New ProcessStartInfo With {.FileName = "Data\7z.exe", .Arguments = "x Data\Patch\640.7z -aoa -o""" & InstallDir & """" _
+                _7zProcess = Process.Start(New ProcessStartInfo With {.FileName = _7zVersion, .Arguments = "x Data\Patch\640.7z -aoa -o""" & InstallDir & """" _
                                                                      , .Verb = "runas", .WindowStyle = ProcessWindowStyle.Hidden}) : _7zProcess.WaitForExit()
             Else
                 Return Install638Patch(InstallDir, False) '直接调用安装638补丁的方法
@@ -247,12 +248,12 @@ Module ModuleInstallModule
                     If .Install638Patch = True And .Install640Patch = False And .Install641Patch = False Then
                         Do Until IsFileUsing("Data\Patch\638.7z") And IsFileUsing(InstallDir & "\Apps\SimCity 4.exe") = False : Loop '确保没有进程正在使用Data\Patch\638.7z和游戏安装目录\Apps\SimCity 4.exe文件
                         '以管理员权限启动7z.exe并隐藏进程窗口以便将Data\Patch\638.7z压缩包的Apps\SimCity 4.exe文件解压到游戏安装目录下替换源文件并等待其完成解压缩
-                        _7zProcess = Process.Start(New ProcessStartInfo With {.FileName = "Data\7z.exe", .Arguments = "x Data\Patch\638.7z ""Apps\SimCity 4.exe"" -aoa -o""" & InstallDir & """", .Verb = "runas", .WindowStyle = ProcessWindowStyle.Hidden}) : _7zProcess.WaitForExit()
+                        _7zProcess = Process.Start(New ProcessStartInfo With {.FileName = _7zVersion, .Arguments = "x Data\Patch\638.7z ""Apps\SimCity 4.exe"" -aoa -o""" & InstallDir & """", .Verb = "runas", .WindowStyle = ProcessWindowStyle.Hidden}) : _7zProcess.WaitForExit()
                         Return IIf(_7zProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
                     ElseIf .Install638Patch = True And .Install640Patch = True And .Install641Patch = False Then
                         Do Until IsFileUsing("Data\Patch\640.7z") And IsFileUsing(InstallDir & "\Apps\SimCity 4.exe") = False : Loop '确保没有进程正在使用Data\Patch\640.7z文件
                         '以管理员权限启动7z.exe并隐藏进程窗口以便将Data\Patch\640.7z压缩包的Apps\SimCity 4.exe文件解压到游戏安装目录下替换源文件并等待其完成解压缩
-                        _7zProcess = Process.Start(New ProcessStartInfo With {.FileName = "Data\7z.exe", .Arguments = "x Data\Patch\640.7z ""Apps\SimCity 4.exe"" -aoa -o""" & InstallDir & """", .Verb = "runas", .WindowStyle = ProcessWindowStyle.Hidden}) : _7zProcess.WaitForExit()
+                        _7zProcess = Process.Start(New ProcessStartInfo With {.FileName = _7zVersion, .Arguments = "x Data\Patch\640.7z ""Apps\SimCity 4.exe"" -aoa -o""" & InstallDir & """", .Verb = "runas", .WindowStyle = ProcessWindowStyle.Hidden}) : _7zProcess.WaitForExit()
                         Return IIf(_7zProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
                     ElseIf .Install638Patch = True And .Install640Patch = True And .Install641Patch = True Then
                         Return Install641Patch(InstallDir, False) '直接调用安装641补丁的方法
@@ -321,21 +322,21 @@ Module ModuleInstallModule
                         .SetValue(LanguageRegKeyName, "Language", 18, Microsoft.Win32.RegistryValueKind.DWord) '设置繁体中文语言补丁的注册表值
                         .SetValue(LanguageRegKeyName, "DisplayName", "SimCity 4 Deluxe", Microsoft.Win32.RegistryValueKind.String)
                         .SetValue(LanguageRegKeyName, "LanguageName", "Chinese (Traditional)", Microsoft.Win32.RegistryValueKind.String)
-                        Return IIf(My.Computer.FileSystem.DirectoryExists(InstallDir & "\TChinese") = True And _
+                        Return IIf(My.Computer.FileSystem.DirectoryExists(InstallDir & "\TChinese") = True And
                             My.Computer.Registry.GetValue(LanguageRegKeyName, "Language", Nothing) = 18, InstallResult.Result.Success, InstallResult.Result.Fail)
                     Case InstallOptions.Language.SimplifiedChinese
                         My.Computer.FileSystem.CopyDirectory("Data\Patch\Language\SChinese", InstallDir & "\SChinese", True) '将Data\Patch\Language\SChinese文件夹复制到游戏安装目录下替换源文件
                         .SetValue(LanguageRegKeyName, "Language", 17, Microsoft.Win32.RegistryValueKind.DWord) '设置简体中文语言补丁的注册表值
                         .SetValue(LanguageRegKeyName, "DisplayName", "SimCity 4 Deluxe", Microsoft.Win32.RegistryValueKind.String)
                         .SetValue(LanguageRegKeyName, "LanguageName", "Chinese (Simplified)", Microsoft.Win32.RegistryValueKind.String)
-                        Return IIf(My.Computer.FileSystem.DirectoryExists(InstallDir & "\SChinese") = True And _
+                        Return IIf(My.Computer.FileSystem.DirectoryExists(InstallDir & "\SChinese") = True And
                             My.Computer.Registry.GetValue(LanguageRegKeyName, "Language", Nothing) = 17, InstallResult.Result.Success, InstallResult.Result.Fail)
                     Case Else
                         My.Computer.FileSystem.CopyDirectory("Data\Patch\Language\English", InstallDir & "\English", True) '将Data\Patch\Language\English文件夹复制到游戏安装目录下替换源文件
                         .SetValue(LanguageRegKeyName, "Language", 1, Microsoft.Win32.RegistryValueKind.DWord) '设置英语语言补丁的注册表值
                         .SetValue(LanguageRegKeyName, "DisplayName", "SimCity 4 Deluxe", Microsoft.Win32.RegistryValueKind.String)
                         .SetValue(LanguageRegKeyName, "LanguageName", "English US", Microsoft.Win32.RegistryValueKind.String)
-                        Return IIf(My.Computer.FileSystem.DirectoryExists(InstallDir & "\English") = True And _
+                        Return IIf(My.Computer.FileSystem.DirectoryExists(InstallDir & "\English") = True And
                             My.Computer.Registry.GetValue(LanguageRegKeyName, "Language", Nothing) = 1, InstallResult.Result.Success, InstallResult.Result.Fail)
                 End Select
             Catch
@@ -363,8 +364,8 @@ Module ModuleInstallModule
                     shortcut.WindowStyle = 1 : shortcut.IconLocation = .SC4InstallDir & "\SC4.ico" : shortcut.Save()
                 End If
                 shortcut.WindowStyle = 1 : shortcut.IconLocation = .SC4InstallDir & "\SC4.ico" : shortcut.Save() '设置快捷方式的窗口启动方式、图标路径并保存快捷方式
-                Return IIf(My.Computer.FileSystem.FileExists(.SC4InstallDir & "\SC4Launcher.exe"), _
-                           IIf(My.Computer.FileSystem.FileExists(DesktopPath & "\模拟城市4 启动器.lnk"), InstallResult.Result.Success, InstallResult.Result.Fail), _
+                Return IIf(My.Computer.FileSystem.FileExists(.SC4InstallDir & "\SC4Launcher.exe"),
+                           IIf(My.Computer.FileSystem.FileExists(DesktopPath & "\模拟城市4 启动器.lnk"), InstallResult.Result.Success, InstallResult.Result.Fail),
                            IIf(My.Computer.FileSystem.FileExists(DesktopPath & "\模拟城市4 豪华版.lnk"), InstallResult.Result.Success, InstallResult.Result.Fail))
             End With
         Catch
@@ -393,10 +394,10 @@ Module ModuleInstallModule
                 shortcut = wshshell.CreateShortcut(StartMenuPath & "\Maxis\SimCity 4 Deluxe\卸载或更改模拟城市4 豪华版.lnk") '新建另外一个快捷方式
                 shortcut.TargetPath = .SC4InstallDir & "\Setup.exe" : shortcut.Description = "使用模拟城市4 自动安装程序以卸载或更改模拟城市4 豪华版" '设置快捷方式的目标和说明
                 shortcut.WindowStyle = 1 : shortcut.IconLocation = .SC4InstallDir & "\Setup.exe" : shortcut.Save() '设置快捷方式的窗口启动方式、图标路径并保存快捷方式
-                Return IIf(My.Computer.FileSystem.FileExists(.SC4InstallDir & "\SC4Launcher.exe"), _
-                           IIf(My.Computer.FileSystem.FileExists(StartMenuPath & "\Maxis\SimCity 4 Deluxe\模拟城市4 启动器.lnk") And _
-                               My.Computer.FileSystem.FileExists(StartMenuPath & "\Maxis\SimCity 4 Deluxe\卸载或更改模拟城市4 豪华版.lnk"), InstallResult.Result.Success, InstallResult.Result.Fail), _
-                           IIf(My.Computer.FileSystem.FileExists(StartMenuPath & "\Maxis\SimCity 4 Deluxe\模拟城市4 豪华版.lnk") And _
+                Return IIf(My.Computer.FileSystem.FileExists(.SC4InstallDir & "\SC4Launcher.exe"),
+                           IIf(My.Computer.FileSystem.FileExists(StartMenuPath & "\Maxis\SimCity 4 Deluxe\模拟城市4 启动器.lnk") And
+                               My.Computer.FileSystem.FileExists(StartMenuPath & "\Maxis\SimCity 4 Deluxe\卸载或更改模拟城市4 豪华版.lnk"), InstallResult.Result.Success, InstallResult.Result.Fail),
+                           IIf(My.Computer.FileSystem.FileExists(StartMenuPath & "\Maxis\SimCity 4 Deluxe\模拟城市4 豪华版.lnk") And
                                My.Computer.FileSystem.FileExists(StartMenuPath & "\Maxis\SimCity 4 Deluxe\卸载或更改模拟城市4 豪华版.lnk"), InstallResult.Result.Success, InstallResult.Result.Fail))
             End With
         Catch

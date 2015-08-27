@@ -103,9 +103,9 @@ Partial Class frmAbout
         Me.lblTitle.Font = New System.Drawing.Font("微软雅黑", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.lblTitle.Location = New System.Drawing.Point(139, 20)
         Me.lblTitle.Name = "lblTitle"
-        Me.lblTitle.Size = New System.Drawing.Size(219, 25)
+        Me.lblTitle.Size = New System.Drawing.Size(282, 25)
         Me.lblTitle.TabIndex = 0
-        Me.lblTitle.Text = "模拟城市4 自动安装程序"
+        Me.lblTitle.Text = "模拟城市4 豪华版 自动安装程序"
         Me.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'picLogo

@@ -3,7 +3,7 @@
     Sub Main()
         With My.Computer.FileSystem
             Console.Write("正在安装更新" & vbCrLf)
-            If .FileExists("\Apps\SimCity 4.exe") = False Then
+            If .FileExists("Apps\SimCity 4.exe") = False Then
                 '1.5.30
                 If .DirectoryExists("Data\Image") = True Then .RenameDirectory("Data\Image", "CD")
                 If .DirectoryExists("Data\Patch\No-CD") = True Then .RenameDirectory("Data\Patch\No-CD", "NoCD")
@@ -38,8 +38,10 @@
                 If .FileExists("Data\SC4\CD\SC4DELUXE CD2.mds") = True Then .RenameFile("Data\SC4\CD\SC4DELUXE CD2.mds", "Data\SC4\CD\CD2.mds")
                 '2.5.21
                 If .FileExists("Data\SC4\NoInstall.rar") = True Or .FileExists("Data\Patch\638.rar") = True Or .FileExists("Data\Patch\640.rar") = True Then
-                    Console.WriteLine("请到http://pan.baidu.com/s/1bnezR7h重下Data\SC4\NoInstall.7z、638.7z和640.7z文件！" & vbCrLf)
+                    Console.WriteLine("请到http://pan.baidu.com/s/1bnezR7h重下Data\SC4\NoInstall.7z、Data\Patch\638.7z和Data\Patch\640.7z文件！" & vbCrLf)
                 End If
+                '2.6.3?
+                If .FileExists("Data\7z.exe") Then .DeleteFile("Data\7z.exe")
             Else
                 .DeleteDirectory("Data", FileIO.DeleteDirectoryOption.DeleteAllContents)
             End If

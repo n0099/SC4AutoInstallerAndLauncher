@@ -34,6 +34,7 @@ Partial Class frmSetting
         Me.cmbBitDepth = New System.Windows.Forms.ComboBox()
         Me.lblBitDepth = New System.Windows.Forms.Label()
         Me.grpCPU = New System.Windows.Forms.GroupBox()
+        Me.cmbCPUPriority = New System.Windows.Forms.ComboBox()
         Me.nudCPUCount = New System.Windows.Forms.NumericUpDown()
         Me.lblCPUCount = New System.Windows.Forms.Label()
         Me.lblCPUPriority = New System.Windows.Forms.Label()
@@ -62,27 +63,33 @@ Partial Class frmSetting
         Me.tipMain = New System.Windows.Forms.ToolTip(Me.components)
         Me.chkUserDir = New System.Windows.Forms.CheckBox()
         Me.btnDeleteSC4cfgFile = New System.Windows.Forms.Button()
-        Me.cmbCPUPriority = New System.Windows.Forms.ComboBox()
         Me.lblSC4InstallDir = New System.Windows.Forms.Label()
         Me.btnSC4InstallDir = New System.Windows.Forms.Button()
         Me.txtSC4InstallDir = New System.Windows.Forms.TextBox()
         Me.fbdUserDir = New System.Windows.Forms.FolderBrowserDialog()
         Me.fbdSC4InstallDir = New System.Windows.Forms.FolderBrowserDialog()
+        Me.tabSettings = New System.Windows.Forms.TabControl()
+        Me.tabpLessSettings = New System.Windows.Forms.TabPage()
+        Me.tabpMoreSettings = New System.Windows.Forms.TabPage()
+        Me.btnResetSetting = New System.Windows.Forms.Button()
         Me.grpCPU.SuspendLayout()
         CType(Me.nudCPUCount, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpResolution.SuspendLayout()
         Me.grpDisplayMode.SuspendLayout()
+        Me.tabSettings.SuspendLayout()
+        Me.tabpLessSettings.SuspendLayout()
+        Me.tabpMoreSettings.SuspendLayout()
         Me.SuspendLayout()
         '
         'btnUserDir
         '
         Me.btnUserDir.Enabled = False
-        Me.btnUserDir.Location = New System.Drawing.Point(442, 210)
+        Me.btnUserDir.Location = New System.Drawing.Point(354, 91)
         Me.btnUserDir.Name = "btnUserDir"
         Me.btnUserDir.Size = New System.Drawing.Size(75, 23)
         Me.btnUserDir.TabIndex = 13
         Me.btnUserDir.Text = "浏览(&B)..."
-        Me.tipMain.SetToolTip(Me.btnUserDir, "通过选择文件夹对话框来选择用户文件目录" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "用户文件目录是游戏存储存档、插件和截图等文件的文件夹" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "默认目录为库文档（我的文档）\SimCity 4" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "建议不更改默" & _
+        Me.tipMain.SetToolTip(Me.btnUserDir, "通过选择文件夹对话框来选择用户文件目录" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "用户文件目录是游戏存储存档、插件和截图等文件的文件夹" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "默认目录为库文档（我的文档）\SimCity 4" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "建议不更改默" &
         "认的用户文件目录")
         Me.btnUserDir.UseVisualStyleBackColor = True
         '
@@ -90,7 +97,7 @@ Partial Class frmSetting
         '
         Me.lblUserDir.AutoSize = True
         Me.lblUserDir.Enabled = False
-        Me.lblUserDir.Location = New System.Drawing.Point(10, 215)
+        Me.lblUserDir.Location = New System.Drawing.Point(1, 94)
         Me.lblUserDir.Name = "lblUserDir"
         Me.lblUserDir.Size = New System.Drawing.Size(89, 12)
         Me.lblUserDir.TabIndex = 11
@@ -100,7 +107,7 @@ Partial Class frmSetting
         'chkRestartAfterException
         '
         Me.chkRestartAfterException.AutoSize = True
-        Me.chkRestartAfterException.Location = New System.Drawing.Point(230, 78)
+        Me.chkRestartAfterException.Location = New System.Drawing.Point(105, 3)
         Me.chkRestartAfterException.Name = "chkRestartAfterException"
         Me.chkRestartAfterException.Size = New System.Drawing.Size(108, 16)
         Me.chkRestartAfterException.TabIndex = 16
@@ -111,7 +118,7 @@ Partial Class frmSetting
         'chkWriteLog
         '
         Me.chkWriteLog.AutoSize = True
-        Me.chkWriteLog.Location = New System.Drawing.Point(317, 56)
+        Me.chkWriteLog.Location = New System.Drawing.Point(3, 47)
         Me.chkWriteLog.Name = "chkWriteLog"
         Me.chkWriteLog.Size = New System.Drawing.Size(96, 16)
         Me.chkWriteLog.TabIndex = 13
@@ -122,18 +129,21 @@ Partial Class frmSetting
         'chkExceptionHandling
         '
         Me.chkExceptionHandling.AutoSize = True
-        Me.chkExceptionHandling.Location = New System.Drawing.Point(230, 100)
+        Me.chkExceptionHandling.Checked = True
+        Me.chkExceptionHandling.CheckState = System.Windows.Forms.CheckState.Indeterminate
+        Me.chkExceptionHandling.Location = New System.Drawing.Point(105, 25)
         Me.chkExceptionHandling.Name = "chkExceptionHandling"
         Me.chkExceptionHandling.Size = New System.Drawing.Size(144, 16)
         Me.chkExceptionHandling.TabIndex = 17
         Me.chkExceptionHandling.Text = "在崩溃后生成错误报告"
+        Me.chkExceptionHandling.ThreeState = True
         Me.tipMain.SetToolTip(Me.chkExceptionHandling, "设置是否在游戏崩溃（跳出）后在用户文件目录\Exception Reports下生成错误报告，默认为是，建议设为否")
         Me.chkExceptionHandling.UseVisualStyleBackColor = True
         '
         'chkContinueGameBackground
         '
         Me.chkContinueGameBackground.AutoSize = True
-        Me.chkContinueGameBackground.Location = New System.Drawing.Point(230, 122)
+        Me.chkContinueGameBackground.Location = New System.Drawing.Point(105, 47)
         Me.chkContinueGameBackground.Name = "chkContinueGameBackground"
         Me.chkContinueGameBackground.Size = New System.Drawing.Size(192, 16)
         Me.chkContinueGameBackground.TabIndex = 18
@@ -144,22 +154,28 @@ Partial Class frmSetting
         'chkCustomIME
         '
         Me.chkCustomIME.AutoSize = True
-        Me.chkCustomIME.Location = New System.Drawing.Point(373, 176)
+        Me.chkCustomIME.Checked = True
+        Me.chkCustomIME.CheckState = System.Windows.Forms.CheckState.Indeterminate
+        Me.chkCustomIME.Location = New System.Drawing.Point(255, 25)
         Me.chkCustomIME.Name = "chkCustomIME"
         Me.chkCustomIME.Size = New System.Drawing.Size(144, 16)
         Me.chkCustomIME.TabIndex = 15
         Me.chkCustomIME.Text = "使用游戏的输入法窗口"
+        Me.chkCustomIME.ThreeState = True
         Me.tipMain.SetToolTip(Me.chkCustomIME, "设置是否使用游戏的输入法窗口，全屏后只能使用游戏的输入法窗口，默认为是，建议设为是")
         Me.chkCustomIME.UseVisualStyleBackColor = True
         '
         'chkCustomCursors
         '
         Me.chkCustomCursors.AutoSize = True
-        Me.chkCustomCursors.Location = New System.Drawing.Point(373, 151)
+        Me.chkCustomCursors.Checked = True
+        Me.chkCustomCursors.CheckState = System.Windows.Forms.CheckState.Indeterminate
+        Me.chkCustomCursors.Location = New System.Drawing.Point(255, 3)
         Me.chkCustomCursors.Name = "chkCustomCursors"
         Me.chkCustomCursors.Size = New System.Drawing.Size(132, 16)
         Me.chkCustomCursors.TabIndex = 14
         Me.chkCustomCursors.Text = "使用游戏的鼠标指针"
+        Me.chkCustomCursors.ThreeState = True
         Me.tipMain.SetToolTip(Me.chkCustomCursors, "设置是否使用游戏的鼠标指针图标，默认为是，建议设为是")
         Me.chkCustomCursors.UseVisualStyleBackColor = True
         '
@@ -168,7 +184,7 @@ Partial Class frmSetting
         Me.cmbBitDepth.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cmbBitDepth.FormattingEnabled = True
         Me.cmbBitDepth.Items.AddRange(New Object() {"自动", "黑白", "16位色", "256位色", "真彩色"})
-        Me.cmbBitDepth.Location = New System.Drawing.Point(274, 149)
+        Me.cmbBitDepth.Location = New System.Drawing.Point(145, 101)
         Me.cmbBitDepth.Name = "cmbBitDepth"
         Me.cmbBitDepth.Size = New System.Drawing.Size(93, 20)
         Me.cmbBitDepth.TabIndex = 7
@@ -177,7 +193,7 @@ Partial Class frmSetting
         'lblBitDepth
         '
         Me.lblBitDepth.AutoSize = True
-        Me.lblBitDepth.Location = New System.Drawing.Point(215, 152)
+        Me.lblBitDepth.Location = New System.Drawing.Point(86, 104)
         Me.lblBitDepth.Name = "lblBitDepth"
         Me.lblBitDepth.Size = New System.Drawing.Size(65, 12)
         Me.lblBitDepth.TabIndex = 6
@@ -190,12 +206,23 @@ Partial Class frmSetting
         Me.grpCPU.Controls.Add(Me.nudCPUCount)
         Me.grpCPU.Controls.Add(Me.lblCPUCount)
         Me.grpCPU.Controls.Add(Me.lblCPUPriority)
-        Me.grpCPU.Location = New System.Drawing.Point(92, 12)
+        Me.grpCPU.Location = New System.Drawing.Point(289, 6)
         Me.grpCPU.Name = "grpCPU"
         Me.grpCPU.Size = New System.Drawing.Size(132, 70)
         Me.grpCPU.TabIndex = 2
         Me.grpCPU.TabStop = False
         Me.grpCPU.Text = "CPU"
+        '
+        'cmbCPUPriority
+        '
+        Me.cmbCPUPriority.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cmbCPUPriority.FormattingEnabled = True
+        Me.cmbCPUPriority.Items.AddRange(New Object() {"自动", "低", "正常", "高"})
+        Me.cmbCPUPriority.Location = New System.Drawing.Point(69, 14)
+        Me.cmbCPUPriority.Name = "cmbCPUPriority"
+        Me.cmbCPUPriority.Size = New System.Drawing.Size(48, 20)
+        Me.cmbCPUPriority.TabIndex = 1
+        Me.tipMain.SetToolTip(Me.cmbCPUPriority, "设置游戏运行时能够占用的最高CPU使用率，默认为自动，建议设为自动")
         '
         'nudCPUCount
         '
@@ -234,7 +261,7 @@ Partial Class frmSetting
         Me.grpResolution.Controls.Add(Me.cmbFixedResolution)
         Me.grpResolution.Controls.Add(Me.rdoCustomResolution)
         Me.grpResolution.Controls.Add(Me.rdoFixedResolution)
-        Me.grpResolution.Location = New System.Drawing.Point(12, 88)
+        Me.grpResolution.Location = New System.Drawing.Point(86, 6)
         Me.grpResolution.Name = "grpResolution"
         Me.grpResolution.Size = New System.Drawing.Size(197, 88)
         Me.grpResolution.TabIndex = 1
@@ -244,6 +271,7 @@ Partial Class frmSetting
         'rdoDefaultResolution
         '
         Me.rdoDefaultResolution.AutoSize = True
+        Me.rdoDefaultResolution.Checked = True
         Me.rdoDefaultResolution.Location = New System.Drawing.Point(6, 64)
         Me.rdoDefaultResolution.Name = "rdoDefaultResolution"
         Me.rdoDefaultResolution.Size = New System.Drawing.Size(47, 16)
@@ -260,7 +288,7 @@ Partial Class frmSetting
         Me.mtxCustomResolution.Name = "mtxCustomResolution"
         Me.mtxCustomResolution.Size = New System.Drawing.Size(86, 21)
         Me.mtxCustomResolution.TabIndex = 3
-        Me.tipMain.SetToolTip(Me.mtxCustomResolution, "设置游戏运行的分辨率的高和宽" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "如果显示方式为窗口化，则分辨率为窗口的大小；" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "如果显示方式为全屏，且分辨率小于屏幕分辨率会在边缘出现黑边" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "默认为自动，建议设为" & _
+        Me.tipMain.SetToolTip(Me.mtxCustomResolution, "设置游戏运行的分辨率的高和宽" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "如果显示方式为窗口化，则分辨率为窗口的大小；" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "如果显示方式为全屏，且分辨率小于屏幕分辨率会在边缘出现黑边" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "默认为自动，建议设为" &
         "1024x768")
         '
         'cmbFixedResolution
@@ -272,7 +300,7 @@ Partial Class frmSetting
         Me.cmbFixedResolution.Name = "cmbFixedResolution"
         Me.cmbFixedResolution.Size = New System.Drawing.Size(95, 20)
         Me.cmbFixedResolution.TabIndex = 1
-        Me.tipMain.SetToolTip(Me.cmbFixedResolution, "选择游戏运行的分辨率" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "如果显示方式为窗口化，则分辨率为窗口的大小；" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "如果显示方式为全屏，且分辨率小于屏幕分辨率会在边缘出现黑边" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "默认为自动，建议设为1024" & _
+        Me.tipMain.SetToolTip(Me.cmbFixedResolution, "选择游戏运行的分辨率" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "如果显示方式为窗口化，则分辨率为窗口的大小；" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "如果显示方式为全屏，且分辨率小于屏幕分辨率会在边缘出现黑边" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "默认为自动，建议设为1024" &
         "x768")
         '
         'rdoCustomResolution
@@ -283,21 +311,19 @@ Partial Class frmSetting
         Me.rdoCustomResolution.Size = New System.Drawing.Size(107, 16)
         Me.rdoCustomResolution.TabIndex = 2
         Me.rdoCustomResolution.Text = "自定义分辨率："
-        Me.tipMain.SetToolTip(Me.rdoCustomResolution, "设置游戏运行的分辨率的高和宽" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "如果显示方式为窗口化，则分辨率为窗口的大小；" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "如果显示方式为全屏，且分辨率小于屏幕分辨率会在边缘出现黑边" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "默认为自动，建议设为" & _
+        Me.tipMain.SetToolTip(Me.rdoCustomResolution, "设置游戏运行的分辨率的高和宽" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "如果显示方式为窗口化，则分辨率为窗口的大小；" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "如果显示方式为全屏，且分辨率小于屏幕分辨率会在边缘出现黑边" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "默认为自动，建议设为" &
         "1024x768")
         Me.rdoCustomResolution.UseVisualStyleBackColor = True
         '
         'rdoFixedResolution
         '
         Me.rdoFixedResolution.AutoSize = True
-        Me.rdoFixedResolution.Checked = True
         Me.rdoFixedResolution.Location = New System.Drawing.Point(6, 20)
         Me.rdoFixedResolution.Name = "rdoFixedResolution"
         Me.rdoFixedResolution.Size = New System.Drawing.Size(95, 16)
         Me.rdoFixedResolution.TabIndex = 0
-        Me.rdoFixedResolution.TabStop = True
         Me.rdoFixedResolution.Text = "固定分辨率："
-        Me.tipMain.SetToolTip(Me.rdoFixedResolution, "选择游戏运行的分辨率" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "如果显示方式为窗口化，则分辨率为窗口的大小；" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "如果显示方式为全屏，且分辨率小于屏幕分辨率会在边缘出现黑边" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "默认为自动，建议设为1024" & _
+        Me.tipMain.SetToolTip(Me.rdoFixedResolution, "选择游戏运行的分辨率" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "如果显示方式为窗口化，则分辨率为窗口的大小；" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "如果显示方式为全屏，且分辨率小于屏幕分辨率会在边缘出现黑边" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "默认为自动，建议设为1024" &
         "x768")
         Me.rdoFixedResolution.UseVisualStyleBackColor = True
         '
@@ -305,7 +331,7 @@ Partial Class frmSetting
         '
         Me.grpDisplayMode.Controls.Add(Me.rdoDisplayModeFullScreen)
         Me.grpDisplayMode.Controls.Add(Me.rdoDisplayModeWindow)
-        Me.grpDisplayMode.Location = New System.Drawing.Point(12, 12)
+        Me.grpDisplayMode.Location = New System.Drawing.Point(6, 6)
         Me.grpDisplayMode.Name = "grpDisplayMode"
         Me.grpDisplayMode.Size = New System.Drawing.Size(74, 70)
         Me.grpDisplayMode.TabIndex = 0
@@ -339,7 +365,7 @@ Partial Class frmSetting
         'chkLoadModelBackground
         '
         Me.chkLoadModelBackground.AutoSize = True
-        Me.chkLoadModelBackground.Location = New System.Drawing.Point(317, 34)
+        Me.chkLoadModelBackground.Location = New System.Drawing.Point(3, 25)
         Me.chkLoadModelBackground.Name = "chkLoadModelBackground"
         Me.chkLoadModelBackground.Size = New System.Drawing.Size(84, 16)
         Me.chkLoadModelBackground.TabIndex = 12
@@ -352,7 +378,7 @@ Partial Class frmSetting
         Me.chkIntro.AutoSize = True
         Me.chkIntro.Checked = True
         Me.chkIntro.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkIntro.Location = New System.Drawing.Point(230, 12)
+        Me.chkIntro.Location = New System.Drawing.Point(8, 82)
         Me.chkIntro.Name = "chkIntro"
         Me.chkIntro.Size = New System.Drawing.Size(72, 16)
         Me.chkIntro.TabIndex = 2
@@ -363,7 +389,7 @@ Partial Class frmSetting
         'chkAllowMultipleInstances
         '
         Me.chkAllowMultipleInstances.AutoSize = True
-        Me.chkAllowMultipleInstances.Location = New System.Drawing.Point(230, 56)
+        Me.chkAllowMultipleInstances.Location = New System.Drawing.Point(8, 126)
         Me.chkAllowMultipleInstances.Name = "chkAllowMultipleInstances"
         Me.chkAllowMultipleInstances.Size = New System.Drawing.Size(72, 16)
         Me.chkAllowMultipleInstances.TabIndex = 5
@@ -374,11 +400,14 @@ Partial Class frmSetting
         'chkShowMissingModel
         '
         Me.chkShowMissingModel.AutoSize = True
-        Me.chkShowMissingModel.Location = New System.Drawing.Point(317, 12)
+        Me.chkShowMissingModel.Checked = True
+        Me.chkShowMissingModel.CheckState = System.Windows.Forms.CheckState.Indeterminate
+        Me.chkShowMissingModel.Location = New System.Drawing.Point(3, 3)
         Me.chkShowMissingModel.Name = "chkShowMissingModel"
         Me.chkShowMissingModel.Size = New System.Drawing.Size(72, 16)
         Me.chkShowMissingModel.TabIndex = 0
         Me.chkShowMissingModel.Text = "显示箱子"
+        Me.chkShowMissingModel.ThreeState = True
         Me.tipMain.SetToolTip(Me.chkShowMissingModel, "设置是否将不存在的模型显示为一个箱子，默认为是，建议设为是")
         Me.chkShowMissingModel.UseVisualStyleBackColor = True
         '
@@ -387,7 +416,7 @@ Partial Class frmSetting
         Me.chkAudio.AutoSize = True
         Me.chkAudio.Checked = True
         Me.chkAudio.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkAudio.Location = New System.Drawing.Point(230, 34)
+        Me.chkAudio.Location = New System.Drawing.Point(8, 104)
         Me.chkAudio.Name = "chkAudio"
         Me.chkAudio.Size = New System.Drawing.Size(72, 16)
         Me.chkAudio.TabIndex = 4
@@ -397,7 +426,7 @@ Partial Class frmSetting
         '
         'btnOK
         '
-        Me.btnOK.Location = New System.Drawing.Point(280, 293)
+        Me.btnOK.Location = New System.Drawing.Point(215, 247)
         Me.btnOK.Name = "btnOK"
         Me.btnOK.Size = New System.Drawing.Size(75, 23)
         Me.btnOK.TabIndex = 29
@@ -407,7 +436,7 @@ Partial Class frmSetting
         'btnCancel
         '
         Me.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnCancel.Location = New System.Drawing.Point(442, 293)
+        Me.btnCancel.Location = New System.Drawing.Point(377, 247)
         Me.btnCancel.Name = "btnCancel"
         Me.btnCancel.Size = New System.Drawing.Size(75, 23)
         Me.btnCancel.TabIndex = 31
@@ -417,7 +446,7 @@ Partial Class frmSetting
         'lblArgument
         '
         Me.lblArgument.AutoSize = True
-        Me.lblArgument.Location = New System.Drawing.Point(10, 269)
+        Me.lblArgument.Location = New System.Drawing.Point(12, 223)
         Me.lblArgument.Name = "lblArgument"
         Me.lblArgument.Size = New System.Drawing.Size(65, 12)
         Me.lblArgument.TabIndex = 17
@@ -426,16 +455,16 @@ Partial Class frmSetting
         '
         'txtArgument
         '
-        Me.txtArgument.Location = New System.Drawing.Point(71, 266)
+        Me.txtArgument.Location = New System.Drawing.Point(71, 220)
         Me.txtArgument.Name = "txtArgument"
         Me.txtArgument.ReadOnly = True
-        Me.txtArgument.Size = New System.Drawing.Size(446, 21)
+        Me.txtArgument.Size = New System.Drawing.Size(381, 21)
         Me.txtArgument.TabIndex = 18
         Me.tipMain.SetToolTip(Me.txtArgument, "启动游戏时附加的参数")
         '
         'btnApply
         '
-        Me.btnApply.Location = New System.Drawing.Point(361, 293)
+        Me.btnApply.Location = New System.Drawing.Point(296, 247)
         Me.btnApply.Name = "btnApply"
         Me.btnApply.Size = New System.Drawing.Size(75, 23)
         Me.btnApply.TabIndex = 30
@@ -445,16 +474,16 @@ Partial Class frmSetting
         'txtUserDir
         '
         Me.txtUserDir.Enabled = False
-        Me.txtUserDir.Location = New System.Drawing.Point(92, 212)
+        Me.txtUserDir.Location = New System.Drawing.Point(83, 91)
         Me.txtUserDir.Name = "txtUserDir"
-        Me.txtUserDir.Size = New System.Drawing.Size(344, 21)
+        Me.txtUserDir.Size = New System.Drawing.Size(265, 21)
         Me.txtUserDir.TabIndex = 12
         Me.tipMain.SetToolTip(Me.txtUserDir, "设置用户文件目录" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "用户文件目录是游戏存储存档、插件和截图等文件的文件夹" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "默认目录为库文档（我的文档）\SimCity 4" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "建议不更改默认的用户文件目录")
         '
         'lblRenderMode
         '
         Me.lblRenderMode.AutoSize = True
-        Me.lblRenderMode.Location = New System.Drawing.Point(215, 177)
+        Me.lblRenderMode.Location = New System.Drawing.Point(86, 127)
         Me.lblRenderMode.Name = "lblRenderMode"
         Me.lblRenderMode.Size = New System.Drawing.Size(65, 12)
         Me.lblRenderMode.TabIndex = 8
@@ -466,7 +495,7 @@ Partial Class frmSetting
         Me.cmbRenderMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cmbRenderMode.FormattingEnabled = True
         Me.cmbRenderMode.Items.AddRange(New Object() {"自动", "DirectX", "OpenGL", "软件渲染"})
-        Me.cmbRenderMode.Location = New System.Drawing.Point(274, 174)
+        Me.cmbRenderMode.Location = New System.Drawing.Point(145, 124)
         Me.cmbRenderMode.Name = "cmbRenderMode"
         Me.cmbRenderMode.Size = New System.Drawing.Size(93, 20)
         Me.cmbRenderMode.TabIndex = 9
@@ -482,40 +511,29 @@ Partial Class frmSetting
         'chkUserDir
         '
         Me.chkUserDir.AutoSize = True
-        Me.chkUserDir.Location = New System.Drawing.Point(12, 190)
+        Me.chkUserDir.Location = New System.Drawing.Point(3, 69)
         Me.chkUserDir.Name = "chkUserDir"
         Me.chkUserDir.Size = New System.Drawing.Size(132, 16)
         Me.chkUserDir.TabIndex = 10
         Me.chkUserDir.Text = "自定义用户文件目录"
-        Me.tipMain.SetToolTip(Me.chkUserDir, "是否自定义用户文件目录" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "用户文件目录是游戏存储存档、插件和截图等文件的文件夹" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "默认目录为库文档（我的文档）\SimCity 4" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "建议不更改默认的用户文件目录" & _
+        Me.tipMain.SetToolTip(Me.chkUserDir, "是否自定义用户文件目录" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "用户文件目录是游戏存储存档、插件和截图等文件的文件夹" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "默认目录为库文档（我的文档）\SimCity 4" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "建议不更改默认的用户文件目录" &
         "")
         Me.chkUserDir.UseVisualStyleBackColor = True
         '
         'btnDeleteSC4cfgFile
         '
-        Me.btnDeleteSC4cfgFile.Location = New System.Drawing.Point(12, 293)
+        Me.btnDeleteSC4cfgFile.Location = New System.Drawing.Point(3, 145)
         Me.btnDeleteSC4cfgFile.Name = "btnDeleteSC4cfgFile"
-        Me.btnDeleteSC4cfgFile.Size = New System.Drawing.Size(195, 23)
+        Me.btnDeleteSC4cfgFile.Size = New System.Drawing.Size(180, 23)
         Me.btnDeleteSC4cfgFile.TabIndex = 19
         Me.btnDeleteSC4cfgFile.Text = "删除SimCity 4.cfg文件(&D)"
         Me.tipMain.SetToolTip(Me.btnDeleteSC4cfgFile, "如果部分设置无效，请在删除SimCity 4.cfg文件后再试。" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "SimCity 4.cfg文件在用户文件目录下。")
         Me.btnDeleteSC4cfgFile.UseVisualStyleBackColor = True
         '
-        'cmbCPUPriority
-        '
-        Me.cmbCPUPriority.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cmbCPUPriority.FormattingEnabled = True
-        Me.cmbCPUPriority.Items.AddRange(New Object() {"自动", "低", "正常", "高"})
-        Me.cmbCPUPriority.Location = New System.Drawing.Point(69, 14)
-        Me.cmbCPUPriority.Name = "cmbCPUPriority"
-        Me.cmbCPUPriority.Size = New System.Drawing.Size(48, 20)
-        Me.cmbCPUPriority.TabIndex = 1
-        Me.tipMain.SetToolTip(Me.cmbCPUPriority, "设置游戏运行时能够占用的最高CPU使用率，默认为自动，建议设为自动")
-        '
         'lblSC4InstallDir
         '
         Me.lblSC4InstallDir.AutoSize = True
-        Me.lblSC4InstallDir.Location = New System.Drawing.Point(10, 242)
+        Me.lblSC4InstallDir.Location = New System.Drawing.Point(1, 123)
         Me.lblSC4InstallDir.Name = "lblSC4InstallDir"
         Me.lblSC4InstallDir.Size = New System.Drawing.Size(119, 12)
         Me.lblSC4InstallDir.TabIndex = 14
@@ -524,7 +542,7 @@ Partial Class frmSetting
         '
         'btnSC4InstallDir
         '
-        Me.btnSC4InstallDir.Location = New System.Drawing.Point(442, 237)
+        Me.btnSC4InstallDir.Location = New System.Drawing.Point(354, 120)
         Me.btnSC4InstallDir.Name = "btnSC4InstallDir"
         Me.btnSC4InstallDir.Size = New System.Drawing.Size(75, 23)
         Me.btnSC4InstallDir.TabIndex = 16
@@ -534,9 +552,9 @@ Partial Class frmSetting
         '
         'txtSC4InstallDir
         '
-        Me.txtSC4InstallDir.Location = New System.Drawing.Point(123, 239)
+        Me.txtSC4InstallDir.Location = New System.Drawing.Point(114, 118)
         Me.txtSC4InstallDir.Name = "txtSC4InstallDir"
-        Me.txtSC4InstallDir.Size = New System.Drawing.Size(313, 21)
+        Me.txtSC4InstallDir.Size = New System.Drawing.Size(234, 21)
         Me.txtSC4InstallDir.TabIndex = 15
         Me.tipMain.SetToolTip(Me.txtSC4InstallDir, "模拟城市4的安装目录，建议不要更改")
         '
@@ -550,44 +568,84 @@ Partial Class frmSetting
         Me.fbdSC4InstallDir.Description = "选择模拟城市4安装目录"
         Me.fbdSC4InstallDir.RootFolder = System.Environment.SpecialFolder.MyComputer
         '
+        'tabSettings
+        '
+        Me.tabSettings.Controls.Add(Me.tabpLessSettings)
+        Me.tabSettings.Controls.Add(Me.tabpMoreSettings)
+        Me.tabSettings.Location = New System.Drawing.Point(12, 12)
+        Me.tabSettings.Name = "tabSettings"
+        Me.tabSettings.SelectedIndex = 0
+        Me.tabSettings.Size = New System.Drawing.Size(440, 202)
+        Me.tabSettings.TabIndex = 32
+        '
+        'tabpLessSettings
+        '
+        Me.tabpLessSettings.Controls.Add(Me.grpCPU)
+        Me.tabpLessSettings.Controls.Add(Me.cmbRenderMode)
+        Me.tabpLessSettings.Controls.Add(Me.chkAllowMultipleInstances)
+        Me.tabpLessSettings.Controls.Add(Me.cmbBitDepth)
+        Me.tabpLessSettings.Controls.Add(Me.grpDisplayMode)
+        Me.tabpLessSettings.Controls.Add(Me.lblBitDepth)
+        Me.tabpLessSettings.Controls.Add(Me.lblRenderMode)
+        Me.tabpLessSettings.Controls.Add(Me.grpResolution)
+        Me.tabpLessSettings.Controls.Add(Me.chkAudio)
+        Me.tabpLessSettings.Controls.Add(Me.chkIntro)
+        Me.tabpLessSettings.Location = New System.Drawing.Point(4, 22)
+        Me.tabpLessSettings.Name = "tabpLessSettings"
+        Me.tabpLessSettings.Padding = New System.Windows.Forms.Padding(3)
+        Me.tabpLessSettings.Size = New System.Drawing.Size(432, 176)
+        Me.tabpLessSettings.TabIndex = 0
+        Me.tabpLessSettings.Text = "常规"
+        Me.tabpLessSettings.UseVisualStyleBackColor = True
+        '
+        'tabpMoreSettings
+        '
+        Me.tabpMoreSettings.Controls.Add(Me.btnResetSetting)
+        Me.tabpMoreSettings.Controls.Add(Me.txtSC4InstallDir)
+        Me.tabpMoreSettings.Controls.Add(Me.btnSC4InstallDir)
+        Me.tabpMoreSettings.Controls.Add(Me.chkShowMissingModel)
+        Me.tabpMoreSettings.Controls.Add(Me.btnDeleteSC4cfgFile)
+        Me.tabpMoreSettings.Controls.Add(Me.lblSC4InstallDir)
+        Me.tabpMoreSettings.Controls.Add(Me.chkLoadModelBackground)
+        Me.tabpMoreSettings.Controls.Add(Me.chkUserDir)
+        Me.tabpMoreSettings.Controls.Add(Me.txtUserDir)
+        Me.tabpMoreSettings.Controls.Add(Me.chkCustomCursors)
+        Me.tabpMoreSettings.Controls.Add(Me.btnUserDir)
+        Me.tabpMoreSettings.Controls.Add(Me.chkCustomIME)
+        Me.tabpMoreSettings.Controls.Add(Me.chkContinueGameBackground)
+        Me.tabpMoreSettings.Controls.Add(Me.lblUserDir)
+        Me.tabpMoreSettings.Controls.Add(Me.chkExceptionHandling)
+        Me.tabpMoreSettings.Controls.Add(Me.chkWriteLog)
+        Me.tabpMoreSettings.Controls.Add(Me.chkRestartAfterException)
+        Me.tabpMoreSettings.Location = New System.Drawing.Point(4, 22)
+        Me.tabpMoreSettings.Name = "tabpMoreSettings"
+        Me.tabpMoreSettings.Size = New System.Drawing.Size(432, 176)
+        Me.tabpMoreSettings.TabIndex = 2
+        Me.tabpMoreSettings.Text = "高级"
+        Me.tabpMoreSettings.UseVisualStyleBackColor = True
+        '
+        'btnResetSetting
+        '
+        Me.btnResetSetting.Location = New System.Drawing.Point(249, 145)
+        Me.btnResetSetting.Name = "btnResetSetting"
+        Me.btnResetSetting.Size = New System.Drawing.Size(180, 23)
+        Me.btnResetSetting.TabIndex = 20
+        Me.btnResetSetting.Text = "重置为默认设置(&R)"
+        Me.btnResetSetting.UseVisualStyleBackColor = True
+        '
         'frmSetting
         '
         Me.AcceptButton = Me.btnOK
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.btnCancel
-        Me.ClientSize = New System.Drawing.Size(529, 328)
-        Me.Controls.Add(Me.txtSC4InstallDir)
-        Me.Controls.Add(Me.btnSC4InstallDir)
-        Me.Controls.Add(Me.lblSC4InstallDir)
-        Me.Controls.Add(Me.btnDeleteSC4cfgFile)
-        Me.Controls.Add(Me.grpResolution)
-        Me.Controls.Add(Me.chkUserDir)
-        Me.Controls.Add(Me.cmbRenderMode)
-        Me.Controls.Add(Me.lblRenderMode)
-        Me.Controls.Add(Me.txtUserDir)
-        Me.Controls.Add(Me.btnUserDir)
+        Me.ClientSize = New System.Drawing.Size(464, 282)
+        Me.Controls.Add(Me.tabSettings)
         Me.Controls.Add(Me.btnApply)
         Me.Controls.Add(Me.txtArgument)
-        Me.Controls.Add(Me.lblUserDir)
         Me.Controls.Add(Me.lblArgument)
-        Me.Controls.Add(Me.chkRestartAfterException)
         Me.Controls.Add(Me.btnCancel)
-        Me.Controls.Add(Me.chkWriteLog)
         Me.Controls.Add(Me.btnOK)
-        Me.Controls.Add(Me.chkExceptionHandling)
-        Me.Controls.Add(Me.chkContinueGameBackground)
-        Me.Controls.Add(Me.grpDisplayMode)
-        Me.Controls.Add(Me.chkCustomIME)
-        Me.Controls.Add(Me.chkAudio)
-        Me.Controls.Add(Me.chkCustomCursors)
-        Me.Controls.Add(Me.chkShowMissingModel)
-        Me.Controls.Add(Me.chkAllowMultipleInstances)
-        Me.Controls.Add(Me.chkIntro)
-        Me.Controls.Add(Me.cmbBitDepth)
-        Me.Controls.Add(Me.chkLoadModelBackground)
-        Me.Controls.Add(Me.lblBitDepth)
-        Me.Controls.Add(Me.grpCPU)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
         Me.MinimizeBox = False
@@ -601,6 +659,11 @@ Partial Class frmSetting
         Me.grpResolution.PerformLayout()
         Me.grpDisplayMode.ResumeLayout(False)
         Me.grpDisplayMode.PerformLayout()
+        Me.tabSettings.ResumeLayout(False)
+        Me.tabpLessSettings.ResumeLayout(False)
+        Me.tabpLessSettings.PerformLayout()
+        Me.tabpMoreSettings.ResumeLayout(False)
+        Me.tabpMoreSettings.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -650,4 +713,8 @@ Partial Class frmSetting
     Friend WithEvents lblSC4InstallDir As System.Windows.Forms.Label
     Friend WithEvents btnSC4InstallDir As System.Windows.Forms.Button
     Friend WithEvents txtSC4InstallDir As System.Windows.Forms.TextBox
+    Friend WithEvents tabSettings As TabControl
+    Friend WithEvents tabpLessSettings As TabPage
+    Friend WithEvents tabpMoreSettings As TabPage
+    Friend WithEvents btnResetSetting As Button
 End Class

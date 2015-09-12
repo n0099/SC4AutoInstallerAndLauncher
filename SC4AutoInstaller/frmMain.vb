@@ -87,22 +87,24 @@
     Private Sub btnChangeModule_Click(sender As Object, e As EventArgs) Handles btnChangeModule.Click
         With My.Computer.FileSystem
             If .DirectoryExists("Data") = True Then
-                If .DirectoryExists("Data\Patch") = False Then MessageBox.Show("Data\Patch 文件夹不存在！" & vbCrLf & "请使用原始安装程序以添加或删除组件", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) : Exit Sub
-                If .FileExists("Data\SC4\NoInstall.7z") = False Then MessageBox.Show("Data\SC4\NoInstall.7z 文件不存在！" & vbCrLf & "请使用原始安装程序以添加或删除组件", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) : Exit Sub
+                If .DirectoryExists("Data\Patch") = False Then MessageBox.Show("Data\Patch 文件夹不存在！" & vbCrLf & "请使用原始安装程序以安装或卸载组件", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) : Exit Sub
+                If .FileExists("Data\SC4\NoInstall.7z") = False Then MessageBox.Show("Data\SC4\NoInstall.7z 文件不存在！" & vbCrLf & "请使用原始安装程序以安装或卸载组件", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) : Exit Sub
                 frmChangeModuleOptions.Show()
                 RemoveHandler Me.FormClosing, AddressOf frmMain_FormClosing '移除关闭窗口过程和关闭窗口事件的关联
                 Close()
             Else
-                MessageBox.Show("Data文件夹不存在！" & vbCrLf & "请使用原始安装程序以添加或删除组件", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show("Data文件夹不存在！" & vbCrLf & "请使用原始安装程序以安装或卸载组件", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
         End With
     End Sub
 
     Private Sub btnUninstall_Click(sender As Object, e As EventArgs) Handles btnUninstall.Click
-        frmUninstalling.Show()
-        RemoveHandler Me.FormClosing, AddressOf frmMain_FormClosing '移除关闭窗口过程和关闭窗口事件的关联
-        bgwComputeMD5.CancelAsync() '取消异步判断已安装的组件
-        Close()
+        If MessageBox.Show("确定要卸载模拟城市4 豪华版？", "确认", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) = DialogResult.Yes Then
+            frmUninstalling.Show()
+            RemoveHandler Me.FormClosing, AddressOf frmMain_FormClosing '移除关闭窗口过程和关闭窗口事件的关联
+            bgwComputeMD5.CancelAsync() '取消异步判断已安装的组件
+            Close()
+        End If
     End Sub
 
     Private Sub btnAbout_Click(sender As Object, e As EventArgs) Handles btnAbout.Click

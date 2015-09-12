@@ -44,6 +44,8 @@ Partial Class frmInstalling
         Me.bgwInstall = New System.ComponentModel.BackgroundWorker()
         Me.picSC4 = New System.Windows.Forms.PictureBox()
         Me.tmrPic = New System.Windows.Forms.Timer(Me.components)
+        Me.lblInstalling = New System.Windows.Forms.Label()
+        Me.prgInstall = New System.Windows.Forms.ProgressBar()
         CType(Me.picSC4, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -76,7 +78,7 @@ Partial Class frmInstalling
         Me.lvwTask.LargeImageList = Me.imgTask
         Me.lvwTask.Location = New System.Drawing.Point(12, 54)
         Me.lvwTask.Name = "lvwTask"
-        Me.lvwTask.Size = New System.Drawing.Size(176, 414)
+        Me.lvwTask.Size = New System.Drawing.Size(176, 376)
         Me.lvwTask.TabIndex = 1
         Me.lvwTask.TileSize = New System.Drawing.Size(170, 25)
         Me.lvwTask.UseCompatibleStateImageBehavior = False
@@ -118,11 +120,31 @@ Partial Class frmInstalling
         Me.tmrPic.Enabled = True
         Me.tmrPic.Interval = 5000
         '
+        'lblInstalling
+        '
+        Me.lblInstalling.AutoSize = True
+        Me.lblInstalling.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.lblInstalling.Location = New System.Drawing.Point(9, 433)
+        Me.lblInstalling.Name = "lblInstalling"
+        Me.lblInstalling.Size = New System.Drawing.Size(68, 17)
+        Me.lblInstalling.TabIndex = 13
+        Me.lblInstalling.Text = "正在安装："
+        '
+        'prgInstall
+        '
+        Me.prgInstall.Location = New System.Drawing.Point(12, 453)
+        Me.prgInstall.Name = "prgInstall"
+        Me.prgInstall.Size = New System.Drawing.Size(176, 15)
+        Me.prgInstall.Style = System.Windows.Forms.ProgressBarStyle.Marquee
+        Me.prgInstall.TabIndex = 14
+        '
         'frmInstalling
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(834, 480)
+        Me.Controls.Add(Me.prgInstall)
+        Me.Controls.Add(Me.lblInstalling)
         Me.Controls.Add(Me.lblTitle)
         Me.Controls.Add(Me.picSC4)
         Me.Controls.Add(Me.lvwTask)
@@ -143,4 +165,6 @@ Partial Class frmInstalling
     Friend WithEvents imgTask As System.Windows.Forms.ImageList
     Friend WithEvents picSC4 As System.Windows.Forms.PictureBox
     Friend WithEvents tmrPic As System.Windows.Forms.Timer
+    Friend WithEvents lblInstalling As Label
+    Friend WithEvents prgInstall As ProgressBar
 End Class

@@ -1,7 +1,7 @@
 ﻿Public Class frmVerifyFilesMD5
 
     ''' <summary>一个用于存储要验证的文件的相对路径和MD5值的 List 泛型类</summary>
-    Dim DataFilesMD5 As New List(Of String)({"Data\DAEMON Tools Lite 5.0.exe", "E4D2A05D4A5C22C6D4BC20D6B502CE6B", "Data\7z x86.exe", "BB146FFBDB414C2D7FDFABEBDFBF2DE6", "Data\7z x64.exe", "A70EAC2927D48962EDFA93738DF4E27C", "Data\SC4Launcher.exe", "8AC44C08782F6372DAC6886A992A9A28" _
+    Dim DataFilesMD5 As New List(Of String)({"Data\DAEMON Tools Lite 5.0.exe", "E4D2A05D4A5C22C6D4BC20D6B502CE6B", "Data\7za.exe", "22D78755229B7B28F9380088983DE3C0", "Data\SC4Launcher.exe", "C05381BD51DA15157ADC1F8EA3C08B90" _
                                             , "Data\Licenses\CC BY-NC-SA.rtf", "995C9B18CABFBB6DE54A4EE7886D843C", "Data\Licenses\CC BY-NC-SA 3.0 法律文本.rtf", "473B4BFEDFE91351CE00BB962284DBCC" _
                                             , "Data\Licenses\CC BY-NC-SA 4.0 法律文本.rtf", "E27D76D2E75DE182B6C10F6EBA0482A4", "Data\Licenses\EA EULA.txt", "4A263CEC16B302BE4E080A85614A90F9", "Data\Licenses\DAEMON Tools 隐私政策.rtf", "B772FA3468C7C3879A5A16614DC3613C" _
                                             , "Data\Patch\638.7z", "29AF195D1AB5F0ECCA63554E4BB69325", "Data\Patch\640.7z", "59CD8A9571880CA378AB0E5523E1D058", "Data\Patch\SimCity 4 641.exe", "53D2AE4FA9114B88AD91ECF32A7F16A4" _
@@ -27,7 +27,7 @@
         For i As Integer = 0 To DataFilesMD5.Count - 1 Step 2
             Try
 Retry:          Dim File As New IO.FileStream(DataFilesMD5(i), IO.FileMode.Open) '声明一个用于计算文件MD5值的System.IO.FileStream类实例
-                If bgwComputeMD5.CancellationPending = True Then File.Close() : e.Cancel = True : Exit For '如果请求取消验证则退出验证
+                If bgwComputeMD5.CancellationPending = True Then File.Close() : e.Cancel = True : Exit Sub '如果请求取消验证则退出验证
                 If My.Computer.FileSystem.FileExists(DataFilesMD5(i)) = False Then MessageBox.Show(DataFilesMD5(i) & " 文件不存在！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) : Application.Exit()
                 If BitConverter.ToString(MD5CSP.ComputeHash(File)).Replace("-", "") <> DataFilesMD5(i + 1) Then
                     Select Case MessageBox.Show("文件 " & DataFilesMD5(i) & " 不完整！", "错误", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1)
@@ -59,12 +59,13 @@ Ignore:         bgwComputeMD5.ReportProgress(i)
     End Sub
 
     Private Sub bgwComputeMD5_ProgressChanged(sender As Object, e As System.ComponentModel.ProgressChangedEventArgs) Handles bgwComputeMD5.ProgressChanged
-        lblProgress.Text = Math.Truncate((prgProgress.Value / prgProgress.Maximum) * 100) & "% " & e.ProgressPercentage / 2 & "/" & DataFilesMD5.Count / 2
-        prgProgress.Value += Int(New IO.FileInfo(DataFilesMD5(e.ProgressPercentage)).Length / 1024)
+        lblProgress.Text = Math.Truncate((prgVerifyFilesMD5.Value / prgVerifyFilesMD5.Maximum) * 100) & "% " & e.ProgressPercentage / 2 & "/" & DataFilesMD5.Count / 2
+        prgVerifyFilesMD5.Value += Int(New IO.FileInfo(DataFilesMD5(e.ProgressPercentage)).Length / 1024)
     End Sub
 
     Private Sub bgwComputeMD5_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles bgwComputeMD5.RunWorkerCompleted
         If e.Cancelled = False Then
+            Threading.Thread.Sleep(500) '挂起当前线程0.5秒以便让用户看到验证结果
             frmMain.Show()
             RemoveHandler Me.FormClosing, AddressOf frmVerifyFilesMD5_FormClosing '移除关闭窗口过程和关闭窗口事件的关联
             Close()
@@ -92,7 +93,7 @@ Ignore:         bgwComputeMD5.ReportProgress(i)
             If .FileExists("Data\SC4\NoInstall.7z") = True Then DataFilesMD5.AddRange(NoInstallSC4FileMD5) '如果存在Data\SC4\NoInstall.7z文件则向要验证的文件列表里增加项
         End With
         lblProgress.Text = "0% 0/" & DataFilesMD5.Count / 2 '初始化进度条和进度文本
-        prgProgress.Maximum = Int(GetFolderSize("Data") / 1024)
+        prgVerifyFilesMD5.Maximum = Int(GetFolderSize("Data") / 1024)
         bgwComputeMD5.RunWorkerAsync() '开始异步验证文件完整性
     End Sub
 

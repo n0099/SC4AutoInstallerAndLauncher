@@ -1,42 +1,60 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <UpdataInfo>
   <AutoInstaller>
-    <LatestVersion>2.6.34</LatestVersion>
+    <LatestVersion>2.7.12</LatestVersion>
     <UpdataDetail>
 如果下载更新后没有自动安装更新，请手动运行安装程序所在目录下的Updata.exe程序来手动更新！<br />
-模拟城市4 豪华版 自动安装程序(SC4AutoInstaller) 2.6.34 正式版 (2015-08-27)<br />
+更新程序大小：17.9MB<br />
+模拟城市4 豪华版 自动安装程序(SC4AutoInstaller) 2.7.12 正式版 (2015-09-12)<br />
 ====================================================================================<br />
 <br />
 新增<br />
 ====<br />
-1.新增7z.exe 15.06 64位命令行压缩程序。<br />
+1.现在在安装模拟城市4和638补丁或卸载638补丁、640补丁和免CD补丁会在安装中窗口显示安装或卸载进度（感谢Kulty的和铁木真的使臣的建议）。<br />
 <br />
 修改<br />
 ====<br />
-1.在关于窗口的鸣谢文本框里添加了806664709的名字并修改了标题文本。<br />
+1.在关于窗口的鸣谢和特别鸣谢文本框里添加了Kulty的、骨感阴冷Viper和kundera_j的名字。<br />
+2.将7z.exe 15.06 64位和32位命令行压缩程序更换成7za.exe 15.06 32位命令行压缩程序。<br />
+3.现在在卸载4GB补丁且没有安装638补丁时不会再直接调用卸载638补丁的程序。<br />
+4.如果安装选项窗口的快速选择组件组合框的选择项不为自定义，则安装组件列表框的背景色会显示为被禁用后的颜色。<br />
+5.现在在控制面板的卸载或更改程序内添加模拟城市4 豪华版 自动安装程序项时，不会删除控制面板的卸载或更改程序里的SimCity 4 Deluxe项。<br />
+6.将添加或删除组件窗口的标题修改为安装或卸载组件。<br />
 <br />
 修复<br />
 ====<br />
-1.修复了在32位系统下无法安装硬盘版模拟城市4，无法安装或卸载638补丁和640补丁的bug（感谢806664709发现此bug）。<br />
-2.修复了即便硬盘版模拟城市4安装失败，仍然会继续安装并在安装完成窗口显示为安装成功的bug（感谢806664709发现此bug）。
+1.修复了在某些情况下无法安装硬盘版模拟城市4，无法安装或卸载638补丁和640补丁的bug（感谢Kulty的、骨感阴冷Viper和kundera_j发现此bug）。<br />
+2.修复了如果已安装4GB补丁且在安装或卸载组件窗口更改了638、640或641补丁，则在安装中窗口不会安装4GB补丁的bug。<br />
+3.修复了如果点击主窗口的卸载按钮弹出的确认卸载对话框的否按钮，则会一直卡在卸载窗口的bug。<br />
+4.修复了安装或卸载组件完成后，安装完成窗口的启动模拟城市4 豪华版按钮仍然无法点击的bug。<br />
+5.修复了在某些情况下卸载4GB补丁时会陷入死循环的bug。<br />
     </UpdataDetail>
-    <DonwloadLink>https://n0099.github.io/AutoInstallerUpdata.exe</DonwloadLink>
+    <DonwloadLink>https://n0099.github.io/SimCity4-AutoInstaller-And-Launcher/AutoInstallerUpdata.exe</DonwloadLink>
   </AutoInstaller>
   <Launcher>
-    <LatestVersion>1.1.10</LatestVersion>
+    <LatestVersion>1.1.17</LatestVersion>
     <UpdataDetail>
 如果下载更新后没有自动安装更新，请手动运行启动器所在目录下的Updata.exe程序来手动更新！<br />
-模拟城市4 启动器(SC4Launcher) 1.1.10 正式版 (2015-08-22)<br />
+更新程序大小：6.57MB<br />
+模拟城市4 启动器(SC4Launcher) 1.1.17 正式版 (2015-09-12)<br />
 ====================================================================================<br />
+<br />
+新增<br />
+====<br />
+1.在设置窗口新增重置为默认设置按钮。<br />
+2.现在在进入设置窗口和将显示模式设为全屏时会将分辨率模式设为自定义分辨率并将分辨率设为屏幕分辨率。<br />
 <br />
 修改<br />
 ====<br />
-1.添加并修改了7张每次启动时主窗口随机显示的游戏截图。<br />
+1.将设置窗口的选项移动到两个标签页里并修改了设置窗口的大小（感谢坐在鸭子的建议）。<br />
+2.现在点击设置窗口的删除SimCity 4.cfg文件后会弹出确认是否删除的对话框。<br />
 <br />
 修复<br />
 ====<br />
-1.修复了在设置窗口在输入自定义分辨率时启动参数可能会设置为多个分辨率参数的bug。
+1.修复了设置窗口的是否显示箱子选项、否使用游戏的鼠标指针和是否使用游戏的输入法选项跟实际参数相反的bug。<br />
+2.修复了如果有新版本可用，则在某些情况下可能会将自动更新程序下载到system32目录下的bug。<br />
+3.修复了无法完全显示主窗口的随机背景图片的bug。<br />
     </UpdataDetail>
-    <DonwloadLink>https://n0099.github.io/LauncherUpdata.exe</DonwloadLink>
+    <DonwloadLink>https://n0099.github.io/SimCity4-AutoInstaller-And-Launcher/LauncherUpdata.exe</DonwloadLink>
   </Launcher>
 </UpdataInfo>

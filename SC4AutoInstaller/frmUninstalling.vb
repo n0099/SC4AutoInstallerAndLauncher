@@ -3,11 +3,11 @@
     ''' <summary>递归查询一个文件夹内所有的文件和文件夹的数量</summary>
     ''' <param name="path">要查询的文件夹的路径</param>
     ''' <returns>返回文件夹内所有的文件和文件夹的数量</returns>
-    Private Function GetFolderCountentsCount(ByVal path As String) As Integer
-        Dim count As Integer
-        count += New IO.DirectoryInfo(path).GetFiles().Length
+    Private Function GetFolderCount(ByVal path As String) As Long
+        Dim count As Long
+        count += New IO.DirectoryInfo(path).GetFiles.Count
         For Each i As IO.DirectoryInfo In New IO.DirectoryInfo(path).GetDirectories
-            count += GetFolderCountentsCount(i.FullName) '递归返回子文件夹的大小
+            count += GetFolderCount(i.FullName) '递归返回子文件夹的大小
         Next
         Return count
     End Function
@@ -17,9 +17,9 @@
     Private Sub DeleteFolderAndContents(ByVal path As String)
         For Each i As IO.FileInfo In New IO.DirectoryInfo(path).GetFiles()
             Try
-                If i.Name <> "Setup.exe" Then i.Delete() : prgUninstall.Value += 1
+                If i.FullName <> Application.ExecutablePath Then i.Delete() : prgUninstall.Value += 1
             Catch
-                prgUninstall.Value += 1 : Continue For '如果遇到异常则忽略该异常继续删除文件
+                Continue For '如果遇到异常则忽略该异常继续删除文件
             End Try
         Next
         For Each i As IO.DirectoryInfo In New IO.DirectoryInfo(path).GetDirectories()
@@ -42,7 +42,7 @@
             End If
             Dim UserDirPath As String = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SimCity 4"
             If .DirectoryExists(UserDirPath) = True AndAlso MessageBox.Show("是否删除用户文件目录（游戏存档、插件等）？", "确认", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) = DialogResult.Yes Then
-                prgUninstall.Maximum += GetFolderCountentsCount(UserDirPath) '更新卸载进度条的最大值
+                prgUninstall.Maximum += GetFolderCount(UserDirPath) '更新卸载进度条的最大值
                 DeleteFolderAndContents(UserDirPath) '删除用户文件目录
             End If
         End With
@@ -73,13 +73,14 @@
     End Sub
 
     Private Sub frmUninstalling_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        If MessageBox.Show("确定要卸载模拟城市4 豪华版？", "确认", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) = DialogResult.Yes Then bgwUninstall.RunWorkerAsync() Else Application.Exit()
         Control.CheckForIllegalCrossThreadCalls = False '设置不捕捉对错误线程（跨线程）的调用的异常
-        prgUninstall.Maximum = GetFolderCountentsCount(ModuleMain.InstalledModule.SC4InstallDir) + 6  '初始化卸载进度条的最大值
+        prgUninstall.Maximum = GetFolderCount(ModuleMain.InstalledModule.SC4InstallDir) + 6  '初始化卸载进度条的最大值
         Dim ControlBoxHandle As Integer = GetSystemMenu(Me.Handle, 0) '标题栏右上角的菜单的句柄
         Dim ControlBoxCount As Integer = GetMenuItemCount(ControlBoxHandle) '标题栏右上角的菜单项的数量
         RemoveMenu(ControlBoxHandle, ControlBoxCount - 1, MF_DISABLED Or MF_BYPOSITION) '禁用标题栏右上角的X按钮
         DrawMenuBar(Me.Handle) '立即重绘标题栏的右上角菜单
+        bgwUninstall.RunWorkerAsync()
+        bgwUninstall.Dispose()
         Text &= " " & My.Application.Info.Version.Major & "." & My.Application.Info.Version.Minor & "." & My.Application.Info.Version.Revision & " By n0099" '初始化窗口标题
     End Sub
 

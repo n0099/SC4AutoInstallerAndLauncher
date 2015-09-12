@@ -58,6 +58,9 @@ Public Class frmSetting
         Select Case sender.Text
             Case "窗口化" : Argument = Argument.Replace("-fs ", "") : Argument &= "-w "
             Case "全屏" : Argument = Argument.Replace("-w ", "") : Argument &= "-fs "
+                If rdoDisplayModeWindow.Checked = False Then '将分辨率模式设为自定义分辨率并将分辨率设为屏幕分辨率
+                    rdoCustomResolution.Checked = True : mtxCustomResolution.Text = My.Computer.Screen.Bounds.Width & "x" & My.Computer.Screen.Bounds.Height
+                End If
         End Select
         ArgumentChanged()
     End Sub
@@ -140,39 +143,49 @@ Public Class frmSetting
         ArgumentChanged()
     End Sub
 
-    Private Sub CheckBoxs_CheckedChanged(sender As CheckBox, e As EventArgs) Handles chkIntro.CheckedChanged, chkAudio.CheckedChanged, chkAllowMultipleInstances.CheckedChanged, _
-        chkShowMissingModel.CheckedChanged, chkLoadModelBackground.CheckedChanged, chkWriteLog.CheckedChanged, chkCustomCursors.CheckedChanged, chkCustomIME.CheckedChanged, _
-        chkRestartAfterException.CheckedChanged, chkExceptionHandling.CheckedChanged, chkContinueGameBackground.CheckedChanged '添加所有的复选框的选项改变事件关联
+    Private Sub CheckBoxs_CheckedAndCheckStateChanged(sender As CheckBox, e As EventArgs) Handles chkIntro.CheckedChanged, chkAudio.CheckedChanged, chkAllowMultipleInstances.CheckedChanged,
+        chkShowMissingModel.CheckStateChanged, chkLoadModelBackground.CheckedChanged, chkWriteLog.CheckedChanged, chkCustomCursors.CheckStateChanged, chkCustomIME.CheckStateChanged,
+        chkRestartAfterException.CheckedChanged, chkExceptionHandling.CheckStateChanged, chkContinueGameBackground.CheckedChanged '添加所有的复选框的选项改变事件关联
         Select Case sender.Name '判断更改的复选框
             Case "chkIntro" : If chkIntro.Checked = True Then Argument = Argument.Replace("-Intro:off ", "") Else Argument &= "-Intro:off "
             Case "chkAudio" : If chkAudio.Checked = True Then Argument = Argument.Replace("-audio:off ", "") Else Argument &= "-audio:off "
             Case "chkAllowMultipleInstances" : If chkAllowMultipleInstances.Checked = False Then Argument = Argument.Replace("-AllowMultipleInstances ", "") Else Argument &= "-AllowMultipleInstances "
             Case "chkShowMissingModel"
-                If chkShowMissingModel.Checked = True Then
-                    If Argument.Contains("-IgnoreMissingModelDataBugs") = True Then Argument = Argument.Replace("-IgnoreMissingModelDataBugs:on ", "-IgnoreMissingModelDataBugs:off ") Else Argument &= "-IgnoreMissingModelDataBugs:off "
-                Else
-                    If Argument.Contains("-IgnoreMissingModelDataBugs") = True Then Argument = Argument.Replace("-IgnoreMissingModelDataBugs:off ", "-IgnoreMissingModelDataBugs:on ") Else Argument &= "-IgnoreMissingModelDataBugs:on "
+                If chkShowMissingModel.CheckState = CheckState.Checked Then
+                    Argument = IIf(Argument.Contains("-IgnoreMissingModelDataBugs") = True, Argument.Replace("-IgnoreMissingModelDataBugs:on ", "-IgnoreMissingModelDataBugs:off "), Argument & "-IgnoreMissingModelDataBugs:off ")
+                    'If Argument.Contains("-IgnoreMissingModelDataBugs") = True Then Argument = Argument.Replace("-IgnoreMissingModelDataBugs:on ", "-IgnoreMissingModelDataBugs:off ") Else Argument &= "-IgnoreMissingModelDataBugs:off "
+                ElseIf chkShowMissingModel.CheckState = CheckState.Unchecked
+                    Argument = IIf(Argument.Contains("-IgnoreMissingModelDataBugs") = True, Argument.Replace("-IgnoreMissingModelDataBugs:off ", "-IgnoreMissingModelDataBugs:on "), Argument & "-IgnoreMissingModelDataBugs:on ")
+                    'If Argument.Contains("-IgnoreMissingModelDataBugs") = True Then Argument = Argument.Replace("-IgnoreMissingModelDataBugs:off ", "-IgnoreMissingModelDataBugs:on ") Else Argument &= "-IgnoreMissingModelDataBugs:on "
+                ElseIf chkShowMissingModel.CheckState = CheckState.Indeterminate : Argument = Regex.Replace(Argument, "-IgnoreMissingModelDataBugs:[a-z]{2,3} ", "")
                 End If
             Case "chkLoadModelBackground" : If chkLoadModelBackground.Checked = True Then Argument = Argument.Replace("-BackgroundLoader:off ", "") Else Argument &= "-BackgroundLoader:off "
             Case "chkWriteLog" : If chkWriteLog.Checked = True Then Argument = Argument.Replace("-WriteLog:off ", "") Else Argument &= "-WriteLog:off "
             Case "chkCustomCursors"
-                If chkCustomCursors.Checked = True Then
-                    If Argument.Contains("-CustomCursors") = True Then Argument = Argument.Replace("-CustomCursors:enabled ", "-CustomCursors:disabled ") Else Argument &= "-CustomCursors:disabled "
-                Else
-                    If Argument.Contains("-CustomCursors") = True Then Argument = Argument.Replace("-CustomCursors:disabled ", "-CustomCursors:enabled ") Else Argument &= "-CustomCursors:enabled "
+                If chkCustomCursors.CheckState = CheckState.Checked Then
+                    Argument = IIf(Argument.Contains("-CustomCursors") = True, Argument.Replace("-CustomCursors:enabled ", "-CustomCursors:disabled "), Argument & "-CustomCursors:disabled ")
+                    'If Argument.Contains("-CustomCursors") = True Then Argument = Argument.Replace("-CustomCursors:enabled ", "-CustomCursors:disabled ") Else Argument &= "-CustomCursors:disabled "
+                ElseIf chkCustomCursors.CheckState = CheckState.Unchecked
+                    Argument = IIf(Argument.Contains("-CustomCursors") = True, Argument.Replace("-CustomCursors:disabled ", "-CustomCursors:enabled "), Argument & "-CustomCursors:enabled ")
+                    'If Argument.Contains("-CustomCursors") = True Then Argument = Argument.Replace("-CustomCursors:disabled ", "-CustomCursors:enabled ") Else Argument &= "-CustomCursors:enabled "
+                ElseIf chkCustomCursors.CheckState = CheckState.Indeterminate : Argument = Regex.Replace(Argument, "-CustomCursors:[a-z]{7,8} ", "")
                 End If
             Case "chkCustomIME"
-                If chkCustomIME.Checked = True Then
-                    If Argument.Contains("-IME") = True Then Argument = Argument.Replace("-IME:enabled ", "-IME:disabled ") Else Argument &= "-IME:disabled "
-                Else
-                    If Argument.Contains("-IME") = True Then Argument = Argument.Replace("-IME:disabled ", "-IME:enabled ") Else Argument &= "-IME:enabled "
+                If chkCustomIME.CheckState = CheckState.Checked Then
+                    Argument = IIf(Argument.Contains("-IME") = True, Argument.Replace("-IME:enabled ", "-IME:disabled "), Argument & "-IME:disabled ")
+                    'If Argument.Contains("-IME") = True Then Argument = Argument.Replace("-IME:enabled ", "-IME:disabled ") Else Argument &= "-IME:disabled "
+                ElseIf chkCustomIME.CheckState = CheckState.Unchecked Then
+                    Argument = IIf(Argument.Contains("-IME") = True, Argument.Replace("-IME:disabled ", "-IME:enabled "), Argument & "-IME:enabled ")
+                    'If Argument.Contains("-IME") = True Then Argument = Argument.Replace("-IME:disabled ", "-IME:enabled ") Else Argument &= "-IME:enabled "
+                ElseIf chkCustomIME.CheckState = CheckState.Indeterminate Then : Argument = Regex.Replace(Argument, "-IME:[a-z]{7,8} ", "")
                 End If
             Case "chkRestartAfterException" : If chkRestartAfterException.Checked = False Then Argument = Argument.Replace("-Restart ", "") Else Argument &= "-Restart "
             Case "chkExceptionHandling"
-                If chkExceptionHandling.Checked = True Then
+                If chkExceptionHandling.CheckState = CheckState.Checked Then
                     If Argument.Contains("-ExceptionHandling") = True Then Argument = Argument.Replace("-ExceptionHandling:off ", "-ExceptionHandling:on ") Else Argument &= "-ExceptionHandling:on "
-                Else
+                ElseIf chkExceptionHandling.CheckState = CheckState.Unchecked
                     If Argument.Contains("-ExceptionHandling") = True Then Argument = Argument.Replace("-ExceptionHandling:on ", "-ExceptionHandling:off ") Else Argument &= "-ExceptionHandling:off "
+                ElseIf chkExceptionHandling.CheckState = CheckState.Indeterminate : Argument = Regex.Replace(Argument, "-ExceptionHandling:[a-z]{2,3} ", "")
                 End If
             Case "chkContinueGameBackground" : If chkContinueGameBackground.Checked = True Then Argument = Argument.Replace("-gp ", "") Else Argument &= "-gp "
         End Select
@@ -256,10 +269,18 @@ Public Class frmSetting
             End If
         End With
         If My.Computer.FileSystem.FileExists(SC4cfgFilePath) = True Then '判断是否存在cfg文件
-            My.Computer.FileSystem.DeleteFile(SC4cfgFilePath)
+            If MessageBox.Show("确定要删除SimCity 4.cfg文件吗？", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) = DialogResult.Yes Then
+                My.Computer.FileSystem.DeleteFile(SC4cfgFilePath, FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.SendToRecycleBin)
+            End If
             MessageBox.Show("已成功删除SimCity 4.cfg文件", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Else
             MessageBox.Show("SimCity 4.cfg文件不存在！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        End If
+    End Sub
+
+    Private Sub btnResetSetting_Click(sender As Object, e As EventArgs) Handles btnResetSetting.Click
+        If MessageBox.Show("确定要重置为默认设置吗？", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) = DialogResult.Yes Then
+            Argument = Nothing : My.Settings.Argument = Nothing : My.Settings.Save() : Application.Restart() '清空临时参数变量和存储参数的值并重启程序
         End If
     End Sub
 
@@ -320,22 +341,21 @@ Public Class frmSetting
             chkIntro.Checked = Not .Contains("-Intro") '同步是否显示开场动画选项
             chkAudio.Checked = Not .Contains("-audio") '同步是否开启声音选项
             chkAllowMultipleInstances.Checked = .Contains("-AllowMultipleInstances") '同步是否允许多开选项
-            If .Contains("-IgnoreMissingModelDataBugs") = False Then chkShowMissingModel.Checked = True '同步是否显示箱子选项
-            If .Contains("-IgnoreMissingModelDataBugs:on") = True Then chkShowMissingModel.Checked = True
-            If .Contains("-IgnoreMissingModelDataBugs:off") = True Then chkShowMissingModel.Checked = False
+            If .Contains("-IgnoreMissingModelDataBugs") = False Then chkShowMissingModel.CheckState = CheckState.Indeterminate '同步是否显示箱子选项
+            If .Contains("-IgnoreMissingModelDataBugs:on") = True Then chkShowMissingModel.CheckState = CheckState.Unchecked
+            If .Contains("-IgnoreMissingModelDataBugs:off") = True Then chkShowMissingModel.CheckState = CheckState.Checked
             chkLoadModelBackground.Checked = Not .Contains("-BackgroundLoader") '同步是否预加载模型选项
             chkWriteLog.Checked = Not .Contains("-WriteLog") '同步是否记录用户信息选项
-            chkCustomCursors.Checked = Not .Contains("-CustomCursors") '同步是否使用游戏的鼠标指针选项
-            If .Contains("-CustomCursors") = False Then chkCustomCursors.Checked = True '同步是否使用自定义分辨率选项
-            If .Contains("-CustomCursors:enabled") = True Then chkCustomCursors.Checked = True
-            If .Contains("-CustomCursors:disabled") = True Then chkCustomCursors.Checked = False
-            If .Contains("-IME") = False Then chkCustomIME.Checked = True '同步是否使用游戏的输入法选项
-            If .Contains("-IME:enabled") = True Then chkCustomIME.Checked = True
-            If .Contains("-IME:disabled") = True Then chkCustomIME.Checked = False
+            If .Contains("-CustomCursors") = False Then chkCustomCursors.CheckState = CheckState.Indeterminate  '同步是否使用游戏的鼠标指针选项
+            If .Contains("-CustomCursors:enabled") = True Then chkCustomCursors.CheckState = CheckState.Unchecked
+            If .Contains("-CustomCursors:disabled") = True Then chkCustomCursors.CheckState = CheckState.Checked
+            If .Contains("-IME") = False Then chkCustomIME.CheckState = CheckState.Indeterminate  '同步是否使用游戏的输入法选项
+            If .Contains("-IME:enabled") = True Then chkCustomIME.CheckState = CheckState.Unchecked
+            If .Contains("-IME:disabled") = True Then chkCustomIME.CheckState = CheckState.Checked
             chkRestartAfterException.Checked = .Contains("-Restart") '同步是否在崩溃后重启游戏选项
-            If .Contains("-ExceptionHandling") = False Then chkExceptionHandling.Checked = True '同步是否在崩溃后生成错误报告选项
-            If .Contains("-ExceptionHandling:on") = True Then chkExceptionHandling.Checked = True
-            If .Contains("-ExceptionHandling:off") = True Then chkExceptionHandling.Checked = False
+            If .Contains("-ExceptionHandling") = False Then chkExceptionHandling.CheckState = CheckState.Indeterminate  '同步是否在崩溃后生成错误报告选项
+            If .Contains("-ExceptionHandling:on") = True Then chkExceptionHandling.CheckState = CheckState.Checked
+            If .Contains("-ExceptionHandling:off") = True Then chkExceptionHandling.CheckState = CheckState.Unchecked
             chkContinueGameBackground.Checked = Not .Contains("-gp") '同步是否在后台继续游戏选项
             '同步用户文件目录选项
             If .Contains("-UserDir") = True Then

@@ -257,6 +257,7 @@ Public Class frmInstallOptions
         tvwOptions.BeginUpdate()
         Select Case cmbOptions.SelectedItem
             Case "完全安装", "推荐安装", "精简安装"
+                tvwOptions.BackColor = SystemColors.Control '将组件列表框的背景色更改为被禁用后的颜色
                 If IsCDDirectoryExists = True Then '如果存在Data\SC4\CD文件夹则选择安装镜像版模拟城市4
                     SetNodeChecked("模拟城市4 豪华版 镜像版", NodeCheckedState.radiochecked)
                     If IsSC4FileExists = True Then SetNodeChecked("模拟城市4 豪华版 硬盘版", NodeCheckedState.radiounchecked)
@@ -318,6 +319,8 @@ Public Class frmInstallOptions
                             lblNeedsDiskSpace.Text = "安装目录至少需要 " & .GetNeedsDiskSpaceByGB() & "GB 的硬盘空间"
                     End Select
                 End With
+            Case "自定义"
+                tvwOptions.BackColor = SystemColors.Window  '将组件列表框的背景色更改为被启用后的颜色
         End Select
         tvwOptions.EndUpdate()
     End Sub

@@ -12,7 +12,7 @@ Public Class frmFinish
             item.Group = lvwSubassemblyFail.Groups.Item("lvwGroupFail") '改变该项的组
             lvwSubassemblyFail.Items.Add(item) '在安装失败组件列表框内添加该项
             lvwSubassemblyFail.Visible = True '显示安装失败组件列表框
-            lblTitle2.Text = "部分组件安装失败，您可以随后使用本安装程序来重新安装安装失败的组件。"
+            lblTitle2.Text = "部分组件安装失败，您可以随后使用本安装程序的安装或卸载组件功能来重新安装安装失败的组件。"
         End If
     End Sub
 
@@ -58,16 +58,25 @@ Public Class frmFinish
                 If .InstallSC4Launcher = False Then SC4LauncherItem.Remove() : SC4LauncherItem = Nothing
                 If .AddDesktopIcon = False Then AddDesktopIconItem.Remove() : AddDesktopIconItem = Nothing
                 If .AddStartMenuItem = False Then AddStartMenuIem.Remove() : AddStartMenuIem = Nothing
+                '如果模拟城市4安装成功且存在游戏安装目录\Apps\SimCity 4.exe文件则激活启动模拟城市4 豪华版按钮
+                If ModuleMain.InstallResult.SC4InstallResult = Res.Result.Success And My.Computer.FileSystem.FileExists(.SC4InstallDir & "\Apps\SimCity 4.exe") = True Then btnRunSC4.Enabled = True
             Else
                 DAEMONItem.Remove() : SC4Item.Remove() : AddDesktopIconItem.Remove() : AddStartMenuIem.Remove()
                 '删除安装选项里没有更改的组件在安装组件列表框里对应项
-                If ModuleMain.InstalledModule.Is638PatchInstalled = .Install638Patch Then _638PatchItem.Remove()
-                If ModuleMain.InstalledModule.Is640PatchInstalled = .Install640Patch Then _640PatchItem.Remove()
-                If ModuleMain.InstalledModule.Is641PatchInstalled = .Install641Patch Then _641PatchItem.Remove()
-                If ModuleMain.InstalledModule.Is4GBPatchInstalled = .Install4GBPatch Then _4GBPatchItem.Remove()
+                '声明3个用于存储638补丁或640补丁或641补丁是否更改的布尔值变量
+                Dim Is638PatchChanged As Boolean = ModuleMain.InstalledModule.Is638PatchInstalled <> .Install638Patch
+                Dim Is640PatchChanged As Boolean = ModuleMain.InstalledModule.Is640PatchInstalled <> .Install640Patch
+                Dim Is641PatchChanged As Boolean = ModuleMain.InstalledModule.Is641PatchInstalled <> .Install641Patch
+                If Is638PatchChanged = False Then _638PatchItem.Remove()
+                If Is640PatchChanged = False Then _640PatchItem.Remove()
+                If Is641PatchChanged = False Then _641PatchItem.Remove()
+                If Is638PatchChanged = False And Is640PatchChanged = False And Is641PatchChanged = False And
+                    ModuleMain.InstalledModule.Is4GBPatchInstalled = .Install4GBPatch Then _4GBPatchItem.Remove()
                 If ModuleMain.InstalledModule.IsNoCDPatchInstalled = .InstallNoCDPatch Then NoCDPatchItem.Remove()
                 If ModuleMain.InstalledModule.IsSC4LauncherInstalled = .InstallSC4Launcher Then SC4LauncherItem.Remove()
                 If ModuleMain.InstalledModule.LanguagePatch = .LanguagePatch Then LanguagePatchItem.Remove()
+                '如果存在游戏安装目录\Apps\SimCity 4.exe文件则激活启动模拟城市4 豪华版按钮
+                If My.Computer.FileSystem.FileExists(.SC4InstallDir & "\Apps\SimCity 4.exe") = True Then btnRunSC4.Enabled = True
             End If
             With ModuleMain.InstallResult '如果某个组件安装失败，则将安装成功的组件列表框的对应项移动到安装失败的组件列表框里
                 If ._638PatchInstallResult = Res.Result.Fail Then SubassemblyInstallFail(_638PatchItem)
@@ -87,8 +96,6 @@ Public Class frmFinish
                 Case Opt.Language.English : LanguagePatchItem.Remove()
             End Select
             lvwSubassemblySuccess.EndUpdate() : lvwSubassemblyFail.EndUpdate()
-            '如果模拟城市4安装成功且存在游戏安装目录\Apps\SimCity 4.exe文件则激活启动模拟城市4 豪华版按钮
-            If ModuleMain.InstallResult.SC4InstallResult = Res.Result.Success And My.Computer.FileSystem.FileExists(.SC4InstallDir & "\Apps\SimCity 4.exe") = True Then btnRunSC4.Enabled = True
         End With
         Dim FlashInfo As New FLASHINFO With {.cbSize = Runtime.InteropServices.Marshal.SizeOf(FlashInfo) _
                                              , .uCount = 5, .dwTimeout = 0, .hwnd = Me.Handle, .dwFlags = FLASHW_ALL} '创建一个ModuleMain.FLASHINFO结构的实例

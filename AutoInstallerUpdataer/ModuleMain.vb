@@ -40,8 +40,11 @@
                 If .FileExists("Data\SC4\NoInstall.rar") = True Or .FileExists("Data\Patch\638.rar") = True Or .FileExists("Data\Patch\640.rar") = True Then
                     Console.WriteLine("请到http://pan.baidu.com/s/1bnezR7h重下Data\SC4\NoInstall.7z、Data\Patch\638.7z和Data\Patch\640.7z文件！" & vbCrLf)
                 End If
-                '2.6.3?
+                '2.6.34
                 If .FileExists("Data\7z.exe") Then .DeleteFile("Data\7z.exe")
+                '2.7.11
+                If .FileExists("Data\7z x64.exe") Then .DeleteFile("Data\7z x64.exe")
+                If .FileExists("Data\7z x86.exe") Then .DeleteFile("Data\7z x86.exe")
             Else
                 .DeleteDirectory("Data", FileIO.DeleteDirectoryOption.DeleteAllContents)
             End If

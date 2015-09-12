@@ -115,7 +115,7 @@ Partial Class frmChangeModuleOptions
         Me.lblTitle.Name = "lblTitle"
         Me.lblTitle.Size = New System.Drawing.Size(152, 27)
         Me.lblTitle.TabIndex = 0
-        Me.lblTitle.Text = "添加或删除组件"
+        Me.lblTitle.Text = "安装或卸载组件"
         '
         'btnBack
         '

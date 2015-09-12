@@ -23,7 +23,7 @@ Partial Class frmVerifyFilesMD5
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmVerifyFilesMD5))
-        Me.prgProgress = New System.Windows.Forms.ProgressBar()
+        Me.prgVerifyFilesMD5 = New System.Windows.Forms.ProgressBar()
         Me.tlpMain = New System.Windows.Forms.TableLayoutPanel()
         Me.btnCancel = New System.Windows.Forms.Button()
         Me.lblProgress = New System.Windows.Forms.Label()
@@ -34,21 +34,21 @@ Partial Class frmVerifyFilesMD5
         Me.tlpBorder.SuspendLayout()
         Me.SuspendLayout()
         '
-        'prgProgress
+        'prgVerifyFilesMD5
         '
-        Me.prgProgress.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.prgProgress.Location = New System.Drawing.Point(3, 52)
-        Me.prgProgress.Name = "prgProgress"
-        Me.prgProgress.Size = New System.Drawing.Size(264, 14)
-        Me.prgProgress.Style = System.Windows.Forms.ProgressBarStyle.Continuous
-        Me.prgProgress.TabIndex = 2
+        Me.prgVerifyFilesMD5.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.prgVerifyFilesMD5.Location = New System.Drawing.Point(3, 52)
+        Me.prgVerifyFilesMD5.Name = "prgVerifyFilesMD5"
+        Me.prgVerifyFilesMD5.Size = New System.Drawing.Size(264, 14)
+        Me.prgVerifyFilesMD5.Style = System.Windows.Forms.ProgressBarStyle.Continuous
+        Me.prgVerifyFilesMD5.TabIndex = 2
         '
         'tlpMain
         '
         Me.tlpMain.ColumnCount = 1
         Me.tlpMain.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
         Me.tlpMain.Controls.Add(Me.btnCancel, 0, 3)
-        Me.tlpMain.Controls.Add(Me.prgProgress, 0, 2)
+        Me.tlpMain.Controls.Add(Me.prgVerifyFilesMD5, 0, 2)
         Me.tlpMain.Controls.Add(Me.lblProgress, 0, 1)
         Me.tlpMain.Controls.Add(Me.lblMain, 0, 0)
         Me.tlpMain.Location = New System.Drawing.Point(5, 5)
@@ -130,7 +130,7 @@ Partial Class frmVerifyFilesMD5
         Me.ResumeLayout(False)
 
     End Sub
-    Friend WithEvents prgProgress As System.Windows.Forms.ProgressBar
+    Friend WithEvents prgVerifyFilesMD5 As System.Windows.Forms.ProgressBar
     Friend WithEvents tlpMain As System.Windows.Forms.TableLayoutPanel
     Friend WithEvents lblProgress As System.Windows.Forms.Label
     Friend WithEvents bgwComputeMD5 As System.ComponentModel.BackgroundWorker

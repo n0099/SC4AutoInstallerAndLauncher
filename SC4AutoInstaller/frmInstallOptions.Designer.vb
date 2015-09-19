@@ -63,6 +63,7 @@ Partial Class frmInstallOptions
         Me.lblTitle2 = New System.Windows.Forms.Label()
         Me.cmbOptions = New System.Windows.Forms.ComboBox()
         Me.pnlOptions = New System.Windows.Forms.Panel()
+        Me.lblOptions = New System.Windows.Forms.Label()
         Me.tmrCheckMousePosition = New System.Windows.Forms.Timer(Me.components)
         Me.grpOptionDetail.SuspendLayout()
         Me.pnlOptions.SuspendLayout()
@@ -317,20 +318,30 @@ Partial Class frmInstallOptions
         Me.cmbOptions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cmbOptions.FormattingEnabled = True
         Me.cmbOptions.Items.AddRange(New Object() {"完全安装", "推荐安装", "精简安装", "自定义"})
-        Me.cmbOptions.Location = New System.Drawing.Point(0, 0)
+        Me.cmbOptions.Location = New System.Drawing.Point(62, 0)
         Me.cmbOptions.Name = "cmbOptions"
-        Me.cmbOptions.Size = New System.Drawing.Size(300, 20)
+        Me.cmbOptions.Size = New System.Drawing.Size(238, 20)
         Me.cmbOptions.TabIndex = 2
         '
         'pnlOptions
         '
         Me.pnlOptions.Controls.Add(Me.cmbOptions)
+        Me.pnlOptions.Controls.Add(Me.lblOptions)
         Me.pnlOptions.Controls.Add(Me.tvwOptions)
         Me.pnlOptions.Controls.Add(Me.grpOptionDetail)
         Me.pnlOptions.Location = New System.Drawing.Point(12, 70)
         Me.pnlOptions.Name = "pnlOptions"
         Me.pnlOptions.Size = New System.Drawing.Size(600, 249)
         Me.pnlOptions.TabIndex = 12
+        '
+        'lblOptions
+        '
+        Me.lblOptions.AutoSize = True
+        Me.lblOptions.Location = New System.Drawing.Point(3, 3)
+        Me.lblOptions.Name = "lblOptions"
+        Me.lblOptions.Size = New System.Drawing.Size(65, 12)
+        Me.lblOptions.TabIndex = 5
+        Me.lblOptions.Text = "安装类型："
         '
         'tmrCheckMousePosition
         '
@@ -363,6 +374,7 @@ Partial Class frmInstallOptions
         Me.grpOptionDetail.ResumeLayout(False)
         Me.grpOptionDetail.PerformLayout()
         Me.pnlOptions.ResumeLayout(False)
+        Me.pnlOptions.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout
 
@@ -389,4 +401,5 @@ End Sub
     Friend WithEvents cmbOptions As System.Windows.Forms.ComboBox
     Friend WithEvents pnlOptions As System.Windows.Forms.Panel
     Friend WithEvents tmrCheckMousePosition As System.Windows.Forms.Timer
+    Friend WithEvents lblOptions As Label
 End Class

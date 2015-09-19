@@ -12,7 +12,7 @@ Public Class frmFinish
             item.Group = lvwSubassemblyFail.Groups.Item("lvwGroupFail") '改变该项的组
             lvwSubassemblyFail.Items.Add(item) '在安装失败组件列表框内添加该项
             lvwSubassemblyFail.Visible = True '显示安装失败组件列表框
-            lblTitle2.Text = "部分组件安装失败，您可以随后使用本安装程序的安装或卸载组件功能来重新安装安装失败的组件。"
+            lblTitle2.Text = "部分组件" & IIf(IsNothing(ModuleMain.InstalledModule), "安装", "更改") & "失败，您可以随后使用本安装程序的安装或卸载组件功能来重新安装安装失败的组件。"
         End If
     End Sub
 
@@ -46,10 +46,10 @@ Public Class frmFinish
                 If .InstallDAEMONTools = False Then DAEMONItem.Remove() Else If ModuleMain.InstallResult.DAEMONToolsInstallResult = Res.Result.Fail Then SubassemblyInstallFail(DAEMONItem)
                 '如果模拟城市4安装失败，则将安装成功的组件列表框的对应项移动到安装失败的组件列表框里
                 If ModuleMain.InstallResult.SC4InstallResult = Res.Result.Fail Then SubassemblyInstallFail(SC4Item)
-                '根据安装选项里所选择的模拟城市4版本来更改安装成功的组件列表框里模拟城市4 豪华版项的文本
+                '根据安装选项里所选择的模拟城市4版本来更改安装组件列表框里模拟城市4 豪华版项的文本
                 If .SC4Type = Opt.SC4InstallType.ISO Then SC4Item.Text = "模拟城市4 豪华版 镜像版"
                 If .SC4Type = Opt.SC4InstallType.NoInstall Then SC4Item.Text = "模拟城市4 豪华版 硬盘版"
-                '删除安装选项里选择不安装的组件在安装成功的组件列表框里的对应项
+                '删除安装选项里选择不安装的组件在安装组件列表框里的对应项
                 If .Install638Patch = False Then _638PatchItem.Remove() : _638PatchItem = Nothing
                 If .Install640Patch = False Then _640PatchItem.Remove() : _640PatchItem = Nothing
                 If .Install641Patch = False Then _641PatchItem.Remove() : _641PatchItem = Nothing
@@ -61,8 +61,11 @@ Public Class frmFinish
                 '如果模拟城市4安装成功且存在游戏安装目录\Apps\SimCity 4.exe文件则激活启动模拟城市4 豪华版按钮
                 If ModuleMain.InstallResult.SC4InstallResult = Res.Result.Success And My.Computer.FileSystem.FileExists(.SC4InstallDir & "\Apps\SimCity 4.exe") = True Then btnRunSC4.Enabled = True
             Else
-                DAEMONItem.Remove() : SC4Item.Remove() : AddDesktopIconItem.Remove() : AddStartMenuIem.Remove()
+                '更改标题文本和安装组件列表框组的标题
+                lblTitle.Text = "更改已完成" : lblTitle2.Text = "所有组件均已成功更改，您可以随后使用本安装程序来安装或卸载组件。"
+                lvwSubassemblySuccess.Groups.Item(0).Name = "以下组件更改成功" : lvwSubassemblyFail.Groups.Item(0).Name = "以下组件更改失败"
                 '删除安装选项里没有更改的组件在安装组件列表框里对应项
+                DAEMONItem.Remove() : SC4Item.Remove() : AddDesktopIconItem.Remove() : AddStartMenuIem.Remove()
                 '声明3个用于存储638补丁或640补丁或641补丁是否更改的布尔值变量
                 Dim Is638PatchChanged As Boolean = ModuleMain.InstalledModule.Is638PatchInstalled <> .Install638Patch
                 Dim Is640PatchChanged As Boolean = ModuleMain.InstalledModule.Is640PatchInstalled <> .Install640Patch

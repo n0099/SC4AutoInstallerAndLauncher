@@ -19,11 +19,11 @@
             Try
                 If i.FullName <> Application.ExecutablePath Then i.Delete() : prgUninstall.Value += 1
             Catch
-                Continue For '如果遇到异常则忽略该异常继续删除文件
+                prgUninstall.Value += 1 : Continue For '如果遇到异常则忽略该异常继续删除文件
             End Try
         Next
         For Each i As IO.DirectoryInfo In New IO.DirectoryInfo(path).GetDirectories()
-            DeleteFolderAndContents(i.FullName) : prgUninstall.Value += 1 '递归删除子目录
+            DeleteFolderAndContents(i.FullName) '递归删除子目录
         Next
         Try
             My.Computer.FileSystem.DeleteDirectory(path, FileIO.DeleteDirectoryOption.DeleteAllContents) '删除空目录
@@ -37,8 +37,10 @@
     Private Sub bgwUninstall_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles bgwUninstall.DoWork
         With My.Computer.FileSystem
             DeleteFolderAndContents(ModuleMain.InstalledModule.SC4InstallDir) '删除游戏安装目录
-            If .DirectoryExists(Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu) & "\Programs\Maxis\SimCity 4 Deluxe") = True Then '如果开始菜单文件夹下存在Maxis\SimCity 4 Deluxe文件夹则删除该文件夹
-                .DeleteDirectory(Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu) & "\Programs\Maxis\SimCity 4 Deluxe", FileIO.DeleteDirectoryOption.DeleteAllContents) : prgUninstall.Maximum += 1 : prgUninstall.Value += 1
+            Dim StartMenuPath As String = Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu) & "\Programs\Maxis\SimCity 4 Deluxe"
+            If .DirectoryExists(StartMenuPath) = True Then '如果开始菜单文件夹下存在Maxis\SimCity 4 Deluxe文件夹则删除该文件夹
+                prgUninstall.Maximum += GetFolderCount(StartMenuPath) '更新卸载进度条的最大值
+                DeleteFolderAndContents(StartMenuPath) '删除开始菜单\Maxis\SimCity 4 Deluxe文件夹
             End If
             Dim UserDirPath As String = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SimCity 4"
             If .DirectoryExists(UserDirPath) = True AndAlso MessageBox.Show("是否删除用户文件目录（游戏存档、插件等）？", "确认", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) = DialogResult.Yes Then
@@ -67,7 +69,7 @@
         If ModuleMain.InstalledModule.SC4InstallDir = Application.StartupPath Then
             Dim bat As String = ":del" & vbCrLf & "del %1" & vbCrLf & "if exist %1 goto del" & vbCrLf & "del %0"
             My.Computer.FileSystem.WriteAllText("del.bat", bat, False, System.Text.Encoding.ASCII)
-            Process.Start(New ProcessStartInfo With {.FileName = "del.bat", .Arguments = """" & Application.ExecutablePath & """", .Verb = "runas", .WindowStyle = ProcessWindowStyle.Hidden})
+            Process.Start(New ProcessStartInfo With {.FileName = "del.bat", .Arguments = Application.ExecutablePath, .Verb = "runas", .WindowStyle = ProcessWindowStyle.Hidden})
         End If
         Application.Exit()
     End Sub

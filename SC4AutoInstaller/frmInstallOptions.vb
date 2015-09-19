@@ -258,61 +258,56 @@ Public Class frmInstallOptions
         Select Case cmbOptions.SelectedItem
             Case "完全安装", "推荐安装", "精简安装"
                 tvwOptions.BackColor = SystemColors.Control '将组件列表框的背景色更改为被禁用后的颜色
-                If IsCDDirectoryExists = True Then '如果存在Data\SC4\CD文件夹则选择安装镜像版模拟城市4
-                    SetNodeChecked("模拟城市4 豪华版 镜像版", NodeCheckedState.radiochecked)
-                    If IsSC4FileExists = True Then SetNodeChecked("模拟城市4 豪华版 硬盘版", NodeCheckedState.radiounchecked)
-                    ModuleMain.InstallOptions.SC4Type = Opt.SC4InstallType.ISO '更新ModuleMain.InstallOptions.SC4Type的值
-                ElseIf IsSC4FileExists = True Then '如果存在Data\SC4\NoInstall.7z文件则选中安装硬盘版模拟城市4项
-                    SetNodeChecked("模拟城市4 豪华版 硬盘版", NodeCheckedState.radiochecked)
-                    If IsCDDirectoryExists = True Then SetNodeChecked("模拟城市4 豪华版 镜像版", NodeCheckedState.radiounchecked)
-                    ModuleMain.InstallOptions.SC4Type = Opt.SC4InstallType.NoInstall '更新ModuleMain.InstallOptions.SC4Type的值
-                End If
-                If IsDAEMONToolsInstalled = False Then SetNodeChecked("DAEMON Tools Lite", NodeCheckedState.checked) : ModuleMain.InstallOptions.InstallDAEMONTools = True '如果尚未安装DAEMON Tools Lite则选中DAEMON Tools Lite项
                 With ModuleMain.InstallOptions
+                    If IsCDDirectoryExists = True And IsSC4FileExists = True Then '如果Data\SC4\CD文件夹和Data\SC4\NoInstall.7z文件都存在则保持不变
+                        '如果已选择模拟城市4 豪华版 镜像版项且未安装DAEMON Tools Lite则选中DAEMON Tools Lite项
+                        If IsDAEMONToolsInstalled = False And GetNodeChecked("模拟城市4 豪华版 镜像版") = NodeCheckedState.radiochecked Then
+                            SetNodeChecked("DAEMON Tools Lite", NodeCheckedState.checked) : .InstallDAEMONTools = True
+                        End If
+                    ElseIf IsCDDirectoryExists = True Then '如果存在Data\SC4\CD文件夹则选择安装镜像版模拟城市4
+                        SetNodeChecked("模拟城市4 豪华版 镜像版", NodeCheckedState.radiochecked)
+                        If IsSC4FileExists = True Then SetNodeChecked("模拟城市4 豪华版 硬盘版", NodeCheckedState.radiounchecked)
+                        .SC4Type = Opt.SC4InstallType.ISO '更新ModuleMain.InstallOptions.SC4Type的值
+                        '选中DAEMON Tools Lite项并更新ModuleMain.InstallOptions的对应值
+                        SetNodeChecked("DAEMON Tools Lite", NodeCheckedState.checked) : .InstallDAEMONTools = True
+                    ElseIf IsSC4FileExists = True Then '如果存在Data\SC4\NoInstall.7z文件则选中安装硬盘版模拟城市4项
+                        SetNodeChecked("模拟城市4 豪华版 硬盘版", NodeCheckedState.radiochecked)
+                        If IsCDDirectoryExists = True Then SetNodeChecked("模拟城市4 豪华版 镜像版", NodeCheckedState.radiounchecked)
+                        .SC4Type = Opt.SC4InstallType.NoInstall '更新ModuleMain.InstallOptions.SC4Type的值
+                    End If
                     Select Case cmbOptions.SelectedItem
                         Case "完全安装"
-                            '更新安装组件列表框项的图标
+                            '更新安装组件列表框对应项的图标
                             SetNodeChecked("638补丁", NodeCheckedState.checked) : SetNodeChecked("640补丁", NodeCheckedState.checked) : SetNodeChecked("641补丁", NodeCheckedState.checked)
                             If Environment.Is64BitOperatingSystem = True Then SetNodeChecked("4GB补丁", NodeCheckedState.checked) : .Install4GBPatch = True '如果系统为64位系统，则选中4GB补丁项
                             SetNodeChecked("免CD补丁", NodeCheckedState.unchecked) : SetNodeChecked("模拟城市4 启动器", NodeCheckedState.checked)
                             SetNodeChecked("繁体中文", NodeCheckedState.radiochecked) : SetNodeChecked("简体中文", NodeCheckedState.radiounchecked) : SetNodeChecked("英语", NodeCheckedState.radiounchecked)
                             SetNodeChecked("添加桌面图标", NodeCheckedState.checked) : SetNodeChecked("添加开始菜单项", NodeCheckedState.checked)
-                            '更新ModuleMain.InstallOptions的值
+                            '更新ModuleMain.InstallOptions对应选项的值
                             .Install638Patch = True : .Install640Patch = True : .Install641Patch = True
                             .InstallNoCDPatch = False : .InstallSC4Launcher = True
                             .LanguagePatch = Opt.Language.TraditionalChinese : .AddDesktopIcon = True : .AddStartMenuItem = True
                             lblNeedsDiskSpace.Text = "安装目录至少需要 " & .GetNeedsDiskSpaceByGB() & "GB 的硬盘空间"
                         Case "推荐安装"
-                            '更新安装组件列表框项的图标
+                            '更新安装组件列表框对应项的图标
                             SetNodeChecked("638补丁", NodeCheckedState.checked) : SetNodeChecked("640补丁", NodeCheckedState.checked) : SetNodeChecked("641补丁", NodeCheckedState.checked)
                             If Environment.Is64BitOperatingSystem = True Then SetNodeChecked("4GB补丁", NodeCheckedState.unchecked) '如果系统为64位系统，则取消选中4GB补丁项
                             SetNodeChecked("免CD补丁", NodeCheckedState.unchecked) : SetNodeChecked("模拟城市4 启动器", NodeCheckedState.checked)
                             SetNodeChecked("繁体中文", NodeCheckedState.radiochecked) : SetNodeChecked("简体中文", NodeCheckedState.radiounchecked) : SetNodeChecked("英语", NodeCheckedState.radiounchecked)
                             SetNodeChecked("添加桌面图标", NodeCheckedState.unchecked) : SetNodeChecked("添加开始菜单项", NodeCheckedState.checked)
-                            '更新ModuleMain.InstallOptions的值
+                            '更新ModuleMain.InstallOptions对应选项的值
                             .Install638Patch = True : .Install640Patch = True : .Install641Patch = True
                             .Install4GBPatch = False : .InstallNoCDPatch = False : .InstallSC4Launcher = True
                             .LanguagePatch = Opt.Language.TraditionalChinese : .AddDesktopIcon = False : .AddStartMenuItem = True
                             lblNeedsDiskSpace.Text = "安装目录至少需要 " & .GetNeedsDiskSpaceByGB() & "GB 的硬盘空间"
                         Case "精简安装"
-                            If IsCDDirectoryExists = True Then
-                                SetNodeChecked("模拟城市4 豪华版 镜像版", NodeCheckedState.radiochecked)
-                                If IsSC4FileExists = True Then SetNodeChecked("模拟城市4 豪华版 硬盘版", NodeCheckedState.radiounchecked)
-                                If IsDAEMONToolsInstalled = False Then SetNodeChecked("DAEMON Tools Lite", NodeCheckedState.checked) : ModuleMain.InstallOptions.InstallDAEMONTools = True
-                                ModuleMain.InstallOptions.SC4Type = Opt.SC4InstallType.ISO
-                            ElseIf IsSC4FileExists = True Then
-                                SetNodeChecked("模拟城市4 豪华版 硬盘版", NodeCheckedState.radiochecked)
-                                If IsCDDirectoryExists = True Then SetNodeChecked("模拟城市4 豪华版 镜像版", NodeCheckedState.radiounchecked)
-                                If IsDAEMONToolsInstalled = False Then SetNodeChecked("DAEMON Tools Lite", NodeCheckedState.unchecked) : ModuleMain.InstallOptions.InstallDAEMONTools = False
-                                ModuleMain.InstallOptions.SC4Type = Opt.SC4InstallType.NoInstall
-                            End If
-                            '更新安装组件列表框项的图标
+                            '更新安装组件列表框对应项的图标
                             SetNodeChecked("638补丁", NodeCheckedState.unchecked) : SetNodeChecked("640补丁", NodeCheckedState.unchecked) : SetNodeChecked("641补丁", NodeCheckedState.unchecked)
                             If Environment.Is64BitOperatingSystem = True Then SetNodeChecked("4GB补丁", NodeCheckedState.unchecked) '如果系统为64位系统，则取消选中4GB补丁项
                             SetNodeChecked("免CD补丁", NodeCheckedState.unchecked) : SetNodeChecked("模拟城市4 启动器", NodeCheckedState.unchecked)
                             SetNodeChecked("繁体中文", NodeCheckedState.radiochecked) : SetNodeChecked("简体中文", NodeCheckedState.radiounchecked) : SetNodeChecked("英语", NodeCheckedState.radiounchecked)
                             SetNodeChecked("添加桌面图标", NodeCheckedState.unchecked) : SetNodeChecked("添加开始菜单项", NodeCheckedState.checked)
-                            '更新ModuleMain.InstallOptions的值
+                            '更新ModuleMain.InstallOptions对应选项的值
                             .Install638Patch = False : .Install640Patch = False : .Install641Patch = False
                             .Install4GBPatch = False : .InstallNoCDPatch = False : .InstallSC4Launcher = False
                             .LanguagePatch = Opt.Language.TraditionalChinese : .AddDesktopIcon = False : .AddStartMenuItem = True
@@ -371,6 +366,11 @@ Public Class frmInstallOptions
             Else : IsSC4FileExists = True
             End If
             If Environment.Is64BitOperatingSystem = False Then tvwOptions.Nodes.Find("4GB补丁", True)(0).Remove() : .Install4GBPatch = False '如果系统不是64位系统则删除安装组件列表框里的4GB补丁项
+            If IsCDDirectoryExists = True And IsSC4FileExists = True Then '如果Data\SC4\CD文件夹和Data\SC4\NoInstall.7z文件都存在则选中安装选项列表框的模拟城市4 豪华版 镜像版项
+                SetNodeChecked("模拟城市4 豪华版 镜像版", NodeCheckedState.radiochecked)
+                If IsSC4FileExists = True Then SetNodeChecked("模拟城市4 豪华版 硬盘版", NodeCheckedState.radiounchecked)
+                .SC4Type = Opt.SC4InstallType.ISO '更新ModuleMain.InstallOptions.SC4Type的值
+            End If
             cmbOptions.SelectedItem = cmbOptions.Items(1) '自动选择安装选项
             lblNeedsDiskSpace.Text = "安装目录至少需要 " & .GetNeedsDiskSpaceByGB() & "GB 的硬盘空间" '更新当前选择的组件所需要的磁盘空间的文本
         End With

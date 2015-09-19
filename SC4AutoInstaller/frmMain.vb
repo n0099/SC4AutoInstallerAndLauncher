@@ -40,7 +40,7 @@
     End Sub
 
     Private Sub bgwComputeMD5_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles bgwComputeMD5.RunWorkerCompleted
-        If e.Cancelled = False Then btnChangeModule.Enabled = True : Cursor = Cursors.Default '使更改按钮可用并将指针图标恢复正常
+        If e.Cancelled = False Then btnChangeModule.Enabled = True : btnUninstall.Enabled = True : Cursor = Cursors.Default '使更改和卸载按钮可用并将指针图标恢复正常
     End Sub
 
     Private Sub frmMain_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing

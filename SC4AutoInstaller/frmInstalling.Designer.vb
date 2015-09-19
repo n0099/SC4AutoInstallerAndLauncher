@@ -78,7 +78,7 @@ Partial Class frmInstalling
         Me.lvwTask.LargeImageList = Me.imgTask
         Me.lvwTask.Location = New System.Drawing.Point(12, 54)
         Me.lvwTask.Name = "lvwTask"
-        Me.lvwTask.Size = New System.Drawing.Size(176, 376)
+        Me.lvwTask.Size = New System.Drawing.Size(176, 378)
         Me.lvwTask.TabIndex = 1
         Me.lvwTask.TileSize = New System.Drawing.Size(170, 25)
         Me.lvwTask.UseCompatibleStateImageBehavior = False
@@ -124,7 +124,7 @@ Partial Class frmInstalling
         '
         Me.lblInstalling.AutoSize = True
         Me.lblInstalling.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.lblInstalling.Location = New System.Drawing.Point(9, 433)
+        Me.lblInstalling.Location = New System.Drawing.Point(12, 435)
         Me.lblInstalling.Name = "lblInstalling"
         Me.lblInstalling.Size = New System.Drawing.Size(68, 17)
         Me.lblInstalling.TabIndex = 13
@@ -132,9 +132,9 @@ Partial Class frmInstalling
         '
         'prgInstall
         '
-        Me.prgInstall.Location = New System.Drawing.Point(12, 453)
+        Me.prgInstall.Location = New System.Drawing.Point(12, 455)
         Me.prgInstall.Name = "prgInstall"
-        Me.prgInstall.Size = New System.Drawing.Size(176, 15)
+        Me.prgInstall.Size = New System.Drawing.Size(176, 13)
         Me.prgInstall.Style = System.Windows.Forms.ProgressBarStyle.Marquee
         Me.prgInstall.TabIndex = 14
         '

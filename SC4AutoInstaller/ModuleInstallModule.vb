@@ -74,17 +74,15 @@ Module ModuleInstallModule
         Return count
     End Function
 
-    ''' <summary>在指定的路径安装指定版本的模拟城市4并在指定的System.Windows.Forms.ProgressBar实例上显示安装进度</summary>
+    ''' <summary>在指定的路径安装指定版本的模拟城市4</summary>
     ''' <param name="SC4InstallDir">指定安装路径</param>
     ''' <param name="DAEMONInstallDir">DAEMON Tools Lite的安装路径，用于安装镜像版模拟城市4</param>
     ''' <param name="InstallType">InstallOptions.SC4InstallType 的值之一，指定要安装的版本</param>
-    ''' <param name="ProgressBar">指定用于显示安装进度的System.Windows.Forms.ProgressBar实例</param>
     ''' <returns>InstallResult.Result 的值之一，如果安装成功，则为InstallResult.Result.Success；否则为InstallResult.Result.Fail</returns>
-    Public Function InstallSC4(ByVal SC4InstallDir As String, ByVal DAEMONInstallDir As String, ByVal InstallType As InstallOptions.SC4InstallType, ByVal ProgressBar As ProgressBar) As InstallResult.Result
+    Public Function InstallSC4(ByVal SC4InstallDir As String, ByVal DAEMONInstallDir As String, ByVal InstallType As InstallOptions.SC4InstallType) As InstallResult.Result
         Try
             My.Computer.FileSystem.CopyFile(Application.ExecutablePath, SC4InstallDir & "\Setup.exe", True) '将安装程序复制到游戏安装目录下
             Dim _7zaProcess As Process '声明一个System.Diagnostics.Process类的实例以便记录7za.exe进程的退出代码
-            ProgressBar.Style = ProgressBarStyle.Continuous : ProgressBar.Maximum = 546 '初始化ProgressBar参数实例的进度条类型和最大值
             If InstallType = InstallOptions.SC4InstallType.ISO Then
                 Dim StartupPath As String = Application.StartupPath '声明一个用于存储程序当前所在目录的字符串变量
                 If Application.StartupPath.EndsWith("\") = True Then StartupPath = Application.StartupPath.Remove(Application.StartupPath.LastIndexOf("\"), 1) '如果程序存储在分区根目录下则去掉结尾的\
@@ -144,85 +142,48 @@ Module ModuleInstallModule
                 PostMessage(FindWindowEx(FindWindow("#32770", ""), 0, "Button", "Ok"), WM_LBUTTONDOWN, 0, 0)
                 PostMessage(FindWindowEx(FindWindow("#32770", ""), 0, "Button", "Ok"), WM_LBUTTONUP, 0, 0)
 
-                Do Until SetupProcess.HasExited = True '在ProgressBar参数实例上显示安装进度并等待安装程序退出
-                    ProgressBar.Value = GetFolderCount(SC4InstallDir)
-                    Threading.Thread.Sleep(500) '挂起当前线程500毫秒以便让用户看到安装进度
-                Loop
-                'SetupProcess.WaitForExit() '等待安装程序完成安装并退出
+                SetupProcess.WaitForExit() '等待安装程序完成安装并退出
                 If Process.GetProcessesByName("SimCity 4").Length <> 0 Then Process.GetProcessesByName("SimCity 4")(0).Kill() '结束安装完成后自动启动的游戏进程
-                ProgressBar.Style = ProgressBarStyle.Marquee '将ProgressBar参数实例的进度条类型改为循环滚动
 
                 '将GOG版模拟城市4的Graphics Rules.sgr文件解压到游戏安装目录下
                 '以管理员权限启动7za.exe并隐藏进程窗口以便将Data\SC4\NoInstall.7z压缩包的Graphics Rules.sgr文件解压到游戏安装目录下替换源文件并等待其完成解压缩
-                _7zaProcess = Process.Start(New ProcessStartInfo With {.FileName = "7za.exe", .Arguments = "x Data\SC4\NoInstall.7z -aoa ""Graphics Rules.sgr"" -o""" & SC4InstallDir & """" _
-                                                                          , .Verb = "runas", .WindowStyle = ProcessWindowStyle.Hidden}) : _7zaProcess.WaitForExit()
+                _7zaProcess = Process.Start(New ProcessStartInfo With {.FileName = "7za.exe", .Arguments = "x Data\SC4\NoInstall.7z -aoa ""Graphics Rules.sgr"" -o""" & SC4InstallDir & """", .Verb = "runas", .WindowStyle = ProcessWindowStyle.Hidden})
+                _7zaProcess.WaitForExit()
                 Return IIf(_7zaProcess.ExitCode = 0 Or My.Computer.FileSystem.FileExists(SC4InstallDir & "\Apps\SimCity 4.exe"), InstallResult.Result.Success, InstallResult.Result.Fail)
             ElseIf InstallType = InstallOptions.SC4InstallType.NoInstall Then
                 Do Until IsFileUsing("Data\SC4\NoInstall.7z") = False : Loop '确保没有进程正在使用Data\SC4\NoInstall.7z文件
-                '以管理员权限启动7za.exe并隐藏进程窗口以便将Data\SC4\NoInstall.7z压缩包的所有文件解压到游戏安装目录下替换源文件
+                '以管理员权限启动7za.exe并隐藏进程窗口以便将Data\SC4\NoInstall.7z压缩包的所有文件解压到游戏安装目录下替换源文件并等待其完成解压缩
                 _7zaProcess = Process.Start(New ProcessStartInfo With {.FileName = "7za.exe", .Arguments = "x Data\SC4\NoInstall.7z -aoa -o""" & SC4InstallDir & """", .Verb = "runas", .WindowStyle = ProcessWindowStyle.Hidden})
-                Do Until _7zaProcess.HasExited = True '在ProgressBar参数实例上显示安装进度并等待解压程序退出
-                    ProgressBar.Value = GetFolderCount(SC4InstallDir)
-                    Threading.Thread.Sleep(500) '挂起当前线程500毫秒以便让用户看到安装进度
-                Loop
+                _7zaProcess.WaitForExit()
                 Return IIf(_7zaProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
             End If
-            ProgressBar.Value = 0 : ProgressBar.Style = ProgressBarStyle.Marquee '将ProgressBar参数实例的进度和进度条类型改为0和循环滚动
         Catch
             Return InstallResult.Result.Fail '如果在安装过程中遇到异常则返回安装失败
         End Try
     End Function
 
-    ''' <summary>在指定路径安装或卸载638补丁并在指定的System.Windows.Forms.ProgressBar实例上显示安装进度</summary>
+    ''' <summary>在指定路径安装或卸载638补丁</summary>
     ''' <param name="InstallDir">指定安装路径</param>
     ''' <param name="IsUninstall">指定是否卸载638补丁</param>
-    ''' ''' <param name="ProgressBar">指定用于显示安装或卸载进度的System.Windows.Forms.ProgressBar实例</param>
     ''' <returns>InstallResult.Result 的值之一，如果安装或卸载成功，则为InstallResult.Result.Success；否则为InstallResult.Result.Fail</returns>
-    Public Function Install638Patch(ByVal InstallDir As String, ByVal IsUninstall As Boolean, ByVal ProgressBar As ProgressBar) As InstallResult.Result
+    Public Function Install638Patch(ByVal InstallDir As String, ByVal IsUninstall As Boolean) As InstallResult.Result
         Try
             Dim _7zaProcess As Process '声明一个System.Diagnostics.Process类的实例以便记录7za.exe进程的退出代码
-            ProgressBar.Style = ProgressBarStyle.Continuous : ProgressBar.Maximum = 4 : ProgressBar.Value = 0
             If IsUninstall = False Then
                 Dim Files As String() = {"Data\Patch\638.7z", InstallDir & "\Apps\SimCity 4.exe", InstallDir & "\SimCity_1.dat", InstallDir & "\SimCity_2.dat" _
                                         , InstallDir & "\SimCity_3.dat", InstallDir & "\SimCity_4.dat"} '声明一个用于存储要验证是否正在被进程使用的文件列表的字符串数组
                 For Each i As String In Files : Do Until IsFileUsing(i) = False : Loop : Next '确保没有进程正在使用Files字符串数组所存储的文件
-                '以管理员权限启动7za.exe并隐藏进程窗口以便将Data\Patch\638.7z压缩包的所有文件解压到游戏安装目录下替换源文件
+                '以管理员权限启动7za.exe并隐藏进程窗口以便将Data\Patch\638.7z压缩包的所有文件解压到游戏安装目录下替换源文件并等待其完成解压缩
                 _7zaProcess = Process.Start(New ProcessStartInfo With {.FileName = "7za.exe", .Arguments = "x Data\Patch\638.7z -aoa -o""" & InstallDir & """", .Verb = "runas", .WindowStyle = ProcessWindowStyle.Hidden})
-                Do Until _7zaProcess.HasExited = True '在ProgressBar参数实例上显示安装进度并等待解压程序退出
-                    '声明一个用于存储当前游戏安装目录\SimCity_1到4.dat文件和638补丁安装后的游戏安装目录\SimCity_1到4.dat文件的最后修改日期的字符串数组
-                    Dim FilesLastWriteTime As Date() = {New IO.FileInfo(InstallDir & "\SimCity_1.dat").LastWriteTime, #2003-11-14 16:17:23# _
-                                                       , New IO.FileInfo(InstallDir & "\SimCity_2.dat").LastWriteTime, #2003-11-14 16:17:22# _
-                                                       , New IO.FileInfo(InstallDir & "\SimCity_3.dat").LastWriteTime, #2003-11-14 16:17:22# _
-                                                       , New IO.FileInfo(InstallDir & "\SimCity_4.dat").LastWriteTime, #2003-11-14 16:17:22#}
-                    Dim progress As Integer = 0 '声明一个用于存储当前安装进度的整形变量
-                    For i As Integer = 0 To FilesLastWriteTime.Count - 1 Step 2 '确定安装进度
-                        If FilesLastWriteTime(i) = FilesLastWriteTime(i + 1) Then progress += 1
-                    Next
-                    ProgressBar.Value = progress '在ProgressBar参数实例上显示安装进度
-                    Threading.Thread.Sleep(500) '挂起当前线程500毫秒以便让用户看到安装进度
-                Loop
+                _7zaProcess.WaitForExit()
             Else
                 Dim Files As String() = {"Data\SC4\NoInstall.7z", InstallDir & "\Apps\SimCity 4.exe", InstallDir & "\SimCity_1.dat", InstallDir & "\SimCity_2.dat", InstallDir & "\SimCity_3.dat" _
                                         , InstallDir & "\SimCity_4.dat", InstallDir & "\SimCity_5.dat"} '声明一个用于存储要验证是否正在被进程使用的文件列表的字符串数组
                 For Each i As String In Files : Do Until IsFileUsing(i) = False : Loop : Next '确保没有进程正在使用Files字符串数组所存储的文件
                 '以管理员权限启动7za.exe并隐藏进程窗口以便将Data\SC4\NoInstall.7z压缩包的Apps\SimCity 4.exe和SimCity_1到5.dat文件解压到游戏安装目录下替换源文件并等待其完成解压缩
                 _7zaProcess = Process.Start(New ProcessStartInfo With {.FileName = "7za.exe", .Arguments = "x Data\SC4\NoInstall.7z ""Apps\SimCity 4.exe"" ""SimCity_*.dat"" -aoa -o""" & InstallDir & """", .Verb = "runas", .WindowStyle = ProcessWindowStyle.Hidden})
-                Do Until _7zaProcess.HasExited = True '在ProgressBar参数实例上显示安装进度并等待解压程序退出
-                    ProgressBar.Value = 0 '初始化ProgressBar参数实例的进度
-                    '声明一个用于存储当前游戏安装目录\SimCity_1到4.dat文件和638补丁卸载后的游戏安装目录\SimCity_1到4.dat文件的最后修改日期的字符串数组
-                    Dim FilesLastWriteTime As Date() = {New IO.FileInfo(InstallDir & "\SimCity_1.dat").LastWriteTime, #2003-08-27 16:12:04# _
-                                                       , New IO.FileInfo(InstallDir & "\SimCity_2.dat").LastWriteTime, #2003-08-27 16:12:04# _
-                                                       , New IO.FileInfo(InstallDir & "\SimCity_3.dat").LastWriteTime, #2003-08-27 16:12:04# _
-                                                       , New IO.FileInfo(InstallDir & "\SimCity_4.dat").LastWriteTime, #2003-08-27 16:12:04#}
-                    Dim progress As Integer = 0 '声明一个用于存储当前安装进度的整形变量
-                    For i As Integer = 0 To FilesLastWriteTime.Count - 1 Step 2 '确定安装进度
-                        If FilesLastWriteTime(i) = FilesLastWriteTime(i + 1) Then progress += 1
-                    Next
-                    ProgressBar.Value = progress '在ProgressBar参数实例上显示安装进度
-                    Threading.Thread.Sleep(500) '挂起当前线程500毫秒以便让用户看到安装进度
-                Loop
+                _7zaProcess.WaitForExit()
             End If
-            ProgressBar.Value = 0 : ProgressBar.Style = ProgressBarStyle.Marquee '将ProgressBar参数实例的进度和进度条类型改为0和循环滚动
             Return IIf(_7zaProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
         Catch
             Return InstallResult.Result.Fail '如果在安装过程中遇到异常则返回安装失败
@@ -232,9 +193,8 @@ Module ModuleInstallModule
     ''' <summary>在指定路径安装或卸载640补丁</summary>
     ''' <param name="InstallDir">指定安装路径</param>
     ''' <param name="IsUninstall">指定是否卸载640补丁</param>
-    ''' <param name="ProgressBar">指定用于显示卸载（安装638补丁）进度的System.Windows.Forms.ProgressBar实例</param>
     ''' <returns>InstallResult.Result 的值之一，如果安装或卸载成功，则为InstallResult.Result.Success；否则为InstallResult.Result.Fail</returns>
-    Public Function Install640Patch(ByVal InstallDir As String, ByVal IsUninstall As Boolean, ByVal ProgressBar As ProgressBar) As InstallResult.Result
+    Public Function Install640Patch(ByVal InstallDir As String, ByVal IsUninstall As Boolean) As InstallResult.Result
         Try
             Dim _7zaProcess As Process '声明一个System.Diagnostics.Process类的实例以便记录7za.exe进程的退出代码
             If IsUninstall = False Then
@@ -244,7 +204,7 @@ Module ModuleInstallModule
                 _7zaProcess = Process.Start(New ProcessStartInfo With {.FileName = "7za.exe", .Arguments = "x Data\Patch\640.7z -aoa -o""" & InstallDir & """", .Verb = "runas", .WindowStyle = ProcessWindowStyle.Hidden})
                 _7zaProcess.WaitForExit()
             Else
-                Return Install638Patch(InstallDir, False, ProgressBar) '直接调用安装638补丁的方法
+                Return Install638Patch(InstallDir, False) '直接调用安装638补丁的方法
             End If
             Return IIf(_7zaProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
         Catch
@@ -263,7 +223,7 @@ Module ModuleInstallModule
                 My.Computer.FileSystem.CopyFile("Data\Patch\SimCity 4 641.exe", InstallDir & "\Apps\SimCity 4.exe", True) '将Data\Patch\SimCity 4 641.exe复制到游戏安装目录\Apps目录下并重命名为SimCity 4.exe替换源文件
                 Return IIf(My.Computer.FileSystem.GetFileInfo(InstallDir & "\Apps\SimCity 4.exe").Length = 7524352, InstallResult.Result.Success, InstallResult.Result.Fail)
             Else
-                Return Install640Patch(InstallDir, False, Nothing) '直接调用安装640补丁的方法
+                Return Install640Patch(InstallDir, False) '直接调用安装640补丁的方法
             End If
         Catch
             Return InstallResult.Result.Fail '如果在安装过程中遇到异常则返回安装失败
@@ -310,7 +270,7 @@ Module ModuleInstallModule
                         _7zaProcess.WaitForExit()
                         Return IIf(_7zaProcess.ExitCode = 0, InstallResult.Result.Success, InstallResult.Result.Fail)
                     ElseIf .InstallNoCDPatch = True Then
-                        Return InstallNoCDPatch(InstallDir, False, Nothing) '直接调用安装免CD补丁的方法
+                        Return InstallNoCDPatch(InstallDir, False) '直接调用安装免CD补丁的方法
                     End If
                 End If
             Catch
@@ -322,16 +282,15 @@ Module ModuleInstallModule
     ''' <summary>在指定路径安装或卸载免CD补丁</summary>
     ''' <param name="InstallDir">指定安装路径</param>
     ''' <param name="IsUninstall">指定是否卸载免CD补丁</param>
-    ''' <param name="ProgressBar">指定用于显示卸载（卸载638补丁）进度的System.Windows.Forms.ProgressBar实例</param>
     ''' <returns>InstallResult.Result 的值之一，如果安装或卸载成功，则为InstallResult.Result.Success；否则为InstallResult.Result.Fail</returns>
-    Public Function InstallNoCDPatch(ByVal InstallDir As String, ByVal IsUninstall As Boolean, ByVal ProgressBar As ProgressBar) As InstallResult.Result
+    Public Function InstallNoCDPatch(ByVal InstallDir As String, ByVal IsUninstall As Boolean) As InstallResult.Result
         Try
             If IsUninstall = False Then
                 Do Until IsFileUsing(InstallDir & "\Apps\SimCity 4.exe") = False : Loop '确保没有进程正在使用游戏安装目录\Apps\SimCity_4.exe文件
                 My.Computer.FileSystem.CopyFile("Data\Patch\SimCity 4 NoCD.exe", InstallDir & "\Apps\SimCity 4.exe", True) '将Data\Patch\SimCity 4 NoCD.exe复制到游戏安装目录\Apps目录下并重命名为SimCity 4.exe替换源文件
                 Return IIf(My.Computer.FileSystem.GetFileInfo(InstallDir & "\Apps\SimCity 4.exe").Length = 7524352, InstallResult.Result.Success, InstallResult.Result.Fail)
             Else
-                Return Install638Patch(InstallDir, True, ProgressBar) '直接调用卸载638补丁的方法
+                Return Install638Patch(InstallDir, True) '直接调用卸载638补丁的方法
             End If
         Catch
             Return InstallResult.Result.Fail '如果在安装过程中遇到异常则返回安装失败

@@ -329,7 +329,7 @@ Public Class frmSetting
             End If
             '同步渲染模式选项
             If .Contains("-d") = True Then
-                Select Case Regex.Match(My.Settings.Argument, "-d:[A-Z,a-z]{1,8}").ToString.Remove(0, 2) '判断启动参数里的渲染模式设置
+                Select Case Regex.Match(My.Settings.Argument, "-d:[A-Z,a-z]{1,8}").ToString.Remove(0, 3) '判断启动参数里的渲染模式设置
                     Case "DirectX" : cmbRenderMode.SelectedItem = "DirectX"
                     Case "OpenGL" : cmbRenderMode.SelectedItem = "OpenGL"
                     Case "Software" : cmbRenderMode.SelectedItem = "Software"

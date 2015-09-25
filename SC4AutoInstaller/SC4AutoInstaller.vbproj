@@ -112,10 +112,10 @@
     <Compile Include="frmAbout.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmFinish.Designer.vb">
-      <DependentUpon>frmFinish.vb</DependentUpon>
+    <Compile Include="frmInstallFinish.Designer.vb">
+      <DependentUpon>frmInstallFinish.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmFinish.vb">
+    <Compile Include="frmInstallFinish.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmInstalling.Designer.vb">
@@ -184,8 +184,8 @@
       <DependentUpon>frmAbout.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmFinish.resx">
-      <DependentUpon>frmFinish.vb</DependentUpon>
+    <EmbeddedResource Include="frmInstallFinish.resx">
+      <DependentUpon>frmInstallFinish.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="frmInstalling.resx">
@@ -223,6 +223,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="程序流程图.dgml" />
     <None Include="My Project\app.manifest" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>

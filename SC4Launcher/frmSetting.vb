@@ -143,7 +143,7 @@ Public Class frmSetting
         ArgumentChanged()
     End Sub
 
-    Private Sub CheckBoxs_CheckedAndCheckStateChanged(sender As CheckBox, e As EventArgs) Handles chkIntro.CheckedChanged, chkAudio.CheckedChanged, chkAllowMultipleInstances.CheckedChanged,
+    Private Sub OptionCheckBoxs_CheckedAndCheckStateChanged(sender As CheckBox, e As EventArgs) Handles chkIntro.CheckedChanged, chkAudio.CheckedChanged, chkAllowMultipleInstances.CheckedChanged,
         chkShowMissingModel.CheckStateChanged, chkLoadModelBackground.CheckedChanged, chkWriteLog.CheckedChanged, chkCustomCursors.CheckStateChanged, chkCustomIME.CheckStateChanged,
         chkRestartAfterException.CheckedChanged, chkExceptionHandling.CheckStateChanged, chkContinueGameBackground.CheckedChanged '添加所有的复选框的选项改变事件关联
         Select Case sender.Name '判断更改的复选框
@@ -346,14 +346,14 @@ Public Class frmSetting
             If .Contains("-IgnoreMissingModelDataBugs:off") = True Then chkShowMissingModel.CheckState = CheckState.Checked
             chkLoadModelBackground.Checked = Not .Contains("-BackgroundLoader") '同步是否预加载模型选项
             chkWriteLog.Checked = Not .Contains("-WriteLog") '同步是否记录用户信息选项
-            If .Contains("-CustomCursors") = False Then chkCustomCursors.CheckState = CheckState.Indeterminate  '同步是否使用游戏的鼠标指针选项
+            If .Contains("-CustomCursors") = False Then chkCustomCursors.CheckState = CheckState.Indeterminate '同步是否使用游戏的鼠标指针选项
             If .Contains("-CustomCursors:enabled") = True Then chkCustomCursors.CheckState = CheckState.Unchecked
             If .Contains("-CustomCursors:disabled") = True Then chkCustomCursors.CheckState = CheckState.Checked
-            If .Contains("-IME") = False Then chkCustomIME.CheckState = CheckState.Indeterminate  '同步是否使用游戏的输入法选项
+            If .Contains("-IME") = False Then chkCustomIME.CheckState = CheckState.Indeterminate '同步是否使用游戏的输入法选项
             If .Contains("-IME:enabled") = True Then chkCustomIME.CheckState = CheckState.Unchecked
             If .Contains("-IME:disabled") = True Then chkCustomIME.CheckState = CheckState.Checked
             chkRestartAfterException.Checked = .Contains("-Restart") '同步是否在崩溃后重启游戏选项
-            If .Contains("-ExceptionHandling") = False Then chkExceptionHandling.CheckState = CheckState.Indeterminate  '同步是否在崩溃后生成错误报告选项
+            If .Contains("-ExceptionHandling") = False Then chkExceptionHandling.CheckState = CheckState.Indeterminate '同步是否在崩溃后生成错误报告选项
             If .Contains("-ExceptionHandling:on") = True Then chkExceptionHandling.CheckState = CheckState.Checked
             If .Contains("-ExceptionHandling:off") = True Then chkExceptionHandling.CheckState = CheckState.Unchecked
             chkContinueGameBackground.Checked = Not .Contains("-gp") '同步是否在后台继续游戏选项
@@ -366,7 +366,6 @@ Public Class frmSetting
                 chkUserDir.Checked = False
             End If
             txtSC4InstallDir.Text = My.Settings.SC4InstallDir '更新模拟城市4安装路径文本框的文本
-            AddHandler txtSC4InstallDir.TextChanged, AddressOf txtSC4InstallDir_TextChanged '添加关闭窗口过程和关闭窗口事件的关联
             txtArgument.Text = My.Settings.Argument '更新启动参数文本框的文本
             Argument = My.Settings.Argument '更新启动参数变量
             btnApply.Enabled = False

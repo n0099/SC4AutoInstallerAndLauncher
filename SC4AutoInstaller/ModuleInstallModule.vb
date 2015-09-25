@@ -1,4 +1,5 @@
-﻿''' <summary>ModuleInstallModule 模块提供安装各种组件的方法</summary>
+﻿Imports System.Runtime.InteropServices '引用System.Runtime.InteropServices命名空间以便使用DllImport特征调用Windows API
+''' <summary>ModuleInstallModule 模块提供安装各种组件的方法</summary>
 Module ModuleInstallModule
 
     ''' <summary>判断某个文件是否正在使用</summary>
@@ -32,14 +33,14 @@ Module ModuleInstallModule
     ''' <param name="lpClassName">指向一个以null结尾的、用来指定类名的字符串或一个可以确定类名字符串的原子。</param>
     ''' <param name="lpWindowName">指向一个以null结尾的、用来指定窗口名（即窗口标题）的字符串。如果此参数为NULL，则匹配所有窗口名。</param>
     ''' <returns>如果函数执行成功，则返回值是拥有指定窗口类名或窗口名的窗口的句柄。</returns>
-    Public Declare Function FindWindow Lib "user32" Alias "FindWindowA" (ByVal lpClassName As String, ByVal lpWindowName As String) As IntPtr
+    <DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> Private Function FindWindow(ByVal lpClassName As String, ByVal lpWindowName As String) As IntPtr : End Function
     ''' <summary>在窗口列表中寻找与指定条件相符的第一个子窗口。</summary>
     ''' <param name="parentHandle">要查找的子窗口所在的父窗口的句柄。</param> 
     ''' <param name="childAfter">子窗口句柄。查找从在Z序中的下一个子窗口开始。</param>
     ''' <param name="lclassName">指向一个指定了类名的空结束字符串，或一个标识类名字符串的成员的指针。</param>
     ''' <param name="windowTitle">指向一个指定了窗口名（窗口标题）的空结束字符串。如果该参数为 NULL，则为所有窗口全匹配。</param>
     ''' <returns>如果函数成功，返回值为具有指定类名和窗口名的窗口句柄。如果函数失败，返回值为NULL。</returns>
-    Public Declare Function FindWindowEx Lib "user32" Alias "FindWindowExA" (ByVal parentHandle As IntPtr, ByVal childAfter As IntPtr, ByVal lclassName As String, ByVal windowTitle As String) As IntPtr
+    <DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> Private Function FindWindowEx(ByVal parentHandle As IntPtr, ByVal childAfter As IntPtr, ByVal lclassName As String, ByVal windowTitle As String) As IntPtr : End Function
     ''' <summary>该函数将指定的消息发送到一个或多个窗口。此函数为指定的窗口调用窗口程序，直到窗口程序处理完消息再返回。</summary>
     ''' <param name="hWnd">其窗口程序将接收消息的窗口的句柄。如果此参数为HWND_BROADCAST，则消息将被发送到系统中所有顶层窗口，包括无效或不可见的非自身拥有的窗口、被覆盖的窗口和弹出式窗口，但消息不被发送到子窗口。</param>
     ''' <param name="Msg">指定被发送的消息。</param>
@@ -47,20 +48,20 @@ Module ModuleInstallModule
     ''' <param name="lParam">指定附加的消息特定信息。</param>
     ''' <returns>返回值指定消息处理的结果，依赖于所发送的消息。</returns>
     ''' <remarks>需要用HWND_BROADCAST通信的应用程序应当使用函数RegisterWindowMessage来为应用程序间的通信取得一个唯一的消息。</remarks>
-    Public Declare Function SendMessage Lib "user32" Alias "SendMessageA" (ByVal hWnd As IntPtr, ByVal Msg As UInteger, ByVal wParam As IntPtr, ByVal lParam As String) As IntPtr
+    <DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> Private Function SendMessage(ByVal hWnd As IntPtr, ByVal Msg As UInteger, ByVal wParam As IntPtr, ByVal lParam As String) As IntPtr : End Function
     ''' <summary>该函数将一个消息放入（寄送）到与指定窗口创建的线程相联系消息队列里，不等待线程处理消息就返回，是异步消息模式。</summary>
     ''' <param name="hWnd">其窗口程序接收消息的窗口的句柄。</param>
     ''' <param name="Msg">指定被寄送的消息。</param>
     ''' <param name="wParam">指定附加的消息特定的信息。</param>
     ''' <param name="lParam">指定附加的消息特定的信息。</param>
     ''' <returns>如果函数调用成功，返回非零，否则返回值为零</returns>
-    Public Declare Function PostMessage Lib "user32" Alias "PostMessageA" (ByVal hWnd As IntPtr, ByVal Msg As UInteger, ByVal wParam As IntPtr, ByVal lParam As IntPtr) As Boolean
+    <DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> Private Function PostMessage(ByVal hWnd As IntPtr, ByVal Msg As UInteger, ByVal wParam As IntPtr, ByVal lParam As IntPtr) As Boolean : End Function
     ''' <summary>当用户在window客户区域点击鼠标左键的时候发送。如果当前鼠标没有被捕捉，消息发送给鼠标下面的window窗体。否则，消息发送给当前捕捉鼠标消息的方法。</summary>
-    Public Const WM_LBUTTONDOWN = &H201
+    Private Const WM_LBUTTONDOWN = &H201
     ''' <summary>当光标在窗口客户区时，用户释放鼠标左键时发出的消息。如果鼠标没有捕获，这个消息被送到光标下的窗口。否则，该消息发布到捕获鼠标的窗口。</summary>
-    Public Const WM_LBUTTONUP = &H202
+    Private Const WM_LBUTTONUP = &H202
     ''' <summary>Sets the text of a window.</summary>
-    Public Const WM_SETTEXT = &HC
+    Private Const WM_SETTEXT = &HC
 
     ''' <summary>递归查询一个文件夹内所有的文件和文件夹的数量</summary>
     ''' <param name="path">要查询的文件夹的路径</param>
@@ -84,6 +85,14 @@ Module ModuleInstallModule
             My.Computer.FileSystem.CopyFile(Application.ExecutablePath, SC4InstallDir & "\Setup.exe", True) '将安装程序复制到游戏安装目录下
             Dim _7zaProcess As Process '声明一个System.Diagnostics.Process类的实例以便记录7za.exe进程的退出代码
             If InstallType = InstallOptions.SC4InstallType.ISO Then
+                Dim XDriveType As IO.DriveType = My.Computer.FileSystem.GetDriveInfo("X:\").DriveType '声明两个用于判断盘符为X和Y的分区是否存在和分区类型的IO.DriveType枚举变量
+                Dim YDriveType As IO.DriveType = My.Computer.FileSystem.GetDriveInfo("Y:\").DriveType
+                If XDriveType <> IO.DriveType.NoRootDirectory And XDriveType <> IO.DriveType.CDRom Then _
+                    MessageBox.Show("盘符为X的分区已被占用" & vbCrLf & "请更改该分区的盘符", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                If YDriveType <> IO.DriveType.NoRootDirectory And YDriveType <> IO.DriveType.CDRom Then _
+                    MessageBox.Show("盘符为Y的分区已被占用" & vbCrLf & "请更改该分区的盘符", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                If (XDriveType <> IO.DriveType.NoRootDirectory And XDriveType <> IO.DriveType.CDRom) Or (YDriveType <> IO.DriveType.NoRootDirectory And YDriveType <> IO.DriveType.CDRom) Then Throw New Exception("X盘符或Y盘符已被占用")
+
                 Dim StartupPath As String = Application.StartupPath '声明一个用于存储程序当前所在目录的字符串变量
                 If Application.StartupPath.EndsWith("\") = True Then StartupPath = Application.StartupPath.Remove(Application.StartupPath.LastIndexOf("\"), 1) '如果程序存储在分区根目录下则去掉结尾的\
                 Do Until My.Computer.FileSystem.FileExists("X:\AutoRun.exe") '将CD1虚拟光驱镜像文件加载到X盘符上
@@ -219,7 +228,7 @@ Module ModuleInstallModule
     Public Function Install641Patch(ByVal InstallDir As String, ByVal IsUninstall As Boolean) As InstallResult.Result
         Try
             If IsUninstall = False Then
-                Do Until IsFileUsing(InstallDir & "\Apps\SimCity 4.exe") = False : Loop  '确保没有进程正在使用游戏安装目录\Apps\SimCity_4.exe文件
+                Do Until IsFileUsing(InstallDir & "\Apps\SimCity 4.exe") = False : Loop '确保没有进程正在使用游戏安装目录\Apps\SimCity_4.exe文件
                 My.Computer.FileSystem.CopyFile("Data\Patch\SimCity 4 641.exe", InstallDir & "\Apps\SimCity 4.exe", True) '将Data\Patch\SimCity 4 641.exe复制到游戏安装目录\Apps目录下并重命名为SimCity 4.exe替换源文件
                 Return IIf(My.Computer.FileSystem.GetFileInfo(InstallDir & "\Apps\SimCity 4.exe").Length = 7524352, InstallResult.Result.Success, InstallResult.Result.Fail)
             Else
@@ -426,7 +435,7 @@ Module ModuleInstallModule
     End Function
 
     ''' <summary>在控制面板的卸载或更改程序内添加模拟城市4 豪华版 自动安装程序项</summary>
-    ''' ''' <param name="SC4InstallDir">模拟城市4的安装路径</param>
+    ''' <param name="SC4InstallDir">模拟城市4的安装路径</param>
     Public Sub SetControlPanelProgramItemRegValue(ByVal SC4InstallDir As String)
         Dim ProgramItemRegKeyName As String = Nothing '声明一个用于存储控制面板的卸载或更改程序里的模拟城市4 豪华版 自动安装程序项的注册表键名的字符串变量
         If Environment.Is64BitOperatingSystem = True Then ProgramItemRegKeyName = "HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\SC4AutoInstaller"

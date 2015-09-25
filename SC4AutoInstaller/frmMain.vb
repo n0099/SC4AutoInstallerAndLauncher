@@ -77,7 +77,7 @@
 
     Private Sub btnInstall_Click(sender As Object, e As EventArgs) Handles btnInstall.Click
         If My.Computer.FileSystem.DirectoryExists("Data\SC4\CD") = False And My.Computer.FileSystem.FileExists("Data\SC4\NoInstall.7z") = False Then
-            MessageBox.Show("Data\SC4\CD 文件夹和Data\SC4\NoInstall.7z 文件不存在！" & vbCrLf & "请使用原始安装程序以安装模拟城市4", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) : Exit Sub
+            MessageBox.Show("Data\SC4\CD 文件夹和Data\SC4\NoInstall.7z 文件不存在！" & vbCrLf & "请使用完整安装程序以安装模拟城市4", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) : Exit Sub
         End If
         frmLicenses.Show()
         RemoveHandler Me.FormClosing, AddressOf frmMain_FormClosing '移除关闭窗口过程和关闭窗口事件的关联
@@ -87,13 +87,12 @@
     Private Sub btnChangeModule_Click(sender As Object, e As EventArgs) Handles btnChangeModule.Click
         With My.Computer.FileSystem
             If .DirectoryExists("Data") = True Then
-                If .DirectoryExists("Data\Patch") = False Then MessageBox.Show("Data\Patch 文件夹不存在！" & vbCrLf & "请使用原始安装程序以安装或卸载组件", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) : Exit Sub
-                If .FileExists("Data\SC4\NoInstall.7z") = False Then MessageBox.Show("Data\SC4\NoInstall.7z 文件不存在！" & vbCrLf & "请使用原始安装程序以安装或卸载组件", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) : Exit Sub
-                frmChangeModuleOptions.Show()
+                If .DirectoryExists("Data\Patch") = False Then MessageBox.Show("Data\Patch 文件夹不存在！" & vbCrLf & "请使用完整安装程序以安装或卸载组件", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) : Exit Sub
+                frmLicenses.Show()
                 RemoveHandler Me.FormClosing, AddressOf frmMain_FormClosing '移除关闭窗口过程和关闭窗口事件的关联
                 Close()
             Else
-                MessageBox.Show("Data文件夹不存在！" & vbCrLf & "请使用原始安装程序以安装或卸载组件", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show("Data文件夹不存在！" & vbCrLf & "请使用完整安装程序以安装或卸载组件", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
         End With
     End Sub

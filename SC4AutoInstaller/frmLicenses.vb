@@ -9,7 +9,7 @@
         Select Case i
             Case 3 : rtxLinence.Clear() : rtxLinence.LoadFile(Licenses(i), RichTextBoxStreamType.PlainText) '以纯文本方式加载Data\Licenses\EA EULA.txt文件的内容
             Case 5
-                frmInstallOptions.Show()
+                If IsNothing(ModuleMain.InstalledModule) = True Then frmInstallOptions.Show() Else frmChangeModuleOptions.Show()
                 RemoveHandler Me.FormClosing, AddressOf frmLicenses_FormClosing '移除关闭窗口过程和关闭窗口事件的关联 
                 Close()
             Case Else : rtxLinence.Clear() : rtxLinence.LoadFile(Licenses(i)) '清空富文本框的内容以便将光标移到最上面

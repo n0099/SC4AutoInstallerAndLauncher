@@ -151,9 +151,9 @@ Partial Class frmChangeModuleOptions
         Me.lblTitle2.AutoSize = True
         Me.lblTitle2.Location = New System.Drawing.Point(12, 45)
         Me.lblTitle2.Name = "lblTitle2"
-        Me.lblTitle2.Size = New System.Drawing.Size(425, 12)
+        Me.lblTitle2.Size = New System.Drawing.Size(419, 12)
         Me.lblTitle2.TabIndex = 5
-        Me.lblTitle2.Text = "请选择要安装的组件，并取消选择要卸载的组件，单击[确定 (N) >]按钮继续。"
+        Me.lblTitle2.Text = "请选择要安装的组件，并取消选择要卸载的组件，单击[确定(N) >]按钮继续。"
         '
         'frmChangeModuleOptions
         '

@@ -315,7 +315,7 @@ Public Class frmInstallOptions
                     End Select
                 End With
             Case "自定义"
-                tvwOptions.BackColor = SystemColors.Window  '将组件列表框的背景色更改为被启用后的颜色
+                tvwOptions.BackColor = SystemColors.Window '将组件列表框的背景色更改为被启用后的颜色
         End Select
         tvwOptions.EndUpdate()
     End Sub
@@ -380,6 +380,7 @@ Public Class frmInstallOptions
     End Sub
 
     Private Sub btnBack_Click(sender As Object, e As EventArgs) Handles btnBack.Click
+        ModuleMain.InstallOptions = New InstallOptions '恢复已更改的ModuleMain.InstallOptions类实例
         frmMain.Show()
         RemoveHandler Me.FormClosing, AddressOf frmInstallOptions_FormClosing '移除关闭窗口过程和关闭窗口事件的关联
         Close()

@@ -15,14 +15,14 @@
                 If My.Computer.Network.IsAvailable = True And My.Computer.Network.Ping("n0099.sinaapp.com") = True Then '确定是否能连接到更新服务器
                     Dim UpdataInfoXML As New Xml.XmlDocument, AutoInstallerNode As Xml.XmlNode '获取更新信息
                     UpdataInfoXML.Load("http://n0099.sinaapp.com/updatainfo.xml")
-                    AutoInstallerNode = UpdataInfoXML.GetElementsByTagName("Launcher").Item(0)
-                    Dim LatestVersion As String = AutoInstallerNode.Item("LatestVersion").InnerText
+                    AutoInstallerNode = UpdataInfoXML.GetElementsByTagName("Launcher")(0)
+                    Dim LatestVersion As String = AutoInstallerNode("LatestVersion").InnerText
                     If LatestVersion.Split(".")(0) > My.Application.Info.Version.Major Or LatestVersion.Split(".")(1) > My.Application.Info.Version.Minor _
                         Or LatestVersion.Split(".")(2) > My.Application.Info.Version.Revision Then '检查是否有新版本可用
                         Dim version As String = My.Application.Info.Version.Major & "." & My.Application.Info.Version.Minor & "." & My.Application.Info.Version.Revision
-                        Dim UpdataDetail As String = AutoInstallerNode.Item("UpdataDetail").InnerText '声明一个用于存储最新版的更新说明的字符串变量
+                        Dim UpdataDetail As String = AutoInstallerNode("UpdataDetail").InnerText '声明一个用于存储最新版的更新说明的字符串变量
                         If MessageBox.Show("检测到有新版本可用，是否下载更新？" & vbCrLf & "当前版本：" & version & vbCrLf & "更新说明：" & UpdataDetail, "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then
-                            Dim DownloadLink As String = AutoInstallerNode.Item("DonwloadLink").InnerText '声明一个用于存储新版本的下载地址的字符串变量
+                            Dim DownloadLink As String = AutoInstallerNode("DonwloadLink").InnerText '声明一个用于存储新版本的下载地址的字符串变量
                             My.Computer.Network.DownloadFile(DownloadLink, Windows.Forms.Application.StartupPath & "\Updata.exe", "", "", True, 6000000, True) '从指定的下载地址下载自动更新程序
                             If My.Computer.FileSystem.FileExists("Updata.exe") = True Then '如果存在自动更新程序则以管理员权限启动自动更新程序并退出程序
                                 Process.Start(New ProcessStartInfo With {.FileName = "Updata.exe", .Verb = "runas"}) : Windows.Forms.Application.Exit()

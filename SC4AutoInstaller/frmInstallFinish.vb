@@ -1,7 +1,7 @@
 ﻿Imports Opt = SC4AutoInstaller.InstallOptions '引用SC4AutoInstaller.InstallOptions类以便省略代码中重复的InstallOptions类引用
 Imports Res = SC4AutoInstaller.InstallResult '引用SC4AutoInstaller.InstallResult类以便省略代码中重复的InstallResult类引用
 
-Public Class frmFinish
+Public Class frmInstallFinish
 
     ''' <summary>将某个组件标记为安装失败，并将该项从安装成功组件列表框移到到安装失败列表框内</summary>
     ''' <param name="item">要标记为安装失败的项</param>
@@ -9,7 +9,7 @@ Public Class frmFinish
         If IsNothing(item) = False Then
             item.ImageKey = "fail" '将该项的图标改为失败图标
             item.Remove() '将该项从安装成功组件列表框删除
-            item.Group = lvwSubassemblyFail.Groups.Item("lvwGroupFail") '改变该项的组
+            item.Group = lvwSubassemblyFail.Groups(0) '改变该项的组
             lvwSubassemblyFail.Items.Add(item) '在安装失败组件列表框内添加该项
             lvwSubassemblyFail.Visible = True '显示安装失败组件列表框
             lblTitle2.Text = "部分组件" & IIf(IsNothing(ModuleMain.InstalledModule), "安装", "更改") & "失败，您可以随后使用本安装程序的安装或卸载组件功能来重新安装安装失败的组件。"
@@ -32,7 +32,7 @@ Public Class frmFinish
         Process.Start("http://www.simcity.cn")
     End Sub
 
-    Private Sub frmFinish_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub frmInstallFinish_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         '声明一些用于快速访问安装组件列表框项的变量
         Dim DAEMONItem As ListViewItem = lvwSubassemblySuccess.FindItemWithText("DAEMON Tools Lite"), SC4Item As ListViewItem = lvwSubassemblySuccess.FindItemWithText("模拟城市4 豪华版")
         Dim _638PatchItem As ListViewItem = lvwSubassemblySuccess.FindItemWithText("638补丁"), _640PatchItem As ListViewItem = lvwSubassemblySuccess.FindItemWithText("640补丁")
@@ -63,7 +63,7 @@ Public Class frmFinish
             Else
                 '更改标题文本和安装组件列表框组的标题
                 lblTitle.Text = "更改已完成" : lblTitle2.Text = "所有组件均已成功更改，您可以随后使用本安装程序来安装或卸载组件。"
-                lvwSubassemblySuccess.Groups.Item(0).Name = "以下组件更改成功" : lvwSubassemblyFail.Groups.Item(0).Name = "以下组件更改失败"
+                lvwSubassemblySuccess.Groups(0).Header = "以下组件更改成功" : lvwSubassemblyFail.Groups(0).Header = "以下组件更改失败"
                 '删除安装选项里没有更改的组件在安装组件列表框里对应项
                 DAEMONItem.Remove() : SC4Item.Remove() : AddDesktopIconItem.Remove() : AddStartMenuIem.Remove()
                 '声明3个用于存储638补丁或640补丁或641补丁是否更改的布尔值变量
@@ -100,7 +100,7 @@ Public Class frmFinish
             End Select
             lvwSubassemblySuccess.EndUpdate() : lvwSubassemblyFail.EndUpdate()
         End With
-        Dim FlashInfo As New FLASHINFO With {.cbSize = Runtime.InteropServices.Marshal.SizeOf(FlashInfo) _
+        Dim FlashInfo As New FLASHWINFO With {.cbSize = Runtime.InteropServices.Marshal.SizeOf(FlashInfo) _
                                              , .uCount = 5, .dwTimeout = 0, .hwnd = Me.Handle, .dwFlags = FLASHW_ALL} '创建一个ModuleMain.FLASHINFO结构的实例
         FlashWindowEx(FlashInfo) '以FlashInfo实例的选项来闪动窗口
         Text &= " " & My.Application.Info.Version.Major & "." & My.Application.Info.Version.Minor & "." & My.Application.Info.Version.Revision & " By n0099" '初始化窗口标题

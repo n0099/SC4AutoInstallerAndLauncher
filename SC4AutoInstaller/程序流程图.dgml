@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph GraphDirection="TopToBottom" Layout="Sugiyama" ZoomLevel="-1" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="0226195e-8a14-4a20-aa36-43c7bfda2db21" Bounds="624.01,1344.34042629333,632.86,25.8366666666666" Label="删除注册表项HKLM\SOFTWARE\（Wow6432Node）\Electronic Arts\Maxis\SimCity 4 Deluxe\ergc及所有子项" UseManualLocation="True" />
+    <Node Id="049cbf6b-e305-4830-8d46-6fd1a41ed0521" Bounds="633.921666666667,562.101845202349,171.036666666667,25.8366666666667" Label="判断是否已经安装模拟城市4" UseManualLocation="True" />
+    <Node Id="0eefe1d9-66cd-4b0c-9831-f09d2f94aa8b1" Bounds="356.906666666667,418.231666666666,213.066666666667,44" Group="Expanded" Label="安装中窗口（frmInstalling.vb）" />
+    <Node Id="1ac66975-a214-478e-a10b-160829237fca1" Bounds="704.288333333333,1288.50375962666,472.303333333333,25.8366666666666" Label="删除注册表项HKLM\SOFTWARE\（Wow6432Node）\Maxis\SimCity 4及所有子项" UseManualLocation="True" />
+    <Node Id="2a00507b-8ccc-4ae5-a76f-d6b8c03f16601" Bounds="334.563333333334,56.6875,353.753333333333,25.8366666666666" ErrorMessage="找到的循环引用涉及:   判断是否存在Data\Patch文件夹和Data\SC4\NoInstall.7z文件 (2a00507b-8ccc-4ae5-a76f-d6b8c03f16601)" IsStronglyConnected="True" Label="判断是否存在Data\Patch文件夹和Data\SC4\NoInstall.7z文件" />
+    <Node Id="2c5c884b-e78c-4879-9acf-aff2dcce1b3f1" Bounds="635.705,0,231.47,25" Group="Collapsed" Label="程序启动（ApplicationEvents.vb）" />
+    <Node Id="2ff95435-eff4-4128-9bd5-bae4f35f799b1" Bounds="678.381886431155,331.355649452539,1,1" Label="弹出提示并退出程序" UseManualLocation="True" />
+    <Node Id="3355904c-0711-4212-baba-b218e7596d551" Bounds="636.548333333334,128.360833333333,165.783333333333,25" ErrorMessage="找到的循环引用涉及:   主窗口（frmMain.vb） (3355904c-0711-4212-baba-b218e7596d551)" Group="Collapsed" IsStronglyConnected="True" Label="主窗口（frmMain.vb）" />
+    <Node Id="36c3eda2-c36e-4dbb-8375-db0a52c0b5fb1" Bounds="341.276666666667,199.615833333333,244.326666666667,25" Group="Collapsed" Label="阅读用户协议窗口（frmLicenses.vb）" />
+    <Node Id="39909353-1a25-418e-9507-175f62d9bc791" Bounds="0,342.544166666666,306.88,44" Group="Expanded" Label="更改组件窗口（frmChangeModuleOptions.vb）" />
+    <Node Id="3cc26cdb-8c5a-4fc8-ab0b-c66853b3d5611" Bounds="337.196666666667,342.544166666666,252.486666666667,44" Group="Expanded" Label="安装选项窗口（frmInstallOptions.vb）" />
+    <Node Id="3eb930f7-4c14-41a5-9cd6-f14cfd71eece1" Bounds="729.381886431155,331.355649452539,1,1" Label="判断是否已经安装模拟城市4且Data文件夹不存在" UseManualLocation="True" />
+    <Node Id="4312f932-612e-45f5-b856-2ca374a4239f1" Bounds="729.381886431155,235.831479530664,1,1" Label="用户启动程序" UseManualLocation="True" />
+    <Node Id="4eb7db4d-51b1-44cc-86fc-dc17a879b32e1" Bounds="729.381886431155,441.028958778711,1,1" Label="下载并安装更新" UseManualLocation="True" />
+    <Node Id="4fecced2-c25e-4e12-a186-7deee018ce881" Bounds="707.907954537069,339.785286440905,1,1" Label="显示用户协议" UseManualLocation="True" />
+    <Node Id="52199d92-362a-46df-9a0b-dd19cf560f011" Bounds="750.901666666667,57.1058333333333,271.076666666667,25" Group="Collapsed" Label="验证文件完整性（frmVerifyFilesMD5.vb）" />
+    <Node Id="598947bb-7f79-4b01-919d-7facb34830951" Bounds="343.49,493.919166666666,239.9,44" Group="Expanded" Label="安装完成窗口（frmInstallFinish.vb）" />
+    <Node Id="7552f361-1e4e-4851-91e5-76389106315d1" Bounds="678.381886431155,386.192319374414,1,1" Label="跳过验证文件完整性" UseManualLocation="True" />
+    <Node Id="7dbe768e-735e-4f1e-8b1f-fef58300a5631" Bounds="754.692597457807,1313.62306226105,162.983333333333,25.8366666666666" Label="删除文档\SimCity 4文件夹" UseManualLocation="True" />
+    <Node Id="8bb518af-4f14-4f86-bf65-fa5afb8cca0a1" Bounds="797.691813734324,1257.78639559438,210.983333333333,25.8366666666666" Label="判断是否存在文档\SimCity 4文件夹" UseManualLocation="True" />
+    <Node Id="8c11e562-d504-4742-b31d-5d6fb62883db1" Category="Comment" Bounds="774.79111368543,481.3075307792,1,1" Label="Data文件夹不存在" UseManualLocation="True" />
+    <Node Id="8fb2af9e-bfaa-4828-9797-83443b3df3601" Bounds="920.79111368543,520.3075307792,1,1" Label="忽略" UseManualLocation="True" />
+    <Node Id="939ff774-0077-4006-96b9-3fa1737488801" Bounds="932.79111368543,442.3075307792,1,1" Label="开始验证文件完整性" UseManualLocation="True" />
+    <Node Id="94cf65db-303b-4814-80b2-591f07fd74551" Bounds="839.053772257201,1369.45972892772,112,25" Group="Collapsed" Label="删除注册表项" UseManualLocation="True" />
+    <Node Id="9745848b-fa0e-4277-97f0-a6594039ab671" Category="Comment" Bounds="964.79111368543,520.3075307792,1,1" Label="文件不存在" UseManualLocation="True" />
+    <Node Id="9edea170-9f10-4fc9-aeb3-cdaa40795c131" Bounds="649.44,633.775178535682,140,25.8366666666667" Label="开始判断已安装的组件" UseManualLocation="True" />
+    <Node Id="a228fac3-bafa-4e0e-910c-d34aeb73a32f1" Bounds="377.921666666667,270.870833333333,171.036666666667,25.8366666666666" Label="判断是否已经安装模拟城市4" />
+    <Node Id="aebfb628-3f4f-4c82-85f8-04178d4d2acf1" Bounds="774.79111368543,559.3075307792,1,1" Label="退出程序" UseManualLocation="True" />
+    <Node Id="b6993b23-5185-4b57-84fa-536f98e5a8ff1" Bounds="729.381886431155,276.518979530664,1,1" Label="判断是否已经启动程序" UseManualLocation="True" />
+    <Node Id="bd40c24a-95d4-454f-a7d7-8406ce32de091" Bounds="812.79111368543,520.3075307792,1,1" Label="重试" UseManualLocation="True" />
+    <Node Id="c916b7db-5631-43d6-8e6f-e6107c5252321" Category="Comment" Bounds="894.79111368543,481.3075307792,1,1" Label="文件不完整" UseManualLocation="True" />
+    <Node Id="c9870b19-b8bc-485d-8718-ed0f97b79a741" Category="Comment" Bounds="850.79111368543,481.3075307792,1,1" Label="文件已被占用" UseManualLocation="True" />
+    <Node Id="d2e6c098-b48f-49fc-a9e8-eab07fc285a61" Bounds="856.79111368543,520.3075307792,1,1" Label="终止" UseManualLocation="True" />
+    <Node Id="dd57d361-8813-43ac-bde9-68ef4735d3ab1" Bounds="779.955,1400.17709296,320.97,25.8366666666666" Label="删除控制面板的卸载或更改程序里的SimCity 4 Deluxe项" UseManualLocation="True" />
+    <Node Id="e0456986-6894-4904-8af0-85774c5e3d4b1" Bounds="679.912929279998,1201.94972892772,268.143333333333,25.8366666666666" Label="删除开始菜单\Maxis\SimCity 4 Deluxe文件夹" UseManualLocation="True" />
+    <Node Id="e7cb253d-49b2-4032-8333-c9c5d40395021" Bounds="758.926771244162,1146.11306226105,316.143333333333,25.8366666666666" Label="判断是否存在开始菜单\Maxis\SimCity 4 Deluxe文件夹" UseManualLocation="True" />
+    <Node Id="ee1e2051-2a7f-45d8-a1f6-c8024f85fdd21" Bounds="615.896666666667,199.615833333333,217.086666666667,25" Group="Collapsed" Label="卸载窗口（frmUninstalling.vb）" />
+    <Node Id="eea2c007-6663-4e4a-8e6e-9ac250c3c0391" Bounds="878.43633161787,1066.0439956202,147.036666666667,25.8366666666666" Label="删除模拟城市4安装目录" UseManualLocation="True" />
+    <Node Id="ef029671-1618-438d-9ebf-ff82e3bf9d3d1" Bounds="863.22,199.1975,164.44,25.8366666666666" Label="关于窗口（frmAbout.vb）" />
+    <Node Id="f2b757de-12cf-4303-9345-d3e4ff21ac041" Bounds="729.381886431155,386.192319374414,1,1" Label="检查是否有新版本可用" UseManualLocation="True" />
+    <Node Id="f85e5c13-9cd6-4b46-8ed1-ef68bcb73ed21" Bounds="743.371666666666,1456.01375962666,394.136666666667,25.8366666666666" Label="删除控制面板的卸载或更改程序里的模拟城市4 豪华版 自动安装程序项" UseManualLocation="True" />
+    <Node Id="f9515ec8-f75e-4d8a-99b6-8ef53da0575b1" Bounds="707.907954537069,394.621953107572,1,1" Label="退出程序" UseManualLocation="True" />
+  </Nodes>
+  <Links>
+    <Link Source="0226195e-8a14-4a20-aa36-43c7bfda2db21" Target="dd57d361-8813-43ac-bde9-68ef4735d3ab1" Bounds="940.440002441406,1370.17712402344,0,21" />
+    <Link Source="049cbf6b-e305-4830-8d46-6fd1a41ed0521" Target="9edea170-9f10-4fc9-aeb3-cdaa40795c131" Bounds="719.440002441406,587.938537597656,0,36.836669921875" Label="是" LabelBounds="707.44,602.938511869015,12,15.8366666666666" />
+    <Link Source="0eefe1d9-66cd-4b0c-9831-f09d2f94aa8b1" Target="598947bb-7f79-4b01-919d-7facb34830951" Bounds="463.440002441406,462.231658935547,0,22.6875" />
+    <Link Source="1ac66975-a214-478e-a10b-160829237fca1" Target="0226195e-8a14-4a20-aa36-43c7bfda2db21" Bounds="940.440002441406,1314.34045410156,0,21" />
+    <Link Source="2a00507b-8ccc-4ae5-a76f-d6b8c03f16601" Target="3355904c-0711-4212-baba-b218e7596d551" Bounds="570.918884277344,82.524169921875,126.393493652344,40.1207656860352" IsCircularLink="True" Label="否" LabelBounds="676.44,97.5241666666666,12,15.8366666666666" />
+    <Link Source="2a00507b-8ccc-4ae5-a76f-d6b8c03f16601" Target="36c3eda2-c36e-4dbb-8375-db0a52c0b5fb1" Bounds="463.440002441406,82.524169921875,30.6970520019531,108.091659545898" Label="是" LabelBounds="451.44,132.9425,12.0000000000001,15.8366666666668" />
+    <Link Source="2c5c884b-e78c-4879-9acf-aff2dcce1b3f1" Target="2ff95435-eff4-4128-9bd5-bae4f35f799b1" Category="Contains" />
+    <Link Source="2c5c884b-e78c-4879-9acf-aff2dcce1b3f1" Target="3eb930f7-4c14-41a5-9cd6-f14cfd71eece1" Category="Contains" />
+    <Link Source="2c5c884b-e78c-4879-9acf-aff2dcce1b3f1" Target="4312f932-612e-45f5-b856-2ca374a4239f1" Category="Contains" />
+    <Link Source="2c5c884b-e78c-4879-9acf-aff2dcce1b3f1" Target="4eb7db4d-51b1-44cc-86fc-dc17a879b32e1" Category="Contains" />
+    <Link Source="2c5c884b-e78c-4879-9acf-aff2dcce1b3f1" Target="7552f361-1e4e-4851-91e5-76389106315d1" Category="Contains" />
+    <Link Source="2c5c884b-e78c-4879-9acf-aff2dcce1b3f1" Target="b6993b23-5185-4b57-84fa-536f98e5a8ff1" Category="Contains" />
+    <Link Source="2c5c884b-e78c-4879-9acf-aff2dcce1b3f1" Target="f2b757de-12cf-4303-9345-d3e4ff21ac041" Category="Contains" />
+    <Link Source="3355904c-0711-4212-baba-b218e7596d551" Target="049cbf6b-e305-4830-8d46-6fd1a41ed0521" Category="Contains" />
+    <Link Source="3355904c-0711-4212-baba-b218e7596d551" Target="2a00507b-8ccc-4ae5-a76f-d6b8c03f16601" Bounds="548.113891601563,86.2421646118164,125.798828125,42.1186752319336" IsCircularLink="True" Label="点击【更改】按钮" LabelBounds="494.44,97.5241666666666,96,15.8366666666666" />
+    <Link Source="3355904c-0711-4212-baba-b218e7596d551" Target="36c3eda2-c36e-4dbb-8375-db0a52c0b5fb1" Bounds="516.399963378906,153.36083984375,157.512756347656,43.8108367919922" Label="点击【安装】按钮" LabelBounds="494.44,168.360833333333,95.9999999999998,15.8366666666666" />
+    <Link Source="3355904c-0711-4212-baba-b218e7596d551" Target="9edea170-9f10-4fc9-aeb3-cdaa40795c131" Category="Contains" />
+    <Link Source="3355904c-0711-4212-baba-b218e7596d551" Target="ee1e2051-2a7f-45d8-a1f6-c8024f85fdd21" Bounds="721.557556152344,153.36083984375,3.45391845703125,37.2575836181641" Label="点击【卸载】按钮" LabelBounds="629.44,168.360833333333,96.0000000000002,15.8366666666666" />
+    <Link Source="3355904c-0711-4212-baba-b218e7596d551" Target="ef029671-1618-438d-9ebf-ff82e3bf9d3d1" Bounds="769.202392578125,153.36083984375,137.303894042969,42.3402404785156" Label="点击【关于】按钮" LabelBounds="764.44,168.360833333333,96,15.8366666666666" />
+    <Link Source="36c3eda2-c36e-4dbb-8375-db0a52c0b5fb1" Target="4fecced2-c25e-4e12-a186-7deee018ce881" Category="Contains" />
+    <Link Source="36c3eda2-c36e-4dbb-8375-db0a52c0b5fb1" Target="a228fac3-bafa-4e0e-910c-d34aeb73a32f1" Bounds="463.440002441406,224.615829467773,0,37.2549896240234" Label="用户同意所有协议" LabelBounds="367.44,240.034166666666,96,15.8366666666666" />
+    <Link Source="36c3eda2-c36e-4dbb-8375-db0a52c0b5fb1" Target="f9515ec8-f75e-4d8a-99b6-8ef53da0575b1" Category="Contains" />
+    <Link Source="39909353-1a25-418e-9507-175f62d9bc791" Target="0eefe1d9-66cd-4b0c-9831-f09d2f94aa8b1" Bounds="243.547348022461,386.544158935547,121.042129516602,29.5528259277344" />
+    <Link Source="3cc26cdb-8c5a-4fc8-ab0b-c66853b3d5611" Target="0eefe1d9-66cd-4b0c-9831-f09d2f94aa8b1" Bounds="463.440002441406,386.544158935547,0,22.6875" />
+    <Link Source="3eb930f7-4c14-41a5-9cd6-f14cfd71eece1" Target="7552f361-1e4e-4851-91e5-76389106315d1" Bounds="678.881896972656,332.092407226563,50.5595703125,45.0999145507813" Label="是" LabelBounds="610.352334441546,547.38159835294,11.9999999999998,15.8366666666666" />
+    <Link Source="3eb930f7-4c14-41a5-9cd6-f14cfd71eece1" Target="f2b757de-12cf-4303-9345-d3e4ff21ac041" Bounds="729.881896972656,332.355651855469,0,44.836669921875" Label="否" LabelBounds="660.823767244725,547.187114560407,12,15.8366666666666" />
+    <Link Source="4312f932-612e-45f5-b856-2ca374a4239f1" Target="b6993b23-5185-4b57-84fa-536f98e5a8ff1" Bounds="729.881896972656,236.831466674805,0,30.6875152587891" />
+    <Link Source="4fecced2-c25e-4e12-a186-7deee018ce881" Target="f9515ec8-f75e-4d8a-99b6-8ef53da0575b1" Bounds="708.407958984375,340.785278320313,0,44.836669921875" Label="用户不同此协议" LabelBounds="658.554648419181,508.303343164486,84,15.8366666666666" />
+    <Link Source="52199d92-362a-46df-9a0b-dd19cf560f011" Target="8c11e562-d504-4742-b31d-5d6fb62883db1" Category="Contains" />
+    <Link Source="52199d92-362a-46df-9a0b-dd19cf560f011" Target="8fb2af9e-bfaa-4828-9797-83443b3df3601" Category="Contains" />
+    <Link Source="52199d92-362a-46df-9a0b-dd19cf560f011" Target="939ff774-0077-4006-96b9-3fa1737488801" Category="Contains" />
+    <Link Source="52199d92-362a-46df-9a0b-dd19cf560f011" Target="9745848b-fa0e-4277-97f0-a6594039ab671" Category="Contains" />
+    <Link Source="52199d92-362a-46df-9a0b-dd19cf560f011" Target="aebfb628-3f4f-4c82-85f8-04178d4d2acf1" Category="Contains" />
+    <Link Source="52199d92-362a-46df-9a0b-dd19cf560f011" Target="bd40c24a-95d4-454f-a7d7-8406ce32de091" Category="Contains" />
+    <Link Source="52199d92-362a-46df-9a0b-dd19cf560f011" Target="c916b7db-5631-43d6-8e6f-e6107c5252321" Category="Contains" />
+    <Link Source="52199d92-362a-46df-9a0b-dd19cf560f011" Target="c9870b19-b8bc-485d-8718-ed0f97b79a741" Category="Contains" />
+    <Link Source="52199d92-362a-46df-9a0b-dd19cf560f011" Target="d2e6c098-b48f-49fc-a9e8-eab07fc285a61" Category="Contains" />
+    <Link Source="7552f361-1e4e-4851-91e5-76389106315d1" Target="3355904c-0711-4212-baba-b218e7596d551" Bounds="449.584166033476,534.960630696615,81.797790541681,396.192886877828" />
+    <Link Source="7dbe768e-735e-4f1e-8b1f-fef58300a5631" Target="94cf65db-303b-4814-80b2-591f07fd74551" Bounds="849.907086221155,1339.45972892772,25.3151011559155,23.8310249010835" />
+    <Link Source="8bb518af-4f14-4f86-bf65-fa5afb8cca0a1" Target="7dbe768e-735e-4f1e-8b1f-fef58300a5631" Bounds="858.598946565096,1283.62306226105,29.0836405949151,24.2380976316074" Label="存在且用户确认删除" LabelBounds="756.589433965293,1284.42857121817,108,15.8366666666666" />
+    <Link Source="8bb518af-4f14-4f86-bf65-fa5afb8cca0a1" Target="94cf65db-303b-4814-80b2-591f07fd74551" Index="1" Bounds="911.432678222656,1283.623046875,13.4990844726563,78.74072265625" Label="不存在或用户选择不删除" LabelBounds="927.285422577693,1315.28660059902,132,15.8366666666666" />
+    <Link Source="8c11e562-d504-4742-b31d-5d6fb62883db1" Target="aebfb628-3f4f-4c82-85f8-04178d4d2acf1" Bounds="775.291137695313,482.307556152344,0,68" />
+    <Link Source="8fb2af9e-bfaa-4828-9797-83443b3df3601" Target="939ff774-0077-4006-96b9-3fa1737488801" Bounds="921.438171386719,452.307556152344,11.8529663085938,68.0220947265625" />
+    <Link Source="939ff774-0077-4006-96b9-3fa1737488801" Target="3355904c-0711-4212-baba-b218e7596d551" Bounds="640.469732978299,722.467397036667,226.583477740245,211.361175897258" />
+    <Link Source="939ff774-0077-4006-96b9-3fa1737488801" Target="8c11e562-d504-4742-b31d-5d6fb62883db1" Bounds="784.514282226563,442.927368164063,148.291381835938,36.6035766601563" />
+    <Link Source="939ff774-0077-4006-96b9-3fa1737488801" Target="9745848b-fa0e-4277-97f0-a6594039ab671" Bounds="933.608276367188,443.194091796875,31.682861328125,68.1134643554688" />
+    <Link Source="939ff774-0077-4006-96b9-3fa1737488801" Target="c916b7db-5631-43d6-8e6f-e6107c5252321" Bounds="901.920837402344,443.165649414063,31.0213623046875,31.8377075195313" />
+    <Link Source="939ff774-0077-4006-96b9-3fa1737488801" Target="c9870b19-b8bc-485d-8718-ed0f97b79a741" Bounds="859.870239257813,443.022308349609,72.9693603515625,34.7049255371094" />
+    <Link Source="94cf65db-303b-4814-80b2-591f07fd74551" Target="0226195e-8a14-4a20-aa36-43c7bfda2db21" Category="Contains" />
+    <Link Source="94cf65db-303b-4814-80b2-591f07fd74551" Target="1ac66975-a214-478e-a10b-160829237fca1" Category="Contains" />
+    <Link Source="94cf65db-303b-4814-80b2-591f07fd74551" Target="dd57d361-8813-43ac-bde9-68ef4735d3ab1" Category="Contains" />
+    <Link Source="94cf65db-303b-4814-80b2-591f07fd74551" Target="f85e5c13-9cd6-4b46-8ed1-ef68bcb73ed21" Category="Contains" />
+    <Link Source="9745848b-fa0e-4277-97f0-a6594039ab671" Target="aebfb628-3f4f-4c82-85f8-04178d4d2acf1" Bounds="784.597106933594,520.908081054688,180.204223632813,36.9892578125" />
+    <Link Source="a228fac3-bafa-4e0e-910c-d34aeb73a32f1" Target="39909353-1a25-418e-9507-175f62d9bc791" Bounds="246.602310180664,296.707489013672,167.247146606445,43.5679016113281" Label="是" LabelBounds="325.871222008957,311.7075,12,15.8366666666666" />
+    <Link Source="a228fac3-bafa-4e0e-910c-d34aeb73a32f1" Target="3cc26cdb-8c5a-4fc8-ab0b-c66853b3d5611" Bounds="463.440002441406,296.707489013672,0,36.836669921875" Label="否" LabelBounds="451.44,311.7075,12,15.8366666666666" />
+    <Link Source="b6993b23-5185-4b57-84fa-536f98e5a8ff1" Target="2ff95435-eff4-4128-9bd5-bae4f35f799b1" Bounds="678.881896972656,277.255737304688,50.5595703125,45.0999145507813" Label="是" LabelBounds="610.352334441547,492.544931686273,11.9999999999989,15.8366666666666" />
+    <Link Source="b6993b23-5185-4b57-84fa-536f98e5a8ff1" Target="3eb930f7-4c14-41a5-9cd6-f14cfd71eece1" Bounds="729.881896972656,277.518981933594,0,44.836669921875" Label="否" LabelBounds="660.823767244725,492.35044789374,12,15.8366666666666" />
+    <Link Source="bd40c24a-95d4-454f-a7d7-8406ce32de091" Target="939ff774-0077-4006-96b9-3fa1737488801" Bounds="813.291137695313,445.743865966797,110.965148925781,74.5636901855469" />
+    <Link Source="c916b7db-5631-43d6-8e6f-e6107c5252321" Target="8fb2af9e-bfaa-4828-9797-83443b3df3601" Bounds="895.568481445313,482.223571777344,20.4530029296875,30.6795043945313" />
+    <Link Source="c916b7db-5631-43d6-8e6f-e6107c5252321" Target="bd40c24a-95d4-454f-a7d7-8406ce32de091" Bounds="821.870239257813,482.022308349609,72.9693603515625,34.7049255371094" />
+    <Link Source="c916b7db-5631-43d6-8e6f-e6107c5252321" Target="d2e6c098-b48f-49fc-a9e8-eab07fc285a61" Bounds="863.920837402344,482.165649414063,31.0213623046875,31.8377075195313" />
+    <Link Source="c9870b19-b8bc-485d-8718-ed0f97b79a741" Target="8fb2af9e-bfaa-4828-9797-83443b3df3601" Bounds="851.727905273438,482.050903320313,61.2642822265625,34.1329956054688" />
+    <Link Source="c9870b19-b8bc-485d-8718-ed0f97b79a741" Target="bd40c24a-95d4-454f-a7d7-8406ce32de091" Bounds="819.920837402344,482.165649414063,31.0213623046875,31.8377075195313" />
+    <Link Source="c9870b19-b8bc-485d-8718-ed0f97b79a741" Target="d2e6c098-b48f-49fc-a9e8-eab07fc285a61" Bounds="851.367126464844,482.301727294922,4.47943115234375,29.1162719726563" />
+    <Link Source="d2e6c098-b48f-49fc-a9e8-eab07fc285a61" Target="aebfb628-3f4f-4c82-85f8-04178d4d2acf1" Bounds="783.870239257813,521.022277832031,72.9693603515625,34.7049560546875" />
+    <Link Source="dd57d361-8813-43ac-bde9-68ef4735d3ab1" Target="f85e5c13-9cd6-4b46-8ed1-ef68bcb73ed21" Bounds="940.440002441406,1426.01379394531,0,21" />
+    <Link Source="e0456986-6894-4904-8af0-85774c5e3d4b1" Target="8bb518af-4f14-4f86-bf65-fa5afb8cca0a1" Bounds="834.621589362147,1227.78639559438,40.2962728408256,25.2246378223974" />
+    <Link Source="e7cb253d-49b2-4032-8333-c9c5d40395021" Target="8bb518af-4f14-4f86-bf65-fa5afb8cca0a1" Bounds="926.220886230469,1171.94970703125,31.9695434570313,80.1805419921875" Label="否" LabelBounds="958.502720596977,1197.91201710114,12,15.8366666666666" />
+    <Link Source="e7cb253d-49b2-4032-8333-c9c5d40395021" Target="e0456986-6894-4904-8af0-85774c5e3d4b1" Bounds="845.730229608354,1171.94972892772,47.4349956863848,25.7112247439218" Label="是" LabelBounds="873.365475849963,1184.95670554109,12,15.8366666666666" />
+    <Link Source="ee1e2051-2a7f-45d8-a1f6-c8024f85fdd21" Target="7dbe768e-735e-4f1e-8b1f-fef58300a5631" Category="Contains" />
+    <Link Source="ee1e2051-2a7f-45d8-a1f6-c8024f85fdd21" Target="8bb518af-4f14-4f86-bf65-fa5afb8cca0a1" Category="Contains" />
+    <Link Source="ee1e2051-2a7f-45d8-a1f6-c8024f85fdd21" Target="94cf65db-303b-4814-80b2-591f07fd74551" Category="Contains" />
+    <Link Source="ee1e2051-2a7f-45d8-a1f6-c8024f85fdd21" Target="e0456986-6894-4904-8af0-85774c5e3d4b1" Category="Contains" />
+    <Link Source="ee1e2051-2a7f-45d8-a1f6-c8024f85fdd21" Target="e7cb253d-49b2-4032-8333-c9c5d40395021" Category="Contains" />
+    <Link Source="ee1e2051-2a7f-45d8-a1f6-c8024f85fdd21" Target="eea2c007-6663-4e4a-8e6e-9ac250c3c0391" Category="Contains" />
+    <Link Source="eea2c007-6663-4e4a-8e6e-9ac250c3c0391" Target="e7cb253d-49b2-4032-8333-c9c5d40395021" Bounds="926.239242252983,1091.88066228687,20.0755893402413,45.9841875635339" />
+    <Link Source="f2b757de-12cf-4303-9345-d3e4ff21ac041" Target="4eb7db4d-51b1-44cc-86fc-dc17a879b32e1" Bounds="729.881896972656,387.192321777344,0,44.8366394042969" Label="有新版本可用" LabelBounds="600.823767244725,602.023781227073,72,15.836666666667" />
+    <Link Source="f2b757de-12cf-4303-9345-d3e4ff21ac041" Target="52199d92-362a-46df-9a0b-dd19cf560f011" Bounds="282.765525724494,259.061338704427,32.5177930411083,113.024406258352" />
+  </Links>
+  <Categories>
+    <Category Id="Comment" Label="注释" Description="表示在图表中用户定义的注释" CanBeDataDriven="True" IsProviderRoot="False" NavigationActionLabel="注释" />
+    <Category Id="Contains" Label="包含" Description="链接的源是否包含目标对象" CanBeDataDriven="False" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="包含者" IsContainment="True" OutgoingActionLabel="包含" />
+  </Categories>
+  <Properties>
+    <Property Id="Bounds" DataType="System.Windows.Rect" />
+    <Property Id="CanBeDataDriven" Label="CanBeDataDriven" Description="CanBeDataDriven" DataType="System.Boolean" />
+    <Property Id="CanLinkedNodesBeDataDriven" Label="CanLinkedNodesBeDataDriven" Description="CanLinkedNodesBeDataDriven" DataType="System.Boolean" />
+    <Property Id="ErrorMessage" Label="错误" Description="错误" DataType="System.String" />
+    <Property Id="Expression" DataType="System.String" />
+    <Property Id="GraphDirection" DataType="Microsoft.VisualStudio.Diagrams.Layout.LayoutOrientation" />
+    <Property Id="Group" Label="组" Description="将节点显示为组" DataType="Microsoft.VisualStudio.GraphModel.GraphGroupStyle" />
+    <Property Id="GroupLabel" DataType="System.String" />
+    <Property Id="IncomingActionLabel" Label="IncomingActionLabel" Description="IncomingActionLabel" DataType="System.String" />
+    <Property Id="IsCircularLink" Label="循环链接" Description="链接将连接部分强耦合组件" DataType="System.Boolean" />
+    <Property Id="IsContainment" DataType="System.Boolean" />
+    <Property Id="IsEnabled" DataType="System.Boolean" />
+    <Property Id="IsProviderRoot" Label="IsProviderRoot" Description="IsProviderRoot" DataType="System.Boolean" />
+    <Property Id="IsStronglyConnected" Label="循环引用" Description="节点是强耦合的组件的一部分" DataType="System.Boolean" />
+    <Property Id="Label" Label="标签" Description="可批注对象的可显示标签" DataType="System.String" />
+    <Property Id="LabelBounds" DataType="System.Windows.Rect" />
+    <Property Id="Layout" DataType="System.String" />
+    <Property Id="NavigationActionLabel" Label="NavigationActionLabel" Description="NavigationActionLabel" DataType="System.String" />
+    <Property Id="OutgoingActionLabel" Label="OutgoingActionLabel" Description="OutgoingActionLabel" DataType="System.String" />
+    <Property Id="TargetType" DataType="System.Type" />
+    <Property Id="ToolTip" DataType="System.String" />
+    <Property Id="UseManualLocation" DataType="System.Boolean" />
+    <Property Id="Value" DataType="System.String" />
+    <Property Id="ValueLabel" DataType="System.String" />
+    <Property Id="ZoomLevel" DataType="System.String" />
+  </Properties>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="类别 1" ValueLabel="具有类别">
+      <Condition Expression="HasCategory('Category1')" />
+      <Setter Property="Background" Value="#FFE51400" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="循环引用" ToolTip="节点是强耦合的组件的一部分" ValueLabel="节点">
+      <Condition Expression="IsStronglyConnected" />
+      <Setter Property="Stroke" Value="#D02030" />
+      <Setter Property="StrokeThickness" Value="2" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="循环引用" ToolTip="节点是强耦合的组件的一部分" ValueLabel="链接">
+      <Condition Expression="IsCircularLink" />
+      <Setter Property="Stroke" Value="#D02030" />
+      <Setter Property="StrokeThickness" Value="2" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="注释" ValueLabel="包含注释">
+      <Condition Expression="HasCategory('Comment')" />
+      <Setter Property="Background" Value="#FFFFFACD" />
+      <Setter Property="Stroke" Value="#FFE5C365" />
+      <Setter Property="StrokeThickness" Value="1" />
+      <Setter Property="NodeRadius" Value="2" />
+      <Setter Property="MaxWidth" Value="250" />
+    </Style>
+  </Styles>
+</DirectedGraph>

@@ -162,7 +162,7 @@ Public Class frmInstalling
     End Sub
 
     Private Sub bgwInstall_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles bgwInstall.RunWorkerCompleted
-        frmFinish.Show()
+        frmInstallFinish.Show()
         Close()
     End Sub
 

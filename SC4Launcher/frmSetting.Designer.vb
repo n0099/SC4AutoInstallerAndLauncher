@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class frmSetting
     Inherits System.Windows.Forms.Form
 
     'Form 重写 Dispose，以清理组件列表。
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class frmSetting
     '注意:  以下过程是 Windows 窗体设计器所必需的
     '可以使用 Windows 窗体设计器修改它。  
     '不要使用代码编辑器修改它。
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.btnUserDir = New System.Windows.Forms.Button()
@@ -66,12 +66,12 @@ Partial Class frmSetting
         Me.lblSC4InstallDir = New System.Windows.Forms.Label()
         Me.btnSC4InstallDir = New System.Windows.Forms.Button()
         Me.txtSC4InstallDir = New System.Windows.Forms.TextBox()
+        Me.btnResetSetting = New System.Windows.Forms.Button()
         Me.fbdUserDir = New System.Windows.Forms.FolderBrowserDialog()
         Me.fbdSC4InstallDir = New System.Windows.Forms.FolderBrowserDialog()
         Me.tabSettings = New System.Windows.Forms.TabControl()
         Me.tabpLessSettings = New System.Windows.Forms.TabPage()
         Me.tabpMoreSettings = New System.Windows.Forms.TabPage()
-        Me.btnResetSetting = New System.Windows.Forms.Button()
         Me.grpCPU.SuspendLayout()
         CType(Me.nudCPUCount, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpResolution.SuspendLayout()
@@ -505,7 +505,6 @@ Partial Class frmSetting
         '
         Me.tipMain.AutoPopDelay = 10000
         Me.tipMain.InitialDelay = 100
-        Me.tipMain.IsBalloon = True
         Me.tipMain.ReshowDelay = 100
         '
         'chkUserDir
@@ -516,7 +515,7 @@ Partial Class frmSetting
         Me.chkUserDir.Size = New System.Drawing.Size(132, 16)
         Me.chkUserDir.TabIndex = 10
         Me.chkUserDir.Text = "自定义用户文件目录"
-        Me.tipMain.SetToolTip(Me.chkUserDir, "是否自定义用户文件目录" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "用户文件目录是游戏存储存档、插件和截图等文件的文件夹" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "默认目录为库文档（我的文档）\SimCity 4" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "建议不更改默认的用户文件目录" &
+        Me.tipMain.SetToolTip(Me.chkUserDir, "是否自定义用户文件目录" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "用户文件目录是游戏存储存档、插件和截图等文件的文件夹" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "默认目录为库文档（我的文档）\SimCity 4" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "不建议更改默认的用户文件目录" &
         "")
         Me.chkUserDir.UseVisualStyleBackColor = True
         '
@@ -527,7 +526,7 @@ Partial Class frmSetting
         Me.btnDeleteSC4cfgFile.Size = New System.Drawing.Size(180, 23)
         Me.btnDeleteSC4cfgFile.TabIndex = 19
         Me.btnDeleteSC4cfgFile.Text = "删除SimCity 4.cfg文件(&D)"
-        Me.tipMain.SetToolTip(Me.btnDeleteSC4cfgFile, "如果部分设置无效，请在删除SimCity 4.cfg文件后再试。" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "SimCity 4.cfg文件在用户文件目录下。")
+        Me.tipMain.SetToolTip(Me.btnDeleteSC4cfgFile, "如果部分选项设置无效，请删除SimCity 4.cfg文件后再试。" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "SimCity 4.cfg文件存储在用户文件目录下。")
         Me.btnDeleteSC4cfgFile.UseVisualStyleBackColor = True
         '
         'lblSC4InstallDir
@@ -557,6 +556,16 @@ Partial Class frmSetting
         Me.txtSC4InstallDir.Size = New System.Drawing.Size(234, 21)
         Me.txtSC4InstallDir.TabIndex = 15
         Me.tipMain.SetToolTip(Me.txtSC4InstallDir, "模拟城市4的安装目录，建议不要更改")
+        '
+        'btnResetSetting
+        '
+        Me.btnResetSetting.Location = New System.Drawing.Point(249, 145)
+        Me.btnResetSetting.Name = "btnResetSetting"
+        Me.btnResetSetting.Size = New System.Drawing.Size(180, 23)
+        Me.btnResetSetting.TabIndex = 20
+        Me.btnResetSetting.Text = "重置为默认设置(&R)"
+        Me.tipMain.SetToolTip(Me.btnResetSetting, "清空启动参数并重置选项")
+        Me.btnResetSetting.UseVisualStyleBackColor = True
         '
         'fbdUserDir
         '
@@ -623,15 +632,6 @@ Partial Class frmSetting
         Me.tabpMoreSettings.TabIndex = 2
         Me.tabpMoreSettings.Text = "高级"
         Me.tabpMoreSettings.UseVisualStyleBackColor = True
-        '
-        'btnResetSetting
-        '
-        Me.btnResetSetting.Location = New System.Drawing.Point(249, 145)
-        Me.btnResetSetting.Name = "btnResetSetting"
-        Me.btnResetSetting.Size = New System.Drawing.Size(180, 23)
-        Me.btnResetSetting.TabIndex = 20
-        Me.btnResetSetting.Text = "重置为默认设置(&R)"
-        Me.btnResetSetting.UseVisualStyleBackColor = True
         '
         'frmSetting
         '

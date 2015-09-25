@@ -154,6 +154,7 @@ Public Class frmChangeModuleOptions
     End Sub
 
     Private Sub btnBack_Click(sender As Object, e As EventArgs) Handles btnBack.Click
+        ModuleMain.InstallOptions = New InstallOptions '恢复已更改的ModuleMain.InstallOptions类实例
         frmMain.Show()
         RemoveHandler Me.FormClosing, AddressOf frmModuleChangeOption_FormClosing '移除关闭窗口过程和关闭窗口事件的关联
         Close()
@@ -161,7 +162,7 @@ Public Class frmChangeModuleOptions
 
     Private Sub btnInstall_Click(sender As Object, e As EventArgs) Handles btnInstall.Click
         If ModuleMain.InstallOptions.Install638Patch = False And My.Computer.FileSystem.FileExists("Data\SC4\NoInstall.7z") = False Then
-            MessageBox.Show("Data\SC4\NoInstall.7z 文件不存在！" & vbCrLf & "无法卸载638补丁！请使用原始安装程序以安装或卸载组件", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) : Exit Sub
+            MessageBox.Show("Data\SC4\NoInstall.7z 文件不存在，无法卸载638补丁！" & vbCrLf & "请使用完整安装程序以安装或卸载组件", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) : Exit Sub
         End If
         frmInstalling.Show()
         RemoveHandler Me.FormClosing, AddressOf frmModuleChangeOption_FormClosing '移除关闭窗口过程和关闭窗口事件的关联

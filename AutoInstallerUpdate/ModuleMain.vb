@@ -49,10 +49,10 @@
                 .DeleteDirectory("Data", FileIO.DeleteDirectoryOption.DeleteAllContents)
             End If
             Console.Write("更新安装完成")
-            Dim bat As String = ":del" & vbCrLf & "del %1" & vbCrLf & "if exist %1 goto del" & vbCrLf & "del %0"
-            My.Computer.FileSystem.WriteAllText("DeleteUpdater.bat", bat, False, Text.Encoding.ASCII)
-            If .FileExists("Setup.exe") = True Then Process.Start("Setup.exe")
-            Process.Start(New ProcessStartInfo With {.FileName = "DeleteUpdater.bat", .Arguments = """" & Process.GetCurrentProcess.MainModule.FileName & """", .Verb = "runas", .WindowStyle = ProcessWindowStyle.Hidden})
+            Dim bat As String = ":del" & vbCrLf & "del %~dp0\%1" & vbCrLf & "if exist %~dp0\%1 goto del" & vbCrLf & "del %0"
+            My.Computer.FileSystem.WriteAllText("del.bat", bat, False, Text.Encoding.ASCII) '声明一个用于删除安装程序的批处理文件内容的字符串变量
+            If .FileExists("Setup.exe") = True Then Process.Start("Setup.exe") '新建一个内容为bat字符串变量的批处理文件
+            Process.Start(New ProcessStartInfo With {.FileName = "del.bat", .Arguments = "AutoInstallerUpdate.exe", .Verb = "runas"})
         End With
     End Sub
 

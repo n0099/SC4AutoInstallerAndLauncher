@@ -309,9 +309,9 @@ Partial Class frmInstallOptions
         Me.lblTitle2.AutoSize = True
         Me.lblTitle2.Location = New System.Drawing.Point(12, 45)
         Me.lblTitle2.Name = "lblTitle2"
-        Me.lblTitle2.Size = New System.Drawing.Size(437, 12)
+        Me.lblTitle2.Size = New System.Drawing.Size(431, 12)
         Me.lblTitle2.TabIndex = 1
-        Me.lblTitle2.Text = "请选择要安装的组件，并取消选择不要安装的组件，单击[安装 (N) >]按钮继续。"
+        Me.lblTitle2.Text = "请选择要安装的组件，并取消选择不要安装的组件，单击[安装(N) >]按钮继续。"
         '
         'cmbOptions
         '

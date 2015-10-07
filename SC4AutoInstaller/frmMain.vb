@@ -25,7 +25,7 @@
                 If MD5(i) = _638FilesMD5(i - 1) Then .Is638PatchInstalled = True Else .Is638PatchInstalled = False
             Next
             If MD5(1) = "6159A4036F451BEA1740DDB05C32494A" Then .Is640PatchInstalled = True '判断是否已经安装640补丁
-            Select Case MD5(0) '判断Apps\SimCity 4.exe文件的MD5值
+            Select Case MD5(0) '判断游戏安装目录\Apps\SimCity 4.exe文件的MD5值
                 Case "6159A4036F451BEA1740DDB05C32494A" : .Is640PatchInstalled = True
                 Case "53D2AE4FA9114B88AD91ECF32A7F16A4" : .Is641PatchInstalled = True
                 Case "78202C3EF76988BD2BF05F8D223BE7A3" : .Is4GBPatchInstalled = True : .Is638PatchInstalled = False : .Is640PatchInstalled = False : .Is641PatchInstalled = False

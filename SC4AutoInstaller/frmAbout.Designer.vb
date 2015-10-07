@@ -41,7 +41,7 @@ Partial Class frmAbout
         'btnClose
         '
         Me.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnClose.Location = New System.Drawing.Point(397, 278)
+        Me.btnClose.Location = New System.Drawing.Point(397, 308)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(75, 23)
         Me.btnClose.TabIndex = 7
@@ -70,7 +70,7 @@ Partial Class frmAbout
         'llbBlog
         '
         Me.llbBlog.AutoSize = True
-        Me.llbBlog.Location = New System.Drawing.Point(303, 283)
+        Me.llbBlog.Location = New System.Drawing.Point(303, 313)
         Me.llbBlog.Name = "llbBlog"
         Me.llbBlog.Size = New System.Drawing.Size(71, 12)
         Me.llbBlog.TabIndex = 5
@@ -80,7 +80,7 @@ Partial Class frmAbout
         'llbReportBug
         '
         Me.llbReportBug.AutoSize = True
-        Me.llbReportBug.Location = New System.Drawing.Point(250, 283)
+        Me.llbReportBug.Location = New System.Drawing.Point(250, 313)
         Me.llbReportBug.Name = "llbReportBug"
         Me.llbReportBug.Size = New System.Drawing.Size(47, 12)
         Me.llbReportBug.TabIndex = 6
@@ -90,7 +90,7 @@ Partial Class frmAbout
         'llbSCB
         '
         Me.llbSCB.AutoSize = True
-        Me.llbSCB.Location = New System.Drawing.Point(12, 283)
+        Me.llbSCB.Location = New System.Drawing.Point(12, 313)
         Me.llbSCB.Name = "llbSCB"
         Me.llbSCB.Size = New System.Drawing.Size(89, 12)
         Me.llbSCB.TabIndex = 4
@@ -123,14 +123,14 @@ Partial Class frmAbout
         Me.lblThanksList.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.lblThanksList.Location = New System.Drawing.Point(142, 82)
         Me.lblThanksList.Name = "lblThanksList"
-        Me.lblThanksList.Size = New System.Drawing.Size(330, 193)
+        Me.lblThanksList.Size = New System.Drawing.Size(330, 223)
         Me.lblThanksList.TabIndex = 3
         Me.lblThanksList.Text = resources.GetString("lblThanksList.Text")
         '
         'llbSCCN
         '
         Me.llbSCCN.AutoSize = True
-        Me.llbSCCN.Location = New System.Drawing.Point(107, 283)
+        Me.llbSCCN.Location = New System.Drawing.Point(107, 313)
         Me.llbSCCN.Name = "llbSCCN"
         Me.llbSCCN.Size = New System.Drawing.Size(137, 12)
         Me.llbSCCN.TabIndex = 13
@@ -143,7 +143,7 @@ Partial Class frmAbout
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.btnClose
-        Me.ClientSize = New System.Drawing.Size(484, 312)
+        Me.ClientSize = New System.Drawing.Size(484, 342)
         Me.Controls.Add(Me.llbSCCN)
         Me.Controls.Add(Me.lblThanksList)
         Me.Controls.Add(Me.picLogo)

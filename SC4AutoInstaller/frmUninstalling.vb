@@ -1,6 +1,6 @@
 ﻿Public Class frmUninstalling
 
-    ''' <summary>递归查询一个文件夹内所有的文件和文件夹的数量</summary>
+    ''' <summary>递归返回某个文件夹内所有的文件和文件夹的数量</summary>
     ''' <param name="path">要查询的文件夹的路径</param>
     ''' <returns>返回文件夹内所有的文件和文件夹的数量</returns>
     Private Function GetFolderCount(ByVal path As String) As Long

@@ -109,20 +109,19 @@ Public Class frmChangeModuleOptions
                             Case "添加开始菜单项" : .AddStartMenuItem = True
                         End Select
                     End If
-                Case "繁体中文"
+                Case "繁体中文", "简体中文", "英语"
                     If GetNodeChecked(e.Node.Name) = NodeCheckedState.radiounchecked Then
-                        SetNodeChecked(e.Node.Name, NodeCheckedState.radiochecked) : SetNodeChecked("简体中文", NodeCheckedState.radiounchecked)
-                        SetNodeChecked("英语", NodeCheckedState.radiounchecked) : .LanguagePatch = Opt.Language.TraditionalChinese
-                    End If
-                Case "简体中文"
-                    If GetNodeChecked(e.Node.Name) = NodeCheckedState.radiounchecked Then
-                        SetNodeChecked(e.Node.Name, NodeCheckedState.radiochecked) : SetNodeChecked("繁体中文", NodeCheckedState.radiounchecked)
-                        SetNodeChecked("英语", NodeCheckedState.radiounchecked) : .LanguagePatch = Opt.Language.SimplifiedChinese
-                    End If
-                Case "英语"
-                    If GetNodeChecked(e.Node.Name) = NodeCheckedState.radiounchecked Then
-                        SetNodeChecked(e.Node.Name, NodeCheckedState.radiochecked) : SetNodeChecked("繁体中文", NodeCheckedState.radiounchecked)
-                        SetNodeChecked("简体中文", NodeCheckedState.radiounchecked) : .LanguagePatch = Opt.Language.English
+                        Select Case e.Node.Name
+                            Case "繁体中文"
+                                SetNodeChecked(e.Node.Name, NodeCheckedState.radiochecked) : SetNodeChecked("简体中文", NodeCheckedState.radiounchecked)
+                                SetNodeChecked("英语", NodeCheckedState.radiounchecked) : .LanguagePatch = Opt.Language.TraditionalChinese
+                            Case "简体中文"
+                                SetNodeChecked(e.Node.Name, NodeCheckedState.radiochecked) : SetNodeChecked("繁体中文", NodeCheckedState.radiounchecked)
+                                SetNodeChecked("英语", NodeCheckedState.radiounchecked) : .LanguagePatch = Opt.Language.SimplifiedChinese
+                            Case "英语"
+                                SetNodeChecked(e.Node.Name, NodeCheckedState.radiochecked) : SetNodeChecked("繁体中文", NodeCheckedState.radiounchecked)
+                                SetNodeChecked("简体中文", NodeCheckedState.radiounchecked) : .LanguagePatch = Opt.Language.English
+                        End Select
                     End If
             End Select
         End With

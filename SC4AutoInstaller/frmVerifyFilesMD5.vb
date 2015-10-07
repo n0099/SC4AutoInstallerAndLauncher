@@ -1,14 +1,14 @@
 ﻿Public Class frmVerifyFilesMD5
 
     ''' <summary>一个用于存储要验证的文件的相对路径和MD5值的 List 泛型类</summary>
-    Dim DataFilesMD5 As New List(Of String)({"Data\DAEMON Tools Lite 5.0.exe", "E4D2A05D4A5C22C6D4BC20D6B502CE6B", "Data\7za.exe", "C99C136C0842778CCD44B398B7563148", "Data\SC4Launcher.exe", "AA30051C5F3E00D9E0A076EB87FE12BD" _
+    Dim DataFilesMD5 As New List(Of String)({"Data\DAEMON Tools Lite 5.0.exe", "E4D2A05D4A5C22C6D4BC20D6B502CE6B", "Data\7za.exe", "C99C136C0842778CCD44B398B7563148", "Data\SC4Launcher.exe", "50F884D96C96793338806F946FC5C41D" _
                                             , "Data\Licenses\CC BY-NC-SA.rtf", "995C9B18CABFBB6DE54A4EE7886D843C", "Data\Licenses\CC BY-NC-SA 3.0 法律文本.rtf", "473B4BFEDFE91351CE00BB962284DBCC" _
                                             , "Data\Licenses\CC BY-NC-SA 4.0 法律文本.rtf", "E27D76D2E75DE182B6C10F6EBA0482A4", "Data\Licenses\EA EULA.txt", "4A263CEC16B302BE4E080A85614A90F9", "Data\Licenses\DAEMON Tools 隐私政策.rtf", "B772FA3468C7C3879A5A16614DC3613C" _
                                             , "Data\Patch\638.7z", "29AF195D1AB5F0ECCA63554E4BB69325", "Data\Patch\640.7z", "59CD8A9571880CA378AB0E5523E1D058", "Data\Patch\SimCity 4 641.exe", "53D2AE4FA9114B88AD91ECF32A7F16A4" _
                                             , "Data\Patch\SimCity 4 NoCD.exe", "B57B5B03C4854C194CE8BEBD173F3483", "Data\Patch\4GB.exe", "96490CFDF3C7DD5AE7EF378C689A8734" _
                                             , "Data\Patch\Language\TChinese\SimCityLocale.DAT", "3D7163C89D35E7388CF7EBC503BAF47B", "Data\Patch\Language\SChinese\SimCityLocale.DAT", "42E66866C5E7C95A29CD153423F4F6FD", "Data\Patch\Language\English\SimCityLocale.DAT", "196A1F3CD9CF58E84E0B0F31E9F81171"})
 
-    ''' <summary>递归查询一个文件夹内所有的文件和文件夹的大小</summary>
+    ''' <summary>递归返回某个文件夹内所有的文件和文件夹的大小</summary>
     ''' <param name="path">要查询的文件夹的路径</param>
     ''' <returns>返回文件夹内所有的文件和文件夹的大小</returns>
     Private Function GetFolderSize(ByVal path As String) As Long

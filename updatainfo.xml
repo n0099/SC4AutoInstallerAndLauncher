@@ -1,42 +1,37 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <UpdataInfo>
   <AutoInstaller>
-    <LatestVersion>2.7.28</LatestVersion>
+    <LatestVersion>2.7.33</LatestVersion>
     <UpdataDetail>
 如果下载更新后没有自动安装更新，请手动运行安装程序所在目录下的Updata.exe程序来手动更新！<br />
-更新程序大小：18.0MB<br />
-模拟城市4 豪华版 自动安装程序(SC4AutoInstaller) 2.7.28 正式版 (2015-10-01)<br />
+更新程序大小：17.3MB<br />
+模拟城市4 豪华版 自动安装程序(SC4AutoInstaller) 2.7.33 正式版 (2015-10-07)<br />
 ====================================================================================<br />
 <br />
 修改<br />
 ====<br />
-1.在关于窗口的鸣谢文本框里添加了朱或燊的名字。<br />
-2.现在在进入安装或卸载窗口前也必须先阅读许可协议。<br />
-3.现在在安装镜像版模拟城市4前会检查盘符为X或Y的分区是否存在。<br />
-4.更换了4张在安装中窗口右侧循环显示的游戏截图（感谢坐在鸭子的建议）。<br />
+1.在关于窗口的鸣谢文本框里添加了xiongyi2、好丨似分离、风清云淡处506、飘悠佳佳1、phlive和skieriver的名字并更改了关于窗口的大小。<br />
+2.现在不需要将安装选项窗口的快速选择组件列表框选择项改为自定义也可以更改安装选项。<br />
 <br />
 修复<br />
 ====<br />
-1.修复了如果某个组件安装失败，安装完成窗口的安装失败列表框项没有组标题的bug（感谢朱或燊发现此bug）。<br />
-2.修复了点击安装选项窗口或安装或卸载组件窗口的返回按钮后不会恢复安装选项的bug。<br />
-3.修复了如果盘符为X或Y的分区已被占用，则会在安装镜像版模拟城市4时陷入死循环并不断加载虚拟光驱的bug。<br />
-4.修复了如果不存在Data\SC4\NoInstall.7z文件，则无法进入安装或卸载组件窗口的bug。
+1.修复了如果640补丁更改失败，仍然会继续更改641补丁的bug。<br />
+2.修复了在某些情况下无法安装镜像版和硬盘版模拟城市4，无法安装或卸载638补丁和640补丁的bug（感谢xiongyi2、好丨似分离、风清云淡处506、飘悠佳佳1、phlive和skieriver发现此bug）。<br />
+3.修复了切换安装选项窗口的安装类型组合框选择项时会强制选择安装组件列表框的繁体中文语言补丁项的bug。
     </UpdataDetail>
     <DonwloadLink>https://n0099.github.io/SimCity4-AutoInstaller-And-Launcher/AutoInstallerUpdata.exe</DonwloadLink>
   </AutoInstaller>
   <Launcher>
-    <LatestVersion>1.1.21</LatestVersion>
+    <LatestVersion>1.1.22</LatestVersion>
     <UpdataDetail>
 如果下载更新后没有自动安装更新，请手动运行启动器所在目录下的Updata.exe程序来手动更新！<br />
 更新程序大小：6.34MB<br />
-模拟城市4 启动器(SC4Launcher) 1.1.21 正式版 (2015-10-01)<br />
+模拟城市4 启动器(SC4Launcher) 1.1.22 正式版 (2015-10-07)<br />
 ====================================================================================<br />
 <br />
-修改<br />
+修复<br />
 ====<br />
-1.修改了设置窗口的选项提示文本样式。<br />
-2.添加并修改了设置窗口的重置为默认设置按钮和删除SimCity 4.cfg文件按钮的提示文本。<br />
-3.更换了1张每次启动时主窗口随机显示的游戏截图。（感谢坐在鸭子的建议）。
+1.修复了下载更新程序完成后程序不会退出的bug。
     </UpdataDetail>
     <DonwloadLink>https://n0099.github.io/SimCity4-AutoInstaller-And-Launcher/LauncherUpdata.exe</DonwloadLink>
   </Launcher>

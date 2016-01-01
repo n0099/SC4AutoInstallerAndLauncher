@@ -50,16 +50,16 @@ Partial Class frmInstallOptions
         Me.btnBack = New System.Windows.Forms.Button()
         Me.lblTitle = New System.Windows.Forms.Label()
         Me.tvwOptions = New System.Windows.Forms.TreeView()
-        Me.imgOptions = New System.Windows.Forms.ImageList(Me.components)
+        Me.imgOptionsIcon = New System.Windows.Forms.ImageList(Me.components)
         Me.grpOptionDetail = New System.Windows.Forms.GroupBox()
-        Me.btnDAEMONlInstallDir = New System.Windows.Forms.Button()
-        Me.lblDAEMONlInstallDir = New System.Windows.Forms.Label()
-        Me.txtDAEMONlInstallDir = New System.Windows.Forms.TextBox()
+        Me.btnDAEMONToolsInstallDir = New System.Windows.Forms.Button()
+        Me.lblDAEMONToolsInstallDir = New System.Windows.Forms.Label()
+        Me.txtDAEMONToolsInstallDir = New System.Windows.Forms.TextBox()
         Me.lblOptionDiskSpace = New System.Windows.Forms.Label()
         Me.lblOptionDetail = New System.Windows.Forms.Label()
         Me.lblNeedsDiskSpace = New System.Windows.Forms.Label()
         Me.fbdSC4InstallDir = New System.Windows.Forms.FolderBrowserDialog()
-        Me.fbdDAEMONlInstallDir = New System.Windows.Forms.FolderBrowserDialog()
+        Me.fbdDAEMONToolsInstallDir = New System.Windows.Forms.FolderBrowserDialog()
         Me.lblTitle2 = New System.Windows.Forms.Label()
         Me.cmbOptions = New System.Windows.Forms.ComboBox()
         Me.pnlOptions = New System.Windows.Forms.Panel()
@@ -74,14 +74,14 @@ Partial Class frmInstallOptions
         Me.txtSC4InstallDir.Location = New System.Drawing.Point(12, 353)
         Me.txtSC4InstallDir.Name = "txtSC4InstallDir"
         Me.txtSC4InstallDir.Size = New System.Drawing.Size(514, 21)
-        Me.txtSC4InstallDir.TabIndex = 6
+        Me.txtSC4InstallDir.TabIndex = 4
         '
         'btnSC4InstallDir
         '
         Me.btnSC4InstallDir.Location = New System.Drawing.Point(532, 351)
         Me.btnSC4InstallDir.Name = "btnSC4InstallDir"
         Me.btnSC4InstallDir.Size = New System.Drawing.Size(80, 23)
-        Me.btnSC4InstallDir.TabIndex = 7
+        Me.btnSC4InstallDir.TabIndex = 5
         Me.btnSC4InstallDir.Text = "浏览(&B)..."
         Me.btnSC4InstallDir.UseVisualStyleBackColor = True
         '
@@ -91,8 +91,8 @@ Partial Class frmInstallOptions
         Me.lblSC4lInstallDir.Location = New System.Drawing.Point(10, 333)
         Me.lblSC4lInstallDir.Name = "lblSC4lInstallDir"
         Me.lblSC4lInstallDir.Size = New System.Drawing.Size(281, 12)
-        Me.lblSC4lInstallDir.TabIndex = 5
-        Me.lblSC4lInstallDir.Text = "安装程序将安装 模拟城市4 豪华版 到下列文件夹中"
+        Me.lblSC4lInstallDir.TabIndex = 3
+        Me.lblSC4lInstallDir.Text = "安装程序将安装 模拟城市4 豪华版 到该文件夹中："
         '
         'btnCancel
         '
@@ -100,7 +100,7 @@ Partial Class frmInstallOptions
         Me.btnCancel.Location = New System.Drawing.Point(532, 407)
         Me.btnCancel.Name = "btnCancel"
         Me.btnCancel.Size = New System.Drawing.Size(80, 23)
-        Me.btnCancel.TabIndex = 11
+        Me.btnCancel.TabIndex = 9
         Me.btnCancel.Text = "取消(&C)"
         Me.btnCancel.UseVisualStyleBackColor = True
         '
@@ -109,7 +109,7 @@ Partial Class frmInstallOptions
         Me.btnInstall.Location = New System.Drawing.Point(446, 407)
         Me.btnInstall.Name = "btnInstall"
         Me.btnInstall.Size = New System.Drawing.Size(80, 23)
-        Me.btnInstall.TabIndex = 10
+        Me.btnInstall.TabIndex = 8
         Me.btnInstall.Text = "安装(&N) >"
         Me.btnInstall.UseVisualStyleBackColor = True
         '
@@ -118,7 +118,7 @@ Partial Class frmInstallOptions
         Me.btnBack.Location = New System.Drawing.Point(360, 407)
         Me.btnBack.Name = "btnBack"
         Me.btnBack.Size = New System.Drawing.Size(80, 23)
-        Me.btnBack.TabIndex = 9
+        Me.btnBack.TabIndex = 7
         Me.btnBack.Text = "< 返回(&B)"
         Me.btnBack.UseVisualStyleBackColor = True
         '
@@ -134,148 +134,148 @@ Partial Class frmInstallOptions
         '
         'tvwOptions
         '
-        Me.tvwOptions.ImageKey = "rootnodebackground.png"
-        Me.tvwOptions.ImageList = Me.imgOptions
+        Me.tvwOptions.ImageIndex = 0
+        Me.tvwOptions.ImageList = Me.imgOptionsIcon
         Me.tvwOptions.Location = New System.Drawing.Point(0, 20)
         Me.tvwOptions.Name = "tvwOptions"
-        TreeNode1.ImageKey = "radiounchecked"
+        TreeNode1.ImageKey = "RadioUnchecked"
         TreeNode1.Name = "模拟城市4 豪华版 镜像版"
-        TreeNode1.SelectedImageKey = "radiounchecked"
+        TreeNode1.SelectedImageKey = "RadioUnchecked"
         TreeNode1.Text = "模拟城市4 豪华版 镜像版"
-        TreeNode2.ImageKey = "radiounchecked"
+        TreeNode2.ImageKey = "RadioUnchecked"
         TreeNode2.Name = "模拟城市4 豪华版 硬盘版"
-        TreeNode2.SelectedImageKey = "radiounchecked"
+        TreeNode2.SelectedImageKey = "RadioUnchecked"
         TreeNode2.Text = "模拟城市4 豪华版 硬盘版"
-        TreeNode3.ImageKey = "unchecked"
+        TreeNode3.ImageKey = "Unchecked"
         TreeNode3.Name = "DAEMON Tools Lite"
-        TreeNode3.SelectedImageKey = "unchecked"
+        TreeNode3.SelectedImageKey = "Unchecked"
         TreeNode3.Text = "DAEMON Tools Lite"
-        TreeNode4.ImageKey = "rootnodebackground"
+        TreeNode4.ImageKey = "RootNodeBackground"
         TreeNode4.Name = "必选组件"
-        TreeNode4.SelectedImageKey = "rootnodebackground"
+        TreeNode4.SelectedImageKey = "RootNodeBackground"
         TreeNode4.Text = "必选组件"
-        TreeNode5.ImageKey = "unchecked"
+        TreeNode5.ImageKey = "Unchecked"
         TreeNode5.Name = "638补丁"
-        TreeNode5.SelectedImageKey = "unchecked"
+        TreeNode5.SelectedImageKey = "Unchecked"
         TreeNode5.Text = "638补丁"
-        TreeNode6.ImageKey = "unchecked"
+        TreeNode6.ImageKey = "Unchecked"
         TreeNode6.Name = "640补丁"
-        TreeNode6.SelectedImageKey = "unchecked"
+        TreeNode6.SelectedImageKey = "Unchecked"
         TreeNode6.Text = "640补丁"
-        TreeNode7.ImageKey = "unchecked"
+        TreeNode7.ImageKey = "Unchecked"
         TreeNode7.Name = "641补丁"
-        TreeNode7.SelectedImageKey = "unchecked"
+        TreeNode7.SelectedImageKey = "Unchecked"
         TreeNode7.Text = "641补丁"
-        TreeNode8.ImageKey = "unchecked"
+        TreeNode8.ImageKey = "Unchecked"
         TreeNode8.Name = "4GB补丁"
-        TreeNode8.SelectedImageKey = "unchecked"
+        TreeNode8.SelectedImageKey = "Unchecked"
         TreeNode8.Text = "4GB补丁"
-        TreeNode9.ImageKey = "unchecked"
+        TreeNode9.ImageKey = "Unchecked"
         TreeNode9.Name = "免CD补丁"
-        TreeNode9.SelectedImageKey = "unchecked"
+        TreeNode9.SelectedImageKey = "Unchecked"
         TreeNode9.Text = "免CD补丁"
-        TreeNode10.ImageKey = "unchecked"
+        TreeNode10.ImageKey = "Unchecked"
         TreeNode10.Name = "模拟城市4 启动器"
-        TreeNode10.SelectedImageKey = "unchecked"
+        TreeNode10.SelectedImageKey = "Unchecked"
         TreeNode10.Text = "模拟城市4 启动器"
-        TreeNode11.ImageKey = "radiounchecked"
+        TreeNode11.ImageKey = "RadioUnchecked"
         TreeNode11.Name = "繁体中文"
-        TreeNode11.SelectedImageKey = "radiounchecked"
+        TreeNode11.SelectedImageKey = "RadioUnchecked"
         TreeNode11.Text = "繁体中文"
-        TreeNode12.ImageKey = "radiounchecked"
+        TreeNode12.ImageKey = "RadioUnchecked"
         TreeNode12.Name = "简体中文"
-        TreeNode12.SelectedImageKey = "radiounchecked"
+        TreeNode12.SelectedImageKey = "RadioUnchecked"
         TreeNode12.Text = "简体中文"
-        TreeNode13.ImageKey = "radiounchecked"
+        TreeNode13.ImageKey = "RadioUnchecked"
         TreeNode13.Name = "英语"
-        TreeNode13.SelectedImageKey = "radiounchecked"
+        TreeNode13.SelectedImageKey = "RadioUnchecked"
         TreeNode13.Text = "英语"
-        TreeNode14.ImageKey = "nodebackground"
+        TreeNode14.ImageKey = "NodeBackground"
         TreeNode14.Name = "语言补丁"
-        TreeNode14.SelectedImageKey = "nodebackground"
+        TreeNode14.SelectedImageKey = "NodeBackground"
         TreeNode14.Text = "语言补丁"
-        TreeNode15.ImageKey = "rootnodebackground"
+        TreeNode15.ImageKey = "RootNodeBackground"
         TreeNode15.Name = "可选组件"
-        TreeNode15.SelectedImageKey = "rootnodebackground"
+        TreeNode15.SelectedImageKey = "RootNodeBackground"
         TreeNode15.Text = "可选组件"
-        TreeNode16.ImageKey = "unchecked"
+        TreeNode16.ImageKey = "Unchecked"
         TreeNode16.Name = "添加桌面图标"
-        TreeNode16.SelectedImageKey = "unchecked"
+        TreeNode16.SelectedImageKey = "Unchecked"
         TreeNode16.Text = "添加桌面图标"
-        TreeNode17.ImageKey = "unchecked"
+        TreeNode17.ImageKey = "Unchecked"
         TreeNode17.Name = "添加开始菜单项"
-        TreeNode17.SelectedImageKey = "unchecked"
+        TreeNode17.SelectedImageKey = "Unchecked"
         TreeNode17.Text = "添加开始菜单项"
-        TreeNode18.ImageKey = "rootnodebackground"
+        TreeNode18.ImageKey = "RootNodeBackground"
         TreeNode18.Name = "附加任务"
-        TreeNode18.SelectedImageKey = "rootnodebackground"
+        TreeNode18.SelectedImageKey = "RootNodeBackground"
         TreeNode18.Text = "附加任务"
         Me.tvwOptions.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode4, TreeNode15, TreeNode18})
         Me.tvwOptions.SelectedImageIndex = 0
         Me.tvwOptions.ShowPlusMinus = False
         Me.tvwOptions.ShowRootLines = False
         Me.tvwOptions.Size = New System.Drawing.Size(300, 229)
-        Me.tvwOptions.TabIndex = 3
+        Me.tvwOptions.TabIndex = 2
         '
-        'imgOptions
+        'imgOptionsIcon
         '
-        Me.imgOptions.ImageStream = CType(resources.GetObject("imgOptions.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.imgOptions.TransparentColor = System.Drawing.Color.Transparent
-        Me.imgOptions.Images.SetKeyName(0, "rootnodebackground")
-        Me.imgOptions.Images.SetKeyName(1, "nodebackground")
-        Me.imgOptions.Images.SetKeyName(2, "checked")
-        Me.imgOptions.Images.SetKeyName(3, "unchecked")
-        Me.imgOptions.Images.SetKeyName(4, "radiochecked")
-        Me.imgOptions.Images.SetKeyName(5, "radiounchecked")
+        Me.imgOptionsIcon.ImageStream = CType(resources.GetObject("imgOptionsIcon.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.imgOptionsIcon.TransparentColor = System.Drawing.Color.Transparent
+        Me.imgOptionsIcon.Images.SetKeyName(0, "RootNodeBackground")
+        Me.imgOptionsIcon.Images.SetKeyName(1, "NodeBackground")
+        Me.imgOptionsIcon.Images.SetKeyName(2, "Checked")
+        Me.imgOptionsIcon.Images.SetKeyName(3, "Unchecked")
+        Me.imgOptionsIcon.Images.SetKeyName(4, "RadioChecked")
+        Me.imgOptionsIcon.Images.SetKeyName(5, "RadioUnchecked")
         '
         'grpOptionDetail
         '
-        Me.grpOptionDetail.Controls.Add(Me.btnDAEMONlInstallDir)
-        Me.grpOptionDetail.Controls.Add(Me.lblDAEMONlInstallDir)
-        Me.grpOptionDetail.Controls.Add(Me.txtDAEMONlInstallDir)
+        Me.grpOptionDetail.Controls.Add(Me.btnDAEMONToolsInstallDir)
+        Me.grpOptionDetail.Controls.Add(Me.lblDAEMONToolsInstallDir)
+        Me.grpOptionDetail.Controls.Add(Me.txtDAEMONToolsInstallDir)
         Me.grpOptionDetail.Controls.Add(Me.lblOptionDiskSpace)
         Me.grpOptionDetail.Controls.Add(Me.lblOptionDetail)
         Me.grpOptionDetail.Location = New System.Drawing.Point(306, 0)
         Me.grpOptionDetail.Name = "grpOptionDetail"
         Me.grpOptionDetail.Size = New System.Drawing.Size(294, 249)
-        Me.grpOptionDetail.TabIndex = 4
+        Me.grpOptionDetail.TabIndex = 3
         Me.grpOptionDetail.TabStop = False
         Me.grpOptionDetail.Text = "说明"
         '
-        'btnDAEMONlInstallDir
+        'btnDAEMONToolsInstallDir
         '
-        Me.btnDAEMONlInstallDir.Location = New System.Drawing.Point(208, 188)
-        Me.btnDAEMONlInstallDir.Name = "btnDAEMONlInstallDir"
-        Me.btnDAEMONlInstallDir.Size = New System.Drawing.Size(80, 23)
-        Me.btnDAEMONlInstallDir.TabIndex = 3
-        Me.btnDAEMONlInstallDir.Text = "浏览(&B)..."
-        Me.btnDAEMONlInstallDir.UseVisualStyleBackColor = True
-        Me.btnDAEMONlInstallDir.Visible = False
+        Me.btnDAEMONToolsInstallDir.Location = New System.Drawing.Point(208, 188)
+        Me.btnDAEMONToolsInstallDir.Name = "btnDAEMONToolsInstallDir"
+        Me.btnDAEMONToolsInstallDir.Size = New System.Drawing.Size(80, 23)
+        Me.btnDAEMONToolsInstallDir.TabIndex = 4
+        Me.btnDAEMONToolsInstallDir.Text = "浏览(&B)..."
+        Me.btnDAEMONToolsInstallDir.UseVisualStyleBackColor = True
+        Me.btnDAEMONToolsInstallDir.Visible = False
         '
-        'lblDAEMONlInstallDir
+        'lblDAEMONToolsInstallDir
         '
-        Me.lblDAEMONlInstallDir.AutoSize = True
-        Me.lblDAEMONlInstallDir.Location = New System.Drawing.Point(6, 146)
-        Me.lblDAEMONlInstallDir.Name = "lblDAEMONlInstallDir"
-        Me.lblDAEMONlInstallDir.Size = New System.Drawing.Size(257, 12)
-        Me.lblDAEMONlInstallDir.TabIndex = 1
-        Me.lblDAEMONlInstallDir.Text = "安装程序将安装 DAEMON Tools 到下列文件夹中"
-        Me.lblDAEMONlInstallDir.Visible = False
+        Me.lblDAEMONToolsInstallDir.AutoSize = True
+        Me.lblDAEMONToolsInstallDir.Location = New System.Drawing.Point(6, 146)
+        Me.lblDAEMONToolsInstallDir.Name = "lblDAEMONToolsInstallDir"
+        Me.lblDAEMONToolsInstallDir.Size = New System.Drawing.Size(257, 12)
+        Me.lblDAEMONToolsInstallDir.TabIndex = 2
+        Me.lblDAEMONToolsInstallDir.Text = "安装程序将安装 DAEMON Tools 到下列文件夹中"
+        Me.lblDAEMONToolsInstallDir.Visible = False
         '
-        'txtDAEMONlInstallDir
+        'txtDAEMONToolsInstallDir
         '
-        Me.txtDAEMONlInstallDir.Location = New System.Drawing.Point(6, 161)
-        Me.txtDAEMONlInstallDir.Name = "txtDAEMONlInstallDir"
-        Me.txtDAEMONlInstallDir.Size = New System.Drawing.Size(282, 21)
-        Me.txtDAEMONlInstallDir.TabIndex = 2
-        Me.txtDAEMONlInstallDir.Visible = False
+        Me.txtDAEMONToolsInstallDir.Location = New System.Drawing.Point(6, 161)
+        Me.txtDAEMONToolsInstallDir.Name = "txtDAEMONToolsInstallDir"
+        Me.txtDAEMONToolsInstallDir.Size = New System.Drawing.Size(282, 21)
+        Me.txtDAEMONToolsInstallDir.TabIndex = 3
+        Me.txtDAEMONToolsInstallDir.Visible = False
         '
         'lblOptionDiskSpace
         '
         Me.lblOptionDiskSpace.Location = New System.Drawing.Point(10, 214)
         Me.lblOptionDiskSpace.Name = "lblOptionDiskSpace"
         Me.lblOptionDiskSpace.Size = New System.Drawing.Size(278, 24)
-        Me.lblOptionDiskSpace.TabIndex = 4
+        Me.lblOptionDiskSpace.TabIndex = 1
         '
         'lblOptionDetail
         '
@@ -290,7 +290,7 @@ Partial Class frmInstallOptions
         Me.lblNeedsDiskSpace.Location = New System.Drawing.Point(12, 382)
         Me.lblNeedsDiskSpace.Name = "lblNeedsDiskSpace"
         Me.lblNeedsDiskSpace.Size = New System.Drawing.Size(600, 12)
-        Me.lblNeedsDiskSpace.TabIndex = 8
+        Me.lblNeedsDiskSpace.TabIndex = 6
         Me.lblNeedsDiskSpace.Text = "安装目录至少需要 0KB 的硬盘空间"
         Me.lblNeedsDiskSpace.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
@@ -299,10 +299,10 @@ Partial Class frmInstallOptions
         Me.fbdSC4InstallDir.Description = "选择 模拟城市4 豪华版 的安装目录"
         Me.fbdSC4InstallDir.RootFolder = System.Environment.SpecialFolder.MyComputer
         '
-        'fbdDAEMONlInstallDir
+        'fbdDAEMONToolsInstallDir
         '
-        Me.fbdDAEMONlInstallDir.Description = "选择 DAEMON Tools 的安装目录"
-        Me.fbdDAEMONlInstallDir.RootFolder = System.Environment.SpecialFolder.MyComputer
+        Me.fbdDAEMONToolsInstallDir.Description = "选择 DAEMON Tools 的安装目录"
+        Me.fbdDAEMONToolsInstallDir.RootFolder = System.Environment.SpecialFolder.MyComputer
         '
         'lblTitle2
         '
@@ -321,7 +321,7 @@ Partial Class frmInstallOptions
         Me.cmbOptions.Location = New System.Drawing.Point(62, 0)
         Me.cmbOptions.Name = "cmbOptions"
         Me.cmbOptions.Size = New System.Drawing.Size(238, 20)
-        Me.cmbOptions.TabIndex = 2
+        Me.cmbOptions.TabIndex = 1
         '
         'pnlOptions
         '
@@ -332,7 +332,7 @@ Partial Class frmInstallOptions
         Me.pnlOptions.Location = New System.Drawing.Point(12, 70)
         Me.pnlOptions.Name = "pnlOptions"
         Me.pnlOptions.Size = New System.Drawing.Size(600, 249)
-        Me.pnlOptions.TabIndex = 12
+        Me.pnlOptions.TabIndex = 2
         '
         'lblOptions
         '
@@ -340,7 +340,7 @@ Partial Class frmInstallOptions
         Me.lblOptions.Location = New System.Drawing.Point(3, 3)
         Me.lblOptions.Name = "lblOptions"
         Me.lblOptions.Size = New System.Drawing.Size(65, 12)
-        Me.lblOptions.TabIndex = 5
+        Me.lblOptions.TabIndex = 0
         Me.lblOptions.Text = "安装类型："
         '
         'tmrCheckMousePosition
@@ -391,12 +391,12 @@ End Sub
     Friend WithEvents lblOptionDiskSpace As System.Windows.Forms.Label
     Friend WithEvents lblOptionDetail As System.Windows.Forms.Label
     Friend WithEvents lblNeedsDiskSpace As System.Windows.Forms.Label
-    Friend WithEvents btnDAEMONlInstallDir As System.Windows.Forms.Button
-    Friend WithEvents lblDAEMONlInstallDir As System.Windows.Forms.Label
-    Friend WithEvents txtDAEMONlInstallDir As System.Windows.Forms.TextBox
+    Friend WithEvents btnDAEMONToolsInstallDir As System.Windows.Forms.Button
+    Friend WithEvents lblDAEMONToolsInstallDir As System.Windows.Forms.Label
+    Friend WithEvents txtDAEMONToolsInstallDir As System.Windows.Forms.TextBox
     Friend WithEvents fbdSC4InstallDir As System.Windows.Forms.FolderBrowserDialog
-    Friend WithEvents fbdDAEMONlInstallDir As System.Windows.Forms.FolderBrowserDialog
-    Friend WithEvents imgOptions As System.Windows.Forms.ImageList
+    Friend WithEvents fbdDAEMONToolsInstallDir As System.Windows.Forms.FolderBrowserDialog
+    Friend WithEvents imgOptionsIcon As System.Windows.Forms.ImageList
     Friend WithEvents lblTitle2 As System.Windows.Forms.Label
     Friend WithEvents cmbOptions As System.Windows.Forms.ComboBox
     Friend WithEvents pnlOptions As System.Windows.Forms.Panel

@@ -28,7 +28,7 @@ Partial Class frmMain
         Me.btnAbout = New System.Windows.Forms.Button()
         Me.btnChangeModule = New System.Windows.Forms.Button()
         Me.btnUninstall = New System.Windows.Forms.Button()
-        Me.bgwComputeMD5 = New System.ComponentModel.BackgroundWorker()
+        Me.bgwVerifySC4Version = New System.ComponentModel.BackgroundWorker()
         Me.SuspendLayout()
         '
         'btnInstall
@@ -87,9 +87,8 @@ Partial Class frmMain
         Me.btnUninstall.UseVisualStyleBackColor = True
         Me.btnUninstall.Visible = False
         '
-        'bgwComputeMD5
+        'bgwVerifySC4Version
         '
-        Me.bgwComputeMD5.WorkerSupportsCancellation = True
         '
         'frmMain
         '
@@ -118,6 +117,6 @@ Partial Class frmMain
     Friend WithEvents btnAbout As System.Windows.Forms.Button
     Friend WithEvents btnChangeModule As System.Windows.Forms.Button
     Friend WithEvents btnUninstall As System.Windows.Forms.Button
-    Friend WithEvents bgwComputeMD5 As System.ComponentModel.BackgroundWorker
+    Friend WithEvents bgwVerifySC4Version As System.ComponentModel.BackgroundWorker
 
 End Class

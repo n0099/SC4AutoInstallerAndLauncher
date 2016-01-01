@@ -25,7 +25,6 @@ Partial Class frmInstalling
         Me.components = New System.ComponentModel.Container()
         Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("游戏", System.Windows.Forms.HorizontalAlignment.Center)
         Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("组件", System.Windows.Forms.HorizontalAlignment.Center)
-        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("附加任务", System.Windows.Forms.HorizontalAlignment.Center)
         Dim ListViewItem1 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("模拟城市4 豪华版")
         Dim ListViewItem2 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("DAEMON Tools Lite")
         Dim ListViewItem3 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("638补丁")
@@ -35,11 +34,9 @@ Partial Class frmInstalling
         Dim ListViewItem7 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("4GB补丁")
         Dim ListViewItem8 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("模拟城市4 启动器")
         Dim ListViewItem9 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("语言补丁")
-        Dim ListViewItem10 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("添加桌面图标")
-        Dim ListViewItem11 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("添加开始菜单项")
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmInstalling))
         Me.lvwTask = New System.Windows.Forms.ListView()
-        Me.imgTask = New System.Windows.Forms.ImageList(Me.components)
+        Me.imgTasksIcon = New System.Windows.Forms.ImageList(Me.components)
         Me.lblTitle = New System.Windows.Forms.Label()
         Me.bgwInstall = New System.ComponentModel.BackgroundWorker()
         Me.picSC4 = New System.Windows.Forms.PictureBox()
@@ -59,10 +56,7 @@ Partial Class frmInstalling
         ListViewGroup2.Header = "组件"
         ListViewGroup2.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center
         ListViewGroup2.Name = "lvwGroupSubassembly"
-        ListViewGroup3.Header = "附加任务"
-        ListViewGroup3.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center
-        ListViewGroup3.Name = "lvwGroupAdditionTask"
-        Me.lvwTask.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2, ListViewGroup3})
+        Me.lvwTask.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
         ListViewItem1.Group = ListViewGroup1
         ListViewItem2.Group = ListViewGroup2
         ListViewItem3.Group = ListViewGroup2
@@ -72,10 +66,8 @@ Partial Class frmInstalling
         ListViewItem7.Group = ListViewGroup2
         ListViewItem8.Group = ListViewGroup2
         ListViewItem9.Group = ListViewGroup2
-        ListViewItem10.Group = ListViewGroup3
-        ListViewItem11.Group = ListViewGroup3
-        Me.lvwTask.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem1, ListViewItem2, ListViewItem3, ListViewItem4, ListViewItem5, ListViewItem6, ListViewItem7, ListViewItem8, ListViewItem9, ListViewItem10, ListViewItem11})
-        Me.lvwTask.LargeImageList = Me.imgTask
+        Me.lvwTask.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem1, ListViewItem2, ListViewItem3, ListViewItem4, ListViewItem5, ListViewItem6, ListViewItem7, ListViewItem8, ListViewItem9})
+        Me.lvwTask.LargeImageList = Me.imgTasksIcon
         Me.lvwTask.Location = New System.Drawing.Point(12, 54)
         Me.lvwTask.Name = "lvwTask"
         Me.lvwTask.Size = New System.Drawing.Size(176, 378)
@@ -84,13 +76,13 @@ Partial Class frmInstalling
         Me.lvwTask.UseCompatibleStateImageBehavior = False
         Me.lvwTask.View = System.Windows.Forms.View.Tile
         '
-        'imgTask
+        'imgTasksIcon
         '
-        Me.imgTask.ImageStream = CType(resources.GetObject("imgTask.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.imgTask.TransparentColor = System.Drawing.Color.Transparent
-        Me.imgTask.Images.SetKeyName(0, "success")
-        Me.imgTask.Images.SetKeyName(1, "fail")
-        Me.imgTask.Images.SetKeyName(2, "installing")
+        Me.imgTasksIcon.ImageStream = CType(resources.GetObject("imgTasksIcon.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.imgTasksIcon.TransparentColor = System.Drawing.Color.Transparent
+        Me.imgTasksIcon.Images.SetKeyName(0, "Success")
+        Me.imgTasksIcon.Images.SetKeyName(1, "Fail")
+        Me.imgTasksIcon.Images.SetKeyName(2, "Installing")
         '
         'lblTitle
         '
@@ -127,7 +119,7 @@ Partial Class frmInstalling
         Me.lblInstalling.Location = New System.Drawing.Point(12, 435)
         Me.lblInstalling.Name = "lblInstalling"
         Me.lblInstalling.Size = New System.Drawing.Size(68, 17)
-        Me.lblInstalling.TabIndex = 13
+        Me.lblInstalling.TabIndex = 2
         Me.lblInstalling.Text = "正在安装："
         '
         'prgInstall
@@ -136,17 +128,17 @@ Partial Class frmInstalling
         Me.prgInstall.Name = "prgInstall"
         Me.prgInstall.Size = New System.Drawing.Size(176, 13)
         Me.prgInstall.Style = System.Windows.Forms.ProgressBarStyle.Marquee
-        Me.prgInstall.TabIndex = 14
+        Me.prgInstall.TabIndex = 3
         '
         'frmInstalling
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(834, 480)
+        Me.Controls.Add(Me.picSC4)
         Me.Controls.Add(Me.prgInstall)
         Me.Controls.Add(Me.lblInstalling)
         Me.Controls.Add(Me.lblTitle)
-        Me.Controls.Add(Me.picSC4)
         Me.Controls.Add(Me.lvwTask)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -162,7 +154,7 @@ Partial Class frmInstalling
     Friend WithEvents lvwTask As System.Windows.Forms.ListView
     Friend WithEvents lblTitle As System.Windows.Forms.Label
     Friend WithEvents bgwInstall As System.ComponentModel.BackgroundWorker
-    Friend WithEvents imgTask As System.Windows.Forms.ImageList
+    Friend WithEvents imgTasksIcon As System.Windows.Forms.ImageList
     Friend WithEvents picSC4 As System.Windows.Forms.PictureBox
     Friend WithEvents tmrPic As System.Windows.Forms.Timer
     Friend WithEvents lblInstalling As Label

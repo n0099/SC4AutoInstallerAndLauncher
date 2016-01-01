@@ -383,7 +383,7 @@ Partial Class frmSetting
         Me.chkIntro.Size = New System.Drawing.Size(72, 16)
         Me.chkIntro.TabIndex = 2
         Me.chkIntro.Text = "开场动画"
-        Me.tipMain.SetToolTip(Me.chkIntro, "是否显示开场的动画，默认显示，建议设为不显示。")
+        Me.tipMain.SetToolTip(Me.chkIntro, "是否显示开场的动画，默认显示，建议设为不显示")
         Me.chkIntro.UseVisualStyleBackColor = True
         '
         'chkAllowMultipleInstances
@@ -526,7 +526,7 @@ Partial Class frmSetting
         Me.btnDeleteSC4cfgFile.Size = New System.Drawing.Size(180, 23)
         Me.btnDeleteSC4cfgFile.TabIndex = 19
         Me.btnDeleteSC4cfgFile.Text = "删除SimCity 4.cfg文件(&D)"
-        Me.tipMain.SetToolTip(Me.btnDeleteSC4cfgFile, "如果部分选项设置无效，请删除SimCity 4.cfg文件后再试。" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "SimCity 4.cfg文件存储在用户文件目录下。")
+        Me.tipMain.SetToolTip(Me.btnDeleteSC4cfgFile, "如果部分选项设置无效，请删除SimCity 4.cfg文件后再试" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "SimCity 4.cfg文件存储在用户文件目录下。")
         Me.btnDeleteSC4cfgFile.UseVisualStyleBackColor = True
         '
         'lblSC4InstallDir

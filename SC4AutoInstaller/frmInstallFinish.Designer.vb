@@ -25,21 +25,19 @@ Partial Class frmInstallFinish
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmInstallFinish))
         Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("以下组件安装成功", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewItem1 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("模拟城市4 豪华版 镜像版", "success")
-        Dim ListViewItem2 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("DAEMON Tools Lite", "success")
-        Dim ListViewItem3 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("638补丁", "success")
-        Dim ListViewItem4 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("640补丁", "success")
-        Dim ListViewItem5 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("641补丁", "success")
-        Dim ListViewItem6 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("4GB补丁", "success")
-        Dim ListViewItem7 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("免CD补丁", "success")
-        Dim ListViewItem8 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("模拟城市4 启动器", "success")
-        Dim ListViewItem9 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("语言补丁", "success")
-        Dim ListViewItem10 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("添加桌面图标", "success")
-        Dim ListViewItem11 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("添加开始菜单项", "success")
+        Dim ListViewItem1 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("模拟城市4 豪华版 镜像版", "Success")
+        Dim ListViewItem2 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("DAEMON Tools Lite", "Success")
+        Dim ListViewItem3 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("638补丁", "Success")
+        Dim ListViewItem4 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("640补丁", "Success")
+        Dim ListViewItem5 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("641补丁", "Success")
+        Dim ListViewItem6 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("4GB补丁", "Success")
+        Dim ListViewItem7 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("免CD补丁", "Success")
+        Dim ListViewItem8 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("模拟城市4 启动器", "Success")
+        Dim ListViewItem9 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("语言补丁", "Success")
         Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("以下组件安装失败", System.Windows.Forms.HorizontalAlignment.Left)
         Me.btnClose = New System.Windows.Forms.Button()
         Me.lblTitle = New System.Windows.Forms.Label()
-        Me.imgTask = New System.Windows.Forms.ImageList(Me.components)
+        Me.imgResultIcon = New System.Windows.Forms.ImageList(Me.components)
         Me.lvwSubassemblySuccess = New System.Windows.Forms.ListView()
         Me.btnRunSC4 = New System.Windows.Forms.Button()
         Me.llbSCB = New System.Windows.Forms.LinkLabel()
@@ -70,12 +68,12 @@ Partial Class frmInstallFinish
         Me.lblTitle.TabIndex = 0
         Me.lblTitle.Text = "安装已完成"
         '
-        'imgTask
+        'imgResultIcon
         '
-        Me.imgTask.ImageStream = CType(resources.GetObject("imgTask.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.imgTask.TransparentColor = System.Drawing.Color.Transparent
-        Me.imgTask.Images.SetKeyName(0, "success")
-        Me.imgTask.Images.SetKeyName(1, "fail")
+        Me.imgResultIcon.ImageStream = CType(resources.GetObject("imgResultIcon.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.imgResultIcon.TransparentColor = System.Drawing.Color.Transparent
+        Me.imgResultIcon.Images.SetKeyName(0, "Success")
+        Me.imgResultIcon.Images.SetKeyName(1, "Fail")
         '
         'lvwSubassemblySuccess
         '
@@ -93,14 +91,12 @@ Partial Class frmInstallFinish
         ListViewItem7.Group = ListViewGroup1
         ListViewItem8.Group = ListViewGroup1
         ListViewItem9.Group = ListViewGroup1
-        ListViewItem10.Group = ListViewGroup1
-        ListViewItem11.Group = ListViewGroup1
-        Me.lvwSubassemblySuccess.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem1, ListViewItem2, ListViewItem3, ListViewItem4, ListViewItem5, ListViewItem6, ListViewItem7, ListViewItem8, ListViewItem9, ListViewItem10, ListViewItem11})
-        Me.lvwSubassemblySuccess.LargeImageList = Me.imgTask
+        Me.lvwSubassemblySuccess.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem1, ListViewItem2, ListViewItem3, ListViewItem4, ListViewItem5, ListViewItem6, ListViewItem7, ListViewItem8, ListViewItem9})
+        Me.lvwSubassemblySuccess.LargeImageList = Me.imgResultIcon
         Me.lvwSubassemblySuccess.Location = New System.Drawing.Point(12, 71)
         Me.lvwSubassemblySuccess.Name = "lvwSubassemblySuccess"
         Me.lvwSubassemblySuccess.Size = New System.Drawing.Size(296, 319)
-        Me.lvwSubassemblySuccess.TabIndex = 6
+        Me.lvwSubassemblySuccess.TabIndex = 2
         Me.lvwSubassemblySuccess.TileSize = New System.Drawing.Size(250, 25)
         Me.lvwSubassemblySuccess.UseCompatibleStateImageBehavior = False
         Me.lvwSubassemblySuccess.View = System.Windows.Forms.View.Tile
@@ -121,7 +117,7 @@ Partial Class frmInstallFinish
         Me.llbSCB.Location = New System.Drawing.Point(12, 399)
         Me.llbSCB.Name = "llbSCB"
         Me.llbSCB.Size = New System.Drawing.Size(89, 12)
-        Me.llbSCB.TabIndex = 2
+        Me.llbSCB.TabIndex = 4
         Me.llbSCB.TabStop = True
         Me.llbSCB.Text = "百度模拟城市吧"
         '
@@ -131,7 +127,7 @@ Partial Class frmInstallFinish
         Me.llbSCCN.Location = New System.Drawing.Point(107, 399)
         Me.llbSCCN.Name = "llbSCCN"
         Me.llbSCCN.Size = New System.Drawing.Size(137, 12)
-        Me.llbSCCN.TabIndex = 3
+        Me.llbSCCN.TabIndex = 5
         Me.llbSCCN.TabStop = True
         Me.llbSCCN.Text = "模拟城市中文网（SCCN）"
         '
@@ -150,7 +146,7 @@ Partial Class frmInstallFinish
         Me.llbReportBug.Location = New System.Drawing.Point(12, 418)
         Me.llbReportBug.Name = "llbReportBug"
         Me.llbReportBug.Size = New System.Drawing.Size(47, 12)
-        Me.llbReportBug.TabIndex = 4
+        Me.llbReportBug.TabIndex = 6
         Me.llbReportBug.TabStop = True
         Me.llbReportBug.Text = "BUG反馈"
         '
@@ -160,7 +156,7 @@ Partial Class frmInstallFinish
         Me.llbBlog.Location = New System.Drawing.Point(65, 418)
         Me.llbBlog.Name = "llbBlog"
         Me.llbBlog.Size = New System.Drawing.Size(71, 12)
-        Me.llbBlog.TabIndex = 5
+        Me.llbBlog.TabIndex = 7
         Me.llbBlog.TabStop = True
         Me.llbBlog.Text = "n0099的博客"
         '
@@ -171,11 +167,11 @@ Partial Class frmInstallFinish
         ListViewGroup2.Header = "以下组件安装失败"
         ListViewGroup2.Name = "lvwGroupInstallFail"
         Me.lvwSubassemblyFail.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup2})
-        Me.lvwSubassemblyFail.LargeImageList = Me.imgTask
+        Me.lvwSubassemblyFail.LargeImageList = Me.imgResultIcon
         Me.lvwSubassemblyFail.Location = New System.Drawing.Point(316, 71)
         Me.lvwSubassemblyFail.Name = "lvwSubassemblyFail"
         Me.lvwSubassemblyFail.Size = New System.Drawing.Size(296, 319)
-        Me.lvwSubassemblyFail.TabIndex = 7
+        Me.lvwSubassemblyFail.TabIndex = 3
         Me.lvwSubassemblyFail.TileSize = New System.Drawing.Size(250, 25)
         Me.lvwSubassemblyFail.UseCompatibleStateImageBehavior = False
         Me.lvwSubassemblyFail.View = System.Windows.Forms.View.Tile
@@ -210,7 +206,7 @@ Partial Class frmInstallFinish
     End Sub
     Friend WithEvents btnClose As System.Windows.Forms.Button
     Friend WithEvents lblTitle As System.Windows.Forms.Label
-    Friend WithEvents imgTask As System.Windows.Forms.ImageList
+    Friend WithEvents imgResultIcon As System.Windows.Forms.ImageList
     Friend WithEvents lvwSubassemblySuccess As System.Windows.Forms.ListView
     Friend WithEvents btnRunSC4 As System.Windows.Forms.Button
     Friend WithEvents llbSCB As System.Windows.Forms.LinkLabel

@@ -6,25 +6,25 @@
     End Sub
 
     Private Sub frmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim SC4InstallDir As String = Nothing '声明一个用于存储HKEY_LOCAL_MACHINE\SOFTWARE\（Wow6432Node）\Maxis\SimCity 4\Install Dir项值的字符串变量
-        If Environment.Is64BitOperatingSystem = True Then SC4InstallDir = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Maxis\SimCity 4", "Install Dir", Nothing)
-        If Environment.Is64BitOperatingSystem = False Then SC4InstallDir = My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Maxis\SimCity 4", "Install Dir", Nothing)
         With My.Settings
-            If .IsFirstRun = True And SC4InstallDir <> Nothing Then
+            '声明一个用于存储模拟城市4安装目录的注册表键值的字符串变量
+            Dim SC4InstallDir As String = If(Environment.Is64BitOperatingSystem, My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Maxis\SimCity 4", "Install Dir", Nothing),
+                                             My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Maxis\SimCity 4", "Install Dir", Nothing))
+            If .IsFirstRun AndAlso SC4InstallDir IsNot Nothing Then
                 SC4InstallDir = IO.Path.GetFullPath(SC4InstallDir) '将短路径转换为长路径
-                If SC4InstallDir.EndsWith("\") = True Then .SC4InstallDir = SC4InstallDir.Substring(0, SC4InstallDir.Length - 1) Else .SC4InstallDir = SC4InstallDir '如果安装目录路径以\结尾则去掉结尾的\
-            ElseIf SC4InstallDir = Nothing Then
-                If MessageBox.Show("未检测到模拟城市4安装目录，是否手动选择安装目录？", "错误", MessageBoxButtons.YesNo, MessageBoxIcon.Error) = DialogResult.Yes Then
+                .SC4InstallDir = If(SC4InstallDir.EndsWith(":\"), SC4InstallDir.Trim, SC4InstallDir.TrimEnd("\").Trim) '如果目录路径不是分区根路径则去掉结尾的\
+            ElseIf .IsFirstRun AndAlso SC4InstallDir Is Nothing Then
+                If MessageBox.Show("未检测到模拟城市4安装目录" & vbCrLf & "请手动选择安装目录", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) = DialogResult.OK Then
                     fbdSC4InstallDir.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86) : fbdSC4InstallDir.ShowDialog()
-                    Do Until fbdSC4InstallDir.SelectedPath <> Nothing : fbdSC4InstallDir.ShowDialog() : Loop
+                    Do Until fbdSC4InstallDir.SelectedPath IsNot Nothing : fbdSC4InstallDir.ShowDialog() : Loop
                     .SC4InstallDir = fbdSC4InstallDir.SelectedPath
                 Else : Environment.Exit(0)
                 End If
             End If
             Do Until My.Computer.FileSystem.FileExists(.SC4InstallDir & "\Apps\SimCity 4.exe")
-                If MessageBox.Show("模拟城市4安装目录里没有游戏程序！" & vbCrLf & "是否重新选择模拟城市4安装目录？", "错误", MessageBoxButtons.YesNo, MessageBoxIcon.Error) = DialogResult.Yes Then
+                If MessageBox.Show("模拟城市4安装目录无效" & vbCrLf & "请重新选择模拟城市4安装目录", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) = DialogResult.OK Then
                     fbdSC4InstallDir.SelectedPath = .SC4InstallDir : fbdSC4InstallDir.ShowDialog()
-                    Do Until fbdSC4InstallDir.SelectedPath <> Nothing : fbdSC4InstallDir.ShowDialog() : Loop
+                    Do Until fbdSC4InstallDir.SelectedPath IsNot Nothing : fbdSC4InstallDir.ShowDialog() : Loop
                     .SC4InstallDir = fbdSC4InstallDir.SelectedPath
                 Else : Environment.Exit(0)
                 End If

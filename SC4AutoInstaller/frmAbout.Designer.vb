@@ -44,16 +44,16 @@ Partial Class frmAbout
         Me.btnClose.Location = New System.Drawing.Point(397, 308)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(75, 23)
-        Me.btnClose.TabIndex = 7
+        Me.btnClose.TabIndex = 8
         Me.btnClose.Text = "关闭(&C)"
         '
         'lblVersion
         '
         Me.lblVersion.AutoSize = True
-        Me.lblVersion.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.lblVersion.Location = New System.Drawing.Point(142, 54)
+        Me.lblVersion.Font = New System.Drawing.Font("微软雅黑", 10.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.lblVersion.Location = New System.Drawing.Point(142, 51)
         Me.lblVersion.Name = "lblVersion"
-        Me.lblVersion.Size = New System.Drawing.Size(44, 17)
+        Me.lblVersion.Size = New System.Drawing.Size(51, 20)
         Me.lblVersion.TabIndex = 1
         Me.lblVersion.Text = "版本号"
         '
@@ -61,7 +61,7 @@ Partial Class frmAbout
         '
         Me.lblAuthor.AutoSize = True
         Me.lblAuthor.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.lblAuthor.Location = New System.Drawing.Point(333, 54)
+        Me.lblAuthor.Location = New System.Drawing.Point(393, 54)
         Me.lblAuthor.Name = "lblAuthor"
         Me.lblAuthor.Size = New System.Drawing.Size(79, 17)
         Me.lblAuthor.TabIndex = 2
@@ -73,7 +73,7 @@ Partial Class frmAbout
         Me.llbBlog.Location = New System.Drawing.Point(303, 313)
         Me.llbBlog.Name = "llbBlog"
         Me.llbBlog.Size = New System.Drawing.Size(71, 12)
-        Me.llbBlog.TabIndex = 5
+        Me.llbBlog.TabIndex = 7
         Me.llbBlog.TabStop = True
         Me.llbBlog.Text = "n0099的博客"
         '
@@ -133,7 +133,7 @@ Partial Class frmAbout
         Me.llbSCCN.Location = New System.Drawing.Point(107, 313)
         Me.llbSCCN.Name = "llbSCCN"
         Me.llbSCCN.Size = New System.Drawing.Size(137, 12)
-        Me.llbSCCN.TabIndex = 13
+        Me.llbSCCN.TabIndex = 5
         Me.llbSCCN.TabStop = True
         Me.llbSCCN.Text = "模拟城市中文网（SCCN）"
         '

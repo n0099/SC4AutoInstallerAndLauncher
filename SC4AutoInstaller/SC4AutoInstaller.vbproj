@@ -37,6 +37,9 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DocumentationFile>SC4AutoInstaller.xml</DocumentationFile>
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -48,6 +51,9 @@
     <DocumentationFile>SC4AutoInstaller.xml</DocumentationFile>
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <DebugSymbols>true</DebugSymbols>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup>
     <OptionExplicit>On</OptionExplicit>
@@ -103,9 +109,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationEvents.vb" />
+    <Compile Include="ClassChangeOptions.vb" />
     <Compile Include="ClassInstalledModule.vb" />
     <Compile Include="ClassInstallOptions.vb" />
-    <Compile Include="ClassInstallResult.vb" />
+    <Compile Include="ClassInstallResults.vb" />
     <Compile Include="frmAbout.Designer.vb">
       <DependentUpon>frmAbout.vb</DependentUpon>
     </Compile>
@@ -124,10 +131,10 @@
     <Compile Include="frmInstalling.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmChangeModuleOptions.Designer.vb">
-      <DependentUpon>frmChangeModuleOptions.vb</DependentUpon>
+    <Compile Include="frmChangeOptions.Designer.vb">
+      <DependentUpon>frmChangeOptions.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmChangeModuleOptions.vb">
+    <Compile Include="frmChangeOptions.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmInstallOptions.Designer.vb">
@@ -149,14 +156,14 @@
     <Compile Include="frmUninstalling.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmVerifyFilesMD5.Designer.vb">
-      <DependentUpon>frmVerifyFilesMD5.vb</DependentUpon>
+    <Compile Include="frmVerifyingFiles.Designer.vb">
+      <DependentUpon>frmVerifyingFiles.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmVerifyFilesMD5.vb">
+    <Compile Include="frmVerifyingFiles.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ModuleInstallModule.vb" />
-    <Compile Include="ModuleMain.vb" />
+    <Compile Include="ModuleInstallCore.vb" />
+    <Compile Include="ModuleDeclare.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -203,16 +210,16 @@
       <DependentUpon>frmMain.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmChangeModuleOptions.resx">
-      <DependentUpon>frmChangeModuleOptions.vb</DependentUpon>
+    <EmbeddedResource Include="frmChangeOptions.resx">
+      <DependentUpon>frmChangeOptions.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="frmUninstalling.resx">
       <DependentUpon>frmUninstalling.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmVerifyFilesMD5.resx">
-      <DependentUpon>frmVerifyFilesMD5.vb</DependentUpon>
+    <EmbeddedResource Include="frmVerifyingFiles.resx">
+      <DependentUpon>frmVerifyingFiles.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -223,7 +230,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="程序流程图.dgml" />
     <None Include="My Project\app.manifest" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>

@@ -1,0 +1,17 @@
+﻿[Settings]
+;!@Install@!UTF-8!
+Progress="no"
+InstallPath="."
+GUIMode="2"
+SelfDelete="1"
+ExtractDialogWidth="0"
+ExtractPathWidth="0"
+GUIFlags="7456"
+OverwriteMode="0"
+RunProgram="\"AutoInstallerUpdater.exe\""
+;!@InstallEnd@!
+TextMode="0"
+7zFile="AutoInstallerUpdate.7z"
+ExeFile="AutoInstallerUpdate.exe"
+SFX="LZMA"
+AdminExecLevel="1"

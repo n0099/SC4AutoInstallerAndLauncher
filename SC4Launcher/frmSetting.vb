@@ -55,7 +55,7 @@ Public Class frmSetting
     Private Sub rdoDisplayMode_CheckedChanged(sender As RadioButton, e As EventArgs) Handles rdoDisplayModeWindow.CheckedChanged, rdoDisplayModeFullScreen.CheckedChanged
         Select Case sender.Text
             Case "窗口化" : Argument = Argument.Replace("-fs ", "") : Argument &= "-w "
-            Case "全屏" : Argument = Argument.Replace("-w ", "") : Argument &= "-fs "
+            Case "全屏" : Argument = Argument.Replace("-w ", "")
                 If rdoDisplayModeWindow.Checked = False Then '将分辨率模式设为自定义分辨率并将分辨率设为屏幕分辨率
                     rdoCustomResolution.Checked = True : mtxCustomResolution.Text = My.Computer.Screen.Bounds.Width & "x" & My.Computer.Screen.Bounds.Height
                 End If
@@ -68,16 +68,16 @@ Public Class frmSetting
             Case "固定分辨率："
                 cmbFixedResolution.Enabled = True : mtxCustomResolution.Enabled = False
                 If Argument.Contains("-CustomResolution") Then Argument = Argument.Replace("-CustomResolution ", "")
-                cmbFixedResolution_SelectedIndexChanged(rdoFixedResolution, New EventArgs)
+                cmbFixedResolution_SelectedIndexChanged(rdoFixedResolution, Nothing)
             Case "自定义分辨率："
                 cmbFixedResolution.Enabled = False : mtxCustomResolution.Enabled = True
                 If Argument.Contains("-CustomResolution") = False Then Argument &= "-CustomResolution "
-                mtxCustomResolution_TextChanged(rdoCustomResolution, New EventArgs)
+                mtxCustomResolution_TextChanged(rdoCustomResolution, Nothing)
             Case "自动"
                 cmbFixedResolution.Enabled = False : mtxCustomResolution.Enabled = False
                 Argument = Argument.Replace("-CustomResolution ", "")
                 Dim tmp As String = Regex.Match(Argument, "-r\d{3,4}x\d{3,4} ").ToString '声明一个用于判断启动参数里是否存在分辨率参数的字符串变量
-                If tmp IsNot Nothing Then Argument = Argument.Replace(tmp, "")
+                If tmp <> "" Then Argument = Argument.Replace(tmp, "")
         End Select
         ArgumentChanged()
     End Sub
@@ -85,25 +85,33 @@ Public Class frmSetting
     Private Sub cmbFixedResolution_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbFixedResolution.SelectedIndexChanged
         Argument = Argument.Replace("-CustomResolution ", "")
         Dim tmp As String = Regex.Match(Argument, "-r\d{3,4}x\d{3,4} ").ToString '声明一个用于判断启动参数里是否存在分辨率参数的字符串变量
-        If tmp IsNot Nothing Then Argument = Argument.Replace(tmp, "")
+        If tmp <> "" Then Argument = Argument.Replace(tmp, "")
         Select Case cmbFixedResolution.SelectedItem
             Case "800x600" : Argument &= "-r800x600 "
             Case "1024x768" : Argument &= "-r1024x768 "
             Case "1280x1024" : Argument &= "-r1280x1024 "
         End Select
+        If rdoDisplayModeWindow.Checked <> False Or rdoDisplayModeFullScreen.Checked <> False Then
+            Dim DisplayMode As String = If(rdoDisplayModeWindow.Checked, "-w ", "-fs ")
+            Argument = Argument.Replace(DisplayMode, "") : Argument &= DisplayMode '将显示方式参数移到分辨率参数之后
+        End If
         ArgumentChanged()
     End Sub
 
     Private Sub mtxCustomResolution_TextChanged(sender As Object, e As EventArgs) Handles mtxCustomResolution.TextChanged
         Dim tmp As String = Regex.Match(Argument, "-r\d{2,4}x\d{2,4} ").ToString '声明一个用于判断启动参数里是否存在分辨率参数的字符串变量
-        If tmp IsNot Nothing Then Argument = Argument.Replace(tmp, "")
+        If tmp <> "" Then Argument = Argument.Replace(tmp, "")
         If mtxCustomResolution.Text.Replace(" ", "").Length > 6 Then Argument &= "-r" & mtxCustomResolution.Text.Replace(" ", "") & " "
+        If rdoDisplayModeWindow.Checked <> False Or rdoDisplayModeFullScreen.Checked <> False Then
+            Dim DisplayMode As String = If(rdoDisplayModeWindow.Checked, "-w ", "-fs ")
+            Argument = Argument.Replace(DisplayMode, "") : Argument &= DisplayMode '将显示方式参数移到分辨率参数之后
+        End If
         ArgumentChanged()
     End Sub
 
     Private Sub cmbCPUPriority_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbCPUPriority.SelectedIndexChanged
         Dim tmp As String = Regex.Match(Argument, "-CPUPriority:[a-z]{3,6} ").ToString '声明一个用于判断启动参数里是否存在CPU优先级参数的字符串变量
-        If tmp IsNot Nothing Then Argument = Argument.Replace(tmp, "")
+        If tmp <> "" Then Argument = Argument.Replace(tmp, "")
         Select Case cmbCPUPriority.SelectedItem
             Case "低" : Argument &= "-CPUPriority:low "
             Case "正常" : Argument &= "-CPUPriority:normal "
@@ -114,13 +122,14 @@ Public Class frmSetting
 
     Private Sub nudCPUCount_ValueChanged(sender As Object, e As EventArgs) Handles nudCPUCount.ValueChanged
         Dim tmp As String = Regex.Match(Argument, "-CPUCount:\d{1,3} ").ToString '声明一个用于判断启动参数里是否存在CPU核心数参数的字符串变量
-        If tmp IsNot Nothing Then Argument = Argument.Replace(tmp, "")
-        Argument &= "-CPUCount:" & nudCPUCount.Value & " " : ArgumentChanged()
+        If tmp <> "" Then Argument = Argument.Replace(tmp, "")
+        Argument &= "-CPUCount:" & nudCPUCount.Value & " "
+        ArgumentChanged()
     End Sub
 
     Private Sub cmbBitDepth_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbBitDepth.SelectedIndexChanged
         Dim tmp As String = Regex.Match(Argument, "-Cursors:[a-z,1-9]{2,9} ").ToString '声明一个用于判断启动参数里是否存在颜色位深参数的字符串变量
-        If tmp IsNot Nothing Then Argument = Argument.Replace(tmp, "")
+        If tmp <> "" Then Argument = Argument.Replace(tmp, "")
         Select Case cmbBitDepth.SelectedItem
             Case "黑白" : Argument &= "-Cursors:bw "
             Case "16位色" : Argument &= "-Cursors:color16 "
@@ -132,7 +141,7 @@ Public Class frmSetting
 
     Private Sub cmbRenderMode_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbRenderMode.SelectedIndexChanged
         Dim tmp As String = Regex.Match(Argument, "-d:[A-Z,a-z]{6,8} ").ToString '声明一个用于判断启动参数里是否存在渲染模式参数的字符串变量
-        If tmp IsNot Nothing Then Argument = Argument.Replace(tmp, "")
+        If tmp <> "" Then Argument = Argument.Replace(tmp, "")
         Select Case cmbRenderMode.SelectedItem
             Case "DirectX" : Argument &= "-d:DirectX "
             Case "OpenGL" : Argument &= "-d:OpenGL "
@@ -247,8 +256,7 @@ Public Class frmSetting
         End If
     End Sub
 
-    Private Sub txtSC4InstallDir_TextChanged(sender As Object, e As EventArgs)
-        txtSC4InstallDir.Text = fbdSC4InstallDir.SelectedPath
+    Private Sub txtSC4InstallDir_TextChanged(sender As Object, e As EventArgs) Handles txtSC4InstallDir.TextChanged
         ArgumentChanged()
     End Sub
 
@@ -267,7 +275,7 @@ Public Class frmSetting
             End If
             MessageBox.Show("已成功删除SimCity 4.cfg文件", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Else
-            MessageBox.Show("SimCity 4.cfg文件不存在", "提示", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            MessageBox.Show("SimCity 4.cfg文件不存在", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
     End Sub
 
@@ -298,7 +306,6 @@ Public Class frmSetting
             End If
             '同步CPU优先级选项
             If .Contains("-CPUPriority") Then
-
                 Select Case Regex.Match(My.Settings.Argument, "-CPUPriority:[a-z]{3,6}").ToString.Remove(0, 12) '判断启动参数里的CPU优先级设置
                     Case "low" : cmbCPUPriority.SelectedItem = "低"
                     Case "normal" : cmbCPUPriority.SelectedItem = "正常"
@@ -312,7 +319,6 @@ Public Class frmSetting
             nudCPUCount.Maximum = Environment.ProcessorCount '将CPU核心数数字显示框的最大值设为CPU的核心数
             '同步颜色位深选项
             If .Contains("-Cursors") Then
-
                 Select Case Regex.Match(My.Settings.Argument, "-Cursors:[a-z,1-9]{2,9}").ToString.Remove(0, 9) '判断启动参数里的颜色位深设置
                     Case "bw" : cmbBitDepth.SelectedItem = "黑白"
                     Case "color16" : cmbBitDepth.SelectedItem = "16位色"
@@ -324,7 +330,6 @@ Public Class frmSetting
             End If
             '同步渲染模式选项
             If .Contains("-d") Then
-
                 Select Case Regex.Match(My.Settings.Argument, "-d:[A-Z,a-z]{1,8}").ToString.Remove(0, 3) '判断启动参数里的渲染模式设置
                     Case "DirectX" : cmbRenderMode.SelectedItem = "DirectX"
                     Case "OpenGL" : cmbRenderMode.SelectedItem = "OpenGL"
@@ -333,7 +338,7 @@ Public Class frmSetting
             Else
                 cmbRenderMode.SelectedItem = "自动"
             End If
-            '同步所有的复选框
+            '同步所有的复选框选项
             chkIntro.Checked = Not .Contains("-Intro") '同步是否显示开场动画选项
             chkAudio.Checked = Not .Contains("-audio") '同步是否开启声音选项
             chkAllowMultipleInstances.Checked = .Contains("-AllowMultipleInstances") '同步是否允许多开选项
@@ -362,8 +367,8 @@ Public Class frmSetting
                 chkUserDir.Checked = False
             End If
             txtSC4InstallDir.Text = My.Settings.SC4InstallDir '更新模拟城市4安装路径文本框的文本
-            txtArgument.Text = My.Settings.Argument '更新启动参数文本框的文本
-            Argument = My.Settings.Argument '更新启动参数变量
+            txtArgument.Text = My.Settings.Argument '重置启动参数文本框的文本
+            Argument = My.Settings.Argument '重置启动参数变量
             btnApply.Enabled = False
         End With
     End Sub
@@ -371,9 +376,9 @@ Public Class frmSetting
     Private Sub btnOKAndApply_Click(sender As Object, e As EventArgs) Handles btnOK.Click, btnApply.Click
         If (txtUserDir.Text IsNot Nothing AndAlso chkUserDir.Checked) AndAlso IsPathValidated(txtUserDir.Text, "用户文件目录") = False Then Exit Sub '如果选择了自定义用户目录则判断用户文件目录的路径是否有效
         If IsPathValidated(txtSC4InstallDir.Text, "模拟城市4 安装目录") = False Then Exit Sub '判断模拟城市4安装路径是否有效
-        If My.Computer.FileSystem.FileExists(txtSC4InstallDir.Text & "\Apps\SimCity 4.exe") = False Then MessageBox.Show("模拟城市4 安装目录无效" & vbCrLf & "请重新选择模拟城市4 安装目录", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        If My.Computer.FileSystem.FileExists(txtSC4InstallDir.Text & "\Apps\SimCity 4.exe") = False Then MessageBox.Show("模拟城市4 安装目录无效" & vbCrLf & "请重新选择模拟城市4 安装目录", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) : Exit Sub
         My.Settings.Argument = Argument '保存启动参数
-        If sender = btnOK Then Close() Else btnApply.Enabled = False
+        If sender Is btnOK Then Close() Else btnApply.Enabled = False
     End Sub
 
     Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click

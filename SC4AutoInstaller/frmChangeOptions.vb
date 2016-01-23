@@ -110,7 +110,7 @@ Public Class frmChangeOptions
                             SetNodeChecked("繁体中文", NodeCheckedState.RadioUnchecked) : SetNodeChecked("简体中文", NodeCheckedState.RadioUnchecked)
                     End Select
             End Select
-            If .IsSameAsInstalledModule(ModuleDeclare.InstalledModule) Then btnInstall.Enabled = False Else btnInstall.Enabled = True '判断是否更改了安装选项
+            If .IsSameAsInstalledModule(ModuleDeclare.InstalledModules) Then btnInstall.Enabled = False Else btnInstall.Enabled = True '判断是否更改了安装选项
         End With
     End Sub
 
@@ -121,19 +121,19 @@ Public Class frmChangeOptions
     Private Sub frmModuleChangeOption_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         tvwOptions.ExpandAll() '展开所有的树节点
         With ModuleDeclare.ChangeOptions '更新已安装的组件在安装组件列表框里对应项的图标
-            If ModuleDeclare.InstalledModule.Is638PatchInstalled Then SetNodeChecked("638补丁", NodeCheckedState.Checked)
-            ._638PatchOption = If(ModuleDeclare.InstalledModule.Is638PatchInstalled, ChangeOption.Install, ChangeOption.Uninstall)
-            If ModuleDeclare.InstalledModule.Is640PatchInstalled Then SetNodeChecked("640补丁", NodeCheckedState.Checked)
-            ._640PatchOption = If(ModuleDeclare.InstalledModule.Is640PatchInstalled, ChangeOption.Install, ChangeOption.Uninstall)
-            If ModuleDeclare.InstalledModule.Is641PatchInstalled Then SetNodeChecked("641补丁", NodeCheckedState.Checked)
-            ._641PatchOption = If(ModuleDeclare.InstalledModule.Is641PatchInstalled, ChangeOption.Install, ChangeOption.Uninstall)
-            If ModuleDeclare.InstalledModule.Is4GBPatchInstalled Then SetNodeChecked("4GB补丁", NodeCheckedState.Checked)
-            ._4GBPatchOption = If(ModuleDeclare.InstalledModule.Is4GBPatchInstalled, ChangeOption.Install, ChangeOption.Uninstall)
-            If ModuleDeclare.InstalledModule.IsNoCDPatchInstalled Then SetNodeChecked("免CD补丁", NodeCheckedState.Checked)
-            .NoCDPatchOption = If(ModuleDeclare.InstalledModule.IsNoCDPatchInstalled, ChangeOption.Install, ChangeOption.Uninstall)
-            If ModuleDeclare.InstalledModule.IsSC4LauncherInstalled Then SetNodeChecked("模拟城市4 启动器", NodeCheckedState.Checked)
-            .SC4LauncherOption = If(ModuleDeclare.InstalledModule.IsSC4LauncherInstalled, ChangeOption.Install, ChangeOption.Uninstall)
-            Select Case ModuleDeclare.InstalledModule.LanguagePatchOption
+            If ModuleDeclare.InstalledModules.Is638PatchInstalled Then SetNodeChecked("638补丁", NodeCheckedState.Checked)
+            ._638PatchOption = If(ModuleDeclare.InstalledModules.Is638PatchInstalled, ChangeOption.Install, ChangeOption.Uninstall)
+            If ModuleDeclare.InstalledModules.Is640PatchInstalled Then SetNodeChecked("640补丁", NodeCheckedState.Checked)
+            ._640PatchOption = If(ModuleDeclare.InstalledModules.Is640PatchInstalled, ChangeOption.Install, ChangeOption.Uninstall)
+            If ModuleDeclare.InstalledModules.Is641PatchInstalled Then SetNodeChecked("641补丁", NodeCheckedState.Checked)
+            ._641PatchOption = If(ModuleDeclare.InstalledModules.Is641PatchInstalled, ChangeOption.Install, ChangeOption.Uninstall)
+            If ModuleDeclare.InstalledModules.Is4GBPatchInstalled Then SetNodeChecked("4GB补丁", NodeCheckedState.Checked)
+            ._4GBPatchOption = If(ModuleDeclare.InstalledModules.Is4GBPatchInstalled, ChangeOption.Install, ChangeOption.Uninstall)
+            If ModuleDeclare.InstalledModules.IsNoCDPatchInstalled Then SetNodeChecked("免CD补丁", NodeCheckedState.Checked)
+            .NoCDPatchOption = If(ModuleDeclare.InstalledModules.IsNoCDPatchInstalled, ChangeOption.Install, ChangeOption.Uninstall)
+            If ModuleDeclare.InstalledModules.IsSC4LauncherInstalled Then SetNodeChecked("模拟城市4 启动器", NodeCheckedState.Checked)
+            .SC4LauncherOption = If(ModuleDeclare.InstalledModules.IsSC4LauncherInstalled, ChangeOption.Install, ChangeOption.Uninstall)
+            Select Case ModuleDeclare.InstalledModules.LanguagePatchOption
                 Case SC4Language.TraditionalChinese : SetNodeChecked("繁体中文", NodeCheckedState.RadioChecked) : .LanguagePatchOption = SC4Language.TraditionalChinese
                 Case SC4Language.SimplifiedChinese : SetNodeChecked("简体中文", NodeCheckedState.RadioChecked) : .LanguagePatchOption = SC4Language.SimplifiedChinese
                 Case SC4Language.English : SetNodeChecked("英语", NodeCheckedState.RadioChecked) : .LanguagePatchOption = SC4Language.English
@@ -145,33 +145,32 @@ Public Class frmChangeOptions
     Private Sub btnBack_Click(sender As Object, e As EventArgs) Handles btnBack.Click
         ModuleDeclare.ChangeOptions = New ChangeOptions '恢复已更改的ModuleDeclare.ChangeOptions类实例
         frmMain.Show()
-        RemoveHandler Me.FormClosing, AddressOf frmModuleChangeOption_FormClosing '移除关闭窗口过程和关闭窗口事件的关联
-        Close()
+        Dispose() '直接释放窗口以避免触发FormClosing事件
     End Sub
 
     Private Sub btnInstall_Click(sender As Object, e As EventArgs) Handles btnInstall.Click
         With ModuleDeclare.ChangeOptions '判断是否更改组件
-            If (ModuleDeclare.InstalledModule.Is638PatchInstalled AndAlso ._638PatchOption = ChangeOption.Install) OrElse
-                (ModuleDeclare.InstalledModule.Is638PatchInstalled = False AndAlso ._638PatchOption = ChangeOption.Uninstall) Then ._638PatchOption = ChangeOption.Unchanged
-            If (ModuleDeclare.InstalledModule.Is640PatchInstalled AndAlso ._640PatchOption = ChangeOption.Install) OrElse
-                (ModuleDeclare.InstalledModule.Is640PatchInstalled = False AndAlso ._640PatchOption = ChangeOption.Uninstall) Then ._640PatchOption = ChangeOption.Unchanged
-            If (ModuleDeclare.InstalledModule.Is641PatchInstalled AndAlso ._641PatchOption = ChangeOption.Install) OrElse
-                (ModuleDeclare.InstalledModule.Is641PatchInstalled = False AndAlso ._641PatchOption = ChangeOption.Uninstall) Then ._641PatchOption = ChangeOption.Unchanged
-            If (ModuleDeclare.InstalledModule.Is4GBPatchInstalled AndAlso ._4GBPatchOption = ChangeOption.Install) AndAlso
+            If (ModuleDeclare.InstalledModules.Is638PatchInstalled AndAlso ._638PatchOption = ChangeOption.Install) OrElse
+                (ModuleDeclare.InstalledModules.Is638PatchInstalled = False AndAlso ._638PatchOption = ChangeOption.Uninstall) Then ._638PatchOption = ChangeOption.Unchanged
+            If (ModuleDeclare.InstalledModules.Is640PatchInstalled AndAlso ._640PatchOption = ChangeOption.Install) OrElse
+                (ModuleDeclare.InstalledModules.Is640PatchInstalled = False AndAlso ._640PatchOption = ChangeOption.Uninstall) Then ._640PatchOption = ChangeOption.Unchanged
+            If (ModuleDeclare.InstalledModules.Is641PatchInstalled AndAlso ._641PatchOption = ChangeOption.Install) OrElse
+                (ModuleDeclare.InstalledModules.Is641PatchInstalled = False AndAlso ._641PatchOption = ChangeOption.Uninstall) Then ._641PatchOption = ChangeOption.Unchanged
+            If (ModuleDeclare.InstalledModules.Is4GBPatchInstalled AndAlso ._4GBPatchOption = ChangeOption.Install) AndAlso
                 (._638PatchOption <> ChangeOption.Unchanged OrElse ._640PatchOption <> ChangeOption.Unchanged OrElse ._641PatchOption <> ChangeOption.Unchanged) Then
                 ._4GBPatchOption = ChangeOption.Install '如果更改了638、640或641补丁且不卸载4GB补丁则强制重装4GB补丁
             Else
-                If (ModuleDeclare.InstalledModule.Is4GBPatchInstalled AndAlso ._4GBPatchOption = ChangeOption.Install) OrElse
-                    (ModuleDeclare.InstalledModule.Is4GBPatchInstalled = False AndAlso ._4GBPatchOption = ChangeOption.Uninstall) Then ._4GBPatchOption = ChangeOption.Unchanged
+                If (ModuleDeclare.InstalledModules.Is4GBPatchInstalled AndAlso ._4GBPatchOption = ChangeOption.Install) OrElse
+                    (ModuleDeclare.InstalledModules.Is4GBPatchInstalled = False AndAlso ._4GBPatchOption = ChangeOption.Uninstall) Then ._4GBPatchOption = ChangeOption.Unchanged
             End If
-            If (ModuleDeclare.InstalledModule.IsNoCDPatchInstalled AndAlso .NoCDPatchOption = ChangeOption.Install) OrElse
-                (ModuleDeclare.InstalledModule.IsNoCDPatchInstalled = False AndAlso .NoCDPatchOption = ChangeOption.Uninstall) Then .NoCDPatchOption = ChangeOption.Unchanged
-            If (ModuleDeclare.InstalledModule.IsSC4LauncherInstalled AndAlso .SC4LauncherOption = ChangeOption.Install) OrElse
-                (ModuleDeclare.InstalledModule.IsSC4LauncherInstalled = False AndAlso .SC4LauncherOption = ChangeOption.Uninstall) Then .SC4LauncherOption = ChangeOption.Unchanged
+            If (ModuleDeclare.InstalledModules.IsNoCDPatchInstalled AndAlso .NoCDPatchOption = ChangeOption.Install) OrElse
+                (ModuleDeclare.InstalledModules.IsNoCDPatchInstalled = False AndAlso .NoCDPatchOption = ChangeOption.Uninstall) Then .NoCDPatchOption = ChangeOption.Unchanged
+            If (ModuleDeclare.InstalledModules.IsSC4LauncherInstalled AndAlso .SC4LauncherOption = ChangeOption.Install) OrElse
+                (ModuleDeclare.InstalledModules.IsSC4LauncherInstalled = False AndAlso .SC4LauncherOption = ChangeOption.Uninstall) Then .SC4LauncherOption = ChangeOption.Unchanged
         End With
+        frmMain.bgwCheckUpdate.CancelAsync() '取消异步检查更新
         frmInstalling.Show()
-        RemoveHandler Me.FormClosing, AddressOf frmModuleChangeOption_FormClosing '移除关闭窗口过程和关闭窗口事件的关联
-        Close()
+        Dispose() '直接释放窗口以避免触发FormClosing事件
     End Sub
 
     Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click

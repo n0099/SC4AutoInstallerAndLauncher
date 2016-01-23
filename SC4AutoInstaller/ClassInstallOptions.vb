@@ -27,13 +27,15 @@ Public NotInheritable Class InstallOptions
     ''' <summary>安装简体中文语言补丁所需要的以字节为单位的磁盘空间</summary>
     Public Const SimplifiedChineseLanguageNeedsDiskSpace As Integer = 643284
 
+    ''' <summary>获取或设置是否快速安装</summary>
+    Public IsQuickInstall As Boolean
+    ''' <summary>获取或设置要安装何种版本的模拟城市4</summary>
+    Public SC4InstallType As SC4Type
     ''' <summary>获取或设置模拟城市4的安装目录</summary>
     Public SC4InstallDir As String
     ''' <summary>获取或设置DAEMON Tools Lite的安装目录</summary>
     Public DAEMONToolsInstallDir As String
 
-    ''' <summary>获取或设置要安装何种版本的模拟城市4</summary>
-    Public SC4InstallType As SC4Type
     ''' <summary>获取或设置是否安装DAEMON Tools Lite</summary>
     Public IsInstallDAEMONTools As Boolean
     ''' <summary>获取或设置是否安装638补丁</summary>
@@ -65,6 +67,7 @@ Public NotInheritable Class InstallOptions
         If obj Is Nothing Then Return False
         If TypeOf obj Is InstallOptions = False Then Return False
         With CType(obj, InstallOptions)
+            If .IsQuickInstall <> Me.IsQuickInstall Then Return False
             If .SC4InstallDir <> Me.SC4InstallDir Then Return False
             If .DAEMONToolsInstallDir <> Me.DAEMONToolsInstallDir Then Return False
             If .SC4InstallType <> Me.SC4InstallType Then Return False

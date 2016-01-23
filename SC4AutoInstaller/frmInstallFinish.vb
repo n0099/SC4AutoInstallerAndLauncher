@@ -1,4 +1,4 @@
-﻿Imports Result = SC4AutoInstaller.InstallResults.InstallResult
+﻿Imports InstallResult = SC4AutoInstaller.InstallResults.InstallResult
 
 Public Class frmInstallFinish
 
@@ -11,7 +11,7 @@ Public Class frmInstallFinish
             item.Group = lvwSubassemblyFail.Groups(0) '改变该项的组
             lvwSubassemblyFail.Items.Add(item) '在安装失败组件列表框内添加该项
             lvwSubassemblyFail.Visible = True '显示安装失败组件列表框
-            lblTitle2.Text = "部分组件" & If(ModuleDeclare.InstalledModule Is Nothing, "安装", "更改") & "失败，您可以随后使用本安装程序的安装或卸载组件功能来重新安装安装失败的组件。"
+            lblTitle2.Text = "部分组件" & If(ModuleDeclare.InstalledModules Is Nothing, "安装", "更改") & "失败，您可以随后使用本安装程序的安装或卸载组件功能来重新安装安装失败的组件。"
         End If
     End Sub
 
@@ -39,11 +39,11 @@ Public Class frmInstallFinish
         Dim NoCDPatchItem As ListViewItem = lvwSubassemblySuccess.FindItemWithText("免CD补丁"), SC4LauncherItem As ListViewItem = lvwSubassemblySuccess.FindItemWithText("模拟城市4 启动器")
         Dim LanguageItem As ListViewItem = lvwSubassemblySuccess.FindItemWithText("语言补丁")
         lvwSubassemblySuccess.BeginUpdate() : lvwSubassemblyFail.BeginUpdate()
-        If ModuleDeclare.InstalledModule Is Nothing Then '判断是否已经安装了模拟城市4
+        If ModuleDeclare.InstalledModules Is Nothing Then '判断是否已经安装了模拟城市4
             With ModuleDeclare.InstallOptions
                 If .IsInstallDAEMONTools = False Then DAEMONToolsItem.Remove()
                 '如果模拟城市4安装失败，则将安装成功的组件列表框的对应项移动到安装失败的组件列表框里
-                If ModuleDeclare.InstallResult.SC4InstallResult = Result.Fail Then SubassemblyInstallFail(SC4Item)
+                If ModuleDeclare.InstallResults.SC4InstallResult = InstallResult.Fail Then SubassemblyInstallFail(SC4Item)
                 '根据安装选项里所选择的模拟城市4版本来更改安装组件列表框里模拟城市4 豪华版项的文本
                 If .SC4InstallType = InstallOptions.SC4Type.CD Then SC4Item.Text = "模拟城市4 豪华版 镜像版"
                 If .SC4InstallType = InstallOptions.SC4Type.NoInstall Then SC4Item.Text = "模拟城市4 豪华版 硬盘版"
@@ -55,7 +55,7 @@ Public Class frmInstallFinish
                 If .IsInstallNoCDPatch = False Then NoCDPatchItem.Remove() : NoCDPatchItem = Nothing
                 If .IsInstallSC4Launcher = False Then SC4LauncherItem.Remove() : SC4LauncherItem = Nothing
                 '如果模拟城市4安装成功且存在游戏安装目录\Apps\SimCity 4.exe文件则激活启动模拟城市4 豪华版按钮
-                If ModuleDeclare.InstallResult.SC4InstallResult = Result.Success AndAlso My.Computer.FileSystem.FileExists(.SC4InstallDir & "\Apps\SimCity 4.exe") Then btnRunSC4.Enabled = True
+                If ModuleDeclare.InstallResults.SC4InstallResult = InstallResult.Success AndAlso My.Computer.FileSystem.FileExists(.SC4InstallDir & "\Apps\SimCity 4.exe") Then btnRunSC4.Enabled = True
             End With
         Else '已安装模拟城市4
             '更改标题文本和安装组件列表框组的标题
@@ -70,23 +70,23 @@ Public Class frmInstallFinish
                 If ._4GBPatchOption = ChangeOptions.ChangeOption.Unchanged Then _4GBPatchItem.Remove()
                 If .NoCDPatchOption = ChangeOptions.ChangeOption.Unchanged Then NoCDPatchItem.Remove()
                 If .SC4LauncherOption = ChangeOptions.ChangeOption.Unchanged Then SC4LauncherItem.Remove()
-                If .LanguagePatchOption = ModuleDeclare.InstalledModule.LanguagePatchOption Then LanguageItem.Remove()
+                If .LanguagePatchOption = ModuleDeclare.InstalledModules.LanguagePatchOption Then LanguageItem.Remove()
                 '如果存在游戏安装目录\Apps\SimCity 4.exe文件则激活启动模拟城市4 豪华版按钮
-                If My.Computer.FileSystem.FileExists(ModuleDeclare.InstalledModule.SC4InstallDir & "\Apps\SimCity 4.exe") Then btnRunSC4.Enabled = True
+                If My.Computer.FileSystem.FileExists(ModuleDeclare.InstalledModules.SC4InstallDir & "\Apps\SimCity 4.exe") Then btnRunSC4.Enabled = True
             End With
         End If
-        With ModuleDeclare.InstallResult '如果某个组件安装失败，则将安装成功的组件列表框的对应项移动到安装失败的组件列表框里
-            If .DAEMONToolsResult = Result.Fail Then SubassemblyInstallFail(DAEMONToolsItem)
-            If ._638PatchResult = Result.Fail Then SubassemblyInstallFail(_638PatchItem)
-            If ._640PatchResult = Result.Fail Then SubassemblyInstallFail(_640PatchItem)
-            If ._641PatchResult = Result.Fail Then SubassemblyInstallFail(_641PatchItem)
-            If ._4GBPatchResult = Result.Fail Then SubassemblyInstallFail(_4GBPatchItem)
-            If .NoCDPatchResult = Result.Fail Then SubassemblyInstallFail(NoCDPatchItem)
-            If .SC4LauncherResult = Result.Fail Then SubassemblyInstallFail(SC4LauncherItem)
-            If .LanguagePatchResult = Result.Fail Then SubassemblyInstallFail(LanguageItem)
+        With ModuleDeclare.InstallResults '如果某个组件安装失败，则将安装成功的组件列表框的对应项移动到安装失败的组件列表框里
+            If .DAEMONToolsResult = InstallResult.Fail Then SubassemblyInstallFail(DAEMONToolsItem)
+            If ._638PatchResult = InstallResult.Fail Then SubassemblyInstallFail(_638PatchItem)
+            If ._640PatchResult = InstallResult.Fail Then SubassemblyInstallFail(_640PatchItem)
+            If ._641PatchResult = InstallResult.Fail Then SubassemblyInstallFail(_641PatchItem)
+            If ._4GBPatchResult = InstallResult.Fail Then SubassemblyInstallFail(_4GBPatchItem)
+            If .NoCDPatchResult = InstallResult.Fail Then SubassemblyInstallFail(NoCDPatchItem)
+            If .SC4LauncherResult = InstallResult.Fail Then SubassemblyInstallFail(SC4LauncherItem)
+            If .LanguagePatchResult = InstallResult.Fail Then SubassemblyInstallFail(LanguageItem)
         End With
         '根据安装选项里所选择的语言补丁来更改安装组件列表框里对应项的文本
-        Select Case If(ModuleDeclare.InstalledModule Is Nothing, ModuleDeclare.InstallOptions.LanguagePatchOption, ModuleDeclare.ChangeOptions.LanguagePatchOption)
+        Select Case If(ModuleDeclare.InstalledModules Is Nothing, ModuleDeclare.InstallOptions.LanguagePatchOption, ModuleDeclare.ChangeOptions.LanguagePatchOption)
             Case SC4Language.TraditionalChinese : LanguageItem.Text = "繁体中文语言补丁"
             Case SC4Language.SimplifiedChinese : LanguageItem.Text = "简体中文语言补丁"
             Case SC4Language.English : LanguageItem.Text = "英语语言补丁"
@@ -107,7 +107,7 @@ Public Class frmInstallFinish
     End Sub
 
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
-        Application.Exit()
+        Environment.Exit(0) '强制退出程序以避免触发frmMain的FormClosing事件
     End Sub
 
 End Class

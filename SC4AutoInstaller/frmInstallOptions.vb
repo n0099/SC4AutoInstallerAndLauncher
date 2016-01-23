@@ -1,7 +1,7 @@
 ﻿Public Class frmInstallOptions
 
-    ''' <summary>获取或设置是否已经安装DAEMON Tools Lite</summary>
-    Dim IsDAEMONToolsInstalled As Boolean
+    ''' <summary>一个用于获取或设置是否已经安装DAEMON Tools Lite的全局变量</summary>
+    Private IsDAEMONToolsInstalled As Boolean
 
     ''' <summary>指定安装组件列表框项的图标</summary>
     Private Enum NodeCheckedState
@@ -332,8 +332,7 @@
     Private Sub btnBack_Click(sender As Object, e As EventArgs) Handles btnBack.Click
         ModuleDeclare.InstallOptions = New InstallOptions '恢复已更改的ModuleDeclare.InstallOptions类实例
         frmMain.Show()
-        RemoveHandler Me.FormClosing, AddressOf frmInstallOptions_FormClosing '移除关闭窗口过程和关闭窗口事件的关联
-        Close()
+        Dispose() '直接释放窗口以避免触发FormClosing事件
     End Sub
 
     Private Sub btnInstall_Click(sender As Object, e As EventArgs) Handles btnInstall.Click
@@ -345,9 +344,9 @@
                 .DAEMONToolsInstallDir = If(txtDAEMONToolsInstallDir.Text.EndsWith(":\"), txtDAEMONToolsInstallDir.Text.Trim, txtDAEMONToolsInstallDir.Text.TrimEnd("\").Trim) '如果安装路径不是分区根路径则去掉结尾的\
             End If
         End With
+        frmMain.bgwCheckUpdate.CancelAsync() '取消异步检查更新
         frmInstalling.Show()
-        RemoveHandler Me.FormClosing, AddressOf frmInstallOptions_FormClosing '移除关闭窗口过程和关闭窗口事件的关联
-        Close()
+        Dispose() '直接释放窗口以避免触发FormClosing事件
     End Sub
 
     Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click

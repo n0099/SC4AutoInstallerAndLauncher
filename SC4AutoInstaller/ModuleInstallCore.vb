@@ -1,5 +1,5 @@
 ﻿Imports System.Runtime.InteropServices
-Imports Result = SC4AutoInstaller.InstallResults.InstallResult
+Imports InstallResult = SC4AutoInstaller.InstallResults.InstallResult
 Imports ChangeOption = SC4AutoInstaller.ChangeOptions.ChangeOption
 
 ''' <summary>ModuleInstallCore模块提供安装各种组件的方法</summary>
@@ -22,13 +22,13 @@ Public Module ModuleInstallCore
     ''' <summary>在指定的路径安装DAEMON Tools Lite</summary>
     ''' <param name="InstallDir">指定DAEMON Tools Lite安装路径</param>
     ''' <returns>InstallResult.Result的值之一，如果安装成功，则为InstallResult.Result.Success；否则为InstallResult.Result.Fail</returns>
-    Public Function InstallDAEMONTools(ByVal InstallDir As String) As Result
+    Public Function InstallDAEMONTools(ByVal InstallDir As String) As InstallResult
         Try
             Do Until IsFileUsing("Data\DAEMON Tools Lite 5.0.exe") = False : Loop '判断需要修改或读取的文件是否已被其他进程占用
             Process.Start(New ProcessStartInfo With {.FileName = "Data\DAEMON Tools Lite 5.0.exe", .Arguments = "/S /nogadget /path """ & InstallDir & """", .Verb = "runas"}).WaitForExit() '安装DAEMON Tools Lite
-            Return If(My.Computer.FileSystem.FileExists(InstallDir & "\DTLite.exe"), Result.Success, Result.Fail) '判断是否安装成功
+            Return If(My.Computer.FileSystem.FileExists(InstallDir & "\DTLite.exe"), InstallResult.Success, InstallResult.Fail) '判断是否安装成功
         Catch
-            Return Result.Fail '如果在安装过程中遇到异常则返回安装失败
+            Return InstallResult.Fail '如果在安装过程中遇到异常则返回安装失败
         End Try
     End Function
 
@@ -45,7 +45,7 @@ Public Module ModuleInstallCore
     ''' <param name="DAEMONToolsInstallDir">DAEMON Tools Lite的安装路径，用于安装镜像版模拟城市4</param>
     ''' <param name="InstallType">InstallOptions.SC4InstallType的值之一，指定要安装的版本</param>
     ''' <returns>InstallResult.Result的值之一，如果安装成功，则为InstallResult.Result.Success；否则为InstallResult.Result.Fail</returns>
-    Public Function InstallSC4(ByVal SC4InstallDir As String, ByVal DAEMONToolsInstallDir As String, ByVal InstallType As InstallOptions.SC4Type) As Result
+    Public Function InstallSC4(ByVal SC4InstallDir As String, ByVal DAEMONToolsInstallDir As String, ByVal InstallType As InstallOptions.SC4Type) As InstallResult
         Try
             My.Computer.FileSystem.CopyFile(Application.ExecutablePath, SC4InstallDir & "\Setup.exe", True) '将安装程序自身复制到SC4InstallDir下
             If InstallType = InstallOptions.SC4Type.CD Then '安装镜像版模拟城市4
@@ -91,6 +91,7 @@ Public Module ModuleInstallCore
                 PostMessage(FindWindowEx(FindWindow("#32770", "SimCity 4 Deluxe"), 0, "Button", "&Next>"), WM_LBUTTONDOWN, 0, 0) '模拟点击下一步按钮
                 PostMessage(FindWindowEx(FindWindow("#32770", "SimCity 4 Deluxe"), 0, "Button", "&Next>"), WM_LBUTTONUP, 0, 0)
                 '输入安装路径窗口
+                SetupProcess.WaitForInputIdle()
                 Do Until FindWindowEx(FindWindow("#32770", "SimCity 4 Deluxe"), 0, "Edit", "") <> Nothing : Loop
                 '通过SendMessage向安装路径文本框发送WM_SETTEXT消息（lParam附加值为InstallDir参数值）来模拟输入安装路径
                 SendMessage(FindWindowEx(FindWindow("#32770", "SimCity 4 Deluxe"), 0, "Edit", ""), WM_SETTEXT, 0, SC4InstallDir)
@@ -105,15 +106,15 @@ Public Module ModuleInstallCore
                 PostMessage(FindWindowEx(FindWindow("#32770", ""), 0, "Button", "Ok"), WM_LBUTTONUP, 0, 0)
                 SetupProcess.WaitForExit() '等待安装程序完成安装
                 If Process.GetProcessesByName("SimCity 4").Length <> 0 Then Process.GetProcessesByName("SimCity 4")(0).Kill() '结束安装完成后自动运行的游戏进程
-                Return If(My.Computer.FileSystem.FileExists(SC4InstallDir & "\Apps\SimCity 4.exe"), Result.Success, Result.Fail) '判断是否安装成功
+                Return If(My.Computer.FileSystem.FileExists(SC4InstallDir & "\Apps\SimCity 4.exe"), InstallResult.Success, InstallResult.Fail) '判断是否安装成功
             ElseIf InstallType = InstallOptions.SC4Type.NoInstall Then '安装硬盘版模拟城市4
                 Do Until IsFileUsing("Data\SC4\NoInstall.7z") = False : Loop '判断需要修改或读取的文件是否已被其他进程占用
                 Dim _7zaProcess As Process = Process.Start(New ProcessStartInfo With {.FileName = "Data\7za.exe", .Arguments = "x Data\SC4\NoInstall.7z -aoa -o""" & SC4InstallDir & """", .Verb = "runas"}) : _7zaProcess.WaitForExit()
-                Return If(_7zaProcess.ExitCode = 0, Result.Success, Result.Fail) '判断是否解压成功
+                Return If(_7zaProcess.ExitCode = 0, InstallResult.Success, InstallResult.Fail) '判断是否解压成功
             Else : Return Nothing
             End If
         Catch
-            Return Result.Fail '如果在安装过程中遇到异常则返回安装失败
+            Return InstallResult.Fail '如果在安装过程中遇到异常则返回安装失败
         End Try
     End Function
 
@@ -121,7 +122,7 @@ Public Module ModuleInstallCore
     ''' <param name="InstallDir">指定安装或卸载路径</param>
     ''' <param name="IsUninstall">指定是否卸载638补丁</param>
     ''' <returns>InstallResult.Result的值之一，如果安装或卸载成功，则为InstallResult.Result.Success；否则为InstallResult.Result.Fail</returns>
-    Public Function Change638Patch(ByVal InstallDir As String, ByVal IsUninstall As Boolean) As Result
+    Public Function Change638Patch(ByVal InstallDir As String, ByVal IsUninstall As Boolean) As InstallResult
         Try
             If IsUninstall = False Then '安装638补丁
                 '判断需要修改或读取的文件是否已被其他进程占用
@@ -138,26 +139,20 @@ Public Module ModuleInstallCore
                 PostMessage(FindWindowEx(FindWindow("#32770", "RTPatch Binary Update System"), 0, "Button", "确定"), WM_LBUTTONDOWN, 0, 0) '模拟点击完成安装按钮
                 PostMessage(FindWindowEx(FindWindow("#32770", "RTPatch Binary Update System"), 0, "Button", "确定"), WM_LBUTTONUP, 0, 0)
                 Do Until Process.GetProcessesByName("638 SKU1").Length = 0 : Loop '等待补丁安装程序退出
-                '询问用户是否使用GOG版本的Graphics Rules.sgr文件
-                If MessageBox.Show("是否使用GOG版本的Graphics Rules.sgr文件？", "询问", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
-                    IO.File.SetAttributes(InstallDir & "\Graphics Rules.sgr", IO.FileAttributes.Normal) '将InstallDir\Graphics Rules.sgr文件设置为正常属性
-                    Do Until IsFileUsing(InstallDir & "\Graphics Rules.sgr") = False : Loop
-                    My.Computer.FileSystem.CopyFile("Data\Patch\Graphics Rules GOG.sgr", InstallDir & "\Graphics Rules.sgr", True)
-                End If
                 '通过补丁安装日志内容来判断是否安装成功
                 Dim PatchLog As String = My.Computer.FileSystem.ReadAllText("sc4_patchlog.txt")
                 My.Computer.FileSystem.DeleteFile("sc4_patchlog.txt") '删除补丁安装日志文件
-                Return If(PatchLog.Substring(PatchLog.IndexOf("File Patches Applied ......................... (   ") + 51, 1) = 6, Result.Success, Result.Fail)
+                Return If(PatchLog.Substring(PatchLog.IndexOf("File Patches Applied ......................... (   ") + 51, 1) = 6, InstallResult.Success, InstallResult.Fail)
             Else '卸载638补丁（回滚至610版本）
                 '判断需要修改或读取的文件是否已被其他进程占用
                 Dim UsingFiles As String() = {"Data\SC4\NoInstall.7z", InstallDir & "\Apps\SimCity 4.exe", InstallDir & "\SimCity_1.dat", InstallDir & "\SimCity_2.dat",
                                               InstallDir & "\SimCity_3.dat", InstallDir & "\SimCity_4.dat", InstallDir & "\SimCity_5.dat"}
                 For Each i As String In UsingFiles : Do Until IsFileUsing(i) = False : Loop : Next
                 Dim _7zaProcess As Process = Process.Start(New ProcessStartInfo With {.FileName = "Data\7za.exe", .Arguments = "x Data\SC4\NoInstall.7z ""Apps\SimCity 4.exe"" ""Graphics Rules.sgr"" ""SimCity_*.dat"" -aoa -o""" & InstallDir & """", .Verb = "runas"}) : _7zaProcess.WaitForExit()
-                Return If(_7zaProcess.ExitCode = 0, Result.Success, Result.Fail) '判断是否解压成功
+                Return If(_7zaProcess.ExitCode = 0, InstallResult.Success, InstallResult.Fail) '判断是否解压成功
             End If
         Catch
-            Return Result.Fail '如果在安装过程中遇到异常则返回安装失败
+            Return InstallResult.Fail '如果在安装过程中遇到异常则返回安装失败
         End Try
     End Function
 
@@ -165,16 +160,13 @@ Public Module ModuleInstallCore
     ''' <param name="InstallDir">指定安装或卸载路径</param>
     ''' <param name="IsUninstall">指定是否卸载640补丁</param>
     ''' <returns>InstallResult.Result的值之一，如果安装或卸载成功，则为InstallResult.Result.Success；否则为InstallResult.Result.Fail</returns>
-    Public Function Change640Patch(ByVal InstallDir As String, ByVal IsUninstall As Boolean) As Result
+    Public Function Change640Patch(ByVal InstallDir As String, ByVal IsUninstall As Boolean) As InstallResult
         Try
             If IsUninstall = False Then '安装640补丁
                 '判断需要修改或读取的文件是否已被其他进程占用
                 Dim Files As String() = {InstallDir & "\Apps\SimCity 4.exe", InstallDir & "\SimCity_1.dat"}
                 For Each i As String In Files : Do Until IsFileUsing(i) = False : Loop : Next
                 My.Computer.FileSystem.CopyFile("Data\Patch\SimCity 4.exe\SimCity 4 638.exe", InstallDir & "\Apps\SimCity 4.exe", True) '卸载4GB补丁
-                '如果用户同意使用638版本的SimCity_1.dat文件则先备份638版本的SimCity_1.dat文件
-                Dim IsUse638File As DialogResult = MessageBox.Show("是否使用638版本的SimCity_1.dat文件？" & vbCrLf & "使用638版本的SimCity_1.dat文件可以避免可能出现的细节缺失显示问题", "询问", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-                If IsUse638File = DialogResult.Yes Then My.Computer.FileSystem.CopyFile(InstallDir & "\SimCity_1.dat", InstallDir & "\SimCity_1 638.dat")
                 '通过模拟点击来自动安装640补丁
                 Process.Start("Data\Patch\640.exe").WaitForInputIdle()
                 Do Until FindWindowEx(FindWindow("#32770", "SimCity 4 EP1 Update 2"), 0, "Button", "确定") <> Nothing : Loop
@@ -184,17 +176,15 @@ Public Module ModuleInstallCore
                 PostMessage(FindWindowEx(FindWindow("#32770", "RTPatch Binary Update System"), 0, "Button", "确定"), WM_LBUTTONDOWN, 0, 0) '模拟点击完成安装按钮
                 PostMessage(FindWindowEx(FindWindow("#32770", "RTPatch Binary Update System"), 0, "Button", "确定"), WM_LBUTTONUP, 0, 0)
                 Do Until Process.GetProcessesByName("640").Length = 0 : Loop '等待补丁安装程序退出
-                '如果用户同意使用638版本的SimCity_1.dat文件则将之前备份的638版本的SimCity_1.dat文件替换原文件
-                If IsUse638File = DialogResult.Yes Then My.Computer.FileSystem.MoveFile(InstallDir & "\SimCity_1 638.dat", InstallDir & "\SimCity_1.dat", True)
                 '通过安装日志内容来判断是否安装成功
                 Dim PatchLog As String = My.Computer.FileSystem.ReadAllText("sc4_patchlog.txt")
                 My.Computer.FileSystem.DeleteFile("sc4_patchlog.txt") '删除补丁安装日志文件
-                Return If(PatchLog.Substring(PatchLog.IndexOf("File Patches Applied ......................... (   ") + 51, 1) = 2, Result.Success, Result.Fail)
+                Return If(PatchLog.Substring(PatchLog.IndexOf("File Patches Applied ......................... (   ") + 51, 1) = 2, InstallResult.Success, InstallResult.Fail)
             Else '卸载640补丁（回滚至638版本）
-                If Change638Patch(InstallDir, True) = Result.Fail Then Return Result.Fail Else Return Change638Patch(InstallDir, False) '先卸载638补丁以回滚至610版本然后再安装638补丁以回滚至638版本
+                If Change638Patch(InstallDir, True) = InstallResult.Fail Then Return InstallResult.Fail Else Return Change638Patch(InstallDir, False) '先卸载638补丁以回滚至610版本然后再安装638补丁以回滚至638版本
             End If
         Catch
-            Return Result.Fail '如果在安装过程中遇到异常则返回安装失败
+            Return InstallResult.Fail '如果在安装过程中遇到异常则返回安装失败
         End Try
     End Function
 
@@ -202,19 +192,19 @@ Public Module ModuleInstallCore
     ''' <param name="InstallDir">指定安装或卸载路径</param>
     ''' <param name="IsUninstall">指定是否卸载641补丁</param>
     ''' <returns>InstallResult.Result的值之一，如果安装或卸载成功，则为InstallResult.Result.Success；否则为InstallResult.Result.Fail</returns>
-    Public Function Change641Patch(ByVal InstallDir As String, ByVal IsUninstall As Boolean) As Result
+    Public Function Change641Patch(ByVal InstallDir As String, ByVal IsUninstall As Boolean) As InstallResult
         Try
             If IsUninstall = False Then '安装641补丁
                 '判断需要修改或读取的文件是否已被其他进程占用
                 Dim Files As String() = {InstallDir & "\Apps\SimCity 4.exe", InstallDir & "\SimCity_1.dat"}
                 For Each i As String In Files : Do Until IsFileUsing(i) = False : Loop : Next
                 Dim _7zaProcess As Process = Process.Start(New ProcessStartInfo With {.FileName = "Data\7za.exe", .Arguments = "x Data\Patch\641.7z -aoa -o""" & InstallDir & """", .Verb = "runas"}) : _7zaProcess.WaitForExit()
-                Return If(_7zaProcess.ExitCode = 0, Result.Success, Result.Fail) '判断是否解压成功
+                Return If(_7zaProcess.ExitCode = 0, InstallResult.Success, InstallResult.Fail) '判断是否解压成功
             Else '卸载641补丁（回滚至640版本）
-                If Change640Patch(InstallDir, True) = Result.Fail Then Return Result.Fail Else Return Change640Patch(InstallDir, False) '先卸载640补丁以回滚至638版本然后再安装640补丁以回滚至640版本
+                If Change640Patch(InstallDir, True) = InstallResult.Fail Then Return InstallResult.Fail Else Return Change640Patch(InstallDir, False) '先卸载640补丁以回滚至638版本然后再安装640补丁以回滚至640版本
             End If
         Catch
-            Return Result.Fail '如果在安装过程中遇到异常则返回安装失败
+            Return InstallResult.Fail '如果在安装过程中遇到异常则返回安装失败
         End Try
     End Function
 
@@ -223,7 +213,7 @@ Public Module ModuleInstallCore
     ''' <param name="IsUninstall">指定是否卸载4GB补丁</param>
     ''' <param name="ChangeOptions">一个InstallOptions类实例，用于判断应回滚至什么版本</param>
     ''' <returns>InstallResult.Result的值之一，如果安装或卸载成功，则为InstallResult.Result.Success；否则为InstallResult.Result.Fail</returns>
-    Public Function Change4GBPatch(ByVal InstallDir As String, ByVal IsUninstall As Boolean, ByVal ChangeOptions As ChangeOptions) As Result
+    Public Function Change4GBPatch(ByVal InstallDir As String, ByVal IsUninstall As Boolean, ByVal ChangeOptions As ChangeOptions) As InstallResult
         Try
             Do Until IsFileUsing(InstallDir & "\Apps\SimCity 4.exe") = False : Loop '判断需要修改或读取的文件是否已被其他进程占用
             Dim MD5CSP As New Security.Cryptography.MD5CryptoServiceProvider, SC4exeFileMD5 As String
@@ -234,23 +224,23 @@ Public Module ModuleInstallCore
                     SC4exeFileMD5 = BitConverter.ToString(MD5CSP.ComputeHash(SC4exeFileStream)).Replace("-", "")
                 End Using
                 Return If(SC4exeFileMD5 = "78202C3EF76988BD2BF05F8D223BE7A3" OrElse SC4exeFileMD5 = "2F2BD7D9A76E85320A26D7BD7530DCAE" OrElse SC4exeFileMD5 = "1C18B7DC760EDADD2C2EFAF33F60F150" OrElse
-                          SC4exeFileMD5 = "1414E70EB5CE22DB37D22CB99439D012" OrElse SC4exeFileMD5 = "AADC5464919FBDC0F8E315FA51582126", Result.Success, Result.Fail)
+                          SC4exeFileMD5 = "1414E70EB5CE22DB37D22CB99439D012" OrElse SC4exeFileMD5 = "AADC5464919FBDC0F8E315FA51582126", InstallResult.Success, InstallResult.Fail)
             Else '卸载4GB补丁
                 Dim SC4Version As String '声明一个用于存储SC4当前版本的字符串变量
                 With ChangeOptions '判断SC4的版本
-                    If (._638PatchOption = ChangeOption.Install OrElse (._638PatchOption = ChangeOption.Unchanged AndAlso ModuleDeclare.InstalledModule.Is638PatchInstalled)) AndAlso
-                        (._640PatchOption = ChangeOption.Uninstall OrElse (._640PatchOption = ChangeOption.Unchanged AndAlso ModuleDeclare.InstalledModule.Is640PatchInstalled = False)) AndAlso
-                        (._641PatchOption = ChangeOption.Uninstall OrElse (._641PatchOption = ChangeOption.Unchanged AndAlso ModuleDeclare.InstalledModule.Is641PatchInstalled = False)) Then : SC4Version = "638"
-                    ElseIf (._638PatchOption = ChangeOption.Install OrElse (._638PatchOption = ChangeOption.Unchanged AndAlso ModuleDeclare.InstalledModule.Is638PatchInstalled)) AndAlso
-                        (._640PatchOption = ChangeOption.Install OrElse (._640PatchOption = ChangeOption.Unchanged AndAlso ModuleDeclare.InstalledModule.Is640PatchInstalled)) AndAlso
-                        (._641PatchOption = ChangeOption.Uninstall OrElse (._641PatchOption = ChangeOption.Unchanged AndAlso ModuleDeclare.InstalledModule.Is641PatchInstalled = False)) Then : SC4Version = "640"
-                    ElseIf (._638PatchOption = ChangeOption.Install OrElse (._638PatchOption = ChangeOption.Unchanged AndAlso ModuleDeclare.InstalledModule.Is638PatchInstalled)) AndAlso
-                        (._640PatchOption = ChangeOption.Install OrElse (._640PatchOption = ChangeOption.Unchanged AndAlso ModuleDeclare.InstalledModule.Is640PatchInstalled)) AndAlso
-                        (._641PatchOption = ChangeOption.Install OrElse (._641PatchOption = ChangeOption.Unchanged AndAlso ModuleDeclare.InstalledModule.Is641PatchInstalled)) Then : SC4Version = "641"
-                    ElseIf (._638PatchOption = ChangeOption.Uninstall OrElse (._638PatchOption = ChangeOption.Unchanged AndAlso ModuleDeclare.InstalledModule.Is638PatchInstalled = False)) AndAlso
-                        (._640PatchOption = ChangeOption.Uninstall OrElse (._640PatchOption = ChangeOption.Unchanged AndAlso ModuleDeclare.InstalledModule.Is640PatchInstalled = False)) AndAlso
-                        (._641PatchOption = ChangeOption.Uninstall OrElse (._641PatchOption = ChangeOption.Unchanged AndAlso ModuleDeclare.InstalledModule.Is641PatchInstalled = False)) Then : SC4Version = "610"
-                    ElseIf .NoCDPatchOption = ChangeOption.Install OrElse (.NoCDPatchOption = ChangeOption.Unchanged AndAlso ModuleDeclare.InstalledModule.IsNoCDPatchInstalled) Then : SC4Version = "NoCD"
+                    If (._638PatchOption = ChangeOption.Install OrElse (._638PatchOption = ChangeOption.Unchanged AndAlso ModuleDeclare.InstalledModules.Is638PatchInstalled)) AndAlso
+                        (._640PatchOption = ChangeOption.Uninstall OrElse (._640PatchOption = ChangeOption.Unchanged AndAlso ModuleDeclare.InstalledModules.Is640PatchInstalled = False)) AndAlso
+                        (._641PatchOption = ChangeOption.Uninstall OrElse (._641PatchOption = ChangeOption.Unchanged AndAlso ModuleDeclare.InstalledModules.Is641PatchInstalled = False)) Then : SC4Version = "638"
+                    ElseIf (._638PatchOption = ChangeOption.Install OrElse (._638PatchOption = ChangeOption.Unchanged AndAlso ModuleDeclare.InstalledModules.Is638PatchInstalled)) AndAlso
+                        (._640PatchOption = ChangeOption.Install OrElse (._640PatchOption = ChangeOption.Unchanged AndAlso ModuleDeclare.InstalledModules.Is640PatchInstalled)) AndAlso
+                        (._641PatchOption = ChangeOption.Uninstall OrElse (._641PatchOption = ChangeOption.Unchanged AndAlso ModuleDeclare.InstalledModules.Is641PatchInstalled = False)) Then : SC4Version = "640"
+                    ElseIf (._638PatchOption = ChangeOption.Install OrElse (._638PatchOption = ChangeOption.Unchanged AndAlso ModuleDeclare.InstalledModules.Is638PatchInstalled)) AndAlso
+                        (._640PatchOption = ChangeOption.Install OrElse (._640PatchOption = ChangeOption.Unchanged AndAlso ModuleDeclare.InstalledModules.Is640PatchInstalled)) AndAlso
+                        (._641PatchOption = ChangeOption.Install OrElse (._641PatchOption = ChangeOption.Unchanged AndAlso ModuleDeclare.InstalledModules.Is641PatchInstalled)) Then : SC4Version = "641"
+                    ElseIf (._638PatchOption = ChangeOption.Uninstall OrElse (._638PatchOption = ChangeOption.Unchanged AndAlso ModuleDeclare.InstalledModules.Is638PatchInstalled = False)) AndAlso
+                        (._640PatchOption = ChangeOption.Uninstall OrElse (._640PatchOption = ChangeOption.Unchanged AndAlso ModuleDeclare.InstalledModules.Is640PatchInstalled = False)) AndAlso
+                        (._641PatchOption = ChangeOption.Uninstall OrElse (._641PatchOption = ChangeOption.Unchanged AndAlso ModuleDeclare.InstalledModules.Is641PatchInstalled = False)) Then : SC4Version = "610"
+                    ElseIf .NoCDPatchOption = ChangeOption.Install OrElse (.NoCDPatchOption = ChangeOption.Unchanged AndAlso ModuleDeclare.InstalledModules.IsNoCDPatchInstalled) Then : SC4Version = "NoCD"
                     Else SC4Version = Nothing
                     End If
                 End With
@@ -267,15 +257,15 @@ Public Module ModuleInstallCore
                     SC4exeFileMD5 = BitConverter.ToString(MD5CSP.ComputeHash(SC4exeFileStream)).Replace("-", "")
                 End Using
                 Select Case SC4Version
-                    Case "638" : Return If(SC4exeFileMD5 = "9ACB71D6D2302158CA614B21A9B187E4", Result.Success, Result.Fail)
-                    Case "640" : Return If(SC4exeFileMD5 = "D4796905AAFF2B2DE44C2B59D103F5EA", Result.Success, Result.Fail)
-                    Case "641" : Return If(SC4exeFileMD5 = "53D2AE4FA9114B88AD91ECF32A7F16A4", Result.Success, Result.Fail)
-                    Case "610" : Return If(SC4exeFileMD5 = "427BE3767B1B20866F42D6197EA67AF0", Result.Success, Result.Fail)
+                    Case "638" : Return If(SC4exeFileMD5 = "9ACB71D6D2302158CA614B21A9B187E4", InstallResult.Success, InstallResult.Fail)
+                    Case "640" : Return If(SC4exeFileMD5 = "D4796905AAFF2B2DE44C2B59D103F5EA", InstallResult.Success, InstallResult.Fail)
+                    Case "641" : Return If(SC4exeFileMD5 = "53D2AE4FA9114B88AD91ECF32A7F16A4", InstallResult.Success, InstallResult.Fail)
+                    Case "610" : Return If(SC4exeFileMD5 = "427BE3767B1B20866F42D6197EA67AF0", InstallResult.Success, InstallResult.Fail)
                     Case Else : Return Nothing
                 End Select
             End If
         Catch
-            Return Result.Fail '如果在安装过程中遇到异常则返回安装失败
+            Return InstallResult.Fail '如果在安装过程中遇到异常则返回安装失败
         End Try
     End Function
 
@@ -283,7 +273,7 @@ Public Module ModuleInstallCore
     ''' <param name="InstallDir">指定安装或卸载路径</param>
     ''' <param name="IsUninstall">指定是否卸载免CD补丁</param>
     ''' <returns>InstallResult.Result的值之一，如果安装或卸载成功，则为InstallResult.Result.Success；否则为InstallResult.Result.Fail</returns>
-    Public Function ChangeNoCDPatch(ByVal InstallDir As String, ByVal IsUninstall As Boolean) As Result
+    Public Function ChangeNoCDPatch(ByVal InstallDir As String, ByVal IsUninstall As Boolean) As InstallResult
         Try
             If IsUninstall = False Then '安装免CD补丁
                 Do Until IsFileUsing(InstallDir & "\Apps\SimCity 4.exe") = False : Loop '判断需要修改或读取的文件是否已被其他进程占用
@@ -293,12 +283,12 @@ Public Module ModuleInstallCore
                 Using SC4exeFileStream As New IO.FileStream(InstallDir & "\Apps\SimCity 4.exe", IO.FileMode.Open)
                     SC4exeFileMD5 = BitConverter.ToString(MD5CSP.ComputeHash(SC4exeFileStream)).Replace("-", "")
                 End Using
-                Return If(SC4exeFileMD5 = "B57B5B03C4854C194CE8BEBD173F3483", Result.Success, Result.Fail)
+                Return If(SC4exeFileMD5 = "B57B5B03C4854C194CE8BEBD173F3483", InstallResult.Success, InstallResult.Fail)
             Else '卸载免CD补丁
                 Return Change638Patch(InstallDir, True) '直接调用卸载638补丁的方法以回滚至610版本
             End If
         Catch
-            Return Result.Fail '如果在安装过程中遇到异常则返回安装失败
+            Return InstallResult.Fail '如果在安装过程中遇到异常则返回安装失败
         End Try
     End Function
 
@@ -306,18 +296,18 @@ Public Module ModuleInstallCore
     ''' <param name="InstallDir">指定安装或卸载路径</param>
     ''' <param name="IsUninstall">指定是否卸载模拟城市4 启动器</param>
     ''' <returns>InstallResult.Result的值之一，如果安装或卸载成功，则为InstallResult.Result.Success；否则为InstallResult.Result.Fail</returns>
-    Public Function ChangeSC4Launcher(ByVal InstallDir As String, ByVal IsUninstall As Boolean) As Result
+    Public Function ChangeSC4Launcher(ByVal InstallDir As String, ByVal IsUninstall As Boolean) As InstallResult
         Try
             If IsUninstall = False Then '安装模拟城市4 启动器
                 My.Computer.FileSystem.CopyFile("Data\Patch\SC4Launcher.exe", InstallDir & "\SC4Launcher.exe", True)
-                Return If(My.Computer.FileSystem.FileExists(InstallDir & "\SC4Launcher.exe"), Result.Success, Result.Fail)
+                Return If(My.Computer.FileSystem.FileExists(InstallDir & "\SC4Launcher.exe"), InstallResult.Success, InstallResult.Fail)
             Else '卸载模拟城市4 启动器
                 Do Until IsFileUsing(InstallDir & "\SC4Launcher.exe") = False : Loop '判断需要修改或读取的文件是否已被其他进程占用
                 My.Computer.FileSystem.DeleteFile(InstallDir & "\SC4Launcher.exe")
-                Return If(My.Computer.FileSystem.FileExists(InstallDir & "\SC4Launcher.exe") = False, Result.Success, Result.Fail)
+                Return If(My.Computer.FileSystem.FileExists(InstallDir & "\SC4Launcher.exe") = False, InstallResult.Success, InstallResult.Fail)
             End If
         Catch
-            Return Result.Fail '如果在安装过程中遇到异常则返回安装失败
+            Return InstallResult.Fail '如果在安装过程中遇到异常则返回安装失败
         End Try
     End Function
 
@@ -325,7 +315,7 @@ Public Module ModuleInstallCore
     ''' <param name="InstallDir">指定安装路径</param>
     ''' <param name="Language">InstallOptions.Language的值之一，指定要安装的语言补丁的语言</param>
     ''' <returns>InstallResult.Result的值之一，如果安装成功，则为InstallResult.Result.Success；否则为InstallResult.Result.Fail</returns>
-    Public Function ChangeLanguage(ByVal InstallDir As String, ByVal Language As ModuleDeclare.SC4Language) As Result
+    Public Function ChangeLanguage(ByVal InstallDir As String, ByVal Language As ModuleDeclare.SC4Language) As InstallResult
         Try
             With My.Computer.Registry
                 '声明一个用于存储模拟城市4语言设置的注册表键名的字符串变量
@@ -336,24 +326,24 @@ Public Module ModuleInstallCore
                         .SetValue(LanguageRegKeyName, "Language", 18, Microsoft.Win32.RegistryValueKind.DWord) '设置繁体中文语言补丁的注册表值
                         .SetValue(LanguageRegKeyName, "DisplayName", "SimCity 4 Deluxe", Microsoft.Win32.RegistryValueKind.String)
                         .SetValue(LanguageRegKeyName, "LanguageName", "Chinese (Traditional)", Microsoft.Win32.RegistryValueKind.String)
-                        Return If(My.Computer.FileSystem.DirectoryExists(InstallDir & "\TChinese") AndAlso .GetValue(LanguageRegKeyName, "Language", Nothing) = 18, Result.Success, Result.Fail)
+                        Return If(My.Computer.FileSystem.DirectoryExists(InstallDir & "\TChinese") AndAlso .GetValue(LanguageRegKeyName, "Language", Nothing) = 18, InstallResult.Success, InstallResult.Fail)
                     Case SC4Language.SimplifiedChinese '安装简体中文语言补丁
                         My.Computer.FileSystem.CopyDirectory("Data\Patch\Language\SChinese", InstallDir & "\SChinese", True)
                         .SetValue(LanguageRegKeyName, "Language", 17, Microsoft.Win32.RegistryValueKind.DWord) '设置简体中文语言补丁的注册表值
                         .SetValue(LanguageRegKeyName, "DisplayName", "SimCity 4 Deluxe", Microsoft.Win32.RegistryValueKind.String)
                         .SetValue(LanguageRegKeyName, "LanguageName", "Chinese (Simplified)", Microsoft.Win32.RegistryValueKind.String)
-                        Return If(My.Computer.FileSystem.DirectoryExists(InstallDir & "\SChinese") AndAlso .GetValue(LanguageRegKeyName, "Language", Nothing) = 17, Result.Success, Result.Fail)
+                        Return If(My.Computer.FileSystem.DirectoryExists(InstallDir & "\SChinese") AndAlso .GetValue(LanguageRegKeyName, "Language", Nothing) = 17, InstallResult.Success, InstallResult.Fail)
                     Case SC4Language.English '安装英语语言补丁
                         My.Computer.FileSystem.CopyDirectory("Data\Patch\Language\English", InstallDir & "\English", True)
                         .SetValue(LanguageRegKeyName, "Language", 1, Microsoft.Win32.RegistryValueKind.DWord) '设置英语语言补丁的注册表值
                         .SetValue(LanguageRegKeyName, "DisplayName", "SimCity 4 Deluxe", Microsoft.Win32.RegistryValueKind.String)
                         .SetValue(LanguageRegKeyName, "LanguageName", "English US", Microsoft.Win32.RegistryValueKind.String)
-                        Return If(My.Computer.FileSystem.DirectoryExists(InstallDir & "\English") AndAlso .GetValue(LanguageRegKeyName, "Language", Nothing) = 1, Result.Success, Result.Fail)
+                        Return If(My.Computer.FileSystem.DirectoryExists(InstallDir & "\English") AndAlso .GetValue(LanguageRegKeyName, "Language", Nothing) = 1, InstallResult.Success, InstallResult.Fail)
                     Case Else : Return Nothing
                 End Select
             End With
         Catch
-            Return Result.Fail '如果在安装过程中遇到异常则返回安装失败
+            Return InstallResult.Fail '如果在安装过程中遇到异常则返回安装失败
         End Try
     End Function
 
@@ -361,7 +351,7 @@ Public Module ModuleInstallCore
     ''' <param name="SC4InstallDir">指定模拟城市4的安装路径</param>
     ''' <param name="IsLauncherInstalled">指定是否将快捷方式导向模拟城市4 启动器</param>
     ''' <returns>InstallResult.Result的值之一，如果添加成功，则为InstallResult.Result.Success；否则为InstallResult.Result.Fail</returns>
-    Public Function AddDestopIcon(ByVal SC4InstallDir As String, ByVal IsLauncherInstalled As Boolean) As Result
+    Public Function AddDestopIcon(ByVal SC4InstallDir As String, ByVal IsLauncherInstalled As Boolean) As InstallResult
         Try
             '声明一个IWshRuntimeLibrary.WshShell接口的实例和一个IWshRuntimeLibrary.IWshShortcut接口的实例（引用自Windows Script Host Object Model）
             Dim wshshell As New IWshRuntimeLibrary.WshShell, shortcut As IWshRuntimeLibrary.IWshShortcut
@@ -370,10 +360,10 @@ Public Module ModuleInstallCore
             shortcut = wshshell.CreateShortcut(DesktopPath & If(IsLauncherInstalled, "\模拟城市4 启动器.lnk", "\模拟城市4 豪华版.lnk"))
             shortcut.TargetPath = SC4InstallDir & If(IsLauncherInstalled, "\SC4Launcher.exe", "\Apps\SimCity 4.exe")
             shortcut.IconLocation = SC4InstallDir & "\SC4.ico" : shortcut.Save()
-            Return If(IsLauncherInstalled, If(My.Computer.FileSystem.FileExists(DesktopPath & "\模拟城市4 启动器.lnk"), Result.Success, Result.Fail),
-                      If(My.Computer.FileSystem.FileExists(DesktopPath & "\模拟城市4 豪华版.lnk"), Result.Success, Result.Fail))
+            Return If(IsLauncherInstalled, If(My.Computer.FileSystem.FileExists(DesktopPath & "\模拟城市4 启动器.lnk"), InstallResult.Success, InstallResult.Fail),
+                      If(My.Computer.FileSystem.FileExists(DesktopPath & "\模拟城市4 豪华版.lnk"), InstallResult.Success, InstallResult.Fail))
         Catch
-            Return Result.Fail '如果在安装过程中遇到异常则返回安装失败
+            Return InstallResult.Fail '如果在安装过程中遇到异常则返回安装失败
         End Try
     End Function
 
@@ -381,7 +371,7 @@ Public Module ModuleInstallCore
     ''' <param name="SC4InstallDir">指定模拟城市4的安装路径</param>
     ''' <param name="IsLauncherInstalled">指定是否将快捷方式导向模拟城市4 启动器</param>
     ''' <returns>InstallResult.Result的值之一，如果添加成功，则为InstallResult.Result.Success；否则为InstallResult.Result.Fail</returns>
-    Public Function AddStartMenuItems(ByVal SC4InstallDir As String, ByVal IsLauncherInstalled As Boolean) As Result
+    Public Function AddStartMenuItems(ByVal SC4InstallDir As String, ByVal IsLauncherInstalled As Boolean) As InstallResult
         Try
             '声明一个IWshRuntimeLibrary.WshShell接口的实例和一个IWshRuntimeLibrary.IWshShortcut接口的实例（引用自Windows Script Host Object Model）
             Dim wshshell As New IWshRuntimeLibrary.WshShell, shortcut As IWshRuntimeLibrary.IWshShortcut
@@ -395,11 +385,11 @@ Public Module ModuleInstallCore
             '设置另一个快捷方式的名称、目标和图标并保存快捷方式
             shortcut = wshshell.CreateShortcut(StartMenuPath & "\卸载或更改模拟城市4 豪华版.lnk")
             shortcut.TargetPath = SC4InstallDir & "\Setup.exe" : shortcut.IconLocation = SC4InstallDir & "\Setup.exe" : shortcut.Save()
-            If My.Computer.FileSystem.FileExists(StartMenuPath & "\卸载或更改模拟城市4 豪华版.lnk") = False Then Return Result.Fail
-            Return If(IsLauncherInstalled, If(My.Computer.FileSystem.FileExists(StartMenuPath & "\模拟城市4 启动器.lnk"), Result.Success, Result.Fail),
-                      If(My.Computer.FileSystem.FileExists(StartMenuPath & "\模拟城市4 豪华版.lnk"), Result.Success, Result.Fail))
+            If My.Computer.FileSystem.FileExists(StartMenuPath & "\卸载或更改模拟城市4 豪华版.lnk") = False Then Return InstallResult.Fail
+            Return If(IsLauncherInstalled, If(My.Computer.FileSystem.FileExists(StartMenuPath & "\模拟城市4 启动器.lnk"), InstallResult.Success, InstallResult.Fail),
+                      If(My.Computer.FileSystem.FileExists(StartMenuPath & "\模拟城市4 豪华版.lnk"), InstallResult.Success, InstallResult.Fail))
         Catch
-            Return Result.Fail '如果在安装过程中遇到异常则返回安装失败
+            Return InstallResult.Fail '如果在安装过程中遇到异常则返回安装失败
         End Try
     End Function
 

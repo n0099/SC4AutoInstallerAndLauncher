@@ -534,9 +534,9 @@ Partial Class frmSetting
         Me.lblSC4InstallDir.AutoSize = True
         Me.lblSC4InstallDir.Location = New System.Drawing.Point(1, 123)
         Me.lblSC4InstallDir.Name = "lblSC4InstallDir"
-        Me.lblSC4InstallDir.Size = New System.Drawing.Size(119, 12)
+        Me.lblSC4InstallDir.Size = New System.Drawing.Size(125, 12)
         Me.lblSC4InstallDir.TabIndex = 14
-        Me.lblSC4InstallDir.Text = "模拟城市4安装目录："
+        Me.lblSC4InstallDir.Text = "模拟城市4 安装目录："
         Me.tipMain.SetToolTip(Me.lblSC4InstallDir, "模拟城市4的安装目录，建议不要更改")
         '
         'btnSC4InstallDir
@@ -551,9 +551,9 @@ Partial Class frmSetting
         '
         'txtSC4InstallDir
         '
-        Me.txtSC4InstallDir.Location = New System.Drawing.Point(114, 118)
+        Me.txtSC4InstallDir.Location = New System.Drawing.Point(120, 118)
         Me.txtSC4InstallDir.Name = "txtSC4InstallDir"
-        Me.txtSC4InstallDir.Size = New System.Drawing.Size(234, 21)
+        Me.txtSC4InstallDir.Size = New System.Drawing.Size(228, 21)
         Me.txtSC4InstallDir.TabIndex = 15
         Me.tipMain.SetToolTip(Me.txtSC4InstallDir, "模拟城市4的安装目录，建议不要更改")
         '
@@ -569,12 +569,12 @@ Partial Class frmSetting
         '
         'fbdUserDir
         '
-        Me.fbdUserDir.Description = "选择用户文件目录"
+        Me.fbdUserDir.Description = "请选择用户文件目录"
         Me.fbdUserDir.RootFolder = System.Environment.SpecialFolder.MyComputer
         '
         'fbdSC4InstallDir
         '
-        Me.fbdSC4InstallDir.Description = "选择模拟城市4安装目录"
+        Me.fbdSC4InstallDir.Description = "请选择模拟城市4 安装目录"
         Me.fbdSC4InstallDir.RootFolder = System.Environment.SpecialFolder.MyComputer
         '
         'tabSettings

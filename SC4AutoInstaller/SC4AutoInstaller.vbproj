@@ -110,7 +110,7 @@
   <ItemGroup>
     <Compile Include="ApplicationEvents.vb" />
     <Compile Include="ClassChangeOptions.vb" />
-    <Compile Include="ClassInstalledModule.vb" />
+    <Compile Include="ClassInstalledModules.vb" />
     <Compile Include="ClassInstallOptions.vb" />
     <Compile Include="ClassInstallResults.vb" />
     <Compile Include="frmAbout.Designer.vb">

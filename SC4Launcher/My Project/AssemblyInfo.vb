@@ -11,8 +11,8 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyTitle("模拟城市4 启动器")> 
 <Assembly: AssemblyDescription("模拟城市4 启动器")> 
 <Assembly: AssemblyCompany("n0099")> 
-<Assembly: AssemblyProduct("模拟城市4 启动器")> 
-<Assembly: AssemblyCopyright("Copyright © n0099 2015")> 
+<Assembly: AssemblyProduct("模拟城市4 启动器")>
+<Assembly: AssemblyCopyright("Copyright © n0099 2015-2016")>
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)>
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' 方法是按如下所示使用“*”: 
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.1.0.27")>
-<Assembly: AssemblyFileVersion("1.1.0.27")>
+<Assembly: AssemblyVersion("1.1.0.33")>
+<Assembly: AssemblyFileVersion("1.1.0.33")>

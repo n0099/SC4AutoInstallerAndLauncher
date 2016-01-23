@@ -28,7 +28,7 @@ Public NotInheritable Class ChangeOptions
     ''' <summary>将当前ChangeOptions类实例与指定的InstalledModule类实例进行比较</summary>
     ''' <param name="InstalledModule">要相比较的InstalledModule类实例</param>
     ''' <returns>如果某个组件的更改选项与InstalledModule类实例对应组件的值不同，则为False；否则为True</returns>
-    Public Function IsSameAsInstalledModule(InstalledModule As InstalledModule) As Boolean
+    Public Function IsSameAsInstalledModule(InstalledModule As InstalledModules) As Boolean
         If InstalledModule Is Nothing Then Return False
         With InstalledModule
             If .Is638PatchInstalled <> If(Me._638PatchOption = ChangeOption.Uninstall, False, True) Then Return False

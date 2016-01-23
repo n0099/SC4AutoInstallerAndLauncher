@@ -27,6 +27,7 @@ Partial Class frmMain
         Me.btnExit = New System.Windows.Forms.Button()
         Me.btnSetting = New System.Windows.Forms.Button()
         Me.fbdSC4InstallDir = New System.Windows.Forms.FolderBrowserDialog()
+        Me.bgwCheckUpdate = New System.ComponentModel.BackgroundWorker()
         Me.SuspendLayout()
         '
         'btnLaunch
@@ -61,8 +62,11 @@ Partial Class frmMain
         '
         'fbdSC4InstallDir
         '
-        Me.fbdSC4InstallDir.Description = "选择模拟城市4安装目录"
+        Me.fbdSC4InstallDir.Description = "请选择模拟城市4 安装目录"
         Me.fbdSC4InstallDir.RootFolder = System.Environment.SpecialFolder.MyComputer
+        '
+        'bgwCheckUpdate
+        '
         '
         'frmMain
         '
@@ -86,5 +90,5 @@ Partial Class frmMain
     Friend WithEvents btnExit As System.Windows.Forms.Button
     Friend WithEvents btnSetting As System.Windows.Forms.Button
     Friend WithEvents fbdSC4InstallDir As System.Windows.Forms.FolderBrowserDialog
-
+    Friend WithEvents bgwCheckUpdate As System.ComponentModel.BackgroundWorker
 End Class

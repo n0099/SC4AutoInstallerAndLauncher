@@ -40,7 +40,7 @@ Partial Class frmInstalling
         Me.lblTitle = New System.Windows.Forms.Label()
         Me.bgwInstall = New System.ComponentModel.BackgroundWorker()
         Me.picSC4 = New System.Windows.Forms.PictureBox()
-        Me.tmrPic = New System.Windows.Forms.Timer(Me.components)
+        Me.tmrChangePicture = New System.Windows.Forms.Timer(Me.components)
         Me.lblInstalling = New System.Windows.Forms.Label()
         Me.prgInstall = New System.Windows.Forms.ProgressBar()
         CType(Me.picSC4, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -107,10 +107,10 @@ Partial Class frmInstalling
         Me.picSC4.TabIndex = 12
         Me.picSC4.TabStop = False
         '
-        'tmrPic
+        'tmrChangePicture
         '
-        Me.tmrPic.Enabled = True
-        Me.tmrPic.Interval = 5000
+        Me.tmrChangePicture.Enabled = True
+        Me.tmrChangePicture.Interval = 5000
         '
         'lblInstalling
         '
@@ -118,9 +118,9 @@ Partial Class frmInstalling
         Me.lblInstalling.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.lblInstalling.Location = New System.Drawing.Point(12, 435)
         Me.lblInstalling.Name = "lblInstalling"
-        Me.lblInstalling.Size = New System.Drawing.Size(68, 17)
+        Me.lblInstalling.Size = New System.Drawing.Size(56, 17)
         Me.lblInstalling.TabIndex = 2
-        Me.lblInstalling.Text = "正在安装："
+        Me.lblInstalling.Text = "正在安装"
         '
         'prgInstall
         '
@@ -156,7 +156,7 @@ Partial Class frmInstalling
     Friend WithEvents bgwInstall As System.ComponentModel.BackgroundWorker
     Friend WithEvents imgTasksIcon As System.Windows.Forms.ImageList
     Friend WithEvents picSC4 As System.Windows.Forms.PictureBox
-    Friend WithEvents tmrPic As System.Windows.Forms.Timer
+    Friend WithEvents tmrChangePicture As System.Windows.Forms.Timer
     Friend WithEvents lblInstalling As Label
     Friend WithEvents prgInstall As ProgressBar
 End Class

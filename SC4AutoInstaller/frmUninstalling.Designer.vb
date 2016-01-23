@@ -48,6 +48,7 @@ Partial Class frmUninstalling
         '
         'bgwUninstall
         '
+        Me.bgwUninstall.WorkerReportsProgress = True
         '
         'frmUninstalling
         '

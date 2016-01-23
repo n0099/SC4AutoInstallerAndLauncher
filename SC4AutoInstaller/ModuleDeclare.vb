@@ -3,13 +3,13 @@
 ''' <summary>ModuleDeclare模块提供各种类实例、枚举和Windows API方法、结构和常数声明</summary>
 Public Module ModuleDeclare
 
-    ''' <summary>一个用于获取或设置安装选项类实例</summary>
+    ''' <summary>一个用于获取或设置安装选项全局类实例</summary>
     Public InstallOptions As New InstallOptions
-    ''' <summary>一个用于获取或设置安装结果类实例</summary>
-    Public InstallResult As New InstallResults
-    ''' <summary>一个用于获取或设置已安装的组件类实例</summary>
-    Public InstalledModule As New InstalledModule
-    ''' <summary>一个用于获取或设置更改组件选项类实例</summary>
+    ''' <summary>一个用于获取或设置安装结果全局类实例</summary>
+    Public InstallResults As New InstallResults
+    ''' <summary>一个用于获取或设置已安装的组件全局类实例</summary>
+    Public InstalledModules As New InstalledModules
+    ''' <summary>一个用于获取或设置更改组件选项全局类实例</summary>
     Public ChangeOptions As New ChangeOptions
     ''' <summary>指定模拟城市4的语言</summary>
     Public Enum SC4Language

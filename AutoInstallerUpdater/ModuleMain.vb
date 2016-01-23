@@ -37,8 +37,8 @@
                 If .FileExists("Data\SC4\CD\SC4DELUXE CD2.mdf") Then .RenameFile("Data\SC4\CD\SC4DELUXE CD2.mdf", "Data\SC4\CD\CD2.mdf")
                 If .FileExists("Data\SC4\CD\SC4DELUXE CD2.mds") Then .RenameFile("Data\SC4\CD\SC4DELUXE CD2.mds", "Data\SC4\CD\CD2.mds")
                 '2.5.21
-                If .FileExists("Data\SC4\NoInstall.rar") OrElse .FileExists("Data\Patch\638.rar") OrElse .FileExists("Data\Patch\640.rar") Then
-                    Console.WriteLine("请到http://pan.baidu.com/s/1bnezR7h重新下载Data\SC4\NoInstall.7z、Data\Patch\638.7z和Data\Patch\640.7z文件" & vbCrLf)
+                If .FileExists("Data\SC4\NoInstall.rar") Then
+                    Console.WriteLine("请到http://pan.baidu.com/s/1bnezR7h重下Data\SC4\NoInstall.7z文件" & vbCrLf)
                     Console.WriteLine("请按任意键继续更新" & vbCrLf)
                     Console.ReadKey(False)
                 End If
@@ -60,24 +60,45 @@
                         Console.ReadKey(False)
                     End If
                     If .GetFileInfo("Data\SC4\NoInstall.7z").Length <> 948727882 Then
-                        Console.WriteLine("请到http://pan.baidu.com/s/1bnezR7h重新下载Data\SC4\NoInstall.7z文件" & vbCrLf)
+                        Console.WriteLine("请到http://pan.baidu.com/s/1bnezR7h重下Data\SC4\NoInstall.7z文件" & vbCrLf)
                         Console.WriteLine("请按任意键继续更新" & vbCrLf)
                         Console.ReadKey(False)
                     End If
                 Else
-                    Console.WriteLine("请到http://pan.baidu.com/s/1bnezR7h重新下载Data\SC4文件夹" & vbCrLf)
+                    Console.WriteLine("请到http://pan.baidu.com/s/1bnezR7h重下Data\SC4文件夹" & vbCrLf)
+                    Console.WriteLine("请按任意键继续更新" & vbCrLf)
+                    Console.ReadKey(False)
+                End If
+                '2.8.3?
+                If .FileExists("Data\Patch\638 SKU1.EXE") = False Then
+                    Console.WriteLine("请到http://pan.baidu.com/s/1bnezR7h重下Data\Patch\638 SKU1.EXE文件" & vbCrLf)
+                    Console.WriteLine("请按任意键继续更新" & vbCrLf)
+                    Console.ReadKey(False)
+                End If
+                If .FileExists("Data\Patch\640.exe") = False Then
+                    Console.WriteLine("请到http://pan.baidu.com/s/1bnezR7h重下Data\Patch\640.exe文件" & vbCrLf)
+                    Console.WriteLine("请按任意键继续更新" & vbCrLf)
+                    Console.ReadKey(False)
+                End If
+                If .FileExists("Data\Patch\641.7z") = False Then
+                    Console.WriteLine("请到http://pan.baidu.com/s/1bnezR7h重下Data\Patch\641.7z文件" & vbCrLf)
+                    Console.WriteLine("请按任意键继续更新" & vbCrLf)
+                    Console.ReadKey(False)
+                End If
+                If .DirectoryExists("Data\Patch\SimCity 4.exe") = False Then
+                    Console.WriteLine("请到http://pan.baidu.com/s/1bnezR7h重下Data\Patch\SimCity 4.exe文件夹" & vbCrLf)
                     Console.WriteLine("请按任意键继续更新" & vbCrLf)
                     Console.ReadKey(False)
                 End If
             Else
                 .DeleteDirectory("Data", FileIO.DeleteDirectoryOption.DeleteAllContents)
             End If
-            Console.Write("更新安装完成")
-            Dim bat As String = ":del" & vbCrLf & "del %~dp0\%1" & vbCrLf & "if exist %~dp0\%1 goto del" & vbCrLf & "del %0"
-            .WriteAllText("del.bat", bat, False, Text.Encoding.ASCII) '声明一个用于删除安装程序的批处理文件内容的字符串变量
-            If .FileExists("Setup.exe") Then Process.Start("Setup.exe") '新建一个内容为bat字符串变量的批处理文件
-            Process.Start(New ProcessStartInfo With {.FileName = "del.bat", .Arguments = "AutoInstallerUpdater.exe", .Verb = "runas"})
         End With
+        Console.Write("更新安装完成")
+        Dim bat As String = ":del" & vbCrLf & "del %~dp0\%1" & vbCrLf & "if exist %~dp0\%1 goto del" & vbCrLf & "del %0"
+        My.Computer.FileSystem.WriteAllText("del.bat", bat, False, Text.Encoding.ASCII) '声明一个用于删除安装程序的批处理文件内容的字符串变量
+        If My.Computer.FileSystem.FileExists("Setup.exe") Then Process.Start("Setup.exe") '新建一个内容为bat字符串变量的批处理文件
+        Process.Start(New ProcessStartInfo With {.FileName = "del.bat", .Arguments = "AutoInstallerUpdater.exe", .Verb = "runas"})
     End Sub
 
 End Module

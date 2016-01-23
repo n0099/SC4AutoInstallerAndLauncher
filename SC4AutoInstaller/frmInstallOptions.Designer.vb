@@ -90,9 +90,9 @@ Partial Class frmInstallOptions
         Me.lblSC4lInstallDir.AutoSize = True
         Me.lblSC4lInstallDir.Location = New System.Drawing.Point(10, 333)
         Me.lblSC4lInstallDir.Name = "lblSC4lInstallDir"
-        Me.lblSC4lInstallDir.Size = New System.Drawing.Size(281, 12)
+        Me.lblSC4lInstallDir.Size = New System.Drawing.Size(269, 12)
         Me.lblSC4lInstallDir.TabIndex = 3
-        Me.lblSC4lInstallDir.Text = "安装程序将安装 模拟城市4 豪华版 到该文件夹中："
+        Me.lblSC4lInstallDir.Text = "安装程序将安装模拟城市4 豪华版到该文件夹中："
         '
         'btnCancel
         '
@@ -257,9 +257,9 @@ Partial Class frmInstallOptions
         Me.lblDAEMONToolsInstallDir.AutoSize = True
         Me.lblDAEMONToolsInstallDir.Location = New System.Drawing.Point(6, 146)
         Me.lblDAEMONToolsInstallDir.Name = "lblDAEMONToolsInstallDir"
-        Me.lblDAEMONToolsInstallDir.Size = New System.Drawing.Size(257, 12)
+        Me.lblDAEMONToolsInstallDir.Size = New System.Drawing.Size(275, 12)
         Me.lblDAEMONToolsInstallDir.TabIndex = 2
-        Me.lblDAEMONToolsInstallDir.Text = "安装程序将安装 DAEMON Tools 到下列文件夹中"
+        Me.lblDAEMONToolsInstallDir.Text = "安装程序将安装DAEMON Tools Lite到该文件夹中："
         Me.lblDAEMONToolsInstallDir.Visible = False
         '
         'txtDAEMONToolsInstallDir
@@ -296,12 +296,12 @@ Partial Class frmInstallOptions
         '
         'fbdSC4InstallDir
         '
-        Me.fbdSC4InstallDir.Description = "选择 模拟城市4 豪华版 的安装目录"
+        Me.fbdSC4InstallDir.Description = "请选择模拟城市4 豪华版的安装目录"
         Me.fbdSC4InstallDir.RootFolder = System.Environment.SpecialFolder.MyComputer
         '
         'fbdDAEMONToolsInstallDir
         '
-        Me.fbdDAEMONToolsInstallDir.Description = "选择 DAEMON Tools 的安装目录"
+        Me.fbdDAEMONToolsInstallDir.Description = "请选择DAEMON Tools的安装目录"
         Me.fbdDAEMONToolsInstallDir.RootFolder = System.Environment.SpecialFolder.MyComputer
         '
         'lblTitle2

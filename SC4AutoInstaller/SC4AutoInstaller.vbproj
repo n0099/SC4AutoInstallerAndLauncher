@@ -270,66 +270,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\SC4\SC4_1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SC4\SC4_2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SC4\SC4_3.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SC4\SC4_4.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SC4\SC4_5.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SC4\SC4_6.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SC4\SC4_7.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SC4\SC4_8.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SC4\SC4_9.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SC4\SC4_10.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SC4\SC4_11.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SC4\SC4_12.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SC4\SC4_13.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SC4\SC4_14.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SC4\SC4_15.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SC4\SC4_16.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SC4\SC4_17.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SC4\SC4_18.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SC4\SC4_19.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SC4\SC4_20.png" />
-  </ItemGroup>
-  <ItemGroup>
     <COMReference Include="IWshRuntimeLibrary">
       <Guid>{F935DC20-1CF0-11D0-ADB9-00C04FD58A0B}</Guid>
       <VersionMajor>1</VersionMajor>
@@ -339,6 +279,66 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SC4_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SC4_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SC4_3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SC4_4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SC4_5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SC4_6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SC4_7.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SC4_8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SC4_9.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SC4_10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SC4_11.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SC4_12.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SC4_14.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SC4_17.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SC4_18.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SC4_19.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SC4_20.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SC4_13.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SC4_15.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SC4_16.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

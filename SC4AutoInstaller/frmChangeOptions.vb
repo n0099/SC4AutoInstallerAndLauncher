@@ -2,6 +2,11 @@
 
 Public Class frmChangeOptions
 
+    ''' <summary>一个用于获取SecDrv驱动服务是否启用的全局布尔值变量</summary>
+    Private IsSecdrvDriverEnable As Boolean = If(My.Computer.FileSystem.FileExists(Environment.GetFolderPath(Environment.SpecialFolder.System) & "\drivers\secdrv.sys") AndAlso
+        My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\secdrv", "Start", Nothing) = 2, True, False)
+
+#Region "自定义安装选项节点图标"
     ''' <summary>指定安装组件列表框项的图标</summary>
     Private Enum NodeCheckedState
         ''' <summary>已选择的复选框</summary>
@@ -16,22 +21,22 @@ Public Class frmChangeOptions
 
     ''' <summary>设置安装组件列表框里项的图标</summary>
     ''' <param name="NodeName">安装组件列表框项的Name属性值</param>
-    ''' <param name="value">要设置的图标，必须为NodeCheckedState枚举的值之一</param>
+    ''' <param name="value">NodeCheckedState枚举的值之一，要设置的图标</param>
     Private Sub SetNodeChecked(ByVal NodeName As String, ByVal value As NodeCheckedState)
         With tvwOptions
             Select Case value
                 Case NodeCheckedState.Checked
-                    .Nodes.Find(NodeName, True)(0).ImageKey = "checked"
-                    .Nodes.Find(NodeName, True)(0).SelectedImageKey = "checked"
+                    .Nodes.Find(NodeName, True)(0).ImageKey = "Checked"
+                    .Nodes.Find(NodeName, True)(0).SelectedImageKey = "Checked"
                 Case NodeCheckedState.Unchecked
-                    .Nodes.Find(NodeName, True)(0).ImageKey = "unchecked"
-                    .Nodes.Find(NodeName, True)(0).SelectedImageKey = "unchecked"
+                    .Nodes.Find(NodeName, True)(0).ImageKey = "Unchecked"
+                    .Nodes.Find(NodeName, True)(0).SelectedImageKey = "Unchecked"
                 Case NodeCheckedState.RadioChecked
-                    .Nodes.Find(NodeName, True)(0).ImageKey = "radiochecked"
-                    .Nodes.Find(NodeName, True)(0).SelectedImageKey = "radiochecked"
+                    .Nodes.Find(NodeName, True)(0).ImageKey = "RadioChecked"
+                    .Nodes.Find(NodeName, True)(0).SelectedImageKey = "RadioChecked"
                 Case NodeCheckedState.RadioUnchecked
-                    .Nodes.Find(NodeName, True)(0).ImageKey = "radiounchecked"
-                    .Nodes.Find(NodeName, True)(0).SelectedImageKey = "radiounchecked"
+                    .Nodes.Find(NodeName, True)(0).ImageKey = "RadioUnchecked"
+                    .Nodes.Find(NodeName, True)(0).SelectedImageKey = "RadioUnchecked"
             End Select
         End With
     End Sub
@@ -40,22 +45,22 @@ Public Class frmChangeOptions
     ''' <param name="NodeName">安装组件列表框项的Name属性值</param>
     ''' <returns>返回NodeCheckedState枚举的值之一</returns>
     Private Function GetNodeChecked(ByVal NodeName As String) As NodeCheckedState
-        With tvwOptions
-            Select Case .Nodes.Find(NodeName, True)(0).ImageKey
-                Case "checked"
-                    Return NodeCheckedState.Checked
-                Case "unchecked"
-                    Return NodeCheckedState.Unchecked
-                Case "radiochecked"
-                    Return NodeCheckedState.RadioChecked
-                Case "radiounchecked"
-                    Return NodeCheckedState.RadioUnchecked
-                Case Else
-                    Return Nothing
-            End Select
-        End With
+        Select Case tvwOptions.Nodes.Find(NodeName, True)(0).ImageKey
+            Case "Checked"
+                Return NodeCheckedState.Checked
+            Case "Unchecked"
+                Return NodeCheckedState.Unchecked
+            Case "RadioChecked"
+                Return NodeCheckedState.RadioChecked
+            Case "RadioUnchecked"
+                Return NodeCheckedState.RadioUnchecked
+            Case Else
+                Return Nothing
+        End Select
     End Function
+#End Region
 
+#Region "安装组件树形框事件"
     Private Sub tvwOptions_BeforeCollapse(sender As Object, e As TreeViewCancelEventArgs) Handles tvwOptions.BeforeCollapse
         e.Cancel = True '禁止折叠树节点
     End Sub
@@ -67,6 +72,9 @@ Public Class frmChangeOptions
             Select Case e.Node.Name
                 Case "638补丁", "640补丁", "641补丁", "4GB补丁", "免CD补丁", "模拟城市4 启动器"
                     If GetNodeChecked(e.Node.Name) = NodeCheckedState.Checked Then
+                        '如果用户选择卸载638、640、641、免CD补丁且SecDrv服务已关闭则询问用户是否卸载641或免CD补丁
+                        If IsSecdrvDriverEnable = False AndAlso (e.Node.Name = "638补丁" OrElse e.Node.Name = "640补丁" OrElse e.Node.Name = "641补丁" OrElse e.Node.Name = "免CD补丁") AndAlso
+                            MessageBox.Show("检测到已关闭Security Driver（secdrv.sys）驱动服务，如果卸载641或免CD补丁将无法启动游戏" & vbCrLf & "确定卸载641或免CD补丁？", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) = DialogResult.No Then tvwOptions.EndUpdate() : Exit Sub
                         SetNodeChecked(e.Node.Name, NodeCheckedState.Unchecked)
                         Select Case e.Node.Name
                             Case "638补丁" : ._638PatchOption = ChangeOption.Uninstall '选择卸载638补丁时同时选择卸载640和641补丁
@@ -113,6 +121,7 @@ Public Class frmChangeOptions
             If .IsSameAsInstalledModule(ModuleDeclare.InstalledModules) Then btnInstall.Enabled = False Else btnInstall.Enabled = True '判断是否更改了安装选项
         End With
     End Sub
+#End Region
 
     Private Sub frmModuleChangeOption_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
         If MessageBox.Show("确定要退出安装程序吗？", "确认退出", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.No Then e.Cancel = True

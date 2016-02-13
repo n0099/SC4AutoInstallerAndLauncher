@@ -1,8 +1,12 @@
 ﻿Public Class frmInstallOptions
 
-    ''' <summary>一个用于获取或设置是否已经安装DAEMON Tools Lite的全局变量</summary>
+    ''' <summary>一个用于获取是否已经安装DAEMON Tools Lite的全局布尔值变量</summary>
     Private IsDAEMONToolsInstalled As Boolean
+    ''' <summary>一个用于获取SecDrv驱动服务是否启用的全局布尔值变量</summary>
+    Private IsSecdrvDriverEnable As Boolean = If(My.Computer.FileSystem.FileExists(Environment.GetFolderPath(Environment.SpecialFolder.System) & "\drivers\secdrv.sys") AndAlso
+        My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\secdrv", "Start", Nothing) = 2, True, False)
 
+#Region "自定义安装选项节点图标"
     ''' <summary>指定安装组件列表框项的图标</summary>
     Private Enum NodeCheckedState
         ''' <summary>已选择的复选框</summary>
@@ -14,6 +18,47 @@
         ''' <summary>未选择的单选框</summary>
         RadioUnchecked
     End Enum
+
+    ''' <summary>设置安装组件列表框里项的图标</summary>
+    ''' <param name="NodeName">安装组件列表框项的Name属性值</param>
+    ''' <param name="value">NodeCheckedState枚举的值之一，要设置的图标</param>
+    Private Sub SetNodeChecked(ByVal NodeName As String, ByVal value As NodeCheckedState)
+        With tvwOptions
+            Select Case value
+                Case NodeCheckedState.Checked
+                    .Nodes.Find(NodeName, True)(0).ImageKey = "Checked"
+                    .Nodes.Find(NodeName, True)(0).SelectedImageKey = "Checked"
+                Case NodeCheckedState.Unchecked
+                    .Nodes.Find(NodeName, True)(0).ImageKey = "Unchecked"
+                    .Nodes.Find(NodeName, True)(0).SelectedImageKey = "Unchecked"
+                Case NodeCheckedState.RadioChecked
+                    .Nodes.Find(NodeName, True)(0).ImageKey = "RadioChecked"
+                    .Nodes.Find(NodeName, True)(0).SelectedImageKey = "RadioChecked"
+                Case NodeCheckedState.RadioUnchecked
+                    .Nodes.Find(NodeName, True)(0).ImageKey = "RadioUnchecked"
+                    .Nodes.Find(NodeName, True)(0).SelectedImageKey = "RadioUnchecked"
+            End Select
+        End With
+    End Sub
+
+    ''' <summary>获取安装组件列表框里项的图标</summary>
+    ''' <param name="NodeName">安装组件列表框项的Name属性值</param>
+    ''' <returns>返回NodeCheckedState枚举的值之一</returns>
+    Private Function GetNodeChecked(ByVal NodeName As String) As NodeCheckedState
+        Select Case tvwOptions.Nodes.Find(NodeName, True)(0).ImageKey
+            Case "Checked"
+                Return NodeCheckedState.Checked
+            Case "Unchecked"
+                Return NodeCheckedState.Unchecked
+            Case "RadioChecked"
+                Return NodeCheckedState.RadioChecked
+            Case "RadioUnchecked"
+                Return NodeCheckedState.RadioUnchecked
+            Case Else
+                Return Nothing
+        End Select
+    End Function
+#End Region
 
     ''' <summary>验证指定目录路径是否为有效的路径</summary>
     ''' <param name="Path">要验证的目录路径</param>
@@ -56,48 +101,7 @@
         Return True
     End Function
 
-    ''' <summary>设置安装组件列表框里项的图标</summary>
-    ''' <param name="NodeName">安装组件列表框项的Name属性值</param>
-    ''' <param name="value">NodeCheckedState枚举的值之一，要设置的图标</param>
-    Private Sub SetNodeChecked(ByVal NodeName As String, ByVal value As NodeCheckedState)
-        With tvwOptions
-            Select Case value
-                Case NodeCheckedState.Checked
-                    .Nodes.Find(NodeName, True)(0).ImageKey = "Checked"
-                    .Nodes.Find(NodeName, True)(0).SelectedImageKey = "checked"
-                Case NodeCheckedState.Unchecked
-                    .Nodes.Find(NodeName, True)(0).ImageKey = "Unchecked"
-                    .Nodes.Find(NodeName, True)(0).SelectedImageKey = "Unchecked"
-                Case NodeCheckedState.RadioChecked
-                    .Nodes.Find(NodeName, True)(0).ImageKey = "RadioChecked"
-                    .Nodes.Find(NodeName, True)(0).SelectedImageKey = "RadioChecked"
-                Case NodeCheckedState.RadioUnchecked
-                    .Nodes.Find(NodeName, True)(0).ImageKey = "RadioUnchecked"
-                    .Nodes.Find(NodeName, True)(0).SelectedImageKey = "RadioUnchecked"
-            End Select
-        End With
-    End Sub
-
-    ''' <summary>获取安装组件列表框里项的图标</summary>
-    ''' <param name="NodeName">安装组件列表框项的Name属性值</param>
-    ''' <returns>返回NodeCheckedState枚举的值之一</returns>
-    Private Function GetNodeChecked(ByVal NodeName As String) As NodeCheckedState
-        With tvwOptions
-            Select Case .Nodes.Find(NodeName, True)(0).ImageKey
-                Case "Checked"
-                    Return NodeCheckedState.Checked
-                Case "Unchecked"
-                    Return NodeCheckedState.Unchecked
-                Case "RadioChecked"
-                    Return NodeCheckedState.RadioChecked
-                Case "RadioUnchecked"
-                    Return NodeCheckedState.RadioUnchecked
-                Case Else
-                    Return Nothing
-            End Select
-        End With
-    End Function
-
+#Region "安装组件树形框事件"
     Private Sub tvwOptions_BeforeCollapse(sender As Object, e As TreeViewCancelEventArgs) Handles tvwOptions.BeforeCollapse
         e.Cancel = True '禁止折叠树节点
     End Sub
@@ -129,6 +133,9 @@
                     End If
                 Case "638补丁", "640补丁", "641补丁", "4GB补丁", "免CD补丁", "模拟城市4 启动器", "添加桌面图标", "添加开始菜单项"
                     If GetNodeChecked(e.Node.Name) = NodeCheckedState.Checked Then
+                        '如果用户取消安装638、640、641、免CD补丁且SecDrv服务已关闭则询问用户是否不安装641或免CD补丁
+                        If IsSecdrvDriverEnable = False AndAlso (e.Node.Name = "638补丁" OrElse e.Node.Name = "640补丁" OrElse e.Node.Name = "641补丁" OrElse e.Node.Name = "免CD补丁") AndAlso
+                            MessageBox.Show("检测到已关闭Security Driver（secdrv.sys）驱动服务，如果不安装641或免CD补丁将无法启动游戏" & vbCrLf & "确定不安装641或免CD补丁？", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) = DialogResult.No Then tvwOptions.EndUpdate() : Exit Sub
                         SetNodeChecked(e.Node.Name, NodeCheckedState.Unchecked)
                         Select Case e.Node.Name
                             Case "638补丁" : .IsInstall638Patch = False '取消安装638补丁时同时取消安装640和641补丁
@@ -198,19 +205,19 @@
                 lblOptionDetail.Text = "安装DAEMON Tools Lite 5.0" & vbCrLf & vbCrLf & "DAEMON Tools Lite用于加载虚拟光驱" & vbCrLf & vbCrLf & "如果要安装镜像版模拟城市4，则必须安装此项。"
                 lblOptionDiskSpace.Text = "此组件需要" & InstallOptions.DAEMONToolsNeedsDiskSpace \ 1024 \ 1024 & "MB的硬盘空间"
             Case "638补丁"
-                lblOptionDetail.Text = "安装638补丁" & vbCrLf & vbCrLf & "638补丁修复了一些bug" & vbCrLf & vbCrLf & "建议同时安装640灯光补丁。"
+                lblOptionDetail.Text = "安装638 SKU1补丁" & vbCrLf & vbCrLf & "638补丁修复了一些bug" & vbCrLf & vbCrLf & "建议同时安装640灯光补丁。"
                 lblOptionDiskSpace.Text = "此组件需要" & InstallOptions._638PatchNeedsDiskSpace \ 1024 & "KB的硬盘空间"
             Case "640补丁"
-                lblOptionDetail.Text = "安装640灯光补丁" & vbCrLf & vbCrLf & "如果不安装640补丁插件模型在晚上不会显示灯光" & vbCrLf & vbCrLf & "安装此补丁前必须先安装638补丁，建议安装。"
+                lblOptionDetail.Text = "安装640灯光补丁" & vbCrLf & vbCrLf & "安装此补丁可以解决插件建筑晚上没有灯光的问题" & vbCrLf & vbCrLf & "但使用640版本的SimCity_1.dat可能会出现细节缺失的问题（使用638版本的SimCity_1.dat或安装641补丁可解决该问题）" & vbCrLf & vbCrLf & "安装此补丁前必须先安装638补丁，建议安装此补丁时同时安装641补丁。"
                 lblOptionDiskSpace.Text = "此组件需要" & InstallOptions._640PatchNeedsDiskSpace \ 1024 & "KB的硬盘空间"
             Case "641补丁"
-                lblOptionDetail.Text = "安装641官方免CD补丁" & vbCrLf & vbCrLf & "安装此补丁后打开游戏前不需要再加载CD2虚拟光驱" & vbCrLf & vbCrLf & "安装此补丁前必须先安装640补丁和638补丁" & vbCrLf & vbCrLf & "建议安装此补丁，不建议安装非官方免CD补丁。"
+                lblOptionDetail.Text = "安装GOG版641补丁" & vbCrLf & vbCrLf & "安装此补丁后打开游戏前不需要再加载CD2虚拟光驱" & vbCrLf & vbCrLf & "并修复了使用640版本的SimCity_1.dat文件可能会出现细节缺失的问题" & vbCrLf & vbCrLf & "安装此补丁前必须先安装640补丁和638补丁，建议安装"
                 lblOptionDiskSpace.Text = "此组件需要" & InstallOptions._641PatchNeedsDiskSpace \ 1024 & "KB的硬盘空间"
             Case "4GB补丁"
                 lblOptionDetail.Text = "安装4GB补丁" & vbCrLf & vbCrLf & "安装此补丁后游戏跳出的几率会大大降低" & vbCrLf & vbCrLf & "仅64位系统可以安装，建议安装。"
                 lblOptionDiskSpace.Text = "此组件需要0KB的硬盘空间"
             Case "免CD补丁"
-                lblOptionDetail.Text = "安装非官方免CD补丁" & vbCrLf & vbCrLf & "安装此补丁后打开游戏前不需要再加载CD2虚拟光驱" & vbCrLf & vbCrLf & "安装此补丁后不能安装638、640和641补丁" & vbCrLf & vbCrLf & "641补丁同样有免CD的功能，建议安装641补丁，不建议安装此补丁。"
+                lblOptionDetail.Text = "安装非官方免CD补丁" & vbCrLf & vbCrLf & "安装此补丁后打开游戏前不需要再加载CD2虚拟光驱" & vbCrLf & vbCrLf & "安装此补丁后不能安装638、640和641补丁" & vbCrLf & vbCrLf & "641补丁同样具有免CD的功能，建议安装641补丁，不建议安装此补丁。"
                 lblOptionDiskSpace.Text = "此组件需要" & InstallOptions.NoCDPatchNeedsDiskSpace \ 1024 & "KB的硬盘空间"
             Case "模拟城市4 启动器"
                 lblOptionDetail.Text = "安装模拟城市4 启动器" & vbCrLf & vbCrLf & "启动器可快速设置显示方式（窗口化或全屏）、分辨率、CPU核心数、渲染模式等启动参数或设置" & vbCrLf & vbCrLf & "建议安装。"
@@ -233,6 +240,7 @@
                 lblOptionDetail.Text = "在开始菜单里添加模拟城市4 豪华版项。" : lblOptionDiskSpace.Text = ""
         End Select
     End Sub
+#End Region
 
     Private Sub cmbOptions_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbOptions.SelectedIndexChanged
         tvwOptions.BeginUpdate()
@@ -316,12 +324,11 @@
                 IsDAEMONToolsInstalled = True : .IsInstallDAEMONTools = False : .DAEMONToolsInstallDir = Nothing
             End If
             If Environment.Is64BitOperatingSystem = False Then tvwOptions.Nodes.Find("4GB补丁", True)(0).Remove() : .IsInstall4GBPatch = False '如果系统不是64位系统则删除安装组件列表框里的4GB补丁项
-            cmbOptions.SelectedItem = cmbOptions.Items(1) '自动选择安装选项
-            '选中安装组件列表框的模拟城市4 豪华版 镜像版项并更新ModuleDeclare.InstallOptions对应选项的值
+            '选中安装组件列表框的模拟城市4 豪华版 镜像版和繁体中文语言补丁项并更新ModuleDeclare.InstallOptions对应选项的值
             SetNodeChecked("模拟城市4 豪华版 镜像版", NodeCheckedState.RadioChecked) : .SC4InstallType = InstallOptions.SC4Type.CD
-            '选中安装组件列表框的繁体中文项并更新ModuleDeclare.InstallOptions对应选项的值
             SetNodeChecked("繁体中文", NodeCheckedState.RadioChecked) : SetNodeChecked("简体中文", NodeCheckedState.RadioUnchecked)
             SetNodeChecked("英语", NodeCheckedState.RadioUnchecked) : .LanguagePatchOption = SC4Language.TraditionalChinese
+            cmbOptions.SelectedItem = cmbOptions.Items(1) '自动选择安装选项
             lblNeedsDiskSpace.Text = "安装目录至少需要" & .GetCurrentOptionsNeedsDiskSpaceInGB() & "GB的硬盘空间" '更新当前选择的组件所需要的磁盘空间的文本
         End With
         txtSC4InstallDir.Text = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86) & "\Maxis\SimCity 4 Deluxe" '初始化模拟城市4的安装目录路径

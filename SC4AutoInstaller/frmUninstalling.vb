@@ -3,11 +3,11 @@
     ''' <summary>递归返回某个文件夹内所有的文件和文件夹的数量</summary>
     ''' <param name="path">要查询的文件夹的路径</param>
     ''' <returns>返回文件夹内所有的文件和文件夹的数量</returns>
-    Private Function GetFolderCount(ByVal path As String) As Long
+    Private Function GetDirectoryContentCount(ByVal path As String) As Long
         Dim count As Long
         count += New IO.DirectoryInfo(path).GetFiles.Count
         For Each i As IO.DirectoryInfo In New IO.DirectoryInfo(path).GetDirectories
-            count += GetFolderCount(i.FullName) '递归返回子文件夹的大小
+            count += GetDirectoryContentCount(i.FullName) '递归返回子文件夹的大小
         Next
         Return count
     End Function
@@ -36,20 +36,20 @@
     End Sub
 
     Private Sub bgwUninstall_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles bgwUninstall.DoWork
-        With My.Computer.FileSystem
+        With My.Computer.FileSystem '删除文件
             DeleteFolderAndContents(ModuleDeclare.InstalledModules.SC4InstallDir) '删除游戏安装目录
             Dim StartMenuPath As String = Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu) & "\Programs\Maxis\SimCity 4 Deluxe"
             If .DirectoryExists(StartMenuPath) Then '如果开始菜单文件夹下存在Maxis\SimCity 4 Deluxe文件夹则删除该文件夹
-                bgwUninstall.ReportProgress(prgUninstall.Maximum + GetFolderCount(StartMenuPath), "ChangeProgressBarMaximumValue") '更改卸载进度条的最大值
+                bgwUninstall.ReportProgress(prgUninstall.Maximum + GetDirectoryContentCount(StartMenuPath), "ChangeProgressBarMaximumValue") '更改卸载进度条的最大值
                 DeleteFolderAndContents(StartMenuPath) '删除开始菜单\Maxis\SimCity 4 Deluxe文件夹
             End If
             Dim UserDirPath As String = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\SimCity 4"
             If .DirectoryExists(UserDirPath) AndAlso MessageBox.Show("是否删除游戏用户文件目录（用于存储游戏存档、插件等）？", "确认", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) = DialogResult.Yes Then
-                bgwUninstall.ReportProgress(prgUninstall.Maximum + GetFolderCount(UserDirPath), "ChangeProgressBarMaximumValue") '更改卸载进度条的最大值
+                bgwUninstall.ReportProgress(prgUninstall.Maximum + GetDirectoryContentCount(UserDirPath), "ChangeProgressBarMaximumValue") '更改卸载进度条的最大值
                 DeleteFolderAndContents(UserDirPath) '删除用户文件目录
             End If
         End With
-        With My.Computer.Registry.LocalMachine
+        With My.Computer.Registry.LocalMachine '删除注册表项
             If Environment.Is64BitOperatingSystem Then '删除游戏所产生的的注册表项及控制面板的卸载或更改程序项
                 .DeleteSubKeyTree("SOFTWARE\Wow6432Node\Maxis\SimCity 4", False) : bgwUninstall.ReportProgress(prgUninstall.Value + 1)
                 .DeleteSubKeyTree("SOFTWARE\Wow6432Node\Electronic Arts\Maxis\SimCity 4 Deluxe\ergc", False) : bgwUninstall.ReportProgress(prgUninstall.Value + 1)
@@ -82,8 +82,7 @@
     End Sub
 
     Private Sub frmUninstalling_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        'Control.CheckForIllegalCrossThreadCalls = False '设置不捕捉对错误线程（跨线程）调用的异常
-        prgUninstall.Maximum = GetFolderCount(ModuleDeclare.InstalledModules.SC4InstallDir) + 6 '初始化卸载进度条的最大值
+        prgUninstall.Maximum = GetDirectoryContentCount(ModuleDeclare.InstalledModules.SC4InstallDir) + 6 '初始化卸载进度条的最大值
         '禁用标题栏上的关闭按钮
         Dim ControlBoxHandle As Integer = GetSystemMenu(Me.Handle, 0)
         Dim ControlBoxCount As Integer = GetMenuItemCount(ControlBoxHandle)

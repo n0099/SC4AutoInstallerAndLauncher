@@ -9,11 +9,11 @@
                                             "Data\Licenses\DAEMON Tools 隐私政策.rtf", "B772FA3468C7C3879A5A16614DC3613C",
                                             "Data\Licenses\EA EULA.txt", "4A263CEC16B302BE4E080A85614A90F9",
                                             "Data\Patch\4GB.exe", "96490CFDF3C7DD5AE7EF378C689A8734",
-                                            "Data\Patch\638 SKU1.EXE", "CF95BA3341D0832B532CE176492321D1",
+                                            "Data\Patch\638.EXE", "CF95BA3341D0832B532CE176492321D1",
                                             "Data\Patch\640.exe", "E612D3BF65DFA7BED951CC8D40366BBF",
                                             "Data\Patch\641.7z", "15A5635619A9C8995B11804471A79DA0",
                                             "Data\Patch\Graphics Rules GOG.sgr", "DCF0FA2DE3828BC52991BDA20B7E5735",
-                                            "Data\Patch\SC4Launcher.exe", "64B105B51E5DE6F291158CF2D1239898",
+                                            "Data\Patch\SC4Launcher.exe", "EDB779FFA98619897C75F8BA360EC2A5",
                                             "Data\Patch\Language\English\SimCityLocale.DAT", "196A1F3CD9CF58E84E0B0F31E9F81171",
                                             "Data\Patch\Language\SChinese\SimCityLocale.DAT", "42E66866C5E7C95A29CD153423F4F6FD",
                                             "Data\Patch\Language\TChinese\SimCityLocale.DAT", "3D7163C89D35E7388CF7EBC503BAF47B",
@@ -22,22 +22,18 @@
                                             "Data\Patch\SimCity 4.exe\SimCity 4 640.exe", "D4796905AAFF2B2DE44C2B59D103F5EA",
                                             "Data\Patch\SimCity 4.exe\SimCity 4 641.exe", "53D2AE4FA9114B88AD91ECF32A7F16A4",
                                             "Data\Patch\SimCity 4.exe\SimCity 4 NoCD.exe", "B57B5B03C4854C194CE8BEBD173F3483",
-                                            "Data\SC4\NoInstall.7z", "96C3021E01A4C34FDABDF3B3EB1F92F2",
-                                            "Data\SC4\CD\CD1.mdf", "82A112B441DC90305331ABEFF0E66237",
-                                            "Data\SC4\CD\CD1.mds", "CFB13663F10FCAB916C0A4EDD29FC975",
-                                            "Data\SC4\CD\CD2.mdf", "15AD42821D2CCFAC4ED62CF2E5E153D1",
-                                            "Data\SC4\CD\CD2.mds", "F623584CCC7E3206045D97CD12D454C8"})
+                                            "Data\SC4\NoInstall.7z", "96C3021E01A4C34FDABDF3B3EB1F92F2"})
 
     ''' <summary>递归返回某个文件夹内所有的文件和文件夹的大小</summary>
     ''' <param name="path">要查询的文件夹的路径</param>
     ''' <returns>返回文件夹内所有的文件和文件夹的大小</returns>
-    Private Function GetFolderSize(ByVal path As String) As Long
+    Private Function GetDirectorySize(ByVal path As String) As Long
         Dim size As Long
         For Each i As IO.FileInfo In New IO.DirectoryInfo(path).GetFiles
             size += i.Length
         Next
         For Each i As IO.DirectoryInfo In New IO.DirectoryInfo(path).GetDirectories
-            size += GetFolderSize(i.FullName) '递归返回子文件夹的大小
+            size += GetDirectorySize(i.FullName) '递归返回子文件夹的大小
         Next
         Return size
     End Function
@@ -103,8 +99,13 @@ Ignore:         bgwVerifyFilesMD5.ReportProgress(i)
     End Sub
 
     Private Sub frmVerifyFiles_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        If My.Computer.FileSystem.DirectoryExists("Data\SC4\CD") Then '判断是否存在Data\SC4\CD文件夹
+            Dim CDFilesMD5() As String = {"Data\SC4\CD\CD1.mdf", "82A112B441DC90305331ABEFF0E66237", "Data\SC4\CD\CD1.mds", "CFB13663F10FCAB916C0A4EDD29FC975",
+                                          "Data\SC4\CD\CD2.mdf", "15AD42821D2CCFAC4ED62CF2E5E153D1", "Data\SC4\CD\CD2.mds", "F623584CCC7E3206045D97CD12D454C8"}
+            DataFilesMD5.AddRange(CDFilesMD5) '将CDFilesMD5字符串数组的数据追加到DataFilesMD5字符串List泛型类中
+        End If
         lblProgress.Text = "0% 0/" & DataFilesMD5.Count / 2 '初始化进度条和进度文本
-        prgVerifyFilesMD5.Maximum = Int(GetFolderSize("Data") / 1024)
+        prgVerifyFilesMD5.Maximum = Int(GetDirectorySize("Data") / 1024)
         bgwVerifyFilesMD5.RunWorkerAsync() '开始异步验证文件完整性
     End Sub
 

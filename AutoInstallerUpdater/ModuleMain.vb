@@ -54,11 +54,11 @@
                 If .FileExists("Data\Patch\SimCity 4 641.exe") Then .DeleteFile("Data\Patch\SimCity 4 641.exe")
                 If .FileExists("Data\Patch\SimCity 4 NoCD.exe") Then .DeleteFile("Data\Patch\SimCity 4 NoCD.exe")
                 If .DirectoryExists("Data\SC4") Then
-                    If .DirectoryExists("Data\SC4\CD") = False Then
-                        Console.WriteLine("请到http://pan.baidu.com/s/1bnezR7h下载Data\SC4\CD文件夹" & vbCrLf)
-                        Console.WriteLine("请按任意键继续更新" & vbCrLf)
-                        Console.ReadKey(False)
-                    End If
+                    'If .DirectoryExists("Data\SC4\CD") = False Then
+                    '    Console.WriteLine("请到http://pan.baidu.com/s/1bnezR7h下载Data\SC4\CD文件夹" & vbCrLf)
+                    '    Console.WriteLine("请按任意键继续更新" & vbCrLf)
+                    '    Console.ReadKey(False)
+                    'End If
                     If .GetFileInfo("Data\SC4\NoInstall.7z").Length <> 948727882 Then
                         Console.WriteLine("请到http://pan.baidu.com/s/1bnezR7h重下Data\SC4\NoInstall.7z文件" & vbCrLf)
                         Console.WriteLine("请按任意键继续更新" & vbCrLf)
@@ -69,7 +69,7 @@
                     Console.WriteLine("请按任意键继续更新" & vbCrLf)
                     Console.ReadKey(False)
                 End If
-                '2.8.3?
+                '2.8.40
                 If .FileExists("Data\Patch\638 SKU1.EXE") = False Then
                     Console.WriteLine("请到http://pan.baidu.com/s/1bnezR7h重下Data\Patch\638 SKU1.EXE文件" & vbCrLf)
                     Console.WriteLine("请按任意键继续更新" & vbCrLf)
@@ -90,6 +90,8 @@
                     Console.WriteLine("请按任意键继续更新" & vbCrLf)
                     Console.ReadKey(False)
                 End If
+                '2.9.20
+                If .FileExists("Data\Patch\638 SKU1.EXE") Then .RenameFile("Data\Patch\638 SKU1.EXE", "Data\Patch\638.EXE")
             Else
                 .DeleteDirectory("Data", FileIO.DeleteDirectoryOption.DeleteAllContents)
             End If

@@ -52,6 +52,7 @@ Public Class frmSetting
         btnApply.Enabled = True
     End Sub
 
+#Region "显示方式及分辨率设置"
     Private Sub rdoDisplayMode_CheckedChanged(sender As RadioButton, e As EventArgs) Handles rdoDisplayModeWindow.CheckedChanged, rdoDisplayModeFullScreen.CheckedChanged
         Select Case sender.Text
             Case "窗口化" : Argument = Argument.Replace("-fs ", "") : Argument &= "-w "
@@ -108,6 +109,7 @@ Public Class frmSetting
         End If
         ArgumentChanged()
     End Sub
+#End Region
 
     Private Sub cmbCPUPriority_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbCPUPriority.SelectedIndexChanged
         Dim tmp As String = Regex.Match(Argument, "-CPUPriority:[a-z]{3,6} ").ToString '声明一个用于判断启动参数里是否存在CPU优先级参数的字符串变量
@@ -201,6 +203,7 @@ Public Class frmSetting
         ArgumentChanged()
     End Sub
 
+#Region "自定义用户目录设置"
     Private Sub chkUserDir_CheckedChanged(sender As Object, e As EventArgs) Handles chkUserDir.CheckedChanged
         txtUserDir.Enabled = chkUserDir.Checked : btnUserDir.Enabled = chkUserDir.Checked : lblUserDir.Enabled = chkUserDir.Checked
         With Argument
@@ -247,6 +250,7 @@ Public Class frmSetting
         End With
         ArgumentChanged()
     End Sub
+#End Region
 
     Private Sub btnSC4Installdir_Click(sender As Object, e As EventArgs) Handles btnSC4InstallDir.Click
         fbdSC4InstallDir.SelectedPath = My.Settings.SC4InstallDir
@@ -286,7 +290,8 @@ Public Class frmSetting
     End Sub
 
     Private Sub frmSetting_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        With My.Settings.Argument '读取启动参数里的设置，并同步设置窗口上对应的选项
+#Region "同步启动参数跟窗口上对应的选项值"
+        With My.Settings.Argument
             '同步显示方式选项
             rdoDisplayModeWindow.Checked = .Contains("-w")
             rdoDisplayModeFullScreen.Checked = .Contains("-fs")
@@ -366,11 +371,12 @@ Public Class frmSetting
                 txtUserDir.Text = Nothing
                 chkUserDir.Checked = False
             End If
-            txtSC4InstallDir.Text = My.Settings.SC4InstallDir '更新模拟城市4安装路径文本框的文本
-            txtArgument.Text = My.Settings.Argument '重置启动参数文本框的文本
-            Argument = My.Settings.Argument '重置启动参数变量
-            btnApply.Enabled = False
         End With
+#End Region
+        txtSC4InstallDir.Text = My.Settings.SC4InstallDir '更新模拟城市4安装路径文本框的文本
+        txtArgument.Text = My.Settings.Argument '重置启动参数文本框的文本
+        Argument = My.Settings.Argument '重置启动参数变量
+        btnApply.Enabled = False
     End Sub
 
     Private Sub btnOKAndApply_Click(sender As Object, e As EventArgs) Handles btnOK.Click, btnApply.Click

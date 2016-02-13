@@ -17,7 +17,8 @@ Public Class frmInstalling
                         For Each i As ListViewItem In lvwTask.Items '将安装任务列表框的除DAEMON Tools Lite以外的所有项图标更改为失败图标
                             If i.Text <> "DAEMON Tools Lite" Then i.ImageKey = "Fail"
                         Next
-                        For Each i As Reflection.FieldInfo In ModuleDeclare.InstallResults.GetType.GetFields '通过反射将ModuleDeclare.InstallResults的除DAEMONToolsResult以外的所有字段值设为InstallResult.Fail
+                        '通过反射将ModuleDeclare.InstallResults的除DAEMONToolsResult以外的所有字段值设为InstallResult.Fail
+                        For Each i As Reflection.FieldInfo In ModuleDeclare.InstallResults.GetType.GetFields
                             If i.Name <> "DAEMONToolsResult" Then i.SetValue(ModuleDeclare.InstallResults, InstallResult.Fail)
                         Next
                         bgwInstall.CancelAsync() '取消异步安装
@@ -42,6 +43,18 @@ Public Class frmInstalling
         End With
     End Sub
 
+    ''' <summary>询问用户是否使用638版本的SimCity_1.dat文件</summary>
+    ''' <returns>返回用户选择结果的DialogResult枚举值</returns>
+    Private Function AskIsUse638SC1datFile() As DialogResult
+        Return MessageBox.Show("是否使用638版本的SimCity_1.dat文件？" & vbCrLf & "使用638版本的SimCity_1.dat文件可以避免使用640版本的SimCity_1.dat文件可能出现的细节缺失画面问题", "询问", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+    End Function
+
+    ''' <summary>询问用户是否使用638版本的SimCity_1.dat文件</summary>
+    ''' <returns>返回用户选择结果的DialogResult枚举值</returns>
+    Private Function AskIsUseGOGGraphicsRulesFile() As DialogResult
+        Return MessageBox.Show("是否使用GOG版本的Graphics Rules.sgr文件？" & vbCrLf & "使用GOG版本的Graphics Rules.sgr文件可以避免使用AMD显卡可能出现的画面异常问题", "询问", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+    End Function
+
     Private Sub bgwInstall_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles bgwInstall.DoWork
         '声明一些用于快速访问安装组件列表框项的变量
         Dim DAEMONToolsItem As ListViewItem = lvwTask.FindItemWithText("DAEMON Tools Lite"), SC4Item As ListViewItem = lvwTask.FindItemWithText("模拟城市4 豪华版")
@@ -49,12 +62,13 @@ Public Class frmInstalling
         Dim _641PatchItem As ListViewItem = lvwTask.FindItemWithText("641补丁"), _4GBPatchItem As ListViewItem = lvwTask.FindItemWithText("4GB补丁")
         Dim NoCDPatchItem As ListViewItem = lvwTask.FindItemWithText("免CD补丁"), SC4LauncherItem As ListViewItem = lvwTask.FindItemWithText("模拟城市4 启动器")
         If ModuleDeclare.InstalledModules Is Nothing Then '判断是否已经安装了模拟城市4
+#Region "未安装模拟城市4，正常安装"
             With ModuleDeclare.InstallOptions
                 If .IsInstallDAEMONTools Then
-                    bgwInstall.ReportProgress(0)
-                    DAEMONToolsItem.ImageKey = "Installing"
+                    DAEMONToolsItem.ImageKey = "Installing" : lblInstalling.Text = "正在安装 DAEMON Tools Lite"
                     ReportInstallResult(InstallDAEMONTools(.DAEMONToolsInstallDir), DAEMONToolsItem.Text)
                 End If
+#Region "安装指定版本的模拟城市4"
                 If ModuleDeclare.InstallResults.DAEMONToolsResult = InstallResult.Success AndAlso .SC4InstallType = InstallOptions.SC4Type.CD Then '安装指定版本的模拟城市4
                     SC4Item.ImageKey = "Installing" : lblInstalling.Text = "正在安装 模拟城市4 镜像版"
                     Dim DAEMONToolsInstallDir As String = If(.IsInstallDAEMONTools, .DAEMONToolsInstallDir, My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Disc Soft\DAEMON Tools Lite", "Path", Nothing))
@@ -66,30 +80,29 @@ Public Class frmInstalling
                     ReportInstallResult(InstallSC4(.SC4InstallDir, Nothing, InstallOptions.SC4Type.NoInstall), SC4Item.Text)
                     If ModuleDeclare.InstallResults.SC4InstallResult = InstallResult.Success Then SetNoInstallSC4RegValue(.SC4InstallDir) '如果硬盘版模拟城市4安装成功则导入镜像版模拟城市4安装程序所添加或更改的注册表项和值
                 End If
+#End Region
                 If bgwInstall.CancellationPending Then Exit Sub '如果模拟城市4安装失败则停止安装
                 SetControlPanelProgramItemRegValue(.SC4InstallDir) '在控制面板的卸载或更改程序里添加模拟城市4 豪华版 自动安装程序项
-                '安装指定的组件并将安装组件列表框里对应项的图标改为安装中图标
-                If .IsInstall638Patch Then : _638PatchItem.ImageKey = "Installing" : lblInstalling.Text = "正在安装 638补丁"
+#Region "安装指定的组件并将安装组件列表框里对应项的图标改为安装中图标"
+                If .IsInstall638Patch Then
+                    _638PatchItem.ImageKey = "Installing" : lblInstalling.Text = "正在安装 638补丁"
                     ReportInstallResult(Change638Patch(.SC4InstallDir, False), _638PatchItem.Text)
-                    '询问用户是否使用GOG版本的Graphics Rules.sgr文件
-                    If .IsQuickInstall = False AndAlso MessageBox.Show("是否使用GOG版本的Graphics Rules.sgr文件？", "询问", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
-                        IO.File.SetAttributes(.SC4InstallDir & "\Graphics Rules.sgr", IO.FileAttributes.Normal) '将InstallDir\Graphics Rules.sgr文件设置为正常属性
-                        Do Until IsFileUsing(.SC4InstallDir & "\Graphics Rules.sgr") = False : Loop
-                        My.Computer.FileSystem.CopyFile("Data\Patch\Graphics Rules GOG.sgr", .SC4InstallDir & "\Graphics Rules.sgr", True)
-                    End If
+                    '如果安装选项不为快速安装且638补丁安装成功则询问用户是否使用GOG版本的Graphics Rules.sgr文件，否则默认使用GOG版本的Graphics Rules.sgr文件
+                    If ModuleDeclare.InstallResults._638PatchResult = InstallResult.Success AndAlso (.IsQuickInstall OrElse AskIsUseGOGGraphicsRulesFile() = DialogResult.Yes) Then InstallGOGGraphicsRulesFile(.SC4InstallDir)
                 End If
                 If .IsInstall640Patch AndAlso ModuleDeclare.InstallResults._638PatchResult = InstallResult.Success Then
-                    '询问用户是否使用638版本的SimCity_1.dat文件
-                    Dim IsUse638File As DialogResult
-                    If .IsQuickInstall = False AndAlso .IsInstall641Patch = False Then
-                        IsUse638File = MessageBox.Show("是否使用638版本的SimCity_1.dat文件？" & vbCrLf & "使用638版本的SimCity_1.dat文件可以避免可能出现的细节缺失显示问题", "询问", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-                        '如果用户同意使用638版本的SimCity_1.dat文件则先备份638版本的SimCity_1.dat文件
-                        If IsUse638File = DialogResult.Yes Then My.Computer.FileSystem.CopyFile(.SC4InstallDir & "\SimCity_1.dat", .SC4InstallDir & "\SimCity_1 638.dat")
-                    End If
+                    '如果安装选项不为快速安装且不安装641补丁则询问用户是否使用638版本的SimCity_1.dat文件
+                    Dim IsUse638SC1datFile As DialogResult = If(.IsQuickInstall = False AndAlso .IsInstall641Patch = False, AskIsUse638SC1datFile(), Nothing)
+                    '如果用户同意使用638版本的SimCity_1.dat文件则先备份638版本的SimCity_1.dat文件
+                    If IsUse638SC1datFile = DialogResult.Yes Then My.Computer.FileSystem.CopyFile(.SC4InstallDir & "\SimCity_1.dat", .SC4InstallDir & "\SimCity_1 638.dat")
                     _640PatchItem.ImageKey = "Installing" : lblInstalling.Text = "正在安装 640补丁"
                     ReportInstallResult(Change640Patch(.SC4InstallDir, False), _640PatchItem.Text)
-                    '如果用户同意使用638版本的SimCity_1.dat文件则将之前备份的638版本的SimCity_1.dat文件替换原文件
-                    If IsUse638File = DialogResult.Yes Then My.Computer.FileSystem.MoveFile(.SC4InstallDir & "\SimCity_1 638.dat", .SC4InstallDir & "\SimCity_1.dat", True)
+                    '如果用户同意使用638版本的SimCity_1.dat文件且640补丁安装成功则将之前备份的638版本的SimCity_1.dat文件替换原文件，否则删除之前备份的638版本的SimCity_1.dat文件
+                    If ModuleDeclare.InstallResults._640PatchResult = InstallResult.Fail Then
+                        My.Computer.FileSystem.DeleteFile(.SC4InstallDir & "\SimCity_1 638.dat")
+                    ElseIf IsUse638SC1datFile = DialogResult.Yes
+                        My.Computer.FileSystem.MoveFile(.SC4InstallDir & "\SimCity_1 638.dat", .SC4InstallDir & "\SimCity_1.dat", True)
+                    End If
                 End If
                 If .IsInstall641Patch AndAlso ModuleDeclare.InstallResults._640PatchResult = InstallResult.Success Then
                     _641PatchItem.ImageKey = "Installing" : lblInstalling.Text = "正在安装 641补丁"
@@ -120,12 +133,15 @@ Public Class frmInstalling
                 End Select
                 If .IsAddDesktopIcon Then lblInstalling.Text = "正在添加桌面图标" : AddDestopIcon(.SC4InstallDir, .IsInstallSC4Launcher)
                 If .IsAddStartMenuItem Then lblInstalling.Text = "正在添加开始菜单项" : AddStartMenuItems(.SC4InstallDir, .IsInstallSC4Launcher)
+#End Region
             End With
-        Else '已安装模拟城市4
+#End Region
+        Else
+#Region "已安装模拟城市4，安装或卸载组件"
             '声明一个用于存储已安装的模拟城市4安装目录的字符串变量
             Dim SC4InstallDir As String = ModuleDeclare.InstalledModules.SC4InstallDir
             With ModuleDeclare.ChangeOptions
-                '安装或卸载指定的组件并将安装组件列表框里对应项的图标改为安装中图标
+#Region "安装或卸载指定的组件并将安装组件列表框里对应项的图标改为安装中图标"
                 If ._4GBPatchOption <> ChangeOption.Unchanged AndAlso ._4GBPatchOption = ChangeOption.Uninstall Then
                     _4GBPatchItem.ImageKey = "Installing" : lblInstalling.Text = "正在卸载 4GB补丁"
                     ReportInstallResult(Change4GBPatch(SC4InstallDir, True, ModuleDeclare.ChangeOptions), _4GBPatchItem.Text)
@@ -134,30 +150,28 @@ Public Class frmInstalling
                     NoCDPatchItem.ImageKey = "Installing" : lblInstalling.Text = "正在卸载 免CD补丁"
                     ReportInstallResult(ChangeNoCDPatch(SC4InstallDir, True), NoCDPatchItem.Text)
                 End If
+#Region "安装或卸载638、640或641补丁"
                 '如果要安装638、640或641补丁则按照安装638、640和641的顺序安装，如果要卸载638、640或641补丁则按照卸载641、640和638补丁的顺序卸载
                 If ._638PatchOption = ChangeOption.Install OrElse ._640PatchOption = ChangeOption.Install OrElse ._641PatchOption = ChangeOption.Install Then
                     If ._638PatchOption <> ChangeOption.Unchanged Then
                         _638PatchItem.ImageKey = "Installing" : lblInstalling.Text = "正在安装 638补丁"
                         ReportInstallResult(Change638Patch(SC4InstallDir, False), _638PatchItem.Text)
-                        '询问用户是否使用GOG版本的Graphics Rules.sgr文件
-                        If MessageBox.Show("是否使用GOG版本的Graphics Rules.sgr文件？", "询问", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
-                            IO.File.SetAttributes(SC4InstallDir & "\Graphics Rules.sgr", IO.FileAttributes.Normal) '将InstallDir\Graphics Rules.sgr文件设置为正常属性
-                            Do Until IsFileUsing(SC4InstallDir & "\Graphics Rules.sgr") = False : Loop
-                            My.Computer.FileSystem.CopyFile("Data\Patch\Graphics Rules GOG.sgr", SC4InstallDir & "\Graphics Rules.sgr", True)
-                        End If
+                        '如果638补丁安装成功则询问用户是否使用GOG版本的Graphics Rules.sgr文件
+                        If ModuleDeclare.InstallResults._638PatchResult = InstallResult.Success AndAlso AskIsUseGOGGraphicsRulesFile() = DialogResult.Yes Then ModuleInstallCore.InstallGOGGraphicsRulesFile(SC4InstallDir)
                     End If
                     If ._640PatchOption <> ChangeOption.Unchanged AndAlso ModuleDeclare.InstallResults._638PatchResult = InstallResult.Success Then
-                        '询问用户是否使用638版本的SimCity_1.dat文件
-                        Dim IsUse638File As DialogResult
-                        If ._641PatchOption <> ChangeOption.Install Then
-                            IsUse638File = MessageBox.Show("是否使用638版本的SimCity_1.dat文件？" & vbCrLf & "使用638版本的SimCity_1.dat文件可以避免可能出现的细节缺失显示问题", "询问", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-                            '如果用户同意使用638版本的SimCity_1.dat文件则先备份638版本的SimCity_1.dat文件
-                            If IsUse638File = DialogResult.Yes Then My.Computer.FileSystem.CopyFile(SC4InstallDir & "\SimCity_1.dat", SC4InstallDir & "\SimCity_1 638.dat")
-                        End If
+                        '如果不安装641补丁则询问用户是否使用638版本的SimCity_1.dat文件
+                        Dim IsUse638SC1datFile As DialogResult = If(._641PatchOption <> ChangeOption.Install, AskIsUse638SC1datFile(), Nothing)
+                        '如果用户同意使用638版本的SimCity_1.dat文件则先备份638版本的SimCity_1.dat文件
+                        If IsUse638SC1datFile = DialogResult.Yes Then My.Computer.FileSystem.CopyFile(SC4InstallDir & "\SimCity_1.dat", SC4InstallDir & "\SimCity_1 638.dat")
                         _640PatchItem.ImageKey = "Installing" : lblInstalling.Text = "正在安装 640补丁"
                         ReportInstallResult(Change640Patch(SC4InstallDir, False), _640PatchItem.Text)
-                        '如果用户同意使用638版本的SimCity_1.dat文件则将之前备份的638版本的SimCity_1.dat文件替换原文件
-                        If IsUse638File = DialogResult.Yes Then My.Computer.FileSystem.MoveFile(SC4InstallDir & "\SimCity_1 638.dat", SC4InstallDir & "\SimCity_1.dat", True)
+                        '如果用户同意使用638版本的SimCity_1.dat文件且640补丁安装成功则将之前备份的638版本的SimCity_1.dat文件替换原文件，否则删除之前备份的638版本的SimCity_1.dat文件
+                        If ModuleDeclare.InstallResults._640PatchResult = InstallResult.Fail Then
+                            My.Computer.FileSystem.DeleteFile(SC4InstallDir & "\SimCity_1 638.dat")
+                        ElseIf IsUse638SC1datFile = DialogResult.Yes
+                            My.Computer.FileSystem.MoveFile(SC4InstallDir & "\SimCity_1 638.dat", SC4InstallDir & "\SimCity_1.dat", True)
+                        End If
                     End If
                     If ._641PatchOption <> ChangeOption.Unchanged AndAlso ModuleDeclare.InstallResults._640PatchResult = InstallResult.Success Then
                         _641PatchItem.ImageKey = "Installing" : lblInstalling.Text = "正在安装 641补丁"
@@ -165,30 +179,31 @@ Public Class frmInstalling
                     End If
                 ElseIf ._638PatchOption = ChangeOption.Uninstall OrElse ._640PatchOption = ChangeOption.Uninstall OrElse ._641PatchOption = ChangeOption.Uninstall Then
                     If ._641PatchOption <> ChangeOption.Unchanged Then
-                        '询问用户是否使用638版本的SimCity_1.dat文件
-                        Dim IsUse638File As DialogResult = MessageBox.Show("是否使用638版本的SimCity_1.dat文件？" & vbCrLf & "使用638版本的SimCity_1.dat文件可以避免可能出现的细节缺失显示问题", "询问", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                        '如果不卸载640补丁则询问用户是否使用638版本的SimCity_1.dat文件
+                        Dim IsUse638SC1datFile As DialogResult = If(._640PatchOption <> ChangeOption.Uninstall, AskIsUse638SC1datFile(), Nothing)
                         '如果用户同意使用638版本的SimCity_1.dat文件则先备份638版本的SimCity_1.dat文件
-                        If IsUse638File = DialogResult.Yes Then My.Computer.FileSystem.CopyFile(SC4InstallDir & "\SimCity_1.dat", SC4InstallDir & "\SimCity_1 638.dat")
+                        If IsUse638SC1datFile = DialogResult.Yes Then My.Computer.FileSystem.CopyFile(SC4InstallDir & "\SimCity_1.dat", SC4InstallDir & "\SimCity_1 638.dat")
                         _641PatchItem.ImageKey = "Installing" : lblInstalling.Text = "正在卸载 641补丁"
                         ReportInstallResult(Change641Patch(SC4InstallDir, True), _641PatchItem.Text)
-                        '如果用户同意使用638版本的SimCity_1.dat文件则将之前备份的638版本的SimCity_1.dat文件替换原文件
-                        If IsUse638File = DialogResult.Yes Then My.Computer.FileSystem.MoveFile(SC4InstallDir & "\SimCity_1 638.dat", SC4InstallDir & "\SimCity_1.dat", True)
+                        '如果用户同意使用638版本的SimCity_1.dat文件且641补丁卸载成功则将之前备份的638版本的SimCity_1.dat文件替换原文件，否则删除之前备份的638版本的SimCity_1.dat文件
+                        If ModuleDeclare.InstallResults._641PatchResult = InstallResult.Fail Then
+                            My.Computer.FileSystem.DeleteFile(SC4InstallDir & "\SimCity_1 638.dat")
+                        ElseIf IsUse638SC1datFile = DialogResult.Yes
+                            My.Computer.FileSystem.MoveFile(SC4InstallDir & "\SimCity_1 638.dat", SC4InstallDir & "\SimCity_1.dat", True)
+                        End If
                     End If
                     If ._640PatchOption <> ChangeOption.Unchanged AndAlso ModuleDeclare.InstallResults._641PatchResult = InstallResult.Success Then
                         _640PatchItem.ImageKey = "Installing" : lblInstalling.Text = "正在卸载 640补丁"
                         ReportInstallResult(Change640Patch(SC4InstallDir, True), _640PatchItem.Text)
-                        '如果不卸载638补丁则询问用户是否使用GOG版本的Graphics Rules.sgr文件
-                        If ._638PatchOption <> ChangeOption.Uninstall AndAlso MessageBox.Show("是否使用GOG版本的Graphics Rules.sgr文件？", "询问", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
-                            IO.File.SetAttributes(SC4InstallDir & "\Graphics Rules.sgr", IO.FileAttributes.Normal) '将InstallDir\Graphics Rules.sgr文件设置为正常属性
-                            Do Until IsFileUsing(SC4InstallDir & "\Graphics Rules.sgr") = False : Loop
-                            My.Computer.FileSystem.CopyFile("Data\Patch\Graphics Rules GOG.sgr", SC4InstallDir & "\Graphics Rules.sgr", True)
-                        End If
+                        '如果不卸载638补丁且640补丁卸载成功则询问用户是否使用GOG版本的Graphics Rules.sgr文件
+                        If ModuleDeclare.InstallResults._640PatchResult = InstallResult.Success AndAlso ._638PatchOption <> ChangeOption.Uninstall AndAlso AskIsUseGOGGraphicsRulesFile() = DialogResult.Yes Then ModuleInstallCore.InstallGOGGraphicsRulesFile(SC4InstallDir)
                     End If
                     If ._638PatchOption <> ChangeOption.Unchanged AndAlso ModuleDeclare.InstallResults._640PatchResult = InstallResult.Success Then
                         _638PatchItem.ImageKey = "Installing" : lblInstalling.Text = "正在卸载 638补丁"
                         ReportInstallResult(Change638Patch(SC4InstallDir, True), _638PatchItem.Text)
                     End If
                 End If
+#End Region
                 If .NoCDPatchOption <> ChangeOption.Unchanged AndAlso .NoCDPatchOption = ChangeOption.Install Then
                     NoCDPatchItem.ImageKey = "Installing" : lblInstalling.Text = "正在安装 免CD补丁"
                     ReportInstallResult(ChangeNoCDPatch(SC4InstallDir, False), NoCDPatchItem.Text)
@@ -214,7 +229,9 @@ Public Class frmInstalling
                             ReportInstallResult(ChangeLanguage(SC4InstallDir, SC4Language.English), "英语语言补丁")
                     End Select
                 End If
+#End Region
             End With
+#End Region
         End If
         lblInstalling.Text = "" ： Threading.Thread.Sleep(500) '清空当前安装组件文本并挂起当前线程0.5秒以便让用户看到安装结果
     End Sub
@@ -231,6 +248,7 @@ Public Class frmInstalling
     End Sub
 
     Private Sub frmInstalling_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+#Region "同步组件安装选项跟安装组件列表框里的对应项"
         '声明一些用于快速访问安装组件列表框项的变量
         Dim DAEMONToolsItem As ListViewItem = lvwTask.FindItemWithText("DAEMON Tools Lite"), SC4Item As ListViewItem = lvwTask.FindItemWithText("模拟城市4 豪华版")
         Dim _638PatchItem As ListViewItem = lvwTask.FindItemWithText("638补丁"), _640PatchItem As ListViewItem = lvwTask.FindItemWithText("640补丁")
@@ -273,6 +291,7 @@ Public Class frmInstalling
             Case SC4Language.English : LanguageItem.Text = "英语语言补丁"
         End Select
         lvwTask.EndUpdate()
+#End Region
         Control.CheckForIllegalCrossThreadCalls = False '设置不捕捉对错误线程（跨线程）调用的异常
         '禁用标题栏上的关闭按钮
         Dim ControlBoxHandle As Integer = GetSystemMenu(Me.Handle, 0)

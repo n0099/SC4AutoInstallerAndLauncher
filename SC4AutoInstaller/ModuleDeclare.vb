@@ -27,7 +27,6 @@ Public Module ModuleDeclare
     <DllImport("user32.dll")> Public Function DrawMenuBar(ByVal hWnd As IntPtr) As Boolean : End Function
     Public Const MF_BYPOSITION = &H400&
     Public Const MF_DISABLED = &H2&
-
     <DllImport("user32.dll")> Public Function FlashWindowEx(ByRef pwfi As FLASHWINFO) As Boolean : End Function
     Public Structure FLASHWINFO
         Public cbSize As UInt32

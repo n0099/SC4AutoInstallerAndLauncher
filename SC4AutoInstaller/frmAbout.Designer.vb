@@ -30,7 +30,7 @@ Partial Class frmAbout
         Me.lblAuthor = New System.Windows.Forms.Label()
         Me.llbBlog = New System.Windows.Forms.LinkLabel()
         Me.llbReportBug = New System.Windows.Forms.LinkLabel()
-        Me.llbSCB = New System.Windows.Forms.LinkLabel()
+        Me.llbSCTB = New System.Windows.Forms.LinkLabel()
         Me.lblTitle = New System.Windows.Forms.Label()
         Me.lblThanksList = New System.Windows.Forms.Label()
         Me.llbSCCN = New System.Windows.Forms.LinkLabel()
@@ -39,7 +39,7 @@ Partial Class frmAbout
         'btnClose
         '
         Me.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnClose.Location = New System.Drawing.Point(297, 297)
+        Me.btnClose.Location = New System.Drawing.Point(297, 308)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(75, 23)
         Me.btnClose.TabIndex = 8
@@ -68,7 +68,7 @@ Partial Class frmAbout
         'llbBlog
         '
         Me.llbBlog.AutoSize = True
-        Me.llbBlog.Location = New System.Drawing.Point(65, 308)
+        Me.llbBlog.Location = New System.Drawing.Point(65, 319)
         Me.llbBlog.Name = "llbBlog"
         Me.llbBlog.Size = New System.Drawing.Size(71, 12)
         Me.llbBlog.TabIndex = 7
@@ -78,22 +78,22 @@ Partial Class frmAbout
         'llbReportBug
         '
         Me.llbReportBug.AutoSize = True
-        Me.llbReportBug.Location = New System.Drawing.Point(12, 308)
+        Me.llbReportBug.Location = New System.Drawing.Point(12, 319)
         Me.llbReportBug.Name = "llbReportBug"
         Me.llbReportBug.Size = New System.Drawing.Size(47, 12)
         Me.llbReportBug.TabIndex = 6
         Me.llbReportBug.TabStop = True
         Me.llbReportBug.Text = "BUG反馈"
         '
-        'llbSCB
+        'llbSCTB
         '
-        Me.llbSCB.AutoSize = True
-        Me.llbSCB.Location = New System.Drawing.Point(12, 287)
-        Me.llbSCB.Name = "llbSCB"
-        Me.llbSCB.Size = New System.Drawing.Size(89, 12)
-        Me.llbSCB.TabIndex = 4
-        Me.llbSCB.TabStop = True
-        Me.llbSCB.Text = "百度模拟城市吧"
+        Me.llbSCTB.AutoSize = True
+        Me.llbSCTB.Location = New System.Drawing.Point(12, 298)
+        Me.llbSCTB.Name = "llbSCTB"
+        Me.llbSCTB.Size = New System.Drawing.Size(89, 12)
+        Me.llbSCTB.TabIndex = 4
+        Me.llbSCTB.TabStop = True
+        Me.llbSCTB.Text = "百度模拟城市吧"
         '
         'lblTitle
         '
@@ -111,14 +111,14 @@ Partial Class frmAbout
         Me.lblThanksList.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.lblThanksList.Location = New System.Drawing.Point(12, 75)
         Me.lblThanksList.Name = "lblThanksList"
-        Me.lblThanksList.Size = New System.Drawing.Size(360, 212)
+        Me.lblThanksList.Size = New System.Drawing.Size(360, 223)
         Me.lblThanksList.TabIndex = 3
         Me.lblThanksList.Text = resources.GetString("lblThanksList.Text")
         '
         'llbSCCN
         '
         Me.llbSCCN.AutoSize = True
-        Me.llbSCCN.Location = New System.Drawing.Point(107, 287)
+        Me.llbSCCN.Location = New System.Drawing.Point(107, 298)
         Me.llbSCCN.Name = "llbSCCN"
         Me.llbSCCN.Size = New System.Drawing.Size(137, 12)
         Me.llbSCCN.TabIndex = 5
@@ -131,12 +131,12 @@ Partial Class frmAbout
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.btnClose
-        Me.ClientSize = New System.Drawing.Size(384, 332)
+        Me.ClientSize = New System.Drawing.Size(384, 342)
         Me.Controls.Add(Me.llbSCCN)
         Me.Controls.Add(Me.lblThanksList)
         Me.Controls.Add(Me.btnClose)
         Me.Controls.Add(Me.lblTitle)
-        Me.Controls.Add(Me.llbSCB)
+        Me.Controls.Add(Me.llbSCTB)
         Me.Controls.Add(Me.lblVersion)
         Me.Controls.Add(Me.llbReportBug)
         Me.Controls.Add(Me.lblAuthor)
@@ -159,7 +159,7 @@ Partial Class frmAbout
     Friend WithEvents lblAuthor As System.Windows.Forms.Label
     Friend WithEvents llbBlog As System.Windows.Forms.LinkLabel
     Friend WithEvents llbReportBug As System.Windows.Forms.LinkLabel
-    Friend WithEvents llbSCB As System.Windows.Forms.LinkLabel
+    Friend WithEvents llbSCTB As System.Windows.Forms.LinkLabel
     Friend WithEvents lblTitle As System.Windows.Forms.Label
     Friend WithEvents lblThanksList As System.Windows.Forms.Label
     Friend WithEvents llbSCCN As System.Windows.Forms.LinkLabel

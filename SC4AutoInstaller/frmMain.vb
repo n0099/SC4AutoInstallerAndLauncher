@@ -1,22 +1,24 @@
 ﻿Public Class frmMain
 
+#Region "检查并下载更新"
     Private Sub bgwCheckUpdate_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles bgwCheckUpdate.DoWork
         Try '检查是否有新版本可用
             If My.Computer.Network.IsAvailable AndAlso My.Computer.Network.Ping("n0099.sinaapp.com") Then '确认能否连接到更新服务器
-                Dim UpdateInfoXML As New Xml.XmlDocument
-                UpdateInfoXML.Load("http://n0099.sinaapp.com/updateinfo.xml")
+                Dim UpdateInfoXML As New Xml.XmlDocument '声明一个用于暂时存储更新信息的XmlDocument类实例
+                UpdateInfoXML.Load("http://n0099.sinaapp.com/updateinfo.xml") '下载更新信息
                 If bgwCheckUpdate.CancellationPending = True Then e.Cancel = True : Exit Sub '判断是否已取消检查更新
-                e.Result = UpdateInfoXML.GetElementsByTagName("AutoInstaller")(0)
+                e.Result = UpdateInfoXML.GetElementsByTagName("AutoInstaller")(0) '返回已下载更新信息的XmlDocument类实例
             Else
 WebError:       MessageBox.Show("无法连接更新服务器" & vbCrLf & "请检查网络连接后重试", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             End If
-        Catch : GoTo WebError '如果检查更新途中发生异常则跳转至WebError行
+        Catch : e.Result = "ExceptionCatched" : GoTo WebError '如果下载更新信息途中发生异常则跳转至WebError行
         End Try
     End Sub
 
     Private Sub bgwCheckUpdate_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles bgwCheckUpdate.RunWorkerCompleted
         Try
-            If e.Cancelled = True Then Dispose() : Exit Sub '关闭主窗口以释放主窗口
+            If e.Cancelled = True Then Dispose() : Exit Sub '如果检查更新已被取消则释放主窗口并停止检查更新
+            If e.Result Is "ExceptionCatched" Then Exit Sub '如果在下载更新信息途中触发异常则停止检查更新
             Dim AutoInstallerNode As Xml.XmlNode = CType(e.Result, Xml.XmlNode)
             Dim LatestVersion As String = AutoInstallerNode("LatestVersion").InnerText
             With My.Application '检查是否有新版本可用
@@ -28,6 +30,7 @@ WebError:       MessageBox.Show("无法连接更新服务器" & vbCrLf & "请检
                         If My.Computer.FileSystem.FileExists("AutoInstallerUpdate.exe") Then '如果存在更新程序则以管理员权限启动更新程序并强制退出程序
                             Process.Start(New ProcessStartInfo With {.FileName = "AutoInstallerUpdate.exe", .Verb = "runas"}) : Environment.Exit(0)
                         End If
+                    ElseIf Visible = False Then : Dispose() '如果主窗口已经隐藏则释放主窗口
                     End If
                 ElseIf Visible = False Then : Dispose() '如果主窗口已经隐藏则释放主窗口
                 End If
@@ -35,6 +38,7 @@ WebError:       MessageBox.Show("无法连接更新服务器" & vbCrLf & "请检
         Catch : Environment.Exit(0) '如果下载更新程序途中发生异常则强制退出程序
         End Try
     End Sub
+#End Region
 
     Private Sub bgwVerifySC4Version_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles bgwVerifySC4Version.DoWork
         With ModuleDeclare.InstalledModules
@@ -48,7 +52,7 @@ WebError:       MessageBox.Show("无法连接更新服务器" & vbCrLf & "请检
                     FilesMD5(i) = BitConverter.ToString(MD5CSP.ComputeHash(FileStram)).Replace("-", "")
                 End Using
             Next
-            '判断FilesStream数组里各文件的MD5值以确定已安装的模拟城市4的版本
+#Region "判断FilesStream数组里各文件的MD5值以确定已安装的模拟城市4的版本"
             Select Case FilesMD5(0) 'Apps\SimCity 4.exe
                 Case "9ACB71D6D2302158CA614B21A9B187E4", "2F2BD7D9A76E85320A26D7BD7530DCAE" '638/638 4GB
                     If FilesMD5(1) = "A9E238946A8C8C479DD368EC4581B77A" AndAlso FilesMD5(2) = "2CFD520899786AEF47C728B123EBCF05" AndAlso
@@ -70,6 +74,7 @@ WebError:       MessageBox.Show("无法连接更新服务器" & vbCrLf & "请检
                      "78202C3EF76988BD2BF05F8D223BE7A3", "AADC5464919FBDC0F8E315FA51582126" '638/640/641/610/NoCD 4GB
                     .Is4GBPatchInstalled = True
             End Select
+#End Region
             If My.Computer.FileSystem.FileExists(.SC4InstallDir & "\SC4Launcher.exe") Then .IsSC4LauncherInstalled = True '判断是否已经安装模拟城市4 启动器
         End With
     End Sub
@@ -104,7 +109,12 @@ WebError:       MessageBox.Show("无法连接更新服务器" & vbCrLf & "请检
                 End With
                 btnQuickInstall.Visible = False : btnCustomInstall.Visible = False : btnChangeModule.Visible = True : btnUninstall.Visible = True '隐藏快速和自定义安装按钮，显示更改和卸载按钮
                 ModuleDeclare.InstallOptions = Nothing
-            Else : ModuleDeclare.InstalledModules = Nothing : ModuleDeclare.ChangeOptions = Nothing
+            Else
+                If .DirectoryExists("Data\SC4\CD") = False Then '如果不存在Data\SC4\CD文件夹则隐藏自定义安装按钮并移动关于和退出按钮的位置
+                    btnCustomInstall.Visible = False : btnAbout.Location = New Point(263, 250) : btnExit.Location = New Point(263, 298)
+                End If
+                btnChangeModule.Visible = False : btnUninstall.Visible = False '隐藏更改和卸载按钮
+                ModuleDeclare.InstalledModules = Nothing : ModuleDeclare.ChangeOptions = Nothing
             End If
         End With
         Text &= " " & My.Application.Info.Version.Major & "." & My.Application.Info.Version.Minor & "." & My.Application.Info.Version.Revision & " By n0099" '初始化窗口标题
@@ -125,7 +135,7 @@ WebError:       MessageBox.Show("无法连接更新服务器" & vbCrLf & "请检
             End With
         End If
         frmLicenses.Show()
-        If bgwCheckUpdate.IsBusy = True Then Hide() Else Close() '隐藏本窗口以避免被释放后无法取消异步检查更新
+        If bgwCheckUpdate.IsBusy = True Then Hide() Else Dispose() '如果正在检查更新则隐藏主窗口以避免窗口释放后无法取消异步检查更新，否则直接释放主窗口以避免触发FormClosing事件
     End Sub
 
     Private Sub btnChangeModule_Click(sender As Object, e As EventArgs) Handles btnChangeModule.Click
@@ -133,7 +143,7 @@ WebError:       MessageBox.Show("无法连接更新服务器" & vbCrLf & "请检
             MessageBox.Show("Data文件夹不存在" & vbCrLf & "请使用完整安装程序以安装或卸载组件", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) : Exit Sub
         End If
         frmLicenses.Show()
-        If bgwCheckUpdate.IsBusy = True Then Hide() Else Close() '隐藏本窗口以避免被释放后无法取消异步检查更新
+        If bgwCheckUpdate.IsBusy = True Then Hide() Else Dispose() '如果正在检查更新则隐藏主窗口以避免窗口释放后无法取消异步检查更新，否则直接释放主窗口以避免触发FormClosing事件
     End Sub
 
     Private Sub btnUninstall_Click(sender As Object, e As EventArgs) Handles btnUninstall.Click
@@ -153,4 +163,7 @@ WebError:       MessageBox.Show("无法连接更新服务器" & vbCrLf & "请检
         Application.Exit()
     End Sub
 
+    Private Sub btnInstall_Click(sender As Object, e As EventArgs) Handles btnQuickInstall.Click, btnCustomInstall.Click
+
+    End Sub
 End Class

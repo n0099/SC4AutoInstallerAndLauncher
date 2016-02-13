@@ -40,7 +40,7 @@ Partial Class frmInstallFinish
         Me.imgResultIcon = New System.Windows.Forms.ImageList(Me.components)
         Me.lvwSubassemblySuccess = New System.Windows.Forms.ListView()
         Me.btnRunSC4 = New System.Windows.Forms.Button()
-        Me.llbSCB = New System.Windows.Forms.LinkLabel()
+        Me.llbSCTB = New System.Windows.Forms.LinkLabel()
         Me.llbSCCN = New System.Windows.Forms.LinkLabel()
         Me.lblTitle2 = New System.Windows.Forms.Label()
         Me.llbReportBug = New System.Windows.Forms.LinkLabel()
@@ -111,15 +111,15 @@ Partial Class frmInstallFinish
         Me.btnRunSC4.Text = "打开模拟城市4 豪华版(&R)"
         Me.btnRunSC4.UseVisualStyleBackColor = True
         '
-        'llbSCB
+        'llbSCTB
         '
-        Me.llbSCB.AutoSize = True
-        Me.llbSCB.Location = New System.Drawing.Point(12, 399)
-        Me.llbSCB.Name = "llbSCB"
-        Me.llbSCB.Size = New System.Drawing.Size(89, 12)
-        Me.llbSCB.TabIndex = 4
-        Me.llbSCB.TabStop = True
-        Me.llbSCB.Text = "百度模拟城市吧"
+        Me.llbSCTB.AutoSize = True
+        Me.llbSCTB.Location = New System.Drawing.Point(12, 399)
+        Me.llbSCTB.Name = "llbSCTB"
+        Me.llbSCTB.Size = New System.Drawing.Size(89, 12)
+        Me.llbSCTB.TabIndex = 4
+        Me.llbSCTB.TabStop = True
+        Me.llbSCTB.Text = "百度模拟城市吧"
         '
         'llbSCCN
         '
@@ -188,7 +188,7 @@ Partial Class frmInstallFinish
         Me.Controls.Add(Me.llbBlog)
         Me.Controls.Add(Me.llbReportBug)
         Me.Controls.Add(Me.llbSCCN)
-        Me.Controls.Add(Me.llbSCB)
+        Me.Controls.Add(Me.llbSCTB)
         Me.Controls.Add(Me.btnRunSC4)
         Me.Controls.Add(Me.lblTitle2)
         Me.Controls.Add(Me.lvwSubassemblySuccess)
@@ -209,7 +209,7 @@ Partial Class frmInstallFinish
     Friend WithEvents imgResultIcon As System.Windows.Forms.ImageList
     Friend WithEvents lvwSubassemblySuccess As System.Windows.Forms.ListView
     Friend WithEvents btnRunSC4 As System.Windows.Forms.Button
-    Friend WithEvents llbSCB As System.Windows.Forms.LinkLabel
+    Friend WithEvents llbSCTB As System.Windows.Forms.LinkLabel
     Friend WithEvents llbSCCN As System.Windows.Forms.LinkLabel
     Friend WithEvents lblTitle2 As System.Windows.Forms.Label
     Friend WithEvents llbReportBug As System.Windows.Forms.LinkLabel

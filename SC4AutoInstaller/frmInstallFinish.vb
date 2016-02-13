@@ -23,7 +23,7 @@ Public Class frmInstallFinish
         Process.Start("http://tieba.baidu.com/p/3802761033")
     End Sub
 
-    Private Sub llbSCB_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles llbSCB.LinkClicked
+    Private Sub llbSCTB_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles llbSCTB.LinkClicked
         Process.Start("http://tieba.baidu.com/f?kw=%C4%A3%C4%E2%B3%C7%CA%D0")
     End Sub
 
@@ -39,6 +39,7 @@ Public Class frmInstallFinish
         Dim NoCDPatchItem As ListViewItem = lvwSubassemblySuccess.FindItemWithText("免CD补丁"), SC4LauncherItem As ListViewItem = lvwSubassemblySuccess.FindItemWithText("模拟城市4 启动器")
         Dim LanguageItem As ListViewItem = lvwSubassemblySuccess.FindItemWithText("语言补丁")
         lvwSubassemblySuccess.BeginUpdate() : lvwSubassemblyFail.BeginUpdate()
+#Region "同步安装选项跟安装结果列表框里的对应项"
         If ModuleDeclare.InstalledModules Is Nothing Then '判断是否已经安装了模拟城市4
             With ModuleDeclare.InstallOptions
                 If .IsInstallDAEMONTools = False Then DAEMONToolsItem.Remove()
@@ -75,6 +76,7 @@ Public Class frmInstallFinish
                 If My.Computer.FileSystem.FileExists(ModuleDeclare.InstalledModules.SC4InstallDir & "\Apps\SimCity 4.exe") Then btnRunSC4.Enabled = True
             End With
         End If
+#End Region
         With ModuleDeclare.InstallResults '如果某个组件安装失败，则将安装成功的组件列表框的对应项移动到安装失败的组件列表框里
             If .DAEMONToolsResult = InstallResult.Fail Then SubassemblyInstallFail(DAEMONToolsItem)
             If ._638PatchResult = InstallResult.Fail Then SubassemblyInstallFail(_638PatchItem)

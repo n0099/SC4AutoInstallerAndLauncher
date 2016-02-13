@@ -135,34 +135,34 @@
     <None Include="Resources\icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\SC4\SC4_1.png" />
+    <None Include="Resources\SC4_1.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\SC4\SC4_2.png" />
+    <None Include="Resources\SC4_2.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\SC4\SC4_3.png" />
+    <None Include="Resources\SC4_3.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\SC4\SC4_4.png" />
+    <None Include="Resources\SC4_4.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\SC4\SC4_5.png" />
+    <None Include="Resources\SC4_5.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\SC4\SC4_6.png" />
+    <None Include="Resources\SC4_6.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\SC4\SC4_7.png" />
+    <None Include="Resources\SC4_7.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\SC4\SC4_8.png" />
+    <None Include="Resources\SC4_8.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\SC4\SC4_9.png" />
+    <None Include="Resources\SC4_9.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\SC4\SC4_10.png" />
+    <None Include="Resources\SC4_10.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

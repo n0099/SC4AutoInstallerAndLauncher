@@ -92,6 +92,8 @@
                 End If
                 '2.9.20
                 If .FileExists("Data\Patch\638 SKU1.EXE") Then .RenameFile("Data\Patch\638 SKU1.EXE", "Data\Patch\638.EXE")
+                '2.9.30
+                If .FileExists("Data\DAEMON Tools Lite 5.0.exe") AndAlso .DirectoryExists("Data\SC4\CD") = False Then .DeleteFile("Data\DAEMON Tools Lite 5.0.exe")
             Else
                 .DeleteDirectory("Data", FileIO.DeleteDirectoryOption.DeleteAllContents)
             End If

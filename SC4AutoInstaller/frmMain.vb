@@ -2,31 +2,31 @@
 
 #Region "检查并下载更新"
     Private Sub bgwCheckUpdate_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles bgwCheckUpdate.DoWork
-        Try '检查是否有新版本可用
-            If My.Computer.Network.IsAvailable AndAlso My.Computer.Network.Ping("n0099.sinaapp.com") Then '确认能否连接到更新服务器
+        Try '下载更新信息
+            If My.Computer.Network.IsAvailable AndAlso My.Computer.Network.Ping("n0099.coding.io") Then '确认能否连接到更新服务器
                 Dim UpdateInfoXML As New Xml.XmlDocument '声明一个用于暂时存储更新信息的XmlDocument类实例
-                UpdateInfoXML.Load("http://n0099.sinaapp.com/updateinfo.xml") '下载更新信息
+                UpdateInfoXML.Load("http://n0099.coding.io/updateinfo.xml") '下载更新信息
                 If bgwCheckUpdate.CancellationPending = True Then e.Cancel = True : Exit Sub '判断是否已取消检查更新
-                e.Result = UpdateInfoXML.GetElementsByTagName("AutoInstaller")(0) '返回已下载更新信息的XmlDocument类实例
-            Else
-WebError:       MessageBox.Show("无法连接更新服务器" & vbCrLf & "请检查网络连接后重试", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                e.Result = UpdateInfoXML.GetElementsByTagName("SC4AutoInstaller")(0) '返回已下载更新信息的XmlDocument类实例
+            Else '如果无法连接到更新服务器则弹出提示框并返回WebError字符串
+WebError:       MessageBox.Show("无法连接更新服务器" & vbCrLf & "请检查网络连接后重试", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) : e.Result = "WebError"
             End If
-        Catch : e.Result = "ExceptionCatched" : GoTo WebError '如果下载更新信息途中发生异常则跳转至WebError行
+        Catch : GoTo WebError '如果下载更新信息途中发生异常则跳转至WebError行
         End Try
     End Sub
 
     Private Sub bgwCheckUpdate_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles bgwCheckUpdate.RunWorkerCompleted
-        Try
+        Try '检查是否有新版本可用
             If e.Cancelled = True Then Dispose() : Exit Sub '如果检查更新已被取消则释放主窗口并停止检查更新
-            If e.Result Is "ExceptionCatched" Then Exit Sub '如果在下载更新信息途中触发异常则停止检查更新
+            If e.Result Is "WebError" Then Exit Sub '如果下载更新信息失败则停止检查更新
             Dim AutoInstallerNode As Xml.XmlNode = CType(e.Result, Xml.XmlNode)
             Dim LatestVersion As String = AutoInstallerNode("LatestVersion").InnerText
             With My.Application '检查是否有新版本可用
                 If (LatestVersion.Split(".")(0) > .Info.Version.Major) OrElse (LatestVersion.Split(".")(1) > .Info.Version.Minor) OrElse (LatestVersion.Split(".")(2) > .Info.Version.Revision) Then '判断最新版本号是否大于当前版本号
                     If MessageBox.Show("检测到有新版本可用，是否下载更新程序？" & vbCrLf & "当前版本：" & .Info.Version.Major & "." & .Info.Version.Minor & "." & .Info.Version.Revision & vbCrLf &
-                                       "更新说明：" & AutoInstallerNode("UpdateDetail").InnerText, "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then '询问用户是否更新
+                                       "更新说明：" & AutoInstallerNode("UpdateDetails").InnerText, "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then '询问用户是否更新
                         Me.Hide() : frmLicenses.Hide() : frmInstallOptions.Hide() : frmChangeOptions.Hide() : frmAbout.Hide() '隐藏其他窗口
-                        My.Computer.Network.DownloadFile(AutoInstallerNode("DonwloadLink").InnerText, Application.StartupPath & "\AutoInstallerUpdate.exe", "", "", True, 6000000, True) '从指定的下载地址下载更新程序
+                        My.Computer.Network.DownloadFile(AutoInstallerNode("UpdaterURL").InnerText, Application.StartupPath & "\AutoInstallerUpdate.exe", "", "", True, 6000000, True) '从指定的下载地址下载更新程序
                         If My.Computer.FileSystem.FileExists("AutoInstallerUpdate.exe") Then '如果存在更新程序则以管理员权限启动更新程序并强制退出程序
                             Process.Start(New ProcessStartInfo With {.FileName = "AutoInstallerUpdate.exe", .Verb = "runas"}) : Environment.Exit(0)
                         End If
@@ -84,7 +84,7 @@ WebError:       MessageBox.Show("无法连接更新服务器" & vbCrLf & "请检
     End Sub
 
     Private Sub frmMain_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
-        If MessageBox.Show("确定要退出安装程序吗？", "确认退出", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.No Then e.Cancel = True
+        If e.CloseReason <> CloseReason.ApplicationExitCall AndAlso MessageBox.Show("确定要退出安装程序吗？", "确认退出", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.No Then e.Cancel = True
     End Sub
 
     Private Sub frmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -147,8 +147,8 @@ WebError:       MessageBox.Show("无法连接更新服务器" & vbCrLf & "请检
     End Sub
 
     Private Sub btnUninstall_Click(sender As Object, e As EventArgs) Handles btnUninstall.Click
-        If MessageBox.Show("确定要卸载模拟城市4 豪华版？", "确认", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) = DialogResult.Yes Then
-            bgwCheckUpdate.CancelAsync()
+        If MessageBox.Show("确定要卸载模拟城市4 豪华版？" & vbCrLf & "卸载目录：" & ModuleDeclare.InstalledModules.SC4InstallDir, "确认", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) = DialogResult.Yes Then
+            bgwCheckUpdate.CancelAsync() '取消异步检查更新
             frmUninstalling.Show()
             Dispose() '直接释放窗口以避免触发FormClosing事件
         End If
@@ -163,7 +163,4 @@ WebError:       MessageBox.Show("无法连接更新服务器" & vbCrLf & "请检
         Application.Exit()
     End Sub
 
-    Private Sub btnInstall_Click(sender As Object, e As EventArgs) Handles btnQuickInstall.Click, btnCustomInstall.Click
-
-    End Sub
 End Class

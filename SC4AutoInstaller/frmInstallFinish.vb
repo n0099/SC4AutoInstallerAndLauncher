@@ -16,7 +16,7 @@ Public Class frmInstallFinish
     End Sub
 
     Private Sub llbBlog_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles llbBlog.LinkClicked
-        Process.Start("http://n0099.sinaapp.com")
+        Process.Start("http://n0099.coding.io")
     End Sub
 
     Private Sub llbReportBug_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles llbReportBug.LinkClicked
@@ -24,7 +24,7 @@ Public Class frmInstallFinish
     End Sub
 
     Private Sub llbSCTB_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles llbSCTB.LinkClicked
-        Process.Start("http://tieba.baidu.com/f?kw=%C4%A3%C4%E2%B3%C7%CA%D0")
+        Process.Start("http://tieba.baidu.com/模拟城市")
     End Sub
 
     Private Sub llbSCCN_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles llbSCCN.LinkClicked
@@ -109,7 +109,7 @@ Public Class frmInstallFinish
     End Sub
 
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
-        Environment.Exit(0) '强制退出程序以避免触发frmMain的FormClosing事件
+        Application.Exit()
     End Sub
 
 End Class

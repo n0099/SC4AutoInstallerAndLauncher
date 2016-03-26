@@ -2,7 +2,6 @@
 
     ''' <summary>一个用于存储要验证的文件的相对路径和MD5值的List泛型类</summary>
     Dim DataFilesMD5 As New List(Of String)({"Data\7za.exe", "EC79CABD55A14379E4D676BB17D9E3DF",
-                                            "Data\DAEMON Tools Lite 5.0.exe", "E4D2A05D4A5C22C6D4BC20D6B502CE6B",
                                             "Data\Licenses\CC BY-NC-SA.rtf", "995C9B18CABFBB6DE54A4EE7886D843C",
                                             "Data\Licenses\CC BY-NC-SA 3.0 法律文本.rtf", "473B4BFEDFE91351CE00BB962284DBCC",
                                             "Data\Licenses\CC BY-NC-SA 4.0 法律文本.rtf", "E27D76D2E75DE182B6C10F6EBA0482A4",
@@ -13,7 +12,7 @@
                                             "Data\Patch\640.exe", "E612D3BF65DFA7BED951CC8D40366BBF",
                                             "Data\Patch\641.7z", "15A5635619A9C8995B11804471A79DA0",
                                             "Data\Patch\Graphics Rules GOG.sgr", "DCF0FA2DE3828BC52991BDA20B7E5735",
-                                            "Data\Patch\SC4Launcher.exe", "EDB779FFA98619897C75F8BA360EC2A5",
+                                            "Data\Patch\SC4Launcher.exe", "013739D525F5501D65D39C2242D61E23",
                                             "Data\Patch\Language\English\SimCityLocale.DAT", "196A1F3CD9CF58E84E0B0F31E9F81171",
                                             "Data\Patch\Language\SChinese\SimCityLocale.DAT", "42E66866C5E7C95A29CD153423F4F6FD",
                                             "Data\Patch\Language\TChinese\SimCityLocale.DAT", "3D7163C89D35E7388CF7EBC503BAF47B",
@@ -100,7 +99,8 @@ Ignore:         bgwVerifyFilesMD5.ReportProgress(i)
 
     Private Sub frmVerifyFiles_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         If My.Computer.FileSystem.DirectoryExists("Data\SC4\CD") Then '判断是否存在Data\SC4\CD文件夹
-            Dim CDFilesMD5() As String = {"Data\SC4\CD\CD1.mdf", "82A112B441DC90305331ABEFF0E66237", "Data\SC4\CD\CD1.mds", "CFB13663F10FCAB916C0A4EDD29FC975",
+            Dim CDFilesMD5() As String = {"Data\DAEMON Tools Lite 5.0.exe", "E4D2A05D4A5C22C6D4BC20D6B502CE6B",
+                                          "Data\SC4\CD\CD1.mdf", "82A112B441DC90305331ABEFF0E66237", "Data\SC4\CD\CD1.mds", "CFB13663F10FCAB916C0A4EDD29FC975",
                                           "Data\SC4\CD\CD2.mdf", "15AD42821D2CCFAC4ED62CF2E5E153D1", "Data\SC4\CD\CD2.mds", "F623584CCC7E3206045D97CD12D454C8"}
             DataFilesMD5.AddRange(CDFilesMD5) '将CDFilesMD5字符串数组的数据追加到DataFilesMD5字符串List泛型类中
         End If

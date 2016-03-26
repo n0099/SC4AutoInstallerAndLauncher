@@ -39,7 +39,7 @@ Partial Class frmAbout
         'btnClose
         '
         Me.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnClose.Location = New System.Drawing.Point(297, 308)
+        Me.btnClose.Location = New System.Drawing.Point(297, 328)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(75, 23)
         Me.btnClose.TabIndex = 8
@@ -68,7 +68,7 @@ Partial Class frmAbout
         'llbBlog
         '
         Me.llbBlog.AutoSize = True
-        Me.llbBlog.Location = New System.Drawing.Point(65, 319)
+        Me.llbBlog.Location = New System.Drawing.Point(65, 339)
         Me.llbBlog.Name = "llbBlog"
         Me.llbBlog.Size = New System.Drawing.Size(71, 12)
         Me.llbBlog.TabIndex = 7
@@ -78,7 +78,7 @@ Partial Class frmAbout
         'llbReportBug
         '
         Me.llbReportBug.AutoSize = True
-        Me.llbReportBug.Location = New System.Drawing.Point(12, 319)
+        Me.llbReportBug.Location = New System.Drawing.Point(12, 339)
         Me.llbReportBug.Name = "llbReportBug"
         Me.llbReportBug.Size = New System.Drawing.Size(47, 12)
         Me.llbReportBug.TabIndex = 6
@@ -88,7 +88,7 @@ Partial Class frmAbout
         'llbSCTB
         '
         Me.llbSCTB.AutoSize = True
-        Me.llbSCTB.Location = New System.Drawing.Point(12, 298)
+        Me.llbSCTB.Location = New System.Drawing.Point(12, 318)
         Me.llbSCTB.Name = "llbSCTB"
         Me.llbSCTB.Size = New System.Drawing.Size(89, 12)
         Me.llbSCTB.TabIndex = 4
@@ -118,7 +118,7 @@ Partial Class frmAbout
         'llbSCCN
         '
         Me.llbSCCN.AutoSize = True
-        Me.llbSCCN.Location = New System.Drawing.Point(107, 298)
+        Me.llbSCCN.Location = New System.Drawing.Point(107, 318)
         Me.llbSCCN.Name = "llbSCCN"
         Me.llbSCCN.Size = New System.Drawing.Size(137, 12)
         Me.llbSCCN.TabIndex = 5
@@ -131,7 +131,7 @@ Partial Class frmAbout
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.btnClose
-        Me.ClientSize = New System.Drawing.Size(384, 342)
+        Me.ClientSize = New System.Drawing.Size(384, 362)
         Me.Controls.Add(Me.llbSCCN)
         Me.Controls.Add(Me.lblThanksList)
         Me.Controls.Add(Me.btnClose)

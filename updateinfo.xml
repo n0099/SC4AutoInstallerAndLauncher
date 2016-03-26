@@ -1,113 +1,58 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <UpdateInfo>
-  <AutoInstaller>
-    <LatestVersion>2.9.20</LatestVersion>
-    <!--2.8.30及以上版本--><UpdateDetail>
+  <SC4AutoInstaller>
+    <LatestVersion>2.9.30</LatestVersion>
+    <UpdateDetails>
       <![CDATA[
-如果下载更新后没有自动安装更新，请手动运行安装程序所在目录下的AutoInstallerUpdate.exe程序来手动更新
 更新程序大小：15.1MB
 
-模拟城市4 豪华版 自动安装程序(SC4AutoInstaller) 2.9.20 正式版 (2016-02-13)
+模拟城市4 豪华版 自动安装程序(SC4AutoInstaller) 2.9.30 正式版 (2016-03-26)
+====================================================================================
+
+修改
+====
+1.在关于窗口的鸣谢文本框里添加了让我抱你好吗i和mhtygy的名字并更改了关于窗口的大小。
+2.更改了检查更新信息及安装完成和关于窗口的博客和模拟城市吧链接的地址。
+3.现在在主窗口点击卸载按钮时会在弹出的确认窗口中显示卸载目录。
+4.修改了安装选项窗口的镜像版及硬盘版模拟城市4、638、640、641补丁和4GB补丁的描述文本。
+5.修改了安装选项窗口的繁体中文及英语语言补丁和添加桌面图标项的描述文本并增大了描述文本区域的大小。
+6.修改了安装选项窗口的模拟城市4 启动器项的所需磁盘空间文本单位和DAEMON Tools Lite项的所需磁盘空间文本的小数点后位数。
+
+修复
+====
+1.修复了如果下载更新信息时无法连接到更新服务器弹出提示框后仍然会继续检查更新并退出程序的bug（感谢让我抱你好吗i、mhtygy发现此bug）。
+2.修复了即便不存在Data\SC4\CD文件夹，检查文件完整性时仍然会检查Data\DAEMON Tools Lite 5.0.exe文件完整性的bug。
+3.修复了在卸载窗口卸载进度条的进度可能与实际卸载进度不符的bug。
+4.修复了在安装选项、安装或卸载组件和阅读用户协议窗口关闭程序时可能会触发frmMain的FormClosing事件并弹出两个确认退出对话框的bug。
+      ]]>
+    </UpdateDetails>
+    <UpdaterURL>http://n0099.coding.io/update/SC4AutoInstallerUpdate.exe</UpdaterURL>
+  </SC4AutoInstaller>
+  <SC4Launcher>
+    <LatestVersion>1.1.40</LatestVersion>
+    <UpdateDetails>
+      <![CDATA[
+更新程序大小：6.53MB
+
+模拟城市4 启动器(SC4Launcher) 1.1.40 正式版 (2016-03-26)
 ====================================================================================
 
 新增
 ====
-1.现在在主窗口如果不存在Data\SC4\CD文件夹则隐藏自定义安装按钮（感谢cjak007的建议）。
-2.现在如果用户的Security Driver（secdrv.sys）驱动服务已禁用，在安装选项窗口和安装或卸载组件窗口取消安装或卸载638、640、641、免CD补丁时会弹出确认提示框。
+1.在设置窗口新增启动游戏后是否退出启动器设置（感谢骚浪的蛋蛋的建议）。
 
 修改
 ====
-1.在关于窗口的鸣谢文本框里添加了☆oo聖騎士ゞ和Michael大叔的名字。
-2.将关于窗口鸣谢文本框的名字分隔符由、改为  （两个半角空格）并分开了鸣谢名单里帽子578和onewaychou的名字。
-3.将Data\Patch\638 SKU1.EXE文件重命名为Data\Patch\638.EXE。
-4.修改了安装选项窗口638、640、641和免CD补丁项的描述文本。
-5.修改了安装中窗口询问用户是否使用638版本的SimCity_1.dat或GOG版本的Graphics Rules.sgr文件提示框的文本。
-6.现在在安装中窗口如果638或640补丁安装失败则不会询问用户是否使用GOG版本的Graphics Rules.sgr文件或使用638版本的SimCity_1.dat文件。
-7.现在在安装中窗口如果安装选项为快速安装则默认使用GOG版本的Graphics Rules.sgr文件。
-8.现在在安装中窗口在安装DAEMON Tools Lite时会在安装进度文本上显示当前正在安装DAEMON Tools Lite文本。
-9.更换了3张在安装中窗口右侧循环显示的游戏截图并为每张图片添加了原作者和图片来源注释（感谢cjak007的建议）。
-10.修改了主窗口背景图片底部的版权文本并移动了按钮位置。
+1.现在在启动启动器时不再需要请求管理员权限。
 
 修复
 ====
-1.修复了如果已经安装了641补丁且选择要卸载638补丁，则在安装中窗口仍然会询问用户是否使用638版本的SimCity_1.dat的bug。
-2.修复了如果在下载更新信息途中触发了异常仍然会继续检查更新且可能导致程序退出的bug（感谢☆oo聖騎士ゞ和Michael大叔发现此bug）。
-3.修复了在安装中窗口在安装DAEMON Tools Lite时会触发InvalidOperationException异常并立即安装完成的bug（感谢☆oo聖騎士ゞ和Michael大叔发现此bug）。
-4.修复了点击主窗口的快速安装、自定义安装和更改按钮后不会立即关闭主窗口并弹出是否退出安装程序提示框的bug。
-5.修复了在安装选项窗口初始化时即便没有安装DAEMON Tools Lite也不会自动选择DAEMON Tools Lite项的bug。
-6.修复了在安装中窗口如果安装640补丁或卸载641补丁失败且用户之前同意使用638版本的SimCity_1.dat文件，不会删除之前备份的638版本的SimCity_1.dat文件的bug。
-7.修复了在安装中窗口如果卸载640和641补丁仍然会在卸载641补丁时询问用户是否使用638版本的SimCity_1.dat文件的bug。
-8.修复了在主窗口外的其他窗口弹出检查更新提示框时选择不下载更新，关闭其他窗口时会触发主窗口的FormClosing事件的bug。
+1.修复了如果下载更新信息时无法连接到更新服务器弹出提示框后仍然会继续检查更新并退出程序的bug（感谢让我抱你好吗i、mhtygy发现此bug）。
+2.修复了在设置窗口将显示方式设置更改为全屏时不会增加全屏显示启动参数的bug。
+3.修复了在设置窗口如果将渲染模式设置为软件渲染，下次打开设置窗口时渲染模式选择框的选择项为空白的bug。
+4.修复了在主窗口永远不会显示第10张随机背景图片的bug。
       ]]>
-    </UpdateDetail>
-    <!--2.8.30以下版本--><UpdataDetail>
-      <![CDATA[
-如果下载更新后没有自动安装更新，请手动运行安装程序所在目录下的Updata.exe程序来手动更新
-更新程序大小：15.1MB
-
-模拟城市4 豪华版 自动安装程序(SC4AutoInstaller) 2.9.20 正式版 (2016-02-13)
-====================================================================================
-
-新增
-====
-1.现在在主窗口如果不存在Data\SC4\CD文件夹则隐藏自定义安装按钮（感谢cjak007的建议）。
-2.现在如果用户的Security Driver（secdrv.sys）驱动服务已禁用，在安装选项窗口和安装或卸载组件窗口取消安装或卸载638、640、641、免CD补丁时会弹出确认提示框。
-
-修改
-====
-1.在关于窗口的鸣谢文本框里添加了☆oo聖騎士ゞ和Michael大叔的名字。
-2.将关于窗口鸣谢文本框的名字分隔符由、改为  （两个半角空格）并分开了鸣谢名单里帽子578和onewaychou的名字。
-3.将Data\Patch\638 SKU1.EXE文件重命名为Data\Patch\638.EXE。
-4.修改了安装选项窗口638、640、641和免CD补丁项的描述文本。
-5.修改了安装中窗口询问用户是否使用638版本的SimCity_1.dat或GOG版本的Graphics Rules.sgr文件提示框的文本。
-6.现在在安装中窗口如果638或640补丁安装失败则不会询问用户是否使用GOG版本的Graphics Rules.sgr文件或使用638版本的SimCity_1.dat文件。
-7.现在在安装中窗口如果安装选项为快速安装则默认使用GOG版本的Graphics Rules.sgr文件。
-8.现在在安装中窗口在安装DAEMON Tools Lite时会在安装进度文本上显示当前正在安装DAEMON Tools Lite文本。
-9.更换了3张在安装中窗口右侧循环显示的游戏截图并为每张图片添加了原作者和图片来源注释（感谢cjak007的建议）。
-10.修改了主窗口背景图片底部的版权文本并移动了按钮位置。
-
-修复
-====
-1.修复了如果已经安装了641补丁且选择要卸载638补丁，则在安装中窗口仍然会询问用户是否使用638版本的SimCity_1.dat的bug。
-2.修复了如果在下载更新信息途中触发了异常仍然会继续检查更新且可能导致程序退出的bug（感谢☆oo聖騎士ゞ和Michael大叔发现此bug）。
-3.修复了在安装中窗口在安装DAEMON Tools Lite时会触发InvalidOperationException异常并立即安装完成的bug（感谢☆oo聖騎士ゞ和Michael大叔发现此bug）。
-4.修复了点击主窗口的快速安装、自定义安装和更改按钮后不会立即关闭主窗口并弹出是否退出安装程序提示框的bug。
-5.修复了在安装选项窗口初始化时即便没有安装DAEMON Tools Lite也不会自动选择DAEMON Tools Lite项的bug。
-6.修复了在安装中窗口如果安装640补丁或卸载641补丁失败且用户之前同意使用638版本的SimCity_1.dat文件，不会删除之前备份的638版本的SimCity_1.dat文件的bug。
-7.修复了在安装中窗口如果卸载640和641补丁仍然会在卸载641补丁时询问用户是否使用638版本的SimCity_1.dat文件的bug。
-8.修复了在主窗口外的其他窗口弹出检查更新提示框时选择不下载更新，关闭其他窗口时会触发主窗口的FormClosing事件的bug。
-      ]]>
-    </UpdataDetail>
-    <DonwloadLink>https://raw.githubusercontent.com/n0099/SimCity4-AutoInstaller-And-Launcher/master/update/AutoInstallerUpdate.exe</DonwloadLink>
-  </AutoInstaller>
-  <Launcher>
-    <LatestVersion>1.1.34</LatestVersion>
-    <!--1.1.27及以上版本--><UpdateDetail>
-      <![CDATA[
-如果下载更新后没有自动安装更新，请手动运行启动器所在目录下的LauncherUpdate.exe程序来手动更新
-更新程序大小：6.53MB
-
-模拟城市4 启动器(SC4Launcher) 1.1.34 正式版 (2016-02-13)
-====================================================================================
-
-修改
-====
-1.更换了3张在主窗口背景显示的游戏截图并为每张图片添加了原作者注释（感谢cjak007的建议）。
-      ]]>
-    </UpdateDetail>
-    <!--1.1.27以下版本--><UpdataDetail>
-      <![CDATA[
-如果下载更新后没有自动安装更新，请手动运行启动器所在目录下的Updata.exe程序来手动更新
-更新程序大小：6.53MB
-
-模拟城市4 启动器(SC4Launcher) 1.1.34 正式版 (2016-02-13)
-====================================================================================
-
-修改
-====
-1.更换了3张在主窗口背景显示的游戏截图并为每张图片添加了原作者注释（感谢cjak007的建议）。
-      ]]>
-    </UpdataDetail>
-    <DonwloadLink>https://raw.githubusercontent.com/n0099/SimCity4-AutoInstaller-And-Launcher/master/update/LauncherUpdate.exe</DonwloadLink>
-  </Launcher>
+    </UpdateDetails>
+    <UpdaterURL>http://n0099.coding.io/update/SC4LauncherUpdate.exe</UpdaterURL>
+  </SC4Launcher>
 </UpdateInfo>

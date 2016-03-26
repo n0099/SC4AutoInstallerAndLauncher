@@ -444,7 +444,7 @@ Public Module ModuleInstallCore
             .SetValue(ProgramItemRegKeyName, "Publisher", "n0099", Microsoft.Win32.RegistryValueKind.String)
             .SetValue(ProgramItemRegKeyName, "UninstallString", SC4InstallDir & "\Setup.exe", Microsoft.Win32.RegistryValueKind.String)
             .SetValue(ProgramItemRegKeyName, "URLInfoAbout", "http://tieba.baidu.com/p/3802761033", Microsoft.Win32.RegistryValueKind.String)
-            .SetValue(ProgramItemRegKeyName, "URLUpdateInfo", "http://n0099.sinaapp.com", Microsoft.Win32.RegistryValueKind.String)
+            .SetValue(ProgramItemRegKeyName, "URLUpdateInfo", "http://n0099.coding.io", Microsoft.Win32.RegistryValueKind.String)
         End With
     End Sub
 #End Region

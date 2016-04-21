@@ -391,6 +391,7 @@ Public Class frmSettings
         If (txtUserDir.Text IsNot Nothing AndAlso chkUserDir.Checked) AndAlso IsPathValidated(txtUserDir.Text, "用户文件目录") = False Then Exit Sub '如果选择了自定义用户目录则判断用户文件目录的路径是否有效
         If IsPathValidated(txtSC4InstallDir.Text, "模拟城市4 安装目录") = False Then Exit Sub '判断模拟城市4安装路径是否有效
         If My.Computer.FileSystem.FileExists(txtSC4InstallDir.Text & "\Apps\SimCity 4.exe") = False Then MessageBox.Show("模拟城市4 安装目录无效" & vbCrLf & "请重新选择模拟城市4 安装目录", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) : Exit Sub
+        My.Settings.SC4InstallDir = txtSC4InstallDir.Text '保存模拟城市4安装路径
         My.Settings.Argument = Argument '保存启动参数
         If sender Is btnOK Then Close() Else btnApply.Enabled = False
     End Sub

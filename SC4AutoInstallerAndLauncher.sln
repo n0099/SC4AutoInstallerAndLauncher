@@ -13,8 +13,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		更新说明.txt = 更新说明.txt
 	EndProjectSection
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "AutoInstallerUpdater", "AutoInstallerUpdater\AutoInstallerUpdater.vbproj", "{A909A2BE-BDCB-441D-8286-2CB8BDBAE515}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{A4A3233B-80D4-4364-BDFB-96CBCC046433}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4A3233B-80D4-4364-BDFB-96CBCC046433}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4A3233B-80D4-4364-BDFB-96CBCC046433}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A909A2BE-BDCB-441D-8286-2CB8BDBAE515}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A909A2BE-BDCB-441D-8286-2CB8BDBAE515}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A909A2BE-BDCB-441D-8286-2CB8BDBAE515}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A909A2BE-BDCB-441D-8286-2CB8BDBAE515}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

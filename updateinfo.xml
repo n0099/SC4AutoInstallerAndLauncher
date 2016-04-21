@@ -1,58 +1,33 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <UpdateInfo>
   <SC4AutoInstaller>
-    <LatestVersion>2.9.30</LatestVersion>
+    <LatestVersion>3.0.0</LatestVersion>
     <UpdateDetails>
       <![CDATA[
-更新程序大小：15.1MB
-
-模拟城市4 豪华版 自动安装程序(SC4AutoInstaller) 2.9.30 正式版 (2016-03-26)
+模拟城市4 豪华版 自动安装程序(SC4AutoInstaller) 3.0.0 正式版 (2016-04-22)
 ====================================================================================
 
 修改
 ====
-1.在关于窗口的鸣谢文本框里添加了让我抱你好吗i和mhtygy的名字并更改了关于窗口的大小。
-2.更改了检查更新信息及安装完成和关于窗口的博客和模拟城市吧链接的地址。
-3.现在在主窗口点击卸载按钮时会在弹出的确认窗口中显示卸载目录。
-4.修改了安装选项窗口的镜像版及硬盘版模拟城市4、638、640、641补丁和4GB补丁的描述文本。
-5.修改了安装选项窗口的繁体中文及英语语言补丁和添加桌面图标项的描述文本并增大了描述文本区域的大小。
-6.修改了安装选项窗口的模拟城市4 启动器项的所需磁盘空间文本单位和DAEMON Tools Lite项的所需磁盘空间文本的小数点后位数。
-
-修复
-====
-1.修复了如果下载更新信息时无法连接到更新服务器弹出提示框后仍然会继续检查更新并退出程序的bug（感谢让我抱你好吗i、mhtygy发现此bug）。
-2.修复了即便不存在Data\SC4\CD文件夹，检查文件完整性时仍然会检查Data\DAEMON Tools Lite 5.0.exe文件完整性的bug。
-3.修复了在卸载窗口卸载进度条的进度可能与实际卸载进度不符的bug。
-4.修复了在安装选项、安装或卸载组件和阅读用户协议窗口关闭程序时可能会触发frmMain的FormClosing事件并弹出两个确认退出对话框的bug。
+1.取消自动更新功能。
       ]]>
     </UpdateDetails>
-    <UpdaterURL>http://n0099.coding.io/update/SC4AutoInstallerUpdate.exe</UpdaterURL>
   </SC4AutoInstaller>
   <SC4Launcher>
-    <LatestVersion>1.1.40</LatestVersion>
+    <LatestVersion>1.2.2</LatestVersion>
     <UpdateDetails>
       <![CDATA[
-更新程序大小：6.53MB
-
-模拟城市4 启动器(SC4Launcher) 1.1.40 正式版 (2016-03-26)
+模拟城市4 启动器(SC4Launcher) 1.2.2 正式版 (2016-04-22)
 ====================================================================================
-
-新增
-====
-1.在设置窗口新增启动游戏后是否退出启动器设置（感谢骚浪的蛋蛋的建议）。
 
 修改
 ====
-1.现在在启动启动器时不再需要请求管理员权限。
+1.取消自动更新功能。
 
 修复
 ====
-1.修复了如果下载更新信息时无法连接到更新服务器弹出提示框后仍然会继续检查更新并退出程序的bug（感谢让我抱你好吗i、mhtygy发现此bug）。
-2.修复了在设置窗口将显示方式设置更改为全屏时不会增加全屏显示启动参数的bug。
-3.修复了在设置窗口如果将渲染模式设置为软件渲染，下次打开设置窗口时渲染模式选择框的选择项为空白的bug。
-4.修复了在主窗口永远不会显示第10张随机背景图片的bug。
+1.修复了在设置窗口更改模拟城市4 安装路径无效的bug（感谢weiyingcc发现此bug）。
       ]]>
     </UpdateDetails>
-    <UpdaterURL>http://n0099.coding.io/update/SC4LauncherUpdate.exe</UpdaterURL>
   </SC4Launcher>
 </UpdateInfo>

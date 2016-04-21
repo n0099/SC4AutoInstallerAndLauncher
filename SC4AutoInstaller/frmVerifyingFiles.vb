@@ -12,7 +12,7 @@
                                             "Data\Patch\640.exe", "E612D3BF65DFA7BED951CC8D40366BBF",
                                             "Data\Patch\641.7z", "15A5635619A9C8995B11804471A79DA0",
                                             "Data\Patch\Graphics Rules GOG.sgr", "DCF0FA2DE3828BC52991BDA20B7E5735",
-                                            "Data\Patch\SC4Launcher.exe", "013739D525F5501D65D39C2242D61E23",
+                                            "Data\Patch\SC4Launcher.exe", "43AB6B8F0BF3373D2FD4931F8B15BE30",
                                             "Data\Patch\Language\English\SimCityLocale.DAT", "196A1F3CD9CF58E84E0B0F31E9F81171",
                                             "Data\Patch\Language\SChinese\SimCityLocale.DAT", "42E66866C5E7C95A29CD153423F4F6FD",
                                             "Data\Patch\Language\TChinese\SimCityLocale.DAT", "3D7163C89D35E7388CF7EBC503BAF47B",

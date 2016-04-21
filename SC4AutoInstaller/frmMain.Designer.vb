@@ -78,7 +78,6 @@ Partial Class frmMain
         '
         'bgwCheckUpdate
         '
-        Me.bgwCheckUpdate.WorkerSupportsCancellation = True
         '
         'btnUninstall
         '

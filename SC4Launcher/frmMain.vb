@@ -1,14 +1,13 @@
 ﻿Public Class frmMain
 
-#Region "检查并下载更新"
+#Region "检查并提示更新"
     Private Sub bgwCheckUpdate_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles bgwCheckUpdate.DoWork
         Try '下载更新信息
-            If My.Computer.Network.IsAvailable AndAlso My.Computer.Network.Ping("n0099.coding.io") Then '确认能否连接到更新服务器
+            If My.Computer.Network.IsAvailable Then '判断是否已连网
                 Dim UpdateInfoXML As New Xml.XmlDocument '声明一个用于暂时存储更新信息的XmlDocument类实例
-                UpdateInfoXML.Load("http://n0099.coding.io/updateinfo.xml") '下载更新信息
+                UpdateInfoXML.Load("http://n0099.cf/updateinfo.xml") '下载更新信息
                 e.Result = UpdateInfoXML.GetElementsByTagName("SC4Launcher")(0) '返回已下载更新信息的XmlDocument类实例
-            Else '如果无法连接到更新服务器则弹出提示框并返回WebError字符串
-WebError:       MessageBox.Show("无法连接更新服务器" & vbCrLf & "请检查网络连接后重试", "错误", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) : e.Result = "WebError"
+WebError:   Else : e.Result = "WebError" '如果无法连接到更新服务器则返回WebError字符串
             End If
         Catch : GoTo WebError '如果下载更新信息途中发生异常则跳转至WebError行
         End Try
@@ -21,17 +20,11 @@ WebError:       MessageBox.Show("无法连接更新服务器" & vbCrLf & "请检
             Dim LatestVersion As String = LauncherNode("LatestVersion").InnerText
             With My.Application
                 If (LatestVersion.Split(".")(0) > .Info.Version.Major) OrElse (LatestVersion.Split(".")(1) > .Info.Version.Minor) OrElse (LatestVersion.Split(".")(2) > .Info.Version.Revision) Then '判断最新版本号是否大于当前版本号
-                    If MessageBox.Show("检测到有新版本可用，是否下载更新程序？" & vbCrLf & "当前版本：" & .Info.Version.Major & "." & .Info.Version.Minor & "." & .Info.Version.Revision & vbCrLf &
-                                       "更新说明：" & LauncherNode("UpdateDetails").InnerText, "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = DialogResult.Yes Then '询问用户是否更新
-                        Me.Hide() : frmSettings.Hide() '隐藏其他窗口
-                        My.Computer.Network.DownloadFile(LauncherNode("UpdaterURL").InnerText, Application.StartupPath & "\LauncherUpdate.exe", "", "", True, 6000000, True) '从指定的下载地址下载更新程序
-                        If My.Computer.FileSystem.FileExists("LauncherUpdate.exe") Then '如果存在更新程序则以管理员权限启动更新程序并强制退出程序
-                            Process.Start(New ProcessStartInfo With {.FileName = "LauncherUpdate.exe", .Verb = "runas"}) : Environment.Exit(0)
-                        End If
-                    End If
+                    MessageBox.Show("检测到有新版本可用，请到n0099.cf上下载最新版本" & vbCrLf & "当前版本：" & .Info.Version.Major & "." & .Info.Version.Minor & "." & .Info.Version.Revision & vbCrLf &
+                                    "更新说明：" & LauncherNode("UpdateDetails").InnerText, "提示", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) '提示用户有更新可用
                 End If
             End With
-        Catch : Environment.Exit(0) '如果下载更新程序途中发生异常则强制退出程序
+        Catch
         End Try
     End Sub
 #End Region

@@ -177,7 +177,6 @@ Public Class frmChangeOptions
             If (ModuleDeclare.InstalledModules.IsSC4LauncherInstalled AndAlso .SC4LauncherOption = ChangeOption.Install) OrElse
                 (ModuleDeclare.InstalledModules.IsSC4LauncherInstalled = False AndAlso .SC4LauncherOption = ChangeOption.Uninstall) Then .SC4LauncherOption = ChangeOption.Unchanged
         End With
-        frmMain.bgwCheckUpdate.CancelAsync() '取消异步检查更新
         frmInstalling.Show()
         Dispose() '直接释放窗口以避免触发FormClosing事件
     End Sub

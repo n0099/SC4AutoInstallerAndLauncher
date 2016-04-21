@@ -11,12 +11,7 @@
             Case 3 : rtxLinence.Clear() : rtxLinence.LoadFile(Licenses(i), RichTextBoxStreamType.PlainText) '以纯文本方式加载Data\Licenses\EA EULA.txt文件的内容
             Case 5
                 If ModuleDeclare.InstalledModules Is Nothing Then '判断是否已经安装了模拟城市4
-                    If ModuleDeclare.InstallOptions.IsQuickInstall Then '判断是否快速安装
-                        frmMain.bgwCheckUpdate.CancelAsync() '取消异步检查更新
-                        frmInstalling.Show()
-                    Else
-                        frmInstallOptions.Show()
-                    End If
+                    If ModuleDeclare.InstallOptions.IsQuickInstall Then frmInstalling.Show() Else frmInstallOptions.Show() '判断是否快速安装
                 Else
                     frmChangeOptions.Show()
                 End If

@@ -351,7 +351,6 @@
                 .DAEMONToolsInstallDir = If(txtDAEMONToolsInstallDir.Text.EndsWith(":\"), txtDAEMONToolsInstallDir.Text.Trim, txtDAEMONToolsInstallDir.Text.TrimEnd("\").Trim) '如果安装路径不是分区根路径则去掉结尾的\
             End If
         End With
-        frmMain.bgwCheckUpdate.CancelAsync() '取消异步检查更新
         frmInstalling.Show()
         Dispose() '直接释放窗口以避免触发FormClosing事件
     End Sub

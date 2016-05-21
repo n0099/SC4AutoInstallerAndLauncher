@@ -43,6 +43,10 @@ Public Class frmSettings
         Finally
             If My.Computer.FileSystem.FileExists(Path & "\test") Then My.Computer.FileSystem.DeleteFile(Path & "\test")
         End Try
+        Try '删除测试目录并忽略非空目录异常
+            My.Computer.FileSystem.DeleteDirectory(Path, FileIO.DeleteDirectoryOption.ThrowIfDirectoryNonEmpty)
+        Catch
+        End Try
         Return True
     End Function
 
@@ -68,15 +72,15 @@ Public Class frmSettings
         Select Case sender.Text
             Case "固定分辨率："
                 cmbFixedResolution.Enabled = True : mtxCustomResolution.Enabled = False
-                If Argument.Contains("-CustomResolution") Then Argument = Argument.Replace("-CustomResolution ", "")
+                If Argument.Contains("-CustomResolution:enabled") Then Argument = Argument.Replace("-CustomResolution:enabled ", "")
                 cmbFixedResolution_SelectedIndexChanged(rdoFixedResolution, Nothing)
             Case "自定义分辨率："
                 cmbFixedResolution.Enabled = False : mtxCustomResolution.Enabled = True
-                If Argument.Contains("-CustomResolution") = False Then Argument &= "-CustomResolution "
+                If Argument.Contains("-CustomResolution:enabled") = False Then Argument &= "-CustomResolution:enabled "
                 mtxCustomResolution_TextChanged(rdoCustomResolution, Nothing)
             Case "自动"
                 cmbFixedResolution.Enabled = False : mtxCustomResolution.Enabled = False
-                Argument = Argument.Replace("-CustomResolution ", "")
+                Argument = Argument.Replace("-CustomResolution:enabled ", "")
                 Dim tmp As String = Regex.Match(Argument, "-r\d{3,4}x\d{3,4} ").ToString '声明一个用于判断启动参数里是否存在分辨率参数的字符串变量
                 If tmp <> "" Then Argument = Argument.Replace(tmp, "")
         End Select
@@ -84,7 +88,7 @@ Public Class frmSettings
     End Sub
 
     Private Sub cmbFixedResolution_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbFixedResolution.SelectedIndexChanged
-        Argument = Argument.Replace("-CustomResolution ", "")
+        Argument = Argument.Replace("-CustomResolution:enabled ", "")
         Dim tmp As String = Regex.Match(Argument, "-r\d{3,4}x\d{3,4} ").ToString '声明一个用于判断启动参数里是否存在分辨率参数的字符串变量
         If tmp <> "" Then Argument = Argument.Replace(tmp, "")
         Select Case cmbFixedResolution.SelectedItem
@@ -265,7 +269,7 @@ Public Class frmSettings
     End Sub
 
     Private Sub chkExitLauncherAfterLaunch_CheckedChanged(sender As Object, e As EventArgs) Handles chkExitLauncherAfterLaunch.CheckedChanged
-        My.Settings.IsExirLauncherAfterLaunch = chkExitLauncherAfterLaunch.Checked
+        My.Settings.IsExitLauncherAfterLaunch = chkExitLauncherAfterLaunch.Checked
     End Sub
 
     Private Sub btnDeleteSC4cfgFile_Click(sender As Object, e As EventArgs) Handles btnDeleteSC4cfgFile.Click
@@ -291,7 +295,7 @@ Public Class frmSettings
         If MessageBox.Show("确定要重置为默认设置吗？", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2) = DialogResult.Yes Then
             '清空临时参数变量及参数设置的值并重启程序
             Argument = Nothing : My.Settings.Argument = Nothing
-            My.Settings.IsExirLauncherAfterLaunch = True '重置启动游戏后退出启动器设置
+            My.Settings.IsExitLauncherAfterLaunch = True '重置启动游戏后退出启动器设置
             My.Settings.Save() : Application.Restart()
         End If
     End Sub
@@ -303,14 +307,14 @@ Public Class frmSettings
             rdoDisplayModeWindow.Checked = .Contains("-w")
             rdoDisplayModeFullScreen.Checked = .Contains("-fs")
             '同步分辨率选项
-            If .Contains("-r") AndAlso .Contains("-CustomResolution") = False Then
+            If .Contains("-r") AndAlso .Contains("-CustomResolution:enabled") = False Then
                 rdoFixedResolution.Checked = True : mtxCustomResolution.Enabled = False
                 Select Case Regex.Match(My.Settings.Argument, "-r\d{3,4}x\d{3,4}").ToString.Remove(0, 2) '判断启动参数里的分辨率设置
                     Case "800x600" : cmbFixedResolution.SelectedItem = "800x600"
                     Case "1024x768" : cmbFixedResolution.SelectedItem = "1024x768"
                     Case "1280x1024" : cmbFixedResolution.SelectedItem = "1280x1024"
                 End Select
-            ElseIf .Contains("-r") AndAlso .Contains("-CustomResolution")
+            ElseIf .Contains("-r") AndAlso .Contains("-CustomResolution:enabled")
                 rdoCustomResolution.Checked = True : cmbFixedResolution.Enabled = False
                 mtxCustomResolution.Text = Regex.Match(My.Settings.Argument, "-r\d{3,4}").ToString.Remove(0, 2) & "x" & Regex.Match(My.Settings.Argument, "x\d{3,4}").ToString.Remove(0, 1)
             ElseIf .Contains("-r") = False Then
@@ -380,7 +384,7 @@ Public Class frmSettings
             End If
         End With
 #End Region
-        chkExitLauncherAfterLaunch.Checked = My.Settings.IsExirLauncherAfterLaunch '同步启动游戏后退出启动器设置
+        chkExitLauncherAfterLaunch.Checked = My.Settings.IsExitLauncherAfterLaunch '同步启动游戏后退出启动器设置
         txtSC4InstallDir.Text = My.Settings.SC4InstallDir '更新模拟城市4安装路径文本框的文本
         txtArgument.Text = My.Settings.Argument '重置启动参数文本框的文本
         Argument = My.Settings.Argument '重置启动参数变量

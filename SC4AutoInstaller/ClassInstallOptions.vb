@@ -21,7 +21,7 @@ Public NotInheritable Class InstallOptions
     ''' <summary>安装免CD补丁所需要的以字节为单位的磁盘空间</summary>
     Public Const NoCDPatchNeedsDiskSpace As Integer = -883162
     ''' <summary>安装模拟城市4 启动器所需要的以字节为单位的磁盘空间</summary>
-    Public Const SC4LauncherNeedsDiskSpace As Integer = 6938112
+    Public Const SC4LauncherNeedsDiskSpace As Integer = 6937600
     ''' <summary>安装繁体中文语言补丁所需要的以字节为单位的磁盘空间</summary>
     Public Const TraditionalChineseLanguageNeedsDiskSpace As Integer = 17548123
     ''' <summary>安装简体中文语言补丁所需要的以字节为单位的磁盘空间</summary>

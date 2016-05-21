@@ -79,9 +79,10 @@ WebError:   Else : e.Result = "WebError" '如果无法连接到更新服务器�
 
     Private Sub frmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         bgwCheckUpdate.RunWorkerAsync() '开始异步检查更新
-        '声明一个用于存储模拟城市4安装目录的注册表键值的字符串变量
-        Dim SC4InstallDir As String = If(Environment.Is64BitOperatingSystem, My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Maxis\SimCity 4", "Install Dir", Nothing),
-                                         My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Maxis\SimCity 4", "Install Dir", Nothing))
+        '声明一个用于存储模拟城市4安装目录的字符串变量，如果程序目录下存在游戏文件则值为程序目录，否则为注册表所存储的安装目录
+        Dim SC4InstallDir As String = If(My.Computer.FileSystem.FileExists("Apps\SimCity 4.exe"), Windows.Forms.Application.StartupPath,
+                                         If(Environment.Is64BitOperatingSystem, My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Maxis\SimCity 4", "Install Dir", Nothing),
+                                            My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Maxis\SimCity 4", "Install Dir", Nothing)))
         With My.Computer.FileSystem
             If SC4InstallDir IsNot Nothing AndAlso (.FileExists(SC4InstallDir & "\Apps\SimCity 4.exe") AndAlso .FileExists(SC4InstallDir & "\SimCity_1.dat") AndAlso .FileExists(SC4InstallDir & "\SimCity_2.dat") AndAlso
                 .FileExists(SC4InstallDir & "\SimCity_3.dat") AndAlso .FileExists(SC4InstallDir & "\SimCity_4.dat") AndAlso .FileExists(SC4InstallDir & "\SimCity_5.dat")) Then '如果注册表里的安装目录项存在且安装目录下存在游戏文件则判断已安装的组件

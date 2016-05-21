@@ -10,10 +10,12 @@
     Partial Friend Class MyApplication
 
         Private Sub MyApplication_Startup(ByVal sender As Object, ByVal e As ApplicationServices.StartupEventArgs) Handles Me.Startup
-            '声明一个用于存储模拟城市4安装目录的注册表键值的字符串变量
-            Dim SC4InstallDir As String = If(Environment.Is64BitOperatingSystem, My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Maxis\SimCity 4", "Install Dir", Nothing),
-                                             My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Maxis\SimCity 4", "Install Dir", Nothing))
-            With My.Computer.FileSystem '如果已经安装了模拟城市4且Data文件夹不存在则不验证文件完整性
+            With My.Computer.FileSystem
+                '声明一个用于存储模拟城市4安装目录的字符串变量，如果程序目录下存在游戏文件则值为程序目录，否则为注册表所存储的安装目录
+                Dim SC4InstallDir As String = If(My.Computer.FileSystem.FileExists("Apps\SimCity 4.exe"), Windows.Forms.Application.StartupPath,
+                                                 If(Environment.Is64BitOperatingSystem, My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Maxis\SimCity 4", "Install Dir", Nothing),
+                                                    My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Maxis\SimCity 4", "Install Dir", Nothing)))
+                '如果已经安装了模拟城市4或程序目录下存在游戏文件且Data文件夹不存在则不验证文件完整性
                 If .DirectoryExists("Data") = False AndAlso SC4InstallDir IsNot Nothing AndAlso (.FileExists(SC4InstallDir & "\Apps\SimCity 4.exe") AndAlso .FileExists(SC4InstallDir & "\SimCity_1.dat") AndAlso .FileExists(SC4InstallDir & "\SimCity_2.dat") AndAlso
                     .FileExists(SC4InstallDir & "\SimCity_3.dat") AndAlso .FileExists(SC4InstallDir & "\SimCity_4.dat") AndAlso .FileExists(SC4InstallDir & "\SimCity_5.dat")) Then Application.MainForm = frmMain
             End With

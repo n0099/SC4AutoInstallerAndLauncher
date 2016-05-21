@@ -63,15 +63,15 @@ Partial Class frmSettings
         Me.tipMain = New System.Windows.Forms.ToolTip(Me.components)
         Me.chkUserDir = New System.Windows.Forms.CheckBox()
         Me.btnDeleteSC4cfgFile = New System.Windows.Forms.Button()
+        Me.btnResetSetting = New System.Windows.Forms.Button()
+        Me.chkExitLauncherAfterLaunch = New System.Windows.Forms.CheckBox()
         Me.lblSC4InstallDir = New System.Windows.Forms.Label()
         Me.btnSC4InstallDir = New System.Windows.Forms.Button()
         Me.txtSC4InstallDir = New System.Windows.Forms.TextBox()
-        Me.btnResetSetting = New System.Windows.Forms.Button()
         Me.fbdUserDir = New System.Windows.Forms.FolderBrowserDialog()
         Me.fbdSC4InstallDir = New System.Windows.Forms.FolderBrowserDialog()
         Me.tabSettings = New System.Windows.Forms.TabControl()
         Me.tabpLessSettings = New System.Windows.Forms.TabPage()
-        Me.chkExitLauncherAfterLaunch = New System.Windows.Forms.CheckBox()
         Me.tabpMoreSettings = New System.Windows.Forms.TabPage()
         Me.grpCPU.SuspendLayout()
         CType(Me.nudCPUCount, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -87,23 +87,22 @@ Partial Class frmSettings
         Me.btnUserDir.Enabled = False
         Me.btnUserDir.Location = New System.Drawing.Point(354, 91)
         Me.btnUserDir.Name = "btnUserDir"
-        Me.btnUserDir.Size = New System.Drawing.Size(75, 23)
+        Me.btnUserDir.Size = New System.Drawing.Size(75, 21)
         Me.btnUserDir.TabIndex = 13
         Me.btnUserDir.Text = "浏览(&B)..."
-        Me.tipMain.SetToolTip(Me.btnUserDir, "通过选择文件夹对话框来选择用户文件目录" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "用户文件目录是游戏存储存档、插件和截图等文件的文件夹" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "默认目录为库文档（我的文档）\SimCity 4" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "建议不更改默" &
-        "认的用户文件目录")
+        Me.tipMain.SetToolTip(Me.btnUserDir, "设置用户文件目录" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "用户文件目录主要用于存储游戏存档、插件、截图等文件" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "默认目录为库文档（我的文档）\SimCity 4" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "建议不更改默认的用户文件目录")
         Me.btnUserDir.UseVisualStyleBackColor = True
         '
         'lblUserDir
         '
         Me.lblUserDir.AutoSize = True
         Me.lblUserDir.Enabled = False
-        Me.lblUserDir.Location = New System.Drawing.Point(1, 94)
+        Me.lblUserDir.Location = New System.Drawing.Point(1, 95)
         Me.lblUserDir.Name = "lblUserDir"
         Me.lblUserDir.Size = New System.Drawing.Size(89, 12)
         Me.lblUserDir.TabIndex = 11
         Me.lblUserDir.Text = "用户文件目录："
-        Me.tipMain.SetToolTip(Me.lblUserDir, "设置用户文件目录" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "用户文件目录是游戏存储存档、插件和截图等文件的文件夹" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "默认目录为库文档（我的文档）\SimCity 4" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "建议不更改默认的用户文件目录")
+        Me.tipMain.SetToolTip(Me.lblUserDir, "设置用户文件目录" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "用户文件目录主要用于存储游戏存档、插件、截图等文件" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "默认目录为库文档（我的文档）\SimCity 4" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "建议不更改默认的用户文件目录")
         '
         'chkRestartAfterException
         '
@@ -124,7 +123,7 @@ Partial Class frmSettings
         Me.chkWriteLog.Size = New System.Drawing.Size(96, 16)
         Me.chkWriteLog.TabIndex = 13
         Me.chkWriteLog.Text = "记录用户信息"
-        Me.tipMain.SetToolTip(Me.chkWriteLog, "设置是否在游戏安装目录\Apps下生产系统信息，默认为是，建议设为否")
+        Me.tipMain.SetToolTip(Me.chkWriteLog, "设置是否在游戏安装目录\Apps下生成系统信息文件，默认为是，建议设为否")
         Me.chkWriteLog.UseVisualStyleBackColor = True
         '
         'chkExceptionHandling
@@ -138,7 +137,7 @@ Partial Class frmSettings
         Me.chkExceptionHandling.TabIndex = 17
         Me.chkExceptionHandling.Text = "在崩溃后生成错误报告"
         Me.chkExceptionHandling.ThreeState = True
-        Me.tipMain.SetToolTip(Me.chkExceptionHandling, "设置是否在游戏崩溃（跳出）后在用户文件目录\Exception Reports下生成错误报告，默认为是，建议设为否")
+        Me.tipMain.SetToolTip(Me.chkExceptionHandling, "设置在游戏崩溃（跳出）后是否在用户文件目录\Exception Reports下生成错误报告，默认为是，建议设为否")
         Me.chkExceptionHandling.UseVisualStyleBackColor = True
         '
         'chkContinueGameBackground
@@ -146,10 +145,10 @@ Partial Class frmSettings
         Me.chkContinueGameBackground.AutoSize = True
         Me.chkContinueGameBackground.Location = New System.Drawing.Point(105, 47)
         Me.chkContinueGameBackground.Name = "chkContinueGameBackground"
-        Me.chkContinueGameBackground.Size = New System.Drawing.Size(192, 16)
+        Me.chkContinueGameBackground.Size = New System.Drawing.Size(168, 16)
         Me.chkContinueGameBackground.TabIndex = 18
-        Me.chkContinueGameBackground.Text = "在后台运行游戏时继续进行游戏"
-        Me.tipMain.SetToolTip(Me.chkContinueGameBackground, "设置切出游戏后游戏是否继续，默认为是，建议设为是")
+        Me.chkContinueGameBackground.Text = "在后台运行时继续进行游戏"
+        Me.tipMain.SetToolTip(Me.chkContinueGameBackground, "设置后台运行游戏时游戏是否继续，默认为是，建议设为是")
         Me.chkContinueGameBackground.UseVisualStyleBackColor = True
         '
         'chkCustomIME
@@ -159,11 +158,11 @@ Partial Class frmSettings
         Me.chkCustomIME.CheckState = System.Windows.Forms.CheckState.Indeterminate
         Me.chkCustomIME.Location = New System.Drawing.Point(255, 25)
         Me.chkCustomIME.Name = "chkCustomIME"
-        Me.chkCustomIME.Size = New System.Drawing.Size(144, 16)
+        Me.chkCustomIME.Size = New System.Drawing.Size(132, 16)
         Me.chkCustomIME.TabIndex = 15
-        Me.chkCustomIME.Text = "使用游戏的输入法窗口"
+        Me.chkCustomIME.Text = "使用游戏自带输入法"
         Me.chkCustomIME.ThreeState = True
-        Me.tipMain.SetToolTip(Me.chkCustomIME, "设置是否使用游戏的输入法窗口，全屏后只能使用游戏的输入法窗口，默认为是，建议设为是")
+        Me.tipMain.SetToolTip(Me.chkCustomIME, "设置是否使用游戏自带的输入法，全屏显示后只能使用游戏自带输入法，默认为是，建议设为是")
         Me.chkCustomIME.UseVisualStyleBackColor = True
         '
         'chkCustomCursors
@@ -223,7 +222,7 @@ Partial Class frmSettings
         Me.cmbCPUPriority.Name = "cmbCPUPriority"
         Me.cmbCPUPriority.Size = New System.Drawing.Size(48, 20)
         Me.cmbCPUPriority.TabIndex = 1
-        Me.tipMain.SetToolTip(Me.cmbCPUPriority, "设置游戏运行时能够占用的最高CPU使用率，默认为自动，建议设为自动")
+        Me.tipMain.SetToolTip(Me.cmbCPUPriority, "设置游戏运行时能够占用的CPU时间优先级，默认为自动，建议设为自动")
         '
         'nudCPUCount
         '
@@ -253,7 +252,7 @@ Partial Class frmSettings
         Me.lblCPUPriority.Size = New System.Drawing.Size(71, 12)
         Me.lblCPUPriority.TabIndex = 0
         Me.lblCPUPriority.Text = "CPU优先级："
-        Me.tipMain.SetToolTip(Me.lblCPUPriority, "设置游戏运行时能够占用的最高CPU使用率，默认为自动，建议设为自动")
+        Me.tipMain.SetToolTip(Me.lblCPUPriority, "设置游戏运行时能够占用的CPU时间优先级，默认为自动，建议设为自动")
         '
         'grpResolution
         '
@@ -279,7 +278,7 @@ Partial Class frmSettings
         Me.rdoDefaultResolution.TabIndex = 4
         Me.rdoDefaultResolution.TabStop = True
         Me.rdoDefaultResolution.Text = "自动"
-        Me.tipMain.SetToolTip(Me.rdoDefaultResolution, "让游戏自动在800x600、1024x768和1280x1024之间选择分辨率")
+        Me.tipMain.SetToolTip(Me.rdoDefaultResolution, "让游戏自动选择分辨率")
         Me.rdoDefaultResolution.UseVisualStyleBackColor = True
         '
         'mtxCustomResolution
@@ -289,8 +288,8 @@ Partial Class frmSettings
         Me.mtxCustomResolution.Name = "mtxCustomResolution"
         Me.mtxCustomResolution.Size = New System.Drawing.Size(86, 21)
         Me.mtxCustomResolution.TabIndex = 3
-        Me.tipMain.SetToolTip(Me.mtxCustomResolution, "设置游戏运行的分辨率的高和宽" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "如果显示方式为窗口化，则分辨率为窗口的大小；" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "如果显示方式为全屏，且分辨率小于屏幕分辨率会在边缘出现黑边" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "默认为自动，建议设为" &
-        "1024x768")
+        Me.tipMain.SetToolTip(Me.mtxCustomResolution, "自定义游戏画面分辨率" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "如果显示方式为窗口化，则分辨率为游戏窗口的大小；" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "如果显示方式为全屏，且设置的分辨率小于屏幕分辨率则会在画面边缘出现黑边" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "默认为自动，" &
+        "建议设为1024x768")
         '
         'cmbFixedResolution
         '
@@ -301,8 +300,8 @@ Partial Class frmSettings
         Me.cmbFixedResolution.Name = "cmbFixedResolution"
         Me.cmbFixedResolution.Size = New System.Drawing.Size(95, 20)
         Me.cmbFixedResolution.TabIndex = 1
-        Me.tipMain.SetToolTip(Me.cmbFixedResolution, "选择游戏运行的分辨率" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "如果显示方式为窗口化，则分辨率为窗口的大小；" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "如果显示方式为全屏，且分辨率小于屏幕分辨率会在边缘出现黑边" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "默认为自动，建议设为1024" &
-        "x768")
+        Me.tipMain.SetToolTip(Me.cmbFixedResolution, "选择游戏画面分辨率" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "如果显示方式为窗口化，则分辨率为游戏窗口的大小；" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "如果显示方式为全屏，且设置的分辨率小于屏幕分辨率则会在画面边缘出现黑边" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "默认为自动，建" &
+        "议设为1024x768")
         '
         'rdoCustomResolution
         '
@@ -312,8 +311,8 @@ Partial Class frmSettings
         Me.rdoCustomResolution.Size = New System.Drawing.Size(107, 16)
         Me.rdoCustomResolution.TabIndex = 2
         Me.rdoCustomResolution.Text = "自定义分辨率："
-        Me.tipMain.SetToolTip(Me.rdoCustomResolution, "设置游戏运行的分辨率的高和宽" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "如果显示方式为窗口化，则分辨率为窗口的大小；" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "如果显示方式为全屏，且分辨率小于屏幕分辨率会在边缘出现黑边" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "默认为自动，建议设为" &
-        "1024x768")
+        Me.tipMain.SetToolTip(Me.rdoCustomResolution, "自定义游戏画面分辨率" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "如果显示方式为窗口化，则分辨率为游戏窗口的大小；" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "如果显示方式为全屏，且设置的分辨率小于屏幕分辨率则会在画面边缘出现黑边" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "默认为自动，" &
+        "建议设为1024x768")
         Me.rdoCustomResolution.UseVisualStyleBackColor = True
         '
         'rdoFixedResolution
@@ -324,8 +323,8 @@ Partial Class frmSettings
         Me.rdoFixedResolution.Size = New System.Drawing.Size(95, 16)
         Me.rdoFixedResolution.TabIndex = 0
         Me.rdoFixedResolution.Text = "固定分辨率："
-        Me.tipMain.SetToolTip(Me.rdoFixedResolution, "选择游戏运行的分辨率" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "如果显示方式为窗口化，则分辨率为窗口的大小；" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "如果显示方式为全屏，且分辨率小于屏幕分辨率会在边缘出现黑边" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "默认为自动，建议设为1024" &
-        "x768")
+        Me.tipMain.SetToolTip(Me.rdoFixedResolution, "选择游戏画面分辨率" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "如果显示方式为窗口化，则分辨率为游戏窗口的大小；" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "如果显示方式为全屏，且设置的分辨率小于屏幕分辨率则会在画面边缘出现黑边" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "默认为自动，建" &
+        "议设为1024x768")
         Me.rdoFixedResolution.UseVisualStyleBackColor = True
         '
         'grpDisplayMode
@@ -349,7 +348,7 @@ Partial Class frmSettings
         Me.rdoDisplayModeFullScreen.TabIndex = 1
         Me.rdoDisplayModeFullScreen.TabStop = True
         Me.rdoDisplayModeFullScreen.Text = "全屏"
-        Me.tipMain.SetToolTip(Me.rdoDisplayModeFullScreen, "游戏会全屏显示，默认为全屏显示，建议设为窗口显示")
+        Me.tipMain.SetToolTip(Me.rdoDisplayModeFullScreen, "游戏会全屏显示画面，默认为全屏显示，建议设为窗口显示")
         Me.rdoDisplayModeFullScreen.UseVisualStyleBackColor = True
         '
         'rdoDisplayModeWindow
@@ -360,7 +359,7 @@ Partial Class frmSettings
         Me.rdoDisplayModeWindow.Size = New System.Drawing.Size(59, 16)
         Me.rdoDisplayModeWindow.TabIndex = 0
         Me.rdoDisplayModeWindow.Text = "窗口化"
-        Me.tipMain.SetToolTip(Me.rdoDisplayModeWindow, "游戏会以窗口显示，默认为全屏显示，建议设为窗口显示")
+        Me.tipMain.SetToolTip(Me.rdoDisplayModeWindow, "游戏会以窗口显示画面，默认为全屏显示，建议设为窗口显示")
         Me.rdoDisplayModeWindow.UseVisualStyleBackColor = True
         '
         'chkLoadModelBackground
@@ -384,7 +383,7 @@ Partial Class frmSettings
         Me.chkIntro.Size = New System.Drawing.Size(72, 16)
         Me.chkIntro.TabIndex = 2
         Me.chkIntro.Text = "开场动画"
-        Me.tipMain.SetToolTip(Me.chkIntro, "是否显示开场的动画，默认显示，建议设为不显示")
+        Me.tipMain.SetToolTip(Me.chkIntro, "是否显示游戏启动时的开场动画，默认显示，建议设为不显示")
         Me.chkIntro.UseVisualStyleBackColor = True
         '
         'chkAllowMultipleInstances
@@ -395,7 +394,7 @@ Partial Class frmSettings
         Me.chkAllowMultipleInstances.Size = New System.Drawing.Size(72, 16)
         Me.chkAllowMultipleInstances.TabIndex = 5
         Me.chkAllowMultipleInstances.Text = "允许多开"
-        Me.tipMain.SetToolTip(Me.chkAllowMultipleInstances, "是否允许打开多个此游戏，默认不允许，建议设为不允许")
+        Me.tipMain.SetToolTip(Me.chkAllowMultipleInstances, "是否允许打开多个游戏，默认不允许，建议设为不允许")
         Me.chkAllowMultipleInstances.UseVisualStyleBackColor = True
         '
         'chkShowMissingModel
@@ -422,7 +421,7 @@ Partial Class frmSettings
         Me.chkAudio.Size = New System.Drawing.Size(72, 16)
         Me.chkAudio.TabIndex = 4
         Me.chkAudio.Text = "开启声音"
-        Me.tipMain.SetToolTip(Me.chkAudio, "开启或关闭游戏声音（包括音乐），默认开启，建议设为开启")
+        Me.tipMain.SetToolTip(Me.chkAudio, "设置是否开启所有游戏声音（包括音乐），默认开启，建议设为开启")
         Me.chkAudio.UseVisualStyleBackColor = True
         '
         'btnOK
@@ -452,7 +451,7 @@ Partial Class frmSettings
         Me.lblArgument.Size = New System.Drawing.Size(65, 12)
         Me.lblArgument.TabIndex = 17
         Me.lblArgument.Text = "启动参数："
-        Me.tipMain.SetToolTip(Me.lblArgument, "启动游戏时附加的参数")
+        Me.tipMain.SetToolTip(Me.lblArgument, "启动游戏时的附加参数")
         '
         'txtArgument
         '
@@ -461,7 +460,7 @@ Partial Class frmSettings
         Me.txtArgument.ReadOnly = True
         Me.txtArgument.Size = New System.Drawing.Size(381, 21)
         Me.txtArgument.TabIndex = 18
-        Me.tipMain.SetToolTip(Me.txtArgument, "启动游戏时附加的参数")
+        Me.tipMain.SetToolTip(Me.txtArgument, "启动游戏时的附加参数")
         '
         'btnApply
         '
@@ -479,7 +478,7 @@ Partial Class frmSettings
         Me.txtUserDir.Name = "txtUserDir"
         Me.txtUserDir.Size = New System.Drawing.Size(265, 21)
         Me.txtUserDir.TabIndex = 12
-        Me.tipMain.SetToolTip(Me.txtUserDir, "设置用户文件目录" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "用户文件目录是游戏存储存档、插件和截图等文件的文件夹" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "默认目录为库文档（我的文档）\SimCity 4" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "建议不更改默认的用户文件目录")
+        Me.tipMain.SetToolTip(Me.txtUserDir, "设置用户文件目录" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "用户文件目录主要用于存储游戏存档、插件、截图等文件" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "默认目录为库文档（我的文档）\SimCity 4" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "建议不更改默认的用户文件目录")
         '
         'lblRenderMode
         '
@@ -527,36 +526,8 @@ Partial Class frmSettings
         Me.btnDeleteSC4cfgFile.Size = New System.Drawing.Size(180, 23)
         Me.btnDeleteSC4cfgFile.TabIndex = 19
         Me.btnDeleteSC4cfgFile.Text = "删除SimCity 4.cfg文件(&D)"
-        Me.tipMain.SetToolTip(Me.btnDeleteSC4cfgFile, "如果部分选项设置无效，请删除SimCity 4.cfg文件后再试" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "SimCity 4.cfg文件存储在用户文件目录下。")
+        Me.tipMain.SetToolTip(Me.btnDeleteSC4cfgFile, "如果部分设置无效，请尝试SimCity 4.cfg文件以重置SC4设置" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "SimCity 4.cfg文件存储在用户文件目录下")
         Me.btnDeleteSC4cfgFile.UseVisualStyleBackColor = True
-        '
-        'lblSC4InstallDir
-        '
-        Me.lblSC4InstallDir.AutoSize = True
-        Me.lblSC4InstallDir.Location = New System.Drawing.Point(1, 123)
-        Me.lblSC4InstallDir.Name = "lblSC4InstallDir"
-        Me.lblSC4InstallDir.Size = New System.Drawing.Size(125, 12)
-        Me.lblSC4InstallDir.TabIndex = 14
-        Me.lblSC4InstallDir.Text = "模拟城市4 安装目录："
-        Me.tipMain.SetToolTip(Me.lblSC4InstallDir, "模拟城市4的安装目录，建议不要更改")
-        '
-        'btnSC4InstallDir
-        '
-        Me.btnSC4InstallDir.Location = New System.Drawing.Point(354, 120)
-        Me.btnSC4InstallDir.Name = "btnSC4InstallDir"
-        Me.btnSC4InstallDir.Size = New System.Drawing.Size(75, 23)
-        Me.btnSC4InstallDir.TabIndex = 16
-        Me.btnSC4InstallDir.Text = "浏览(&B)..."
-        Me.tipMain.SetToolTip(Me.btnSC4InstallDir, "更改模拟城市4的安装目录，建议不要更改")
-        Me.btnSC4InstallDir.UseVisualStyleBackColor = True
-        '
-        'txtSC4InstallDir
-        '
-        Me.txtSC4InstallDir.Location = New System.Drawing.Point(120, 118)
-        Me.txtSC4InstallDir.Name = "txtSC4InstallDir"
-        Me.txtSC4InstallDir.Size = New System.Drawing.Size(228, 21)
-        Me.txtSC4InstallDir.TabIndex = 15
-        Me.tipMain.SetToolTip(Me.txtSC4InstallDir, "模拟城市4的安装目录，建议不要更改")
         '
         'btnResetSetting
         '
@@ -568,6 +539,44 @@ Partial Class frmSettings
         Me.tipMain.SetToolTip(Me.btnResetSetting, "清空启动参数并重置选项")
         Me.btnResetSetting.UseVisualStyleBackColor = True
         '
+        'chkExitLauncherAfterLaunch
+        '
+        Me.chkExitLauncherAfterLaunch.AutoSize = True
+        Me.chkExitLauncherAfterLaunch.Checked = True
+        Me.chkExitLauncherAfterLaunch.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkExitLauncherAfterLaunch.Location = New System.Drawing.Point(8, 148)
+        Me.chkExitLauncherAfterLaunch.Name = "chkExitLauncherAfterLaunch"
+        Me.chkExitLauncherAfterLaunch.Size = New System.Drawing.Size(144, 16)
+        Me.chkExitLauncherAfterLaunch.TabIndex = 10
+        Me.chkExitLauncherAfterLaunch.Text = "启动游戏后退出启动器"
+        Me.tipMain.SetToolTip(Me.chkExitLauncherAfterLaunch, "启动游戏后是否退出启动器，默认为是，建议设为是")
+        Me.chkExitLauncherAfterLaunch.UseVisualStyleBackColor = True
+        '
+        'lblSC4InstallDir
+        '
+        Me.lblSC4InstallDir.AutoSize = True
+        Me.lblSC4InstallDir.Location = New System.Drawing.Point(1, 122)
+        Me.lblSC4InstallDir.Name = "lblSC4InstallDir"
+        Me.lblSC4InstallDir.Size = New System.Drawing.Size(89, 12)
+        Me.lblSC4InstallDir.TabIndex = 14
+        Me.lblSC4InstallDir.Text = "游戏安装目录："
+        '
+        'btnSC4InstallDir
+        '
+        Me.btnSC4InstallDir.Location = New System.Drawing.Point(354, 118)
+        Me.btnSC4InstallDir.Name = "btnSC4InstallDir"
+        Me.btnSC4InstallDir.Size = New System.Drawing.Size(75, 21)
+        Me.btnSC4InstallDir.TabIndex = 16
+        Me.btnSC4InstallDir.Text = "浏览(&B)..."
+        Me.btnSC4InstallDir.UseVisualStyleBackColor = True
+        '
+        'txtSC4InstallDir
+        '
+        Me.txtSC4InstallDir.Location = New System.Drawing.Point(83, 118)
+        Me.txtSC4InstallDir.Name = "txtSC4InstallDir"
+        Me.txtSC4InstallDir.Size = New System.Drawing.Size(265, 21)
+        Me.txtSC4InstallDir.TabIndex = 15
+        '
         'fbdUserDir
         '
         Me.fbdUserDir.Description = "请选择用户文件目录"
@@ -575,7 +584,7 @@ Partial Class frmSettings
         '
         'fbdSC4InstallDir
         '
-        Me.fbdSC4InstallDir.Description = "请选择模拟城市4 安装目录"
+        Me.fbdSC4InstallDir.Description = "请选择模拟城市4 戏安装目录"
         Me.fbdSC4InstallDir.RootFolder = System.Environment.SpecialFolder.MyComputer
         '
         'tabSettings
@@ -608,18 +617,6 @@ Partial Class frmSettings
         Me.tabpLessSettings.TabIndex = 0
         Me.tabpLessSettings.Text = "常规"
         Me.tabpLessSettings.UseVisualStyleBackColor = True
-        '
-        'chkExitLauncherAfterLaunch
-        '
-        Me.chkExitLauncherAfterLaunch.AutoSize = True
-        Me.chkExitLauncherAfterLaunch.Checked = True
-        Me.chkExitLauncherAfterLaunch.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkExitLauncherAfterLaunch.Location = New System.Drawing.Point(8, 148)
-        Me.chkExitLauncherAfterLaunch.Name = "chkExitLauncherAfterLaunch"
-        Me.chkExitLauncherAfterLaunch.Size = New System.Drawing.Size(144, 16)
-        Me.chkExitLauncherAfterLaunch.TabIndex = 10
-        Me.chkExitLauncherAfterLaunch.Text = "启动游戏后退出启动器"
-        Me.chkExitLauncherAfterLaunch.UseVisualStyleBackColor = True
         '
         'tabpMoreSettings
         '

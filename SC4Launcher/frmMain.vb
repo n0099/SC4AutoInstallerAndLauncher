@@ -31,16 +31,22 @@ WebError:   Else : e.Result = "WebError" '如果无法连接到更新服务器�
 
     Private Sub btnLaunch_Click(sender As Object, e As EventArgs) Handles btnLaunch.Click
         Process.Start(My.Settings.SC4InstallDir & "\Apps\SimCity 4.exe", My.Settings.Argument) '将启动参数作为命令行参数来启动模拟城市4
-        If My.Settings.IsExirLauncherAfterLaunch Then Application.Exit()
+        If My.Settings.IsExitLauncherAfterLaunch Then Application.Exit()
     End Sub
 
     Private Sub frmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         bgwCheckUpdate.RunWorkerAsync() '开始异步检查更新
+        BackgroundImage = CType(My.Resources.ResourceManager.GetObject("SC4_" & New Random().Next(1, 11)), Image) '将主窗口的背景图片设置为资源文件里名为SC4_随机数（介于1到10之间）的图片
+        Text &= " " & My.Application.Info.Version.Major & "." & My.Application.Info.Version.Minor & "." & My.Application.Info.Version.Revision & " By n0099" '初始化窗口标题
+    End Sub
+
+    Private Sub frmMain_Shown(sender As Object, e As EventArgs) Handles Me.Shown
         With My.Settings
-            '声明一个用于存储模拟城市4安装目录的注册表键值的字符串变量
-            Dim SC4InstallDir As String = If(Environment.Is64BitOperatingSystem, My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Maxis\SimCity 4", "Install Dir", Nothing),
-                                             My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Maxis\SimCity 4", "Install Dir", Nothing))
-            If .IsFirstRun AndAlso SC4InstallDir IsNot Nothing Then
+            '声明一个用于存储模拟城市4安装目录的字符串变量，如果程序目录下存在游戏文件则值为程序目录，否则为注册表所存储的安装目录
+            Dim SC4InstallDir As String = If(My.Computer.FileSystem.FileExists("Apps\SimCity 4.exe"), Windows.Forms.Application.StartupPath,
+                                             If(Environment.Is64BitOperatingSystem, My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Maxis\SimCity 4", "Install Dir", Nothing),
+                                                My.Computer.Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Maxis\SimCity 4", "Install Dir", Nothing)))
+            If My.Computer.FileSystem.FileExists(.SC4InstallDir & "\Apps\SimCity 4.exe") = False Or (.IsFirstRun AndAlso SC4InstallDir IsNot Nothing) Then
                 SC4InstallDir = IO.Path.GetFullPath(SC4InstallDir) '将短路径转换为长路径
                 .SC4InstallDir = If(SC4InstallDir.EndsWith(":\"), SC4InstallDir.Trim, SC4InstallDir.TrimEnd("\").Trim) '如果目录路径不是分区根路径则去掉结尾的\
             ElseIf .IsFirstRun AndAlso SC4InstallDir Is Nothing Then
@@ -48,21 +54,18 @@ WebError:   Else : e.Result = "WebError" '如果无法连接到更新服务器�
                     fbdSC4InstallDir.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86) : fbdSC4InstallDir.ShowDialog()
                     Do Until fbdSC4InstallDir.SelectedPath IsNot Nothing : fbdSC4InstallDir.ShowDialog() : Loop
                     .SC4InstallDir = fbdSC4InstallDir.SelectedPath
-                Else : Environment.Exit(0)
                 End If
             End If
+            '判断已存储的模拟城市4安装目录下是否存在游戏文件
             Do Until My.Computer.FileSystem.FileExists(.SC4InstallDir & "\Apps\SimCity 4.exe")
                 If MessageBox.Show("模拟城市4 安装目录无效" & vbCrLf & "请重新选择模拟城市4 安装目录", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) = DialogResult.OK Then
                     fbdSC4InstallDir.SelectedPath = .SC4InstallDir : fbdSC4InstallDir.ShowDialog()
                     Do Until fbdSC4InstallDir.SelectedPath IsNot Nothing : fbdSC4InstallDir.ShowDialog() : Loop
                     .SC4InstallDir = fbdSC4InstallDir.SelectedPath
-                Else : Environment.Exit(0)
                 End If
             Loop
-            .IsFirstRun = False : .Save()
+            .IsFirstRun = False : .Save() '如果模拟城市4安装目录有效则保存设置
         End With
-        BackgroundImage = CType(My.Resources.ResourceManager.GetObject("SC4_" & New Random().Next(1, 11)), Image) '将主窗口的背景图片设置为资源文件里名为SC4_随机数（介于1到10之间）的图片
-        Text &= " " & My.Application.Info.Version.Major & "." & My.Application.Info.Version.Minor & "." & My.Application.Info.Version.Revision & " By n0099" '初始化窗口标题
     End Sub
 
     Private Sub btnSetting_Click(sender As Object, e As EventArgs) Handles btnSetting.Click

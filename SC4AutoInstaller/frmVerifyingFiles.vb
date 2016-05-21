@@ -12,7 +12,7 @@
                                             "Data\Patch\640.exe", "E612D3BF65DFA7BED951CC8D40366BBF",
                                             "Data\Patch\641.7z", "15A5635619A9C8995B11804471A79DA0",
                                             "Data\Patch\Graphics Rules GOG.sgr", "DCF0FA2DE3828BC52991BDA20B7E5735",
-                                            "Data\Patch\SC4Launcher.exe", "43AB6B8F0BF3373D2FD4931F8B15BE30",
+                                            "Data\Patch\SC4Launcher.exe", "4E02F35FEA951F4FB5E8AB2FED7E35F4",
                                             "Data\Patch\Language\English\SimCityLocale.DAT", "196A1F3CD9CF58E84E0B0F31E9F81171",
                                             "Data\Patch\Language\SChinese\SimCityLocale.DAT", "42E66866C5E7C95A29CD153423F4F6FD",
                                             "Data\Patch\Language\TChinese\SimCityLocale.DAT", "3D7163C89D35E7388CF7EBC503BAF47B",
@@ -98,7 +98,9 @@ Ignore:         bgwVerifyFilesMD5.ReportProgress(i)
     End Sub
 
     Private Sub frmVerifyFiles_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        If My.Computer.FileSystem.DirectoryExists("Data\SC4\CD") Then '判断是否存在Data\SC4\CD文件夹
+        If My.Computer.FileSystem.DirectoryExists("Data") = False Then
+            MessageBox.Show("Data文件夹不存在", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) : Application.Exit()
+        ElseIf My.Computer.FileSystem.DirectoryExists("Data\SC4\CD") Then '判断是否存在Data\SC4\CD文件夹
             Dim CDFilesMD5() As String = {"Data\DAEMON Tools Lite 5.0.exe", "E4D2A05D4A5C22C6D4BC20D6B502CE6B",
                                           "Data\SC4\CD\CD1.mdf", "82A112B441DC90305331ABEFF0E66237", "Data\SC4\CD\CD1.mds", "CFB13663F10FCAB916C0A4EDD29FC975",
                                           "Data\SC4\CD\CD2.mdf", "15AD42821D2CCFAC4ED62CF2E5E153D1", "Data\SC4\CD\CD2.mds", "F623584CCC7E3206045D97CD12D454C8"}

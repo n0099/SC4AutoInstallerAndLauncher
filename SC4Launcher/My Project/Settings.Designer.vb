@@ -93,12 +93,12 @@ Namespace My
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
-        Public Property IsExirLauncherAfterLaunch() As Boolean
+        Public Property IsExitLauncherAfterLaunch() As Boolean
             Get
-                Return CType(Me("IsExirLauncherAfterLaunch"),Boolean)
+                Return CType(Me("IsExitLauncherAfterLaunch"),Boolean)
             End Get
             Set
-                Me("IsExirLauncherAfterLaunch") = value
+                Me("IsExitLauncherAfterLaunch") = value
             End Set
         End Property
     End Class

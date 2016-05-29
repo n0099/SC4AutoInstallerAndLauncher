@@ -25,8 +25,10 @@ Public Class frmSettings
         Catch ex As NotSupportedException
             MessageBox.Show(PathName & "路径里不能含有冒号", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) : Return False
         Catch ex As IO.IOException
+            Logger.Warn("无法创建" & PathName & ", 错误报告：" & ex.Message)
             MessageBox.Show("无法创建" & PathName & vbCrLf & vbCrLf & "可能的原因：" & vbCrLf & "其父目录不可写", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) : Return False
         Catch ex As UnauthorizedAccessException
+            Logger.Warn("无法创建" & PathName & ", 错误报告：" & ex.Message)
             MessageBox.Show("无法创建" & PathName & vbCrLf & vbCrLf & "可能的原因：" & vbCrLf & "其父目录不可写", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) : Return False
         Catch
             Return False
@@ -35,8 +37,10 @@ Public Class frmSettings
         Try '向安装目录里写一个空文件以确定安装目录可写
             My.Computer.FileSystem.WriteAllText(Path & "\test", Nothing, False)
         Catch ex As Security.SecurityException
+            Logger.Warn("无法访问" & PathName & ", 错误报告：" & ex.Message)
             MessageBox.Show(PathName & "无法访问" & vbCrLf & vbCrLf & "可能的原因：" & vbCrLf & "当前用户没有足够的权限访问该目录或其父目录", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) : Return False
         Catch ex As UnauthorizedAccessException
+            Logger.Warn("无法访问" & PathName & ", 错误报告：" & ex.Message)
             MessageBox.Show(PathName & "无法访问" & vbCrLf & vbCrLf & "可能的原因：" & vbCrLf & "当前用户没有足够的权限访问该目录或其父目录", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) : Return False
         Catch
             Return False

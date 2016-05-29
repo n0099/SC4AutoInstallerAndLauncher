@@ -1,6 +1,6 @@
 ﻿''' <summary>记录信息类</summary>
 Public NotInheritable Class Logger
-    Private Shared logger As log4net.ILog = log4net.LogManager.GetLogger("SC4AutoInstaller")
+    Private Shared logger As log4net.ILog = log4net.LogManager.GetLogger("SC4Launcher")
     ''' <summary>记录普通信息</summary>
     ''' <param name="Message">信息内容</param>
     Public Shared Sub Info(ByVal Message As String)

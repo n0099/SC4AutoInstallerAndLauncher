@@ -10,11 +10,13 @@ Public Module ModuleInstallCore
     ''' <returns>如果文件已被其他进程占用，则为True；否则为False</returns>
     Public Function IsFileUsing(path As String) As Boolean
         Try
+            Logger.Warn("文件" & path & "不存在")
             If My.Computer.FileSystem.FileExists(path) = False Then MessageBox.Show("文件" & path & "不存在" & vbCrLf & "单击确定按钮重试", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) : Return True
             Using IO.File.Open(path, IO.FileMode.Open)
                 Return False
             End Using
         Catch ex As UnauthorizedAccessException
+            Logger.Warn("文件" & path & "正被被其他进程占用")
             MessageBox.Show("文件" & path & "已被其他进程占用" & vbCrLf & "单击确定按钮重试", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error) : Return True
         End Try
     End Function

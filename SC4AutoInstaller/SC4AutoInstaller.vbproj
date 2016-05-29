@@ -89,6 +89,9 @@
     <TargetZone>LocalIntranet</TargetZone>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\Resources\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -162,6 +165,7 @@
     <Compile Include="frmVerifyingFiles.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Logger.vb" />
     <Compile Include="ModuleInstallCore.vb" />
     <Compile Include="ModuleDeclare.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
